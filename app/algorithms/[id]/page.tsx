@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Beaker, BookOpen, Code2, FlaskConical, GitBranch, Layers3, ScrollText, ShieldCheck } from "lucide-react";
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
+import { claimsForAlgorithm } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
@@ -40,6 +41,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
       .map((relation) => ({ algorithm: candidate, relation })))
     .filter((item) => !related.some((direct) => direct.algorithm.id === item.algorithm.id));
   const labMatches = combinations.filter((combination) => combination.algorithmIds.includes(algorithm.id));
+  const claimRecords = claimsForAlgorithm(algorithm.id);
   const primaryReferences = referencesForAlgorithm(algorithm.id);
   const implementationRecords = implementationsForAlgorithm(algorithm.id);
   const experimentRecords = experimentsForAlgorithm(algorithm.id);
@@ -70,6 +72,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
           <div><span>Source sections</span><strong>{sourceSections.length}</strong></div>
+          <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
           <div><span>References</span><strong>{primaryReferences.length}</strong></div>
           <div><span>Implementations</span><strong>{implementationRecords.length}</strong></div>
           <div><span>Experiments</span><strong>{experimentRecords.length}</strong></div>
@@ -186,6 +189,19 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
             </div>
           )}
 
+          {claimRecords.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><ShieldCheck size={14} /> Curated claims</div>
+              {claimRecords.map((claim) => (
+                <Link key={claim.id} href={`/claims#${claim.id}`} className="entity-reference-link">
+                  <span>{claim.kind}</span>
+                  <strong>{claim.statement}</strong>
+                  <small>Passage + primary-reference provenance</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
           {primaryReferences.length > 0 && (
             <div className="entity-side-card">
               <div className="entity-side-title"><ScrollText size={14} /> Primary references</div>
@@ -257,7 +273,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus. Heading-level source links are resolved from the live chapter TOC; references, implementations, experiments, and source chapters provide the wider evidence trail.</p>
+            <p>Entity metadata indexes the Markdown corpus. Heading-level links resolve from the live TOC, while curated Claims connect selected statements to unique passage records and primary/normative references.</p>
           </div>
         </aside>
       </div>
