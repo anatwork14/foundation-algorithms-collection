@@ -5,289 +5,211 @@
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)
 
-This file tracks implementation state in the repository. A checked item means the implementation exists; visual, accessibility, evidence, or production acceptance is tracked separately and is not implied by code being present.
+A checked item means the implementation exists in the repository. Visual, accessibility, evidence, and production acceptance are tracked separately.
 
 ---
 
-## 1. Current checkpoint
-
-The project now has this working product chain:
+## Current product chain
 
 ```text
 Research corpus
       ↓
 Markdown source of truth
       ↓
-Next.js content pipeline
+Next.js Archive + chapter reader
       ↓
-Archive + chapter reader
-      ↓
-Curated algorithm entities
+Curated Algorithm entities
       ↓
 Typed relationship Atlas
       ↓
-Structured combination Lab
+Structured Combination Lab
       ↓
-Research hypotheses + experiment plans
+Hypotheses + experiment plans
 ```
 
-The next major product layers are:
-
-```text
-Browser/accessibility acceptance
-      ↓
-Exact source-passage + citation/reference entities
-      ↓
-Experiment/evidence persistence
-      ↓
-Diff-aware research history
-      ↓
-Advanced retrieval / saved research trails
-```
-
-### Overall phase status
+### Phase status
 
 | Phase | Status |
 |---|---|
 | 0 — Research corpus | ✅ Established |
 | 1 — Next.js archive foundation | ✅ Established |
-| 2 — Design-system consolidation | 🟡 Implemented, acceptance/cleanup still open |
-| 3 — Algorithm-level indexing | 🟡 First working version implemented |
-| 4 — Atlas | 🟡 First working version implemented |
-| 5 — Lab | 🟡 First working version implemented |
+| 2 — Design-system consolidation | 🟡 Implemented; browser/accessibility cleanup open |
+| 3 — Algorithm-level indexing | 🟡 Working first version |
+| 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
+| 5 — Lab | 🟡 Working first version with structured seed hypotheses |
 | 6 — Research evidence layer | ⬜ Not started |
 | 7 — Advanced discovery | ⬜ Not started |
 
 ---
 
-# Phase 0 — Research corpus foundation
+# Phase 0 — Research corpus
 
-## Completed
+## Done
 
-- [x] General foundational algorithm research collection (`00–09`).
-- [x] AI / ML research branch (`10–14`).
-- [x] Quantum computing research branch (`20–25`).
-- [x] Cybersecurity research branch (`30–35`).
+- [x] General foundations (`00–09`).
+- [x] AI / ML (`10–14`).
+- [x] Quantum computing (`20–25`).
+- [x] Cybersecurity (`30–35`).
 - [x] Cross-field combination map (`40`).
 - [x] Emerging-algorithms watchlist (`41`).
-- [x] Motivation / Contribution / Implementation framing established across the collection.
-- [x] Combination-research perspective established.
+- [x] Motivation / Contribution / Implementation framing.
+- [x] Combination-research perspective.
 
 ## Still needed
 
 - [ ] Standardize primary-reference formatting across chapters.
 - [ ] Add proof/proof-sketch coverage where useful.
-- [ ] Add more executable examples and reference implementations.
-- [ ] Add benchmark/dataset recommendations by algorithm family.
-- [ ] Add explicit maturity labels into the Markdown corpus itself.
-- [ ] Add source-passage anchors for algorithm/reference entities.
+- [ ] Add more executable/reference implementations.
+- [ ] Add benchmark/dataset recommendations by family.
+- [ ] Add explicit maturity labels into Markdown research itself.
+- [ ] Add stable source-passage anchors for entity provenance.
 
 ---
 
 # Phase 1 — Research archive web foundation
 
-## Application/content pipeline
+## Content pipeline
 
-- [x] Next.js App Router application.
-- [x] React + TypeScript structure.
-- [x] `docs/*.md` remains the canonical content source.
-- [x] Chapter title/summary/number/field extraction.
-- [x] Word count and reading-time extraction.
-- [x] Full-body search text generation.
-- [x] Heading extraction.
-- [x] GitHub-compatible heading slug generation.
-- [x] Major `#` section headings indexed after the document title.
-- [x] TOC includes `#`, `##`, and `###` research sections.
-- [x] Existing LaTeX `\(...\)` / `\[...\]` delimiters normalized at render time outside fenced code.
+- [x] Next.js App Router + TypeScript.
+- [x] `docs/*.md` remains canonical research source.
+- [x] Extract title, summary, number, field, headings, search text, word count, reading time.
+- [x] GitHub-compatible heading slugs.
+- [x] `#`, `##`, and `###` research sections indexed after document title.
+- [x] Render-time normalization of `\(...\)` / `\[...\]` outside fenced code.
 
-## Home
+## Home / Archive
 
 - [x] Mission/orientation hero.
-- [x] Primary research search.
+- [x] Full-corpus search.
 - [x] Quick field filters.
-- [x] Research-field overview.
-- [x] Algorithm-atlas visual motif.
-- [x] Combination/research-direction preview.
-- [x] Archive preview.
-- [x] Home archive preview converted to list-first research rows.
-
-## Archive
-
+- [x] Field overview.
+- [x] Combination preview.
 - [x] `/archive` route.
-- [x] Full-text chapter search.
-- [x] Field filter.
-- [x] Sorting.
-- [x] Result count and clear-filter behavior.
-- [x] List-first archive rows.
-- [x] Direct chapter navigation.
+- [x] List-first archive and home preview.
+- [x] Field filtering, sorting, result count, clear filters.
 - [x] Restrained field identity treatment.
 
 ### Archive still needed
 
 - [ ] Encode filter/search state in URL.
-- [ ] Family-level filters.
-- [ ] Algorithm-level filters inside Archive.
-- [ ] Maturity/evidence filters.
-- [ ] Matching-passage highlighting.
+- [ ] Family filters inside Archive.
+- [ ] Algorithm filters inside Archive.
+- [ ] Maturity/evidence filters inside Archive.
+- [ ] Matching-passage snippets/highlighting.
 
-## Research chapter reader
+## Chapter reader
 
 - [x] Dynamic `/archive/[slug]` route.
 - [x] GFM Markdown rendering.
 - [x] GitHub source/provenance link.
 - [x] Generated TOC.
-- [x] Active/current-section TOC tracking with `IntersectionObserver`.
-- [x] Related research navigation.
-- [x] Previous/next navigation.
-- [x] Chapter → algorithm entity panel.
-- [x] Major internal Markdown H1 sections normalized semantically beneath the page H1.
-- [x] Controlled research reading width.
-- [x] Refined H1/H2/H3 hierarchy.
-- [x] Refined paragraphs/lists/blockquotes/links.
-- [x] Refined inline and block code styling.
-- [x] Research-oriented table styling and local overflow handling.
-- [x] KaTeX math rendering.
-- [x] Equation overflow handling.
+- [x] Active/current-section TOC via `IntersectionObserver`.
+- [x] Related chapters + previous/next navigation.
+- [x] Chapter → Algorithm entity panel.
+- [x] Internal Markdown H1 sections normalized beneath page H1.
+- [x] Controlled reading width and research typography.
+- [x] Lists, blockquotes, links, code, and research tables.
+- [x] KaTeX mathematics and local equation/table overflow handling.
 
 ### Reader still needed
 
-- [ ] Reference/citation entities.
-- [ ] Browser acceptance for especially large equations/tables.
+- [ ] Exact source-passage backlinks from Algorithm entities.
+- [ ] First-class citation/reference entities.
+- [ ] Browser acceptance for extreme equations/tables.
 - [ ] Math accessibility review.
-- [ ] Exact source-passage backlinks from algorithm entities.
 
 ## Search
 
-- [x] Chapter title search.
-- [x] Chapter summary search.
-- [x] Chapter body search.
-- [x] Home search.
-- [x] Archive search.
+- [x] Chapter title/summary/body search.
+- [x] Home and Archive search.
 - [x] Global `Cmd/Ctrl + K` search.
-- [x] Global search includes algorithm entities.
-- [x] Dedicated `/algorithms` entity search with field and maturity filters.
+- [x] Global search includes Algorithm entities.
+- [x] Dedicated Algorithm search with field + maturity filters.
 
 ### Search still needed
 
-- [ ] Independent reference search.
-- [ ] Passage result snippets/highlighting.
+- [ ] Reference/paper search.
+- [ ] Passage-level result snippets.
 - [ ] Optional semantic retrieval after structural search matures.
 
 ---
 
 # Phase 2 — Design-system consolidation
 
-**State:** first implementation pass complete; visual/accessibility acceptance and legacy cleanup remain open.
+## Done
 
-## Typography
-
-- [x] IBM Plex Sans through `next/font/google`.
-- [x] IBM Plex Mono through `next/font/google`.
-- [x] Deterministic Next.js font integration.
-- [x] IBM Plex Sans is the effective primary runtime font.
-- [x] IBM Plex Mono is used for code and technical identifiers.
-- [x] Explicit type tokens.
-- [x] Display/H1/H2/H3/body/UI/meta/label/code hierarchy.
-- [x] Standardized research prose, metadata, labels, and code typography.
-- [ ] Remove obsolete `Inter` and generic-serif declarations from legacy `globals.css` rather than only overriding them.
-- [ ] Final browser audit for font fallback/weight behavior.
-
-## Color
-
-- [x] Warm-neutral light palette.
-- [x] Warm-neutral dark palette.
-- [x] Field colors for Foundations, AI/ML, Quantum, Cybersecurity, Cross-field.
-- [x] Field colors restricted toward identifiers, borders, labels, and small states.
-- [x] Selection/focus tokens.
-- [ ] Formal WCAG contrast audit.
-- [ ] Browser review of selected/hover/focus states.
-
-## Shape / elevation / spacing
-
-- [x] Button/input/panel/modal radius tokens.
-- [x] Large default radii reduced in the consolidation layer.
-- [x] Decorative shadows reduced.
-- [x] Borders favored over elevation for research surfaces.
-- [x] 8px-derived spacing scale (`4/8/12/16/24/32/48/64/96/128`).
-- [x] Reader/list/layout rhythm moved onto spacing tokens.
-- [ ] Remove obsolete legacy radius/shadow declarations after visual acceptance.
-- [ ] Complete migration of every legacy component declaration to spacing tokens.
-
-## Logo / brand
-
-- [x] Circular/orbit identity concept.
-- [x] Canonical SVG: `public/foundation-algorithms-mark.svg`.
-- [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
-- [x] Header uses canonical SVG.
-- [x] SVG adapts neutral treatment to system dark mode.
-- [x] Canonical SVG configured as application icon metadata.
-- [ ] Visually verify favicon-scale legibility.
-- [ ] Visually verify dark/light variants in browsers.
-- [ ] Social/share image asset.
-
-## Accessibility implementation
-
-- [x] Semantic HTML in major page structure.
-- [x] Native form controls for search/filtering.
-- [x] Keyboard-independent navigation exists.
-- [x] Global `:focus-visible` treatment.
-- [x] Reduced-motion CSS behavior.
-- [x] Color accompanied by text labels in major UI.
-- [x] Atlas has a textual relationship table in addition to visual neighbor cards.
-- [ ] Full keyboard-only walkthrough.
-- [ ] Command-palette focus management audit.
-- [ ] VoiceOver spot check.
-- [ ] NVDA spot check.
-- [ ] WCAG contrast review.
-- [ ] Table accessibility review.
-- [ ] Math accessibility review.
-
-## Phase 2 acceptance gates
-
-- [x] IBM Plex Sans primary typeface.
-- [x] IBM Plex Mono code/identifier typeface.
-- [x] Archive list-first.
+- [x] IBM Plex Sans through `next/font`.
+- [x] IBM Plex Mono through `next/font`.
+- [x] Explicit typography tokens.
+- [x] Warm-neutral light and dark palettes.
 - [x] Restrained field colors.
-- [x] Research table styling.
-- [x] KaTeX math renderer.
-- [x] Local equation/table overflow handling.
-- [x] Keyboard focus styling.
-- [x] Active TOC state implemented.
-- [x] CI typecheck passes.
-- [x] CI production build passes.
-- [ ] Legacy font/radius declaration cleanup complete.
-- [ ] Mobile browser acceptance passes.
-- [ ] Desktop browser acceptance passes.
-- [ ] Light/dark visual review passes.
-- [ ] Accessibility acceptance passes.
+- [x] Radius, spacing, focus, and reading-width tokens.
+- [x] Reduced decorative shadow/elevation.
+- [x] 8px-derived spacing system.
+- [x] Visible `:focus-visible` treatment.
+- [x] Reduced-motion behavior.
+- [x] Research table/code/math treatment.
+- [x] Active TOC state.
+- [x] Canonical SVG logo: `public/foundation-algorithms-mark.svg`.
+- [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
+- [x] Header and application icon use canonical SVG.
+
+## Still needed
+
+- [ ] Remove obsolete overridden Inter/serif/radius/shadow rules from legacy `globals.css`.
+- [ ] Finish migration of all legacy components to spacing tokens.
+- [ ] Browser font/weight audit.
+- [ ] Favicon-scale visual verification.
+- [ ] Light/dark visual acceptance.
+- [ ] Phone/tablet/desktop visual acceptance.
+- [ ] Formal WCAG contrast audit.
+- [ ] Full keyboard-only walkthrough.
+- [ ] Command-palette focus-trap/return-focus audit.
+- [ ] VoiceOver/NVDA checks.
+- [ ] Table/math accessibility checks.
+- [ ] Social/share image.
 
 ---
 
 # Phase 3 — Algorithm-level indexing
 
-**State:** first working entity layer implemented.
+**State:** working curated entity system.
+
+## Done
 
 - [x] `AlgorithmEntity` schema.
-- [x] Aliases, fields, families, assumptions, complexity, maturity, implementation guidance, failure modes, tags, and open questions.
+- [x] IDs, aliases, fields, families, assumptions, complexity, maturity.
+- [x] Motivation, Contribution, Implementation, failure modes, open questions.
 - [x] Source-chapter linkage.
-- [ ] Exact source-passage linkage.
-- [x] Curated metadata strategy chosen for the first version.
-- [x] Major cross-field algorithm entities seeded.
-- [x] Duplicate ID/name/alias validation.
-- [x] Broken relation-target validation.
+- [x] Curated metadata strategy.
+- [x] Core + extension catalogs.
+- [x] Cross-field entity coverage spanning foundations, AI/ML, quantum, and cybersecurity.
+- [x] Validation for duplicate IDs/names/aliases, missing required data, self/duplicate/broken relations.
 - [x] `/algorithms` searchable index.
-- [x] `/algorithms/[id]` static detail routes.
-- [x] Motivation / Contribution / Implementation sections.
-- [x] Assumption / failure-mode / complexity sections.
-- [x] Typed relationships and inbound relationships.
+- [x] `/algorithms/[id]` static research cards.
+- [x] Incoming/outgoing typed relationships.
 - [x] Source-chapter links.
-- [x] Lab hypothesis links from algorithm cards.
-- [x] Algorithm entities integrated into global command search.
-- [x] Chapter pages link back to entities they contain.
+- [x] Lab hypothesis links from Algorithm cards.
+- [x] Algorithm entities in global search.
+- [x] Chapter → Algorithm backlinks.
+
+## Second-wave entities now added
+
+- [x] Learned Heuristics.
+- [x] Branch and Bound.
+- [x] NeuralUCB.
+- [x] Embedding Models.
+- [x] SAT / SMT Solving.
+- [x] Error-Correcting Codes.
+- [x] Lattice Problems and Reduction.
+- [x] Secure Multi-Party Computation.
+
+## Still needed
+
+- [ ] Exact source-passage linkage.
 - [ ] Explicit variant records rather than relation-only variants.
-- [ ] First-class reference/paper entities.
+- [ ] First-class papers/references.
 - [ ] First-class implementation repository records.
-- [ ] Source-passage-level provenance.
 
 ---
 
@@ -295,71 +217,80 @@ Advanced retrieval / saved research trails
 
 **State:** focused-neighborhood first version implemented.
 
-- [x] Algorithm nodes backed by `AlgorithmEntity`.
+## Done
+
+- [x] Algorithm nodes backed by machine-readable entities.
 - [x] Typed relation/edge model.
-- [x] Machine-readable relation storage.
-- [x] Relation-target validation.
+- [x] Relationship target validation.
 - [x] `/atlas` route.
-- [x] Focused-neighborhood view instead of all-node hairball.
-- [x] Incoming and outgoing relationship handling.
-- [x] Progressive traversal by selecting neighbor nodes.
+- [x] Focused-neighborhood view rather than all-node hairball.
+- [x] Incoming and outgoing relations.
+- [x] Progressive traversal by selecting neighbors.
 - [x] Algorithm search.
 - [x] Field filter.
 - [x] Relation-type filter.
-- [x] Links to algorithm research cards.
+- [x] Algorithm research-card links.
 - [x] Mobile layout.
 - [x] Accessible textual relationship table.
 
-### Initial relation coverage
+## Initial foundation chains
 
-- [ ] Search → A* → learned heuristics (partial: A* entity exists; learned-heuristic entity still needed).
-- [x] Dynamic programming → reinforcement learning (via Q-learning/Bellman relationship).
-- [x] Bayesian inference → Thompson Sampling / Bayesian optimization.
-- [ ] UCB → LinUCB → NeuralUCB (UCB → LinUCB exists; NeuralUCB entity still needed).
-- [ ] Representation learning → embeddings → ANN/HNSW (HNSW exists; embedding entity still needed).
-- [ ] CSP/SAT → symbolic execution/formal analysis (symbolic execution exists; SAT/SMT entity still needed).
-- [ ] Error-correcting codes → QEC → decoding (surface-code decoding exists; classical code entity still needed).
-- [ ] Lattices → PQC / FHE (ML-KEM/FHE exist; shared lattice foundation entity still needed).
+- [x] Search → A* ↔ Learned Heuristics.
+- [x] Learned Heuristics ↔ Branch and Bound.
+- [x] Dynamic Programming → reinforcement learning / Q-Learning.
+- [x] Bayesian Inference → Thompson Sampling / Bayesian Optimization.
+- [x] UCB → LinUCB → NeuralUCB.
+- [x] Representation learning / Embeddings → HNSW.
+- [x] SAT / SMT → Symbolic Execution / formal analysis.
+- [x] Error-Correcting Codes → QEC / Surface-Code Decoding.
+- [x] Lattice foundations → ML-KEM / FHE.
+- [x] MPC ↔ FHE / Zero-Knowledge proof relationships.
+
+## Still needed
+
+- [ ] More relation density across all seeded entities.
+- [ ] Reference/paper nodes.
+- [ ] Implementation nodes.
+- [ ] Evidence strength on edges.
+- [ ] Historical/evolution relationships.
 
 ---
 
 # Phase 5 — Lab
 
-**State:** structured hypothesis/experiment first version implemented.
+**State:** structured hypothesis + experiment-design first version implemented.
+
+## Done
 
 - [x] `ResearchCombination` schema.
-- [x] Component entities.
-- [x] Motivation.
-- [x] Hypothesis.
-- [x] Compatibility.
-- [x] Tensions/conflicts.
-- [x] Expected benefits.
-- [x] Risks.
-- [x] Metrics.
-- [x] Experiment plan.
-- [x] Status.
-- [ ] Evidence/results field and persistence.
+- [x] Core + extension combination catalogs.
+- [x] Components, Motivation, hypothesis, compatibility, tensions, benefits, risks, metrics, experiment plan, status.
+- [x] Combination validation for IDs, component existence, required research fields, and experiment structure.
 - [x] `/lab` route.
-- [x] Interactive Algorithm A × Algorithm B pair explorer.
-- [x] Pair explorer shows shared fields/families, direct Atlas relation, and existing Lab record matches.
-- [x] Structured hypothesis records.
-- [x] Structured experiment plans.
-- [x] Speculation visually/status-labeled separately from established knowledge.
+- [x] Algorithm A × Algorithm B pair explorer.
+- [x] Pair explorer shows shared fields/families, direct Atlas relation, and existing Lab records.
+- [x] Structured hypothesis records and experiment plans.
+- [x] Speculation/status labels distinct from established knowledge.
 - [x] Algorithm cards link into relevant Lab hypotheses.
-- [ ] Persist user-authored hypotheses/experiments.
-- [ ] Automatic assumption-conflict analysis for arbitrary pairs.
-- [ ] Attach experimental evidence/results.
 
-### Seed structured combinations
+## Structured seed hypotheses
 
-- [x] Contextual bandits × coverage-guided fuzzing.
-- [x] GNN/SSM × quantum decoding.
-- [x] Bayesian optimization × quantum calibration/QEC.
+- [x] LinUCB × coverage-guided fuzzing.
+- [x] GNN / SSM × quantum error decoding.
+- [x] Bayesian optimization × quantum calibration / QEC.
 - [x] Learned planning × symbolic execution × proof constraints.
 - [x] HNSW retrieval × LinUCB reranking.
 - [x] FHE × uncertainty-aware prediction.
-- [ ] FHE/MPC × ZK × AI full multi-party/verifiable record.
-- [ ] Learned heuristics × A*/branch-and-bound record.
+- [x] FHE × MPC × Zero Knowledge × AI.
+- [x] Learned Heuristics × A* × Branch and Bound.
+
+## Still needed
+
+- [ ] Persist user-authored hypotheses/experiments.
+- [ ] Automatic assumption-conflict analysis for arbitrary pairs.
+- [ ] Evidence/results field and persistence.
+- [ ] Dataset/benchmark attachments.
+- [ ] Experiment status/history.
 
 ---
 
@@ -367,13 +298,13 @@ Advanced retrieval / saved research trails
 
 - [ ] Reference entity schema.
 - [ ] Primary-reference extraction/curation.
-- [ ] Reference → algorithm links.
-- [ ] Reference → combination links.
+- [ ] Reference → Algorithm links.
+- [ ] Reference → Combination links.
 - [ ] Citation graph.
-- [ ] Implementation records and maturity/license/source metadata.
-- [ ] Experiment schema.
+- [ ] Implementation records with language/framework/license/source metadata.
+- [ ] Experiment entity schema.
 - [ ] Dataset/benchmark links.
-- [ ] Metrics/environment/results/reproduction instructions.
+- [ ] Environment/configuration/results/reproduction instructions.
 - [ ] Preserve failed and inconclusive experiments.
 - [ ] Research-chapter diff view.
 - [ ] Algorithm/evidence maturity history.
@@ -393,20 +324,21 @@ Advanced retrieval / saved research trails
 
 # Quality / CI
 
-## Current
+## Done
 
-- [x] GitHub Actions workflow.
-- [x] Dependency installation.
+- [x] GitHub Actions validation workflow.
+- [x] Dependency installation step.
 - [x] TypeScript typecheck.
 - [x] Next.js production build.
-- [x] Entity validation participates in static build through `/algorithms`.
-- [x] Latest Algorithm/Atlas/Lab + active-TOC tranche passes typecheck and production build.
+- [x] Algorithm validation participates in static build.
+- [x] Combination validation participates in Lab static build.
+- [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
 
 ## Still needed
 
 - [ ] ESLint/static lint workflow.
 - [ ] Content-parser unit tests.
-- [ ] Algorithm validation unit tests.
+- [ ] Algorithm/Combination validation unit tests.
 - [ ] Math-delimiter normalization tests.
 - [ ] Heading/TOC slug tests.
 - [ ] Search tests.
@@ -434,8 +366,8 @@ Advanced retrieval / saved research trails
 # Documentation
 
 - [x] `README.md` — research collection and reading map.
-- [x] `DESIGN.md` — initial product/UI rationale.
-- [x] `DEVELOPMENT_SPEC.md` — intended product and technical specification.
+- [x] `DESIGN.md` — product/UI rationale.
+- [x] `DEVELOPMENT_SPEC.md` — intended product/technical specification.
 - [x] `PROGRESS.md` — active implementation tracker.
 - [ ] Contribution guide.
 - [ ] Algorithm metadata authoring guide.
@@ -449,51 +381,46 @@ Advanced retrieval / saved research trails
 
 ## 2026-09-28 — Design-system tranche 1
 
-Completed:
+- IBM Plex Sans + IBM Plex Mono;
+- type/spacing/radius/color/focus tokens;
+- canonical color + monochrome SVG mark;
+- list-first Archive language;
+- refined research reader, code, tables, KaTeX mathematics;
+- active section-ready heading/TOC structure;
+- reduced motion + visible focus;
+- CI typecheck/build passed.
 
-- IBM Plex Sans + IBM Plex Mono through `next/font`;
-- type, spacing, radius, neutral color, field color, and focus tokens;
-- canonical color and monochrome SVG marks;
-- SVG application icon;
-- list-first home archive;
-- restrained field colors;
-- controlled research reading width and vertical rhythm;
-- code, blockquote, link, list, and table refinement;
-- `remark-math` + `rehype-katex` + KaTeX;
-- render-time normalization of `\(...\)` / `\[...\]` delimiters;
-- code-fence protection during math normalization;
-- research H1 sections added to TOC and normalized beneath page H1;
-- reduced-motion and focus treatment;
-- successful CI typecheck/build.
+## 2026-09-28 — Algorithms / Atlas / Lab tranche 1
 
-## 2026-09-28 — Algorithm / Atlas / Lab tranche 1
-
-Completed:
-
-- curated `AlgorithmEntity` model spanning foundations, AI/ML, quantum, and cybersecurity;
-- entity validation for duplicate IDs/names/aliases and broken relation targets;
-- searchable `/algorithms` index with field and maturity filtering;
-- algorithm research-card pages with Motivation, Contribution, assumptions, complexity, Implementation, failure modes, open questions, relationships, sources, tags, and Lab links;
-- global command search now searches algorithms and chapters together;
-- chapter pages link to algorithm entities;
-- typed relationship Atlas with incoming/outgoing edges, progressive focus traversal, field/relation filtering, and accessible textual table;
+- curated `AlgorithmEntity` model and validation;
+- searchable `/algorithms` and research-card detail pages;
+- chapter/entity/global-search integration;
+- typed relationship Atlas with search, filters, progressive traversal, textual fallback;
 - structured `ResearchCombination` model;
-- `/lab` with explicit hypotheses, compatibility, tensions, benefits, risks, metrics, experiment plans, sources, and status;
-- interactive Algorithm A × Algorithm B pair explorer;
-- active chapter TOC tracking with `IntersectionObserver`;
-- successful CI typecheck/build for the complete tranche.
+- Lab hypotheses, metrics, experiment plans, and pair explorer;
+- active chapter TOC tracking;
+- CI typecheck/build passed.
 
-Still intentionally open:
+## 2026-09-28 — Algorithms / Atlas / Lab tranche 2
 
-- rendered browser inspection;
-- mobile/tablet/desktop visual acceptance;
-- light/dark acceptance;
-- formal contrast/screen-reader/math accessibility testing;
-- physical cleanup of overridden legacy CSS;
-- exact source-passage linkage;
-- citation/reference entities;
-- persisted evidence and experiment results;
-- remaining Atlas foundation nodes and Lab seed records.
+- added Learned Heuristics, Branch and Bound, NeuralUCB, Embedding Models, SAT/SMT, Error-Correcting Codes, Lattice foundations, and MPC;
+- introduced combined Algorithm catalog so all new entities participate in search, Archive backlinks, Algorithm pages, and Atlas;
+- closed the initial Atlas chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, and lattice/PQC/FHE;
+- added FHE × MPC × ZK × AI structured research hypothesis;
+- added Learned Heuristics × A* × Branch-and-Bound structured hypothesis;
+- added Combination validation;
+- latest expanded catalog passed TypeScript and production Next.js build in GitHub Actions.
+
+---
+
+## Immediate next engineering work
+
+1. Browser acceptance across phone/tablet/desktop and light/dark.
+2. Accessibility/contrast/math acceptance.
+3. Clean obsolete legacy CSS after browser review.
+4. Start Phase 6 with reference/paper entities and source-passage provenance.
+5. Add experiment/evidence records to Lab.
+6. Add tests for content parsing, entity validation, search, routes, and broken links.
 
 ---
 
@@ -501,8 +428,6 @@ Still intentionally open:
 
 Update this file whenever a meaningful feature, acceptance gate, or phase changes.
 
-Use these meanings consistently:
-
-- `[x]` — implemented and present in the repository;
-- `[ ]` — not yet complete;
-- implementation does **not** imply visual/accessibility/evidence/production acceptance unless the corresponding acceptance item is also checked.
+- `[x]` — implemented and present in the repository.
+- `[ ]` — not yet complete.
+- Implementation does **not** imply visual/accessibility/evidence/production acceptance unless that acceptance item is also checked.
