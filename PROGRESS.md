@@ -4,7 +4,8 @@
 **Last updated:** 2026-09-28  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
-**Evidence authoring:** [`EVIDENCE_AUTHORING.md`](./EVIDENCE_AUTHORING.md)
+**Evidence authoring:** [`EVIDENCE_AUTHORING.md`](./EVIDENCE_AUTHORING.md)  
+**Evidence profile policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)
 
 A checked item means the implementation exists in the repository. Visual, accessibility, evidence-quality, and production acceptance are tracked separately.
 
@@ -26,9 +27,11 @@ Typed relationship Atlas
 Structured Combination Lab
       ↓
 Unified Evidence hub
-      ├── Primary references
+      ├── Primary references + verified citation graph
       ├── Implementation registry
       └── Experiment registry
+      ↓
+Descriptive evidence profiles + structural discovery
 ```
 
 ### Phase status
@@ -38,11 +41,11 @@ Unified Evidence hub
 | 0 — Research corpus | ✅ Established |
 | 1 — Next.js archive foundation | ✅ Established |
 | 2 — Design-system consolidation | 🟡 Implemented; browser/accessibility cleanup open |
-| 3 — Algorithm-level indexing | 🟡 Working first version |
+| 3 — Algorithm-level indexing | 🟡 Working first version with evidence profiles |
 | 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
 | 5 — Lab | 🟡 Working first version with structured seed hypotheses |
-| 6 — Research evidence layer | 🟡 Working first version: sources + code + planned experiments |
-| 7 — Advanced discovery | 🟡 Structural discovery started; semantic retrieval intentionally deferred |
+| 6 — Research evidence layer | 🟡 Working first version: sources + citation provenance + code + planned experiments |
+| 7 — Advanced discovery | 🟡 Structural/evidence-stage discovery implemented; semantic retrieval intentionally deferred |
 
 ---
 
@@ -92,18 +95,19 @@ Unified Evidence hub
 - [x] List-first archive and home preview.
 - [x] Field filtering, sorting, result count, clear filters.
 - [x] Restrained field identity treatment.
-- [x] Archive query/field/family/algorithm/evidence/sort state encoded in URL.
+- [x] Archive query/field/family/algorithm/evidence/stage/sort state encoded in URL.
 - [x] Back/forward navigation restores URL-backed Archive state.
 - [x] Algorithm-family filters.
 - [x] Individual Algorithm filters.
 - [x] Evidence-availability filters for References / Implementations / Experiments.
-- [x] Archive search also matches curated Algorithm names and families.
-- [x] Archive rows expose linked Algorithm/evidence metadata.
+- [x] Algorithm evidence-stage filter derived from linked evidence records.
+- [x] Archive search also matches curated Algorithm names, families, and evidence stages.
+- [x] Archive rows expose linked Algorithm/evidence metadata and represented evidence stages.
 
 ### Archive still needed
 
-- [ ] Maturity/evidence-strength filters after a consistent cross-record maturity model exists.
 - [ ] Matching-passage snippets/highlighting.
+- [ ] Decide whether a separate conceptual-maturity filter is useful at chapter level; do not conflate it with evidence stage.
 
 ## Chapter reader
 
@@ -119,10 +123,10 @@ Unified Evidence hub
 - [x] Controlled reading width and research typography.
 - [x] Lists, blockquotes, links, code, and research tables.
 - [x] KaTeX mathematics and local equation/table overflow handling.
+- [x] Algorithm → heading-level chapter provenance using live TOC anchors.
 
 ### Reader still needed
 
-- [x] Algorithm → heading-level chapter provenance using live TOC anchors.
 - [ ] Claim/paragraph-level provenance where a heading is too broad.
 - [ ] Browser acceptance for extreme equations/tables.
 - [ ] Math accessibility review.
@@ -136,8 +140,9 @@ Unified Evidence hub
 - [x] Global search includes References.
 - [x] Global search includes Implementation records.
 - [x] Global search includes Experiment records.
-- [x] Dedicated Algorithm search with field + maturity filters.
-- [x] Dedicated Reference search/type filter.
+- [x] Global Algorithm results expose and match evidence stage.
+- [x] Dedicated Algorithm search with field + maturity + evidence-stage filters.
+- [x] Dedicated Reference search/type/evidence-role filters.
 - [x] Dedicated Implementation search/maturity filter.
 - [x] Dedicated Experiment search/status filter.
 
@@ -169,6 +174,7 @@ Unified Evidence hub
 - [x] Header and application icon use canonical SVG.
 - [x] Primary product navigation consolidated to Archive / Algorithms / Atlas / Lab / Evidence.
 - [x] Evidence sub-navigation standardized across Overview / References / Implementations / Experiments.
+- [x] Evidence-profile and citation-provenance surfaces use the same restrained research UI system.
 
 ## Still needed
 
@@ -213,6 +219,9 @@ Unified Evidence hub
 - [x] Lab hypothesis links from Algorithm cards.
 - [x] Algorithm entities in global search.
 - [x] Chapter → Algorithm backlinks.
+- [x] Derived multidimensional evidence profile per Algorithm.
+- [x] Evidence stage shown separately from conceptual maturity.
+- [x] Evidence dimensions expose literature, inspectable code, project experiments, and independent replication independently.
 
 ## Second-wave entities now added
 
@@ -230,6 +239,7 @@ Unified Evidence hub
 - [ ] Explicit claim/paragraph-level source linkage.
 - [ ] Explicit variant records rather than relation-only variants.
 - [ ] Broader curated coverage across all Markdown algorithms.
+- [ ] First-class independent-replication records.
 
 ---
 
@@ -271,7 +281,7 @@ Unified Evidence hub
 - [ ] More relation density across all seeded entities.
 - [ ] Reference/paper nodes in Atlas itself.
 - [ ] Implementation nodes in Atlas itself.
-- [ ] Evidence strength on edges.
+- [ ] Evidence/provenance metadata on Algorithm relation edges.
 - [ ] Historical/evolution relationships.
 
 ---
@@ -326,14 +336,21 @@ Unified Evidence hub
 - [x] Evidence model visually distinguishes conceptual knowledge, primary sources, implementations, and experiments.
 - [x] Shared Evidence sub-navigation across Overview / References / Implementations / Experiments.
 - [x] Evidence sub-surfaces remain separately searchable and inspectable.
+- [x] Evidence overview shows archive-stage coverage distribution without presenting it as a quality score.
 
 ## References
 
 - [x] `ReferenceEntity` schema.
+- [x] Controlled evidence-role metadata: Primary method / Primary extension / Normative standard / Survey-synthesis / Replication-evaluation.
 - [x] Initial curated primary-source/standards set.
-- [x] Reference validation for IDs, HTTPS source, year, tags, Algorithm links, Combination links, and chapter slugs.
-- [x] `/references` searchable/type-filtered index.
+- [x] Reference validation for IDs, HTTPS source, year, role, tags, Algorithm links, Combination links, and chapter slugs.
+- [x] Verified citation-edge schema with target, note, verification URL, and checked date.
+- [x] Citation validation rejects broken, duplicate, self-referential, or malformed verification edges.
+- [x] `/references` searchable/type/evidence-role-filtered index.
 - [x] `/references/[id]` evidence detail pages.
+- [x] `/references/graph` focused citation-neighborhood explorer.
+- [x] Accessible citation-edge table.
+- [x] Reference detail pages expose citation notes, verification source, and checked date.
 - [x] Reference → Algorithm links.
 - [x] Reference → Combination/Lab links.
 - [x] Reference → chapter links.
@@ -341,9 +358,11 @@ Unified Evidence hub
 - [x] Lab → Reference backlinks where curated.
 - [x] Chapter → Reference backlinks.
 - [x] References included in global command search.
+- [x] Initial verified in-corpus citation edges seeded conservatively.
 - [ ] Broader primary-reference coverage across all entities.
 - [ ] Exact claim-level source linkage.
-- [ ] Reference-to-reference citation graph.
+- [ ] Broader citation-graph coverage through direct source verification.
+- [ ] Retraction/correction/version metadata where relevant.
 
 ## Implementations
 
@@ -388,17 +407,20 @@ Unified Evidence hub
 ## Evidence authoring / provenance
 
 - [x] `EVIDENCE_AUTHORING.md` defines the distinction between concepts, sources, implementations, hypotheses, experiments, and results.
+- [x] `EVIDENCE_PROFILE_POLICY.md` defines descriptive evidence stages and citation-provenance rules.
 - [x] Evidence quality ladder documented.
 - [x] Explicit no-fabricated-results rule documented.
 - [x] Negative/inconclusive result preservation documented.
 - [x] Heading-level Algorithm → Markdown provenance is generated from live TOC anchors.
+- [x] Evidence stage is derived from actual linked records rather than manually scored.
+- [x] Evidence dimensions remain independent instead of being collapsed into a numeric score.
 - [ ] Claim-level/source-passage provenance model.
-- [ ] Evidence-strength scoring/provenance policy.
+- [ ] First-class independent-replication record model.
 
 ## Evidence history still needed
 
 - [ ] Research-chapter diff view.
-- [ ] Algorithm/evidence maturity history.
+- [ ] Algorithm/evidence-stage history.
 
 ---
 
@@ -410,7 +432,10 @@ Unified Evidence hub
 - [x] Archive structural filtering by Algorithm family.
 - [x] Archive structural filtering by individual Algorithm.
 - [x] Archive structural filtering by Evidence availability.
+- [x] Archive structural filtering by Algorithm evidence stage.
+- [x] Algorithm index filtering by conceptual maturity and evidence stage separately.
 - [x] Shareable URL-backed Archive discovery state.
+- [x] Global search can match/display Algorithm evidence stage.
 
 ## Still needed
 
@@ -434,19 +459,23 @@ Unified Evidence hub
 - [x] Algorithm validation participates in static build.
 - [x] Combination validation participates in Lab static build.
 - [x] Reference validation participates in Reference static build.
+- [x] Citation-edge verification metadata participates in Reference validation.
 - [x] Implementation validation participates in Implementation static build.
 - [x] Experiment validation participates in Experiment static build.
 - [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
 - [x] Complete Evidence + Archive discovery + heading-level provenance tranche passes typecheck and production build (GitHub Actions run 118).
+- [x] Evidence-profile + citation-provenance + Algorithm/Archive evidence-stage discovery code passes typecheck and production build (GitHub Actions run 153).
 
 ## Still needed
 
 - [ ] ESLint/static lint workflow.
 - [ ] Content-parser unit tests.
 - [ ] Algorithm/Combination/Reference/Implementation/Experiment validation unit tests.
+- [ ] Citation graph validation unit tests.
+- [ ] Evidence-profile derivation tests.
 - [ ] Math-delimiter normalization tests.
 - [ ] Heading/TOC slug tests.
-- [ ] Search tests.
+- [ ] Search/filter tests.
 - [ ] Route smoke tests.
 - [ ] Broken-link validation.
 - [ ] Markdown/reference validation.
@@ -459,7 +488,7 @@ Unified Evidence hub
 # Deployment / browser acceptance
 
 - [x] Repository builds as a Next.js application.
-- [x] CI confirms the current full implementation builds successfully.
+- [x] CI confirms the current code implementation builds successfully.
 - [ ] Hosting/Vercel project connected for this repository.
 - [ ] Preview deployment reviewed.
 - [ ] Production deployment reviewed.
@@ -483,6 +512,7 @@ Unified Evidence hub
 - [x] `DEVELOPMENT_SPEC.md` — intended product/technical specification.
 - [x] `PROGRESS.md` — active implementation tracker.
 - [x] `EVIDENCE_AUTHORING.md` — reference/implementation/experiment/provenance authoring contract.
+- [x] `EVIDENCE_PROFILE_POLICY.md` — evidence-stage, source-role, and citation-edge policy.
 - [ ] General contribution guide.
 - [ ] Algorithm metadata authoring guide.
 - [ ] Atlas relationship authoring guide.
@@ -549,19 +579,37 @@ Unified Evidence hub
 - `EVIDENCE_AUTHORING.md` added with evidence-quality and no-fabricated-results rules;
 - full tranche passes TypeScript and Next.js production build in GitHub Actions.
 
+## 2026-09-28 — Evidence profile / citation provenance tranche
+
+- added controlled Reference evidence roles;
+- added verified source-to-source citation edge records with notes, verification URLs, and checked dates;
+- added build validation for duplicate/self/broken citation edges and malformed verification metadata;
+- added `/references/graph` focused citation explorer and accessible edge table;
+- Reference pages now expose citation neighborhoods and verification provenance;
+- added multidimensional Algorithm evidence profiles instead of a scalar quality score;
+- added derived evidence stages from concept-only through future independent replication;
+- Evidence overview now shows stage coverage distribution;
+- Algorithm pages expose evidence stage and independent evidence dimensions;
+- Archive supports shareable Algorithm evidence-stage filtering;
+- Algorithm index separates conceptual maturity from evidence stage;
+- global Algorithm search exposes/matches evidence stage;
+- added `EVIDENCE_PROFILE_POLICY.md` and updated evidence authoring contract;
+- code checkpoint passes TypeScript and Next.js production build in GitHub Actions run 153.
+
 ---
 
 ## Immediate next engineering work
 
 1. Add stronger CI checks for route/data/internal-link consistency without duplicating the existing validators.
 2. Add passage-level search snippets before semantic retrieval.
-3. Expand primary-reference and implementation coverage.
+3. Expand primary-reference, citation-edge, and implementation coverage through direct verification.
 4. Add explicit claim/paragraph provenance where heading-level anchors are insufficient.
-5. Add tests for content parsing, search behavior, heading math normalization, and entity validators.
+5. Add tests for content parsing, search/filter behavior, evidence-profile derivation, citation validation, heading math normalization, and entity validators.
 6. Connect this repository to a preview hosting project, then run phone/tablet/desktop and light/dark browser acceptance.
 7. Perform keyboard, contrast, screen-reader, table, and math accessibility acceptance.
 8. Clean obsolete legacy CSS only after rendered browser review.
 9. Run the first reproducible experiment and preserve its outcome, including negative/inconclusive results.
+10. Add first-class independent-replication records before allowing any `Replicated` evidence stage.
 
 ---
 
