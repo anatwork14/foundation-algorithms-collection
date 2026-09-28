@@ -6,10 +6,11 @@ import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, Sigma } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, ScrollText, Sigma } from "lucide-react";
 import { ChapterToc } from "@/components/chapter-toc";
 import { algorithmsForChapter } from "@/lib/algorithm-catalog";
 import { getAllDocuments, getDocument } from "@/lib/content";
+import { referencesForChapter } from "@/lib/references";
 import { fieldKey } from "@/lib/taxonomy";
 
 export function generateStaticParams() {
@@ -51,6 +52,7 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
   const next = currentIndex < all.length - 1 ? all[currentIndex + 1] : null;
   const related = all.filter((item) => item.field === doc.field && item.slug !== doc.slug).slice(0, 3);
   const chapterAlgorithms = algorithmsForChapter(doc.slug);
+  const chapterReferences = referencesForChapter(doc.slug);
 
   return (
     <main className="detail-page">
@@ -105,6 +107,18 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
                 <Link key={algorithm.id} href={`/algorithms/${algorithm.id}`}>
                   <span>ALG</span>
                   <strong>{algorithm.name}</strong>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {chapterReferences.length > 0 && (
+            <div className="related-card chapter-reference-card">
+              <div className="toc-title"><ScrollText size={14} /> Primary references</div>
+              {chapterReferences.slice(0, 6).map((reference) => (
+                <Link key={reference.id} href={`/references/${reference.id}`}>
+                  <span>{reference.year}</span>
+                  <strong>{reference.title}</strong>
                 </Link>
               ))}
             </div>
