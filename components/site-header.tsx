@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
-import { algorithms, algorithmSearchText } from "@/lib/algorithms";
+import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
 import type { DocSummary } from "@/lib/content";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
 
