@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
 import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
+import { claims, claimSearchText } from "@/lib/claims";
 import type { DocSummary } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
@@ -23,7 +24,7 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment";
+  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment" | "claim";
 };
 
 function linkedField(algorithmIds: string[]): ResearchField {
@@ -74,6 +75,16 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           marker: "ALG",
           score: 1,
           kind: "algorithm" as const,
+        })),
+        ...claims.slice(0, 1).map((claim) => ({
+          id: `claim-${claim.id}`,
+          title: claim.statement,
+          field: linkedField(claim.algorithmIds),
+          meta: `${claim.kind} · curated passage/reference assertion`,
+          href: `/claims#${claim.id}`,
+          marker: "CLM",
+          score: 1,
+          kind: "claim" as const,
         })),
         ...references.slice(0, 2).map((reference) => ({
           id: `reference-${reference.id}`,
@@ -137,6 +148,21 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
+    const claimResults: SearchResult[] = claims.map((claim) => {
+      const statementHit = claim.statement.toLowerCase().includes(needle) ? 9 : 0;
+      const bodyHit = claimSearchText(claim).includes(needle) ? 4 : 0;
+      return {
+        id: `claim-${claim.id}`,
+        title: claim.statement,
+        field: linkedField(claim.algorithmIds),
+        meta: `${claim.kind} · ${claim.referenceIds.length} curated source${claim.referenceIds.length === 1 ? "" : "s"}`,
+        href: `/claims#${claim.id}`,
+        marker: "CLM",
+        score: statementHit + bodyHit,
+        kind: "claim",
+      };
+    });
+
     const referenceResults: SearchResult[] = references.map((reference) => {
       const exactTitle = reference.title.toLowerCase() === needle ? 12 : 0;
       const titleHit = reference.title.toLowerCase().includes(needle) ? 8 : 0;
@@ -196,8 +222,10 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
         id: `chapter-${doc.slug}`,
         title: doc.title,
         field: doc.field,
-        meta: passage ? `Chapter ${doc.number} · match in ${passage.heading}` : `Chapter ${doc.number} · ${doc.minutes} min read`,
-        context: passage?.text,
+        meta: passage
+          ? `Chapter ${doc.number} · match in ${passage.heading} · lines ${passage.startLine}${passage.endLine !== passage.startLine ? `–${passage.endLine}` : ""}`
+          : `Chapter ${doc.number} · ${doc.minutes} min read`,
+        context: passage?.snippet,
         href: passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`,
         marker: doc.number,
         score: titleHit + summaryHit + passageHit + bodyHit,
@@ -205,7 +233,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
+    return [...algorithmResults, ...claimResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
@@ -216,11 +244,12 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     { href: "/algorithms", label: "Algorithms", matches: ["/algorithms"] },
     { href: "/atlas", label: "Atlas", matches: ["/atlas"] },
     { href: "/lab", label: "Lab", matches: ["/lab"] },
-    { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments"] },
+    { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments", "/passages", "/claims"] },
   ];
 
   function resultKindLabel(kind: SearchResult["kind"]) {
     if (kind === "algorithm") return "Algorithm";
+    if (kind === "claim") return "Curated claim";
     if (kind === "reference") return "Reference";
     if (kind === "implementation") return "Implementation";
     if (kind === "experiment") return "Experiment";
@@ -281,7 +310,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, papers, code, experiments, chapters…"
+                placeholder="Search algorithms, claims, papers, code, experiments, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -309,7 +338,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + sources + code + experiments + chapters</span>
+              <span>Algorithms + claims + sources + code + experiments + chapters</span>
               <span>Chapter body matches jump to the matching section</span>
             </div>
           </div>
