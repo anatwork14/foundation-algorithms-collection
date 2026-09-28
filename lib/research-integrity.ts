@@ -1,5 +1,7 @@
 import { assertValidAlgorithmEntities } from "@/lib/algorithm-validation";
 import { algorithms } from "@/lib/algorithm-catalog";
+import { assertValidClaims } from "@/lib/claim-validation";
+import { claims } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { assertValidResearchCombinations } from "@/lib/combination-validation";
 import { getDocument, type DocSummary } from "@/lib/content";
@@ -25,6 +27,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   assertValidImplementations(implementations, algorithms);
   assertValidExperiments(experiments, algorithms, combinations);
   assertValidSearchPassages(documents, records);
+  assertValidClaims(claims, algorithms, references, records);
 
   return {
     chapters: chapterSlugs.length,
@@ -33,6 +36,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
     references: references.length,
     implementations: implementations.length,
     experiments: experiments.length,
+    claims: claims.length,
     passages: documents.reduce((sum, document) => sum + document.passages.length, 0),
   };
 }
