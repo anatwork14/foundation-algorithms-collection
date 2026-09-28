@@ -40,14 +40,21 @@ export function validateReferences(
     if (!reference.significance.trim()) errors.push(`${reference.id}: significance is required`);
     if (!reference.tags.length) errors.push(`${reference.id}: at least one tag is required`);
 
-    const uniqueCitations = new Set(reference.citesReferenceIds);
-    if (uniqueCitations.size !== reference.citesReferenceIds.length) errors.push(`${reference.id}: duplicate cited reference id`);
-    if (reference.citesReferenceIds.includes(reference.id)) errors.push(`${reference.id}: reference cannot cite itself`);
+    const targets = reference.citations.map((citation) => citation.targetId);
+    const uniqueCitations = new Set(targets);
+    if (uniqueCitations.size !== targets.length) errors.push(`${reference.id}: duplicate cited reference id`);
+    if (targets.includes(reference.id)) errors.push(`${reference.id}: reference cannot cite itself`);
+
+    for (const citation of reference.citations) {
+      if (!citation.note.trim()) errors.push(`${reference.id} -> ${citation.targetId}: citation verification note is required`);
+      if (!/^https:\/\//.test(citation.verificationUrl)) errors.push(`${reference.id} -> ${citation.targetId}: HTTPS verification URL is required`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(citation.verifiedAt)) errors.push(`${reference.id} -> ${citation.targetId}: verifiedAt must use YYYY-MM-DD`);
+    }
   }
 
   for (const reference of references) {
-    for (const citedId of reference.citesReferenceIds) {
-      if (!ids.has(citedId)) errors.push(`${reference.id}: unknown cited reference ${citedId}`);
+    for (const citation of reference.citations) {
+      if (!ids.has(citation.targetId)) errors.push(`${reference.id}: unknown cited reference ${citation.targetId}`);
     }
   }
 
