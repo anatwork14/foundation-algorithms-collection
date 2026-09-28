@@ -23,8 +23,8 @@ jobs:
       - name: Check Markdown links
         run: npm run check:links
 
-      - name: Test passage search
-        run: npm run test:search
+      - name: Test research utilities
+        run: npm run test:research
 
       - name: Typecheck
         run: npm run typecheck
