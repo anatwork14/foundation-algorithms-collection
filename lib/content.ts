@@ -149,7 +149,7 @@ function passagesFrom(content: string): SearchPassage[] {
   return passages.slice(0, 100);
 }
 
-function toSummary(filename: string, content: string): DocSummary {
+export function summarizeDocumentContent(filename: string, content: string): DocSummary {
   const slug = filename.replace(/\.md$/, "");
   const words = content.split(/\s+/).filter(Boolean).length;
   const title = titleFrom(content, slug);
@@ -186,7 +186,7 @@ export function getAllDocuments(): DocSummary[] {
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
     .map((filename) => {
       const content = fs.readFileSync(path.join(DOCS_DIR, filename), "utf8");
-      return toSummary(filename, content);
+      return summarizeDocumentContent(filename, content);
     });
 }
 
@@ -196,7 +196,7 @@ export function getDocument(slug: string): DocRecord | null {
   if (!fs.existsSync(file)) return null;
 
   const content = fs.readFileSync(file, "utf8");
-  const summary = toSummary(`${safeSlug}.md`, content);
+  const summary = summarizeDocumentContent(`${safeSlug}.md`, content);
   const rawBody = contentWithoutDocumentTitle(content);
 
   return {
