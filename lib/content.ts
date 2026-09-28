@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import GithubSlugger from "github-slugger";
 import { fieldForSlug, type ResearchField } from "@/lib/taxonomy";
 
 const DOCS_DIR = path.join(process.cwd(), "docs");
@@ -60,16 +61,6 @@ function summaryFrom(content: string) {
   return "A research chapter in the Foundation Algorithms Collection.";
 }
 
-export function slugifyHeading(input: string) {
-  return cleanInlineMarkdown(input)
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
 function headingsFrom(content: string) {
   return [...content.matchAll(/^##\s+(.+)$/gm)]
     .map((match) => cleanInlineMarkdown(match[1]))
@@ -77,11 +68,15 @@ function headingsFrom(content: string) {
 }
 
 function tocFrom(content: string) {
-  return [...content.matchAll(/^(##|###)\s+(.+)$/gm)].map((match) => ({
-    id: slugifyHeading(match[2]),
-    label: cleanInlineMarkdown(match[2]),
-    level: match[1].length,
-  }));
+  const slugger = new GithubSlugger();
+  return [...content.matchAll(/^(##|###)\s+(.+)$/gm)].map((match) => {
+    const label = cleanInlineMarkdown(match[2]);
+    return {
+      id: slugger.slug(label),
+      label,
+      level: match[1].length,
+    };
+  });
 }
 
 function toSummary(filename: string, content: string): DocSummary {
