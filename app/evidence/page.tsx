@@ -29,7 +29,7 @@ export default function EvidencePage() {
   const profiles = algorithms.map((algorithm) => getAlgorithmEvidenceProfile(algorithm.id));
   const stageCounts = new Map<EvidenceStage, number>(evidenceStages.map((stage) => [stage, 0]));
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
-  const curatedCitationEdges = references.reduce((sum, reference) => sum + reference.citesReferenceIds.length, 0);
+  const curatedCitationEdges = references.reduce((sum, reference) => sum + reference.citations.length, 0);
 
   return (
     <main className="evidence-hub shell">
