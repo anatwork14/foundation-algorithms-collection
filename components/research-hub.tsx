@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, Boxes, FlaskConical, Search, Sparkles } from "lucide-react";
+import { SearchSnippet } from "@/components/search-snippet";
 import type { DocSummary } from "@/lib/content";
+import { findPassageMatch } from "@/lib/search-passages";
 import { fieldKey, fields, inspirationThreads, type ResearchField } from "@/lib/taxonomy";
 
 const filterOptions: Array<ResearchField | "All"> = [
@@ -132,21 +134,26 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
 
         {filtered.length ? (
           <div className="home-archive-list">
-            {filtered.slice(0, 8).map((doc) => (
-              <Link key={doc.slug} href={`/archive/${doc.slug}`} className="home-archive-row">
-                <span className={`chapter-number field-${fieldKey(doc.field)}`}>{doc.number}</span>
-                <div className="home-archive-copy">
-                  <div className="archive-row-label">{doc.field}</div>
-                  <h3>{doc.title}</h3>
-                  <p>{doc.summary}</p>
-                </div>
-                <div className="home-archive-meta">
-                  <span>{doc.minutes} min</span>
-                  <span>{doc.words.toLocaleString()} words</span>
-                  <ArrowRight size={16} aria-hidden="true" />
-                </div>
-              </Link>
-            ))}
+            {filtered.slice(0, 8).map((doc) => {
+              const passage = findPassageMatch(doc.passages, query);
+              const href = passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`;
+              return (
+                <Link key={doc.slug} href={href} className="home-archive-row">
+                  <span className={`chapter-number field-${fieldKey(doc.field)}`}>{doc.number}</span>
+                  <div className="home-archive-copy">
+                    <div className="archive-row-label">{doc.field}</div>
+                    <h3>{doc.title}</h3>
+                    <p>{doc.summary}</p>
+                    {passage && <SearchSnippet heading={passage.heading} text={passage.text} query={query} />}
+                  </div>
+                  <div className="home-archive-meta">
+                    <span>{doc.minutes} min</span>
+                    <span>{doc.words.toLocaleString()} words</span>
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="empty-state">
@@ -159,7 +166,7 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
 
         {filtered.length > 8 && (
           <div className="section-cta">
-            <Link href="/archive" className="primary-button">Open full archive <ArrowRight size={16} /></Link>
+            <Link href={`/archive${query ? `?q=${encodeURIComponent(query)}` : ""}`} className="primary-button">Open full archive <ArrowRight size={16} /></Link>
           </div>
         )}
       </section>
