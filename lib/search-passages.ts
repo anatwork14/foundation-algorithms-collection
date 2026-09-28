@@ -1,14 +1,14 @@
 export type SearchPassage = {
+  id: string;
   heading: string;
   anchor: string;
   text: string;
-  searchText: string;
+  startLine: number;
+  endLine: number;
 };
 
-export type PassageMatch = {
-  heading: string;
-  anchor: string;
-  text: string;
+export type PassageMatch = SearchPassage & {
+  snippet: string;
 };
 
 function normalizeQuery(query: string) {
@@ -26,23 +26,29 @@ function snippetAround(text: string, query: string) {
 }
 
 /**
- * Finds the most useful indexed passage for a literal query. This intentionally
- * stays lexical and inspectable; semantic retrieval can be layered on later.
+ * Finds the first inspectable lexical passage match. Semantic retrieval can be
+ * layered on later without replacing this deterministic source-backed path.
  */
 export function findPassageMatch(passages: SearchPassage[], query: string): PassageMatch | null {
   const needle = normalizeQuery(query);
   if (!needle) return null;
 
-  const exact = passages.find((passage) => passage.searchText.includes(needle));
+  const exact = passages.find((passage) => passage.text.toLowerCase().includes(needle));
   if (!exact) return null;
 
   return {
-    heading: exact.heading,
-    anchor: exact.anchor,
-    text: snippetAround(exact.text, needle),
+    ...exact,
+    snippet: snippetAround(exact.text, needle),
   };
 }
 
 export function passageSearchText(passages: SearchPassage[]) {
-  return passages.map((passage) => passage.searchText).join(" ");
+  return passages.map((passage) => passage.text.toLowerCase()).join(" ");
+}
+
+export function passageSourceUrl(chapterSlug: string, passage: Pick<SearchPassage, "startLine" | "endLine">) {
+  const lines = passage.startLine === passage.endLine
+    ? `#L${passage.startLine}`
+    : `#L${passage.startLine}-L${passage.endLine}`;
+  return `https://github.com/anatwork14/foundation-algorithms-collection/blob/main/docs/${chapterSlug}.md${lines}`;
 }
