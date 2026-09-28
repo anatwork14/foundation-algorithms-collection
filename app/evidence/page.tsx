@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, ScrollText } from "lucide-react";
+import { EvidenceNav } from "@/components/evidence-nav";
 import { algorithms } from "@/lib/algorithm-catalog";
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
@@ -24,6 +25,7 @@ export default function EvidencePage() {
         <p>
           Evidence is kept separate from conceptual descriptions so the archive can distinguish what a paper or standard establishes, what executable code exists, and what this project has actually tested.
         </p>
+        <EvidenceNav current="overview" />
       </header>
 
       <section className="evidence-summary" aria-label="Evidence coverage">
