@@ -4,15 +4,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Filter, Network, ScrollText, Search, ShieldCheck, Sigma, SlidersHorizontal } from "lucide-react";
 import { SearchSnippet } from "@/components/search-snippet";
+import { filterArchiveDocuments, type ArchiveEvidenceFilter, type ArchiveEvidenceStageFilter, type ArchiveSortMode } from "@/lib/archive-filter";
 import type { DocSummary } from "@/lib/content";
 import type { ChapterDiscoveryMetadata, EvidenceAvailability } from "@/lib/discovery";
-import type { EvidenceStage } from "@/lib/evidence-profile";
+import type { EvidenceStage } from "@/lib/evidence-stage";
 import { findPassageMatch } from "@/lib/search-passages";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
-
-type SortMode = "number" | "title" | "length";
-type EvidenceFilter = EvidenceAvailability | "All";
-type EvidenceStageFilter = EvidenceStage | "All";
 
 type ArchiveExplorerProps = {
   documents: DocSummary[];
@@ -42,15 +39,15 @@ function normalizeField(value?: string): ResearchField | "All" {
   return value && fieldNames.has(value as ResearchField) ? value as ResearchField : "All";
 }
 
-function normalizeEvidence(value?: string): EvidenceFilter {
+function normalizeEvidence(value?: string): ArchiveEvidenceFilter {
   return value && evidenceValues.has(value as EvidenceAvailability) ? value as EvidenceAvailability : "All";
 }
 
-function normalizeStage(value?: string): EvidenceStageFilter {
+function normalizeStage(value?: string): ArchiveEvidenceStageFilter {
   return value && evidenceStageValues.has(value as EvidenceStage) ? value as EvidenceStage : "All";
 }
 
-function normalizeSort(value?: string): SortMode {
+function normalizeSort(value?: string): ArchiveSortMode {
   return value === "title" || value === "length" ? value : "number";
 }
 
@@ -81,9 +78,9 @@ export function ArchiveExplorer({
   const [field, setField] = useState<ResearchField | "All">(() => normalizeField(initialField));
   const [family, setFamily] = useState(() => initialFamily && familyOptions.includes(initialFamily) ? initialFamily : "All");
   const [algorithm, setAlgorithm] = useState(() => initialAlgorithm && algorithmIds.has(initialAlgorithm) ? initialAlgorithm : "All");
-  const [evidence, setEvidence] = useState<EvidenceFilter>(() => normalizeEvidence(initialEvidence));
-  const [stage, setStage] = useState<EvidenceStageFilter>(() => normalizeStage(initialStage));
-  const [sort, setSort] = useState<SortMode>(() => normalizeSort(initialSort));
+  const [evidence, setEvidence] = useState<ArchiveEvidenceFilter>(() => normalizeEvidence(initialEvidence));
+  const [stage, setStage] = useState<ArchiveEvidenceStageFilter>(() => normalizeStage(initialStage));
+  const [sort, setSort] = useState<ArchiveSortMode>(() => normalizeSort(initialSort));
 
   useEffect(() => {
     const onPopState = () => {
@@ -107,9 +104,9 @@ export function ArchiveExplorer({
     nextField: ResearchField | "All",
     nextFamily: string,
     nextAlgorithm: string,
-    nextEvidence: EvidenceFilter,
-    nextStage: EvidenceStageFilter,
-    nextSort: SortMode,
+    nextEvidence: ArchiveEvidenceFilter,
+    nextStage: ArchiveEvidenceStageFilter,
+    nextSort: ArchiveSortMode,
   ) {
     const params = new URLSearchParams();
     const cleanQuery = nextQuery.trim();
@@ -129,9 +126,9 @@ export function ArchiveExplorer({
     field: ResearchField | "All";
     family: string;
     algorithm: string;
-    evidence: EvidenceFilter;
-    stage: EvidenceStageFilter;
-    sort: SortMode;
+    evidence: ArchiveEvidenceFilter;
+    stage: ArchiveEvidenceStageFilter;
+    sort: ArchiveSortMode;
   }>) {
     writeUrl(
       overrides.query ?? query,
@@ -154,32 +151,10 @@ export function ArchiveExplorer({
     writeUrl("", "All", "All", "All", "All", "All", sort);
   }
 
-  const results = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    const next = documents.filter((doc) => {
-      const meta = metadataBySlug.get(doc.slug);
-      const fieldMatch = field === "All" || doc.field === field;
-      const familyMatch = family === "All" || meta?.families.includes(family);
-      const algorithmMatch = algorithm === "All" || meta?.algorithmIds.includes(algorithm);
-      const evidenceMatch = evidence === "All" || meta?.evidence.includes(evidence);
-      const stageMatch = stage === "All" || meta?.evidenceStages.includes(stage);
-      const queryMatch =
-        !needle ||
-        doc.title.toLowerCase().includes(needle) ||
-        doc.summary.toLowerCase().includes(needle) ||
-        doc.searchText.includes(needle) ||
-        meta?.algorithms.some((item) => item.name.toLowerCase().includes(needle)) ||
-        meta?.families.some((item) => item.toLowerCase().includes(needle)) ||
-        meta?.evidenceStages.some((item) => item.toLowerCase().includes(needle));
-      return fieldMatch && familyMatch && algorithmMatch && evidenceMatch && stageMatch && Boolean(queryMatch);
-    });
-
-    return [...next].sort((a, b) => {
-      if (sort === "title") return a.title.localeCompare(b.title);
-      if (sort === "length") return b.words - a.words;
-      return a.number.localeCompare(b.number, undefined, { numeric: true });
-    });
-  }, [algorithm, documents, evidence, family, field, metadataBySlug, query, sort, stage]);
+  const results = useMemo(
+    () => filterArchiveDocuments(documents, discovery, { query, field, family, algorithm, evidence, stage, sort }),
+    [algorithm, discovery, documents, evidence, family, field, query, sort, stage],
+  );
 
   const hasFilters = Boolean(query) || field !== "All" || family !== "All" || algorithm !== "All" || evidence !== "All" || stage !== "All";
 
@@ -212,7 +187,7 @@ export function ArchiveExplorer({
         </label>
         <label className="select-control">
           <SlidersHorizontal size={16} />
-          <select value={sort} onChange={(event) => { const next = event.target.value as SortMode; setSort(next); syncUrl({ sort: next }); }}>
+          <select value={sort} onChange={(event) => { const next = event.target.value as ArchiveSortMode; setSort(next); syncUrl({ sort: next }); }}>
             <option value="number">Collection order</option>
             <option value="title">Title A–Z</option>
             <option value="length">Longest first</option>
@@ -237,7 +212,7 @@ export function ArchiveExplorer({
         </label>
         <label>
           <ScrollText size={15} />
-          <select value={evidence} onChange={(event) => { const next = event.target.value as EvidenceFilter; setEvidence(next); syncUrl({ evidence: next }); }}>
+          <select value={evidence} onChange={(event) => { const next = event.target.value as ArchiveEvidenceFilter; setEvidence(next); syncUrl({ evidence: next }); }}>
             <option value="All">Any evidence availability</option>
             <option value="References">Has primary references</option>
             <option value="Implementations">Has implementations</option>
@@ -246,7 +221,7 @@ export function ArchiveExplorer({
         </label>
         <label>
           <ShieldCheck size={15} />
-          <select value={stage} onChange={(event) => { const next = event.target.value as EvidenceStageFilter; setStage(next); syncUrl({ stage: next }); }}>
+          <select value={stage} onChange={(event) => { const next = event.target.value as ArchiveEvidenceStageFilter; setStage(next); syncUrl({ stage: next }); }}>
             <option value="All">Any algorithm evidence stage</option>
             {evidenceStages.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
