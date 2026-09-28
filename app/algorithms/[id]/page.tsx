@@ -1,0 +1,164 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight, BookOpen, GitBranch, Layers3, ShieldCheck } from "lucide-react";
+import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithms";
+import { getAllDocuments } from "@/lib/content";
+import { fieldKey } from "@/lib/taxonomy";
+
+export function generateStaticParams() {
+  return algorithms.map((algorithm) => ({ id: algorithm.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const algorithm = getAlgorithm(id);
+  if (!algorithm) return { title: "Algorithm" };
+  return { title: algorithm.name, description: algorithm.summary };
+}
+
+export default async function AlgorithmDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const algorithm = getAlgorithm(id);
+  if (!algorithm) notFound();
+
+  const documents = getAllDocuments();
+  const sources = algorithm.chapterSlugs
+    .map((slug) => documents.find((doc) => doc.slug === slug))
+    .filter((doc) => Boolean(doc));
+  const related = getRelatedAlgorithms(algorithm);
+  const inbound = algorithms
+    .flatMap((candidate) => candidate.relations
+      .filter((relation) => relation.target === algorithm.id)
+      .map((relation) => ({ algorithm: candidate, relation })))
+    .filter((item) => !related.some((direct) => direct.algorithm.id === item.algorithm.id));
+
+  return (
+    <main className="algorithm-detail-page">
+      <div className="shell entity-breadcrumbs">
+        <Link href="/algorithms"><ArrowLeft size={14} /> Algorithms</Link>
+        <span>/</span>
+        <span>{algorithm.name}</span>
+      </div>
+
+      <header className="shell algorithm-hero">
+        <div className="algorithm-hero-main">
+          <div className="algorithm-field-line">
+            {algorithm.fields.map((field) => (
+              <span key={field} className={`algorithm-field field-outline-${fieldKey(field)}`}>{field}</span>
+            ))}
+          </div>
+          <h1>{algorithm.name}</h1>
+          {algorithm.aliases.length > 0 && <div className="algorithm-aliases">{algorithm.aliases.join(" · ")}</div>}
+          <p>{algorithm.summary}</p>
+        </div>
+        <aside className="algorithm-summary-panel">
+          <div><span>Maturity</span><strong>{algorithm.maturity}</strong></div>
+          <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
+          <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
+          <div><span>Source chapters</span><strong>{algorithm.chapterSlugs.length}</strong></div>
+        </aside>
+      </header>
+
+      <div className="shell algorithm-layout">
+        <article className="algorithm-main">
+          <section className="research-block" id="motivation">
+            <div className="research-block-label">01 · Motivation</div>
+            <h2>Why this exists</h2>
+            <p>{algorithm.motivation}</p>
+          </section>
+
+          <section className="research-block" id="contribution">
+            <div className="research-block-label">02 · Contribution</div>
+            <h2>What it adds</h2>
+            <p>{algorithm.contribution}</p>
+          </section>
+
+          <section className="research-block" id="assumptions">
+            <div className="research-block-label">03 · Assumptions</div>
+            <h2>What must be true</h2>
+            <ul>{algorithm.assumptions.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+
+          {algorithm.complexity && (
+            <section className="research-block" id="complexity">
+              <div className="research-block-label">04 · Complexity</div>
+              <h2>Cost model</h2>
+              <div className="complexity-grid">
+                {algorithm.complexity.time && <div><span>Time</span><code>{algorithm.complexity.time}</code></div>}
+                {algorithm.complexity.space && <div><span>Space</span><code>{algorithm.complexity.space}</code></div>}
+                {algorithm.complexity.sample && <div><span>Sample</span><code>{algorithm.complexity.sample}</code></div>}
+                {algorithm.complexity.note && <div className="complexity-note"><span>Notes</span><p>{algorithm.complexity.note}</p></div>}
+              </div>
+            </section>
+          )}
+
+          <section className="research-block" id="implementation">
+            <div className="research-block-label">05 · Implementation</div>
+            <h2>How to build it</h2>
+            <ol>{algorithm.implementation.map((item) => <li key={item}>{item}</li>)}</ol>
+          </section>
+
+          <section className="research-block" id="failure-modes">
+            <div className="research-block-label">06 · Failure modes</div>
+            <h2>Where it breaks down</h2>
+            <ul>{algorithm.failureModes.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+
+          <section className="research-block" id="open-questions">
+            <div className="research-block-label">07 · Research frontier</div>
+            <h2>Questions worth carrying forward</h2>
+            <div className="open-question-list">
+              {algorithm.openQuestions.map((question, index) => (
+                <div key={question}><span>{String(index + 1).padStart(2, "0")}</span><p>{question}</p></div>
+              ))}
+            </div>
+          </section>
+        </article>
+
+        <aside className="algorithm-side">
+          <div className="entity-side-card">
+            <div className="entity-side-title"><GitBranch size={14} /> Relationships</div>
+            {related.map(({ relation, algorithm: target }) => (
+              <Link key={`${relation.type}-${target.id}`} href={`/algorithms/${target.id}`} className="relation-link">
+                <span>{relation.type.replaceAll("-", " ")}</span>
+                <strong>{target.name}</strong>
+                <small>{relation.note}</small>
+                <ArrowRight size={14} />
+              </Link>
+            ))}
+            {inbound.map(({ relation, algorithm: source }) => (
+              <Link key={`inbound-${source.id}-${relation.type}`} href={`/algorithms/${source.id}`} className="relation-link relation-inbound">
+                <span>referenced by · {relation.type.replaceAll("-", " ")}</span>
+                <strong>{source.name}</strong>
+                <small>{relation.note}</small>
+                <ArrowRight size={14} />
+              </Link>
+            ))}
+          </div>
+
+          <div className="entity-side-card">
+            <div className="entity-side-title"><BookOpen size={14} /> Research sources</div>
+            {sources.map((source) => source && (
+              <Link key={source.slug} href={`/archive/${source.slug}`} className="source-chapter-link">
+                <span>{source.number}</span>
+                <strong>{source.title}</strong>
+                <small>{source.minutes} min read</small>
+              </Link>
+            ))}
+          </div>
+
+          <div className="entity-side-card entity-tags-card">
+            <div className="entity-side-title"><Layers3 size={14} /> Research tags</div>
+            <div className="entity-tags">{algorithm.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+          </div>
+
+          <div className="entity-side-card provenance-card">
+            <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
+            <p>Entity metadata indexes the Markdown corpus; the linked research chapters remain the source of truth.</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+  );
+}
