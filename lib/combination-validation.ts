@@ -1,10 +1,15 @@
 import type { AlgorithmEntity } from "@/lib/algorithms";
 import type { ResearchCombination } from "@/lib/combinations";
 
-export function validateResearchCombinations(combinations: ResearchCombination[], algorithms: AlgorithmEntity[]) {
+export function validateResearchCombinations(
+  combinations: ResearchCombination[],
+  algorithms: AlgorithmEntity[],
+  chapterSlugs?: string[],
+) {
   const errors: string[] = [];
   const algorithmIds = new Set(algorithms.map((algorithm) => algorithm.id));
   const ids = new Set<string>();
+  const knownChapters = chapterSlugs ? new Set(chapterSlugs) : null;
 
   for (const combination of combinations) {
     if (!combination.id || !/^[a-z0-9-]+$/.test(combination.id)) errors.push(`Invalid combination id: ${combination.id || "<empty>"}`);
@@ -26,12 +31,22 @@ export function validateResearchCombinations(combinations: ResearchCombination[]
     if (!combination.metrics.length) errors.push(`${combination.id}: measurable metrics are required`);
     if (!combination.experimentPlan.length) errors.push(`${combination.id}: experiment plan is required`);
     if (!combination.sourceChapters.length) errors.push(`${combination.id}: source chapters are required`);
+    if (new Set(combination.sourceChapters).size !== combination.sourceChapters.length) errors.push(`${combination.id}: duplicate source chapter link`);
+    if (knownChapters) {
+      for (const slug of combination.sourceChapters) {
+        if (!knownChapters.has(slug)) errors.push(`${combination.id}: source chapter does not exist: ${slug}`);
+      }
+    }
   }
 
   return errors;
 }
 
-export function assertValidResearchCombinations(combinations: ResearchCombination[], algorithms: AlgorithmEntity[]) {
-  const errors = validateResearchCombinations(combinations, algorithms);
+export function assertValidResearchCombinations(
+  combinations: ResearchCombination[],
+  algorithms: AlgorithmEntity[],
+  chapterSlugs?: string[],
+) {
+  const errors = validateResearchCombinations(combinations, algorithms, chapterSlugs);
   if (errors.length) throw new Error(`Research combination validation failed:\n- ${errors.join("\n- ")}`);
 }
