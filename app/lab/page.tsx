@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Beaker, BookOpen, CheckCircle2, FlaskConical, TriangleAlert } from "lucide-react";
-import { getAlgorithm } from "@/lib/algorithms";
+import { CombinationBuilder } from "@/components/combination-builder";
+import { algorithms, getAlgorithm } from "@/lib/algorithms";
 import { combinations } from "@/lib/combinations";
 import { getAllDocuments } from "@/lib/content";
 
@@ -28,6 +29,8 @@ export default function LabPage() {
         <div><span>02</span><strong>Expose tensions</strong><p>Write down mismatched assumptions before designing the experiment.</p></div>
         <div><span>03</span><strong>Measure against baselines</strong><p>A combination is useful only if it beats simpler alternatives on explicit metrics.</p></div>
       </section>
+
+      <CombinationBuilder algorithms={algorithms} combinations={combinations} />
 
       <section className="lab-records">
         {combinations.map((combination, index) => {
