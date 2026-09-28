@@ -46,9 +46,42 @@ function localPathFor(sourceFile, rawTarget) {
   return resolve(dirname(sourceFile), decoded);
 }
 
+function stripBareUrlPunctuation(value) {
+  return value.replace(/[),.;:!?\]}>'"]+$/g, "");
+}
+
+function externalUrlsFrom(content, explicitTargets) {
+  const urls = new Set();
+  for (const rawTarget of explicitTargets) {
+    const target = normalizeTarget(rawTarget);
+    if (/^https?:\/\//i.test(target)) urls.add(target);
+  }
+  for (const match of content.matchAll(/https?:\/\/[^\s<`]+/gi)) {
+    urls.add(stripBareUrlPunctuation(match[0]));
+  }
+  return [...urls];
+}
+
+function externalPolicyError(rawUrl) {
+  let parsed;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    return "invalid URL syntax";
+  }
+  if (parsed.protocol !== "https:") return "external research links must use HTTPS";
+  if (parsed.username || parsed.password) return "embedded URL credentials are not allowed";
+  const host = parsed.hostname.toLowerCase();
+  if (host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".localhost")) {
+    return "localhost/loopback targets are not valid research sources";
+  }
+  return null;
+}
+
 const markdownFiles = walk(root);
 const failures = [];
-let checkedLinks = 0;
+let checkedLocalLinks = 0;
+let checkedExternalUrls = 0;
 
 for (const file of markdownFiles) {
   const content = readFileSync(file, "utf8");
@@ -67,17 +100,23 @@ for (const file of markdownFiles) {
   for (const target of targets) {
     const localPath = localPathFor(file, target);
     if (!localPath) continue;
-    checkedLinks += 1;
-    if (!existsSync(localPath)) {
-      failures.push(`${relative(root, file)} -> ${target}`);
-    }
+    checkedLocalLinks += 1;
+    if (!existsSync(localPath)) failures.push(`${relative(root, file)} -> ${target}: local target does not exist`);
+  }
+
+  for (const url of externalUrlsFrom(content, targets)) {
+    checkedExternalUrls += 1;
+    const policyError = externalPolicyError(url);
+    if (policyError) failures.push(`${relative(root, file)} -> ${url}: ${policyError}`);
   }
 }
 
 if (failures.length) {
-  console.error(`Broken local Markdown links (${failures.length}):`);
+  console.error(`Markdown link-policy failures (${failures.length}):`);
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`Checked ${checkedLinks} local links across ${markdownFiles.length} Markdown files.`);
+console.log(
+  `Checked ${checkedLocalLinks} local links and ${checkedExternalUrls} external URLs across ${markdownFiles.length} Markdown files without network requests.`,
+);
