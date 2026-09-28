@@ -7,6 +7,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, Sigma } from "lucide-react";
+import { algorithmsForChapter } from "@/lib/algorithms";
 import { getAllDocuments, getDocument } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
 
@@ -48,6 +49,7 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
   const previous = currentIndex > 0 ? all[currentIndex - 1] : null;
   const next = currentIndex < all.length - 1 ? all[currentIndex + 1] : null;
   const related = all.filter((item) => item.field === doc.field && item.slug !== doc.slug).slice(0, 3);
+  const chapterAlgorithms = algorithmsForChapter(doc.slug);
 
   return (
     <main className="detail-page">
@@ -100,6 +102,18 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
               ))}
             </nav>
           </div>
+
+          {chapterAlgorithms.length > 0 && (
+            <div className="related-card algorithm-entity-card">
+              <div className="toc-title"><Sigma size={14} /> Algorithm entities</div>
+              {chapterAlgorithms.slice(0, 6).map((algorithm) => (
+                <Link key={algorithm.id} href={`/algorithms/${algorithm.id}`}>
+                  <span>ALG</span>
+                  <strong>{algorithm.name}</strong>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {related.length > 0 && (
             <div className="related-card">
