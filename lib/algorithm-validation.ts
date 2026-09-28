@@ -4,11 +4,12 @@ function normalize(value: string) {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-export function validateAlgorithmEntities(algorithms: AlgorithmEntity[]) {
+export function validateAlgorithmEntities(algorithms: AlgorithmEntity[], chapterSlugs?: string[]) {
   const errors: string[] = [];
   const ids = new Set<string>();
   const names = new Map<string, string>();
   const searchableNames = new Map<string, string>();
+  const knownChapters = chapterSlugs ? new Set(chapterSlugs) : null;
 
   for (const algorithm of algorithms) {
     if (!algorithm.id || !/^[a-z0-9-]+$/.test(algorithm.id)) {
@@ -35,6 +36,12 @@ export function validateAlgorithmEntities(algorithms: AlgorithmEntity[]) {
     if (!algorithm.fields.length) errors.push(`${algorithm.id}: at least one research field is required`);
     if (!algorithm.families.length) errors.push(`${algorithm.id}: at least one family is required`);
     if (!algorithm.chapterSlugs.length) errors.push(`${algorithm.id}: at least one source chapter is required`);
+    if (new Set(algorithm.chapterSlugs).size !== algorithm.chapterSlugs.length) errors.push(`${algorithm.id}: duplicate source chapter link`);
+    if (knownChapters) {
+      for (const slug of algorithm.chapterSlugs) {
+        if (!knownChapters.has(slug)) errors.push(`${algorithm.id}: source chapter does not exist: ${slug}`);
+      }
+    }
     if (!algorithm.summary.trim()) errors.push(`${algorithm.id}: summary is required`);
     if (!algorithm.motivation.trim()) errors.push(`${algorithm.id}: motivation is required`);
     if (!algorithm.contribution.trim()) errors.push(`${algorithm.id}: contribution is required`);
@@ -57,8 +64,8 @@ export function validateAlgorithmEntities(algorithms: AlgorithmEntity[]) {
   return errors;
 }
 
-export function assertValidAlgorithmEntities(algorithms: AlgorithmEntity[]) {
-  const errors = validateAlgorithmEntities(algorithms);
+export function assertValidAlgorithmEntities(algorithms: AlgorithmEntity[], chapterSlugs?: string[]) {
+  const errors = validateAlgorithmEntities(algorithms, chapterSlugs);
   if (errors.length) {
     throw new Error(`Algorithm entity validation failed:\n- ${errors.join("\n- ")}`);
   }
