@@ -1,5 +1,6 @@
 import { algorithms } from "@/lib/algorithm-catalog";
 import type { DocSummary } from "@/lib/content";
+import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-profile";
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
@@ -12,6 +13,7 @@ export type ChapterDiscoveryMetadata = {
   algorithms: Array<{ id: string; name: string }>;
   families: string[];
   evidence: EvidenceAvailability[];
+  evidenceStages: EvidenceStage[];
 };
 
 export function buildChapterDiscoveryMetadata(documents: DocSummary[]): ChapterDiscoveryMetadata[] {
@@ -24,6 +26,7 @@ export function buildChapterDiscoveryMetadata(documents: DocSummary[]): ChapterD
     const algorithmIdSet = new Set(algorithmIds);
     const families = [...new Set(linkedAlgorithms.flatMap((algorithm) => algorithm.families))].sort((a, b) => a.localeCompare(b));
     const evidence: EvidenceAvailability[] = [];
+    const evidenceStages = [...new Set(linkedAlgorithms.map((algorithm) => getAlgorithmEvidenceProfile(algorithm.id).stage))];
 
     if (references.some((reference) => reference.chapterSlugs.includes(document.slug) || reference.algorithmIds.some((id) => algorithmIdSet.has(id)))) {
       evidence.push("References");
@@ -37,6 +40,7 @@ export function buildChapterDiscoveryMetadata(documents: DocSummary[]): ChapterD
       algorithms: linkedAlgorithms.map((algorithm) => ({ id: algorithm.id, name: algorithm.name })),
       families,
       evidence,
+      evidenceStages,
     };
   });
 }
