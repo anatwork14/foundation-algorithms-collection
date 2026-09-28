@@ -11,6 +11,7 @@ import "./implementation-registry.css";
 import "./experiment-registry.css";
 import "./evidence-hub.css";
 import "./archive-discovery.css";
+import "./citation-graph.css";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
