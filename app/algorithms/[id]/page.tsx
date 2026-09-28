@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Beaker, BookOpen, Code2, FlaskConical, GitBranch, Layers3, ScrollText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Beaker, BookOpen, Code2, FlaskConical, GitBranch, Layers3, RefreshCcw, ScrollText, ShieldCheck } from "lucide-react";
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
 import { claimsForAlgorithm } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
@@ -10,6 +10,7 @@ import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
+import { replicationsForAlgorithm } from "@/lib/replications";
 import { getAlgorithmSourceSections } from "@/lib/source-provenance";
 import { fieldKey } from "@/lib/taxonomy";
 
@@ -45,6 +46,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
   const primaryReferences = referencesForAlgorithm(algorithm.id);
   const implementationRecords = implementationsForAlgorithm(algorithm.id);
   const experimentRecords = experimentsForAlgorithm(algorithm.id);
+  const replicationRecords = replicationsForAlgorithm(algorithm.id);
   const evidenceProfile = getAlgorithmEvidenceProfile(algorithm.id);
 
   return (
@@ -76,6 +78,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>References</span><strong>{primaryReferences.length}</strong></div>
           <div><span>Implementations</span><strong>{implementationRecords.length}</strong></div>
           <div><span>Experiments</span><strong>{experimentRecords.length}</strong></div>
+          <div><span>Independent replications</span><strong>{replicationRecords.length}</strong></div>
           <div><span>Lab hypotheses</span><strong>{labMatches.length}</strong></div>
           <div><span>Source chapters</span><strong>{algorithm.chapterSlugs.length}</strong></div>
         </aside>
@@ -241,6 +244,19 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
             </div>
           )}
 
+          {replicationRecords.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><RefreshCcw size={14} /> Independent replications</div>
+              {replicationRecords.map((replication) => (
+                <Link key={replication.id} href={`/replications#${replication.id}`} className="entity-reference-link">
+                  <span>{replication.outcome}</span>
+                  <strong>{replication.title}</strong>
+                  <small>Independent source + original-reference provenance</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
           {labMatches.length > 0 && (
             <div className="entity-side-card">
               <div className="entity-side-title"><FlaskConical size={14} /> Lab hypotheses</div>
@@ -273,7 +289,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus. Heading-level links resolve from the live TOC, while curated Claims connect selected statements to unique passage records and primary/normative references.</p>
+            <p>Entity metadata indexes the Markdown corpus. Heading-level links resolve from the live TOC, curated Claims connect selected statements to unique passage records and sources, and independent replication remains a separate outcome-aware evidence layer.</p>
           </div>
         </aside>
       </div>
