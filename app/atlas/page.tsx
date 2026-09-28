@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AtlasExplorer } from "@/components/atlas-explorer";
-import { algorithms } from "@/lib/algorithms";
+import { algorithms } from "@/lib/algorithm-catalog";
 
 export const metadata: Metadata = {
   title: "Atlas",
