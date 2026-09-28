@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Filter, Network, ScrollText, Search, Sigma, SlidersHorizontal } from "lucide-react";
+import { ArrowUpRight, Filter, Network, ScrollText, Search, ShieldCheck, Sigma, SlidersHorizontal } from "lucide-react";
 import type { DocSummary } from "@/lib/content";
 import type { ChapterDiscoveryMetadata, EvidenceAvailability } from "@/lib/discovery";
+import type { EvidenceStage } from "@/lib/evidence-profile";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 type SortMode = "number" | "title" | "length";
 type EvidenceFilter = EvidenceAvailability | "All";
+type EvidenceStageFilter = EvidenceStage | "All";
 
 type ArchiveExplorerProps = {
   documents: DocSummary[];
@@ -18,11 +20,21 @@ type ArchiveExplorerProps = {
   initialFamily?: string;
   initialAlgorithm?: string;
   initialEvidence?: string;
+  initialStage?: string;
   initialSort?: string;
 };
 
 const fieldNames = new Set(fields.map((item) => item.name));
 const evidenceValues = new Set<EvidenceAvailability>(["References", "Implementations", "Experiments"]);
+const evidenceStages: EvidenceStage[] = [
+  "Concept only",
+  "Source-backed",
+  "Inspectable implementation",
+  "Experiment protocol",
+  "Empirical result",
+  "Replicated",
+];
+const evidenceStageValues = new Set<EvidenceStage>(evidenceStages);
 
 function normalizeField(value?: string): ResearchField | "All" {
   return value && fieldNames.has(value as ResearchField) ? value as ResearchField : "All";
@@ -30,6 +42,10 @@ function normalizeField(value?: string): ResearchField | "All" {
 
 function normalizeEvidence(value?: string): EvidenceFilter {
   return value && evidenceValues.has(value as EvidenceAvailability) ? value as EvidenceAvailability : "All";
+}
+
+function normalizeStage(value?: string): EvidenceStageFilter {
+  return value && evidenceStageValues.has(value as EvidenceStage) ? value as EvidenceStage : "All";
 }
 
 function normalizeSort(value?: string): SortMode {
@@ -44,6 +60,7 @@ export function ArchiveExplorer({
   initialFamily,
   initialAlgorithm,
   initialEvidence,
+  initialStage,
   initialSort,
 }: ArchiveExplorerProps) {
   const metadataBySlug = useMemo(() => new Map(discovery.map((item) => [item.slug, item])), [discovery]);
@@ -63,6 +80,7 @@ export function ArchiveExplorer({
   const [family, setFamily] = useState(() => initialFamily && familyOptions.includes(initialFamily) ? initialFamily : "All");
   const [algorithm, setAlgorithm] = useState(() => initialAlgorithm && algorithmIds.has(initialAlgorithm) ? initialAlgorithm : "All");
   const [evidence, setEvidence] = useState<EvidenceFilter>(() => normalizeEvidence(initialEvidence));
+  const [stage, setStage] = useState<EvidenceStageFilter>(() => normalizeStage(initialStage));
   const [sort, setSort] = useState<SortMode>(() => normalizeSort(initialSort));
 
   useEffect(() => {
@@ -75,6 +93,7 @@ export function ArchiveExplorer({
       setFamily(nextFamily === "All" || familyOptions.includes(nextFamily) ? nextFamily : "All");
       setAlgorithm(nextAlgorithm === "All" || algorithmIds.has(nextAlgorithm) ? nextAlgorithm : "All");
       setEvidence(normalizeEvidence(params.get("evidence") ?? undefined));
+      setStage(normalizeStage(params.get("stage") ?? undefined));
       setSort(normalizeSort(params.get("sort") ?? undefined));
     };
     window.addEventListener("popstate", onPopState);
@@ -87,6 +106,7 @@ export function ArchiveExplorer({
     nextFamily: string,
     nextAlgorithm: string,
     nextEvidence: EvidenceFilter,
+    nextStage: EvidenceStageFilter,
     nextSort: SortMode,
   ) {
     const params = new URLSearchParams();
@@ -96,6 +116,7 @@ export function ArchiveExplorer({
     if (nextFamily !== "All") params.set("family", nextFamily);
     if (nextAlgorithm !== "All") params.set("algorithm", nextAlgorithm);
     if (nextEvidence !== "All") params.set("evidence", nextEvidence);
+    if (nextStage !== "All") params.set("stage", nextStage);
     if (nextSort !== "number") params.set("sort", nextSort);
     const search = params.toString();
     window.history.replaceState({}, "", `${window.location.pathname}${search ? `?${search}` : ""}${window.location.hash}`);
@@ -107,6 +128,7 @@ export function ArchiveExplorer({
     family: string;
     algorithm: string;
     evidence: EvidenceFilter;
+    stage: EvidenceStageFilter;
     sort: SortMode;
   }>) {
     writeUrl(
@@ -115,6 +137,7 @@ export function ArchiveExplorer({
       overrides.family ?? family,
       overrides.algorithm ?? algorithm,
       overrides.evidence ?? evidence,
+      overrides.stage ?? stage,
       overrides.sort ?? sort,
     );
   }
@@ -125,7 +148,8 @@ export function ArchiveExplorer({
     setFamily("All");
     setAlgorithm("All");
     setEvidence("All");
-    writeUrl("", "All", "All", "All", "All", sort);
+    setStage("All");
+    writeUrl("", "All", "All", "All", "All", "All", sort);
   }
 
   const results = useMemo(() => {
@@ -136,14 +160,16 @@ export function ArchiveExplorer({
       const familyMatch = family === "All" || meta?.families.includes(family);
       const algorithmMatch = algorithm === "All" || meta?.algorithmIds.includes(algorithm);
       const evidenceMatch = evidence === "All" || meta?.evidence.includes(evidence);
+      const stageMatch = stage === "All" || meta?.evidenceStages.includes(stage);
       const queryMatch =
         !needle ||
         doc.title.toLowerCase().includes(needle) ||
         doc.summary.toLowerCase().includes(needle) ||
         doc.searchText.includes(needle) ||
         meta?.algorithms.some((item) => item.name.toLowerCase().includes(needle)) ||
-        meta?.families.some((item) => item.toLowerCase().includes(needle));
-      return fieldMatch && familyMatch && algorithmMatch && evidenceMatch && Boolean(queryMatch);
+        meta?.families.some((item) => item.toLowerCase().includes(needle)) ||
+        meta?.evidenceStages.some((item) => item.toLowerCase().includes(needle));
+      return fieldMatch && familyMatch && algorithmMatch && evidenceMatch && stageMatch && Boolean(queryMatch);
     });
 
     return [...next].sort((a, b) => {
@@ -151,9 +177,9 @@ export function ArchiveExplorer({
       if (sort === "length") return b.words - a.words;
       return a.number.localeCompare(b.number, undefined, { numeric: true });
     });
-  }, [algorithm, documents, evidence, family, field, metadataBySlug, query, sort]);
+  }, [algorithm, documents, evidence, family, field, metadataBySlug, query, sort, stage]);
 
-  const hasFilters = Boolean(query) || field !== "All" || family !== "All" || algorithm !== "All" || evidence !== "All";
+  const hasFilters = Boolean(query) || field !== "All" || family !== "All" || algorithm !== "All" || evidence !== "All" || stage !== "All";
 
   return (
     <main className="archive-page shell">
@@ -161,7 +187,7 @@ export function ArchiveExplorer({
         <div>
           <span className="eyebrow"><span className="live-dot" /> Research archive</span>
           <h1>Every chapter, one searchable map.</h1>
-          <p>Browse the collection as a library. Search chapter text or move structurally through fields, algorithm families, individual algorithms, and available evidence.</p>
+          <p>Browse the collection as a library. Search chapter text or move structurally through fields, algorithm families, individual algorithms, available evidence, and algorithm evidence stages.</p>
         </div>
         <div className="archive-summary-card">
           <span>Collection state</span>
@@ -173,7 +199,7 @@ export function ArchiveExplorer({
       <section className="archive-toolbar" aria-label="Archive controls">
         <label className="archive-search">
           <Search size={18} />
-          <input value={query} onChange={(event) => { const next = event.target.value; setQuery(next); syncUrl({ query: next }); }} placeholder="Search chapters, algorithms, families…" />
+          <input value={query} onChange={(event) => { const next = event.target.value; setQuery(next); syncUrl({ query: next }); }} placeholder="Search chapters, algorithms, families, evidence stages…" />
         </label>
         <label className="select-control">
           <Filter size={16} />
@@ -210,10 +236,17 @@ export function ArchiveExplorer({
         <label>
           <ScrollText size={15} />
           <select value={evidence} onChange={(event) => { const next = event.target.value as EvidenceFilter; setEvidence(next); syncUrl({ evidence: next }); }}>
-            <option value="All">Any evidence state</option>
+            <option value="All">Any evidence availability</option>
             <option value="References">Has primary references</option>
             <option value="Implementations">Has implementations</option>
             <option value="Experiments">Has experiment records</option>
+          </select>
+        </label>
+        <label>
+          <ShieldCheck size={15} />
+          <select value={stage} onChange={(event) => { const next = event.target.value as EvidenceStageFilter; setStage(next); syncUrl({ stage: next }); }}>
+            <option value="All">Any algorithm evidence stage</option>
+            {evidenceStages.map((item) => <option key={item} value={item}>{item}</option>)}
           </select>
         </label>
       </section>
@@ -236,6 +269,7 @@ export function ArchiveExplorer({
                 <div className="archive-row-headings">
                   {(meta?.algorithms.slice(0, 2).map((item) => item.name) ?? doc.headings.slice(0, 2)).map((label) => <span key={label}>{label}</span>)}
                   {meta?.evidence.slice(0, 2).map((item) => <span key={item} className="evidence-tag">{item}</span>)}
+                  {meta?.evidenceStages.slice(0, 2).map((item) => <span key={item} className="evidence-stage-tag">{item}</span>)}
                 </div>
               </div>
               <div className="archive-row-meta">
