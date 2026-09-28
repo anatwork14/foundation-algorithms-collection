@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, Search } from "lucide-react";
 import type { AlgorithmEntity, MaturityLevel } from "@/lib/algorithms";
-import { algorithmSearchText } from "@/lib/algorithms";
+import { algorithmSearchText } from "@/lib/algorithm-catalog";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 const maturityOptions: Array<MaturityLevel | "All"> = [
