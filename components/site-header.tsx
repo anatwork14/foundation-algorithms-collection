@@ -11,6 +11,7 @@ import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
+import { findPassageMatch } from "@/lib/search-passages";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
 
 type SearchResult = {
@@ -18,6 +19,7 @@ type SearchResult = {
   title: string;
   field: ResearchField;
   meta: string;
+  context?: string;
   href: string;
   marker: string;
   score: number;
@@ -185,17 +187,20 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     });
 
     const chapterResults: SearchResult[] = documents.map((doc) => {
+      const passage = findPassageMatch(doc.passages, query);
       const titleHit = doc.title.toLowerCase().includes(needle) ? 6 : 0;
       const summaryHit = doc.summary.toLowerCase().includes(needle) ? 3 : 0;
+      const passageHit = passage ? 2 : 0;
       const bodyHit = doc.searchText.includes(needle) ? 1 : 0;
       return {
         id: `chapter-${doc.slug}`,
         title: doc.title,
         field: doc.field,
-        meta: `Chapter ${doc.number} · ${doc.minutes} min read`,
-        href: `/archive/${doc.slug}`,
+        meta: passage ? `Chapter ${doc.number} · match in ${passage.heading}` : `Chapter ${doc.number} · ${doc.minutes} min read`,
+        context: passage?.text,
+        href: passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`,
         marker: doc.number,
-        score: titleHit + summaryHit + bodyHit,
+        score: titleHit + summaryHit + passageHit + bodyHit,
         kind: "chapter",
       };
     });
@@ -297,6 +302,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                   <span className="result-copy">
                     <strong>{result.title}</strong>
                     <small>{resultKindLabel(result.kind)} · {result.meta}</small>
+                    {result.context && <em>{result.context}</em>}
                   </span>
                   <span className="result-arrow">↗</span>
                 </button>
@@ -304,7 +310,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
             </div>
             <div className="palette-footer">
               <span>Algorithms + sources + code + experiments + chapters</span>
-              <span>Use dedicated indexes for deeper filtering</span>
+              <span>Chapter body matches jump to the matching section</span>
             </div>
           </div>
         </div>
