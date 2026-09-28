@@ -12,7 +12,7 @@ import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
-import { findPassageMatch } from "@/lib/search-passages";
+import { findPassageMatches } from "@/lib/search-passages";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
 
 type SearchResult = {
@@ -213,7 +213,8 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     });
 
     const chapterResults: SearchResult[] = documents.map((doc) => {
-      const passage = findPassageMatch(doc.passages, query);
+      const passages = findPassageMatches(doc.passages, query);
+      const passage = passages[0];
       const titleHit = doc.title.toLowerCase().includes(needle) ? 6 : 0;
       const summaryHit = doc.summary.toLowerCase().includes(needle) ? 3 : 0;
       const passageHit = passage ? 2 : 0;
@@ -223,7 +224,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
         title: doc.title,
         field: doc.field,
         meta: passage
-          ? `Chapter ${doc.number} · match in ${passage.heading} · lines ${passage.startLine}${passage.endLine !== passage.startLine ? `–${passage.endLine}` : ""}`
+          ? `Chapter ${doc.number} · ${passages.length} passage match${passages.length === 1 ? "" : "es"} · top in ${passage.heading} · lines ${passage.startLine}${passage.endLine !== passage.startLine ? `–${passage.endLine}` : ""}`
           : `Chapter ${doc.number} · ${doc.minutes} min read`,
         context: passage?.snippet,
         href: passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`,
@@ -339,7 +340,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
             </div>
             <div className="palette-footer">
               <span>Algorithms + claims + sources + code + experiments + chapters</span>
-              <span>Chapter body matches jump to the matching section</span>
+              <span>Chapter body matches rank inspectable passages and jump to the top section</span>
             </div>
           </div>
         </div>
