@@ -3,31 +3,59 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, Network, Search } from "lucide-react";
-import type { AlgorithmEntity } from "@/lib/algorithms";
-import { fieldKey } from "@/lib/taxonomy";
+import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
+import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
+
+const relationTypes: Array<RelationType | "All"> = [
+  "All",
+  "derived-from",
+  "generalizes",
+  "special-case-of",
+  "alternative-to",
+  "combines-with",
+  "depends-on",
+  "used-by",
+  "approximates",
+  "secures",
+  "accelerates",
+];
 
 export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] }) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("linucb");
+  const [field, setField] = useState<ResearchField | "All">("All");
+  const [relationType, setRelationType] = useState<RelationType | "All">("All");
 
   const selected = algorithms.find((algorithm) => algorithm.id === selectedId) ?? algorithms[0];
   const byId = useMemo(() => new Map(algorithms.map((algorithm) => [algorithm.id, algorithm])), [algorithms]);
   const needle = query.trim().toLowerCase();
-  const matches = algorithms.filter((algorithm) =>
-    !needle ||
-    algorithm.name.toLowerCase().includes(needle) ||
-    algorithm.aliases.some((alias) => alias.toLowerCase().includes(needle)) ||
-    algorithm.tags.some((tag) => tag.includes(needle)),
-  );
+  const matches = algorithms.filter((algorithm) => {
+    const fieldMatch = field === "All" || algorithm.fields.includes(field);
+    const queryMatch =
+      !needle ||
+      algorithm.name.toLowerCase().includes(needle) ||
+      algorithm.aliases.some((alias) => alias.toLowerCase().includes(needle)) ||
+      algorithm.tags.some((tag) => tag.includes(needle));
+    return fieldMatch && queryMatch;
+  });
 
-  const outgoing = selected.relations
+  const outgoingAll = selected.relations
     .map((relation) => ({ relation, target: byId.get(relation.target) }))
     .filter((item): item is { relation: AlgorithmEntity["relations"][number]; target: AlgorithmEntity } => Boolean(item.target));
 
-  const incoming = algorithms.flatMap((algorithm) =>
+  const incomingAll = algorithms.flatMap((algorithm) =>
     algorithm.relations
       .filter((relation) => relation.target === selected.id)
       .map((relation) => ({ relation, source: algorithm })),
+  );
+
+  const outgoing = outgoingAll.filter(({ relation, target }) =>
+    (relationType === "All" || relation.type === relationType) &&
+    (field === "All" || target.fields.includes(field)),
+  );
+  const incoming = incomingAll.filter(({ relation, source }) =>
+    (relationType === "All" || relation.type === relationType) &&
+    (field === "All" || source.fields.includes(field)),
   );
 
   const neighbors = [...outgoing.map((item) => item.target), ...incoming.map((item) => item.source)]
@@ -47,6 +75,15 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
             <Search size={16} />
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find an algorithm…" />
           </label>
+          <div className="atlas-filter-row">
+            <select value={field} onChange={(event) => setField(event.target.value as ResearchField | "All")} aria-label="Filter Atlas by field">
+              <option value="All">All fields</option>
+              {fields.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}
+            </select>
+            <select value={relationType} onChange={(event) => setRelationType(event.target.value as RelationType | "All")} aria-label="Filter Atlas by relationship type">
+              {relationTypes.map((item) => <option key={item} value={item}>{item === "All" ? "All relations" : item.replaceAll("-", " ")}</option>)}
+            </select>
+          </div>
           <div className="atlas-picker-list">
             {matches.map((algorithm) => (
               <button key={algorithm.id} className={algorithm.id === selected.id ? "is-active" : ""} onClick={() => setSelectedId(algorithm.id)}>
@@ -88,7 +125,11 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                   </button>
                 );
               })}
-              {!neighbors.length && <div className="atlas-no-relations">No curated relations yet for this entity.</div>}
+              {!neighbors.length && (
+                <div className="atlas-no-relations">
+                  No curated relationships match the current field/relation filters.
+                </div>
+              )}
             </div>
           </div>
 
