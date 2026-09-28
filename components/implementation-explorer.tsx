@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Code2, Search } from "lucide-react";
+import { ArrowRight, Code2, Search } from "lucide-react";
+import { EvidenceNav } from "@/components/evidence-nav";
 import type { ImplementationMaturity, ImplementationRecord } from "@/lib/implementations";
 import { implementationSearchText } from "@/lib/implementations";
 
@@ -32,10 +33,7 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
         <span className="eyebrow"><Code2 size={13} /> Implementation registry</span>
         <h1>Move from theory to inspectable code.</h1>
         <p>Curated repositories connect algorithm entities to maintained implementations, source paths, interfaces, license metadata, and verification dates.</p>
-        <div className="evidence-switch">
-          <Link href="/references"><ArrowLeft size={13} /> Browse references</Link>
-          <span>Implementations</span>
-        </div>
+        <EvidenceNav current="implementations" />
       </header>
 
       <section className="implementation-controls" aria-label="Implementation filters">
