@@ -12,7 +12,7 @@ It must not claim:
 
 > **This algorithm is 87% true, reliable, or scientifically proven.**
 
-Papers, standards, implementations, experiment protocols, empirical results, and independent replications are different evidence objects. They are not interchangeable and should not be collapsed into one scalar rating.
+Papers, standards, claims, implementations, experiment protocols, empirical results, and independent replications are different evidence objects. They are not interchangeable and should not be collapsed into one scalar rating.
 
 ---
 
@@ -28,18 +28,29 @@ Each Algorithm entity receives a derived archive stage based on the evidence rec
    - at least one curated Reference is linked.
 
 3. `Inspectable implementation`
-   - at least one verified Implementation record is linked.
+   - at least one verified, commit-pinned Implementation record is linked.
 
 4. `Experiment protocol`
-   - at least one structured Experiment record exists.
+   - at least one structured project Experiment record exists.
 
 5. `Empirical result`
-   - at least one Experiment record contains an explicit result.
+   - at least one project Experiment record contains an explicit result.
 
 6. `Replicated`
-   - reserved for future explicit independent-replication records.
+   - at least one explicit `ReplicationRecord` exists for the Algorithm;
+   - that record points to an independently authored Reference classified as `Replication / evaluation`;
+   - it also identifies one or more original References being independently evaluated.
 
 Stages are monotonic descriptions of **archive coverage**, not quality rankings. A later stage does not imply that every claim is better supported than every claim at an earlier stage.
+
+The `Replicated` stage is intentionally outcome-neutral. A valid independent replication record may:
+
+- support the original finding;
+- partially support it;
+- fail to reproduce it;
+- remain inconclusive.
+
+Presence of independent evaluation advances the **coverage stage**. The replication outcome must remain visible separately and must never be converted into an implied truth score.
 
 ---
 
@@ -58,8 +69,10 @@ Examples:
 
 - a normative standard may be strongly authoritative even with no project experiment;
 - a popular implementation does not prove a theoretical guarantee;
-- a completed experiment does not replace primary literature;
-- one positive result is not independent replication.
+- a completed project experiment does not replace primary literature;
+- a second implementation is not independent replication;
+- one positive project result is not independent replication;
+- an independent non-reproduction is still replication evidence, but its outcome must be shown as a non-reproduction rather than as support.
 
 ---
 
@@ -77,7 +90,39 @@ The role is descriptive. It is not a source-quality grade.
 
 ---
 
-## 5. Citation graph rules
+## 5. Independent replication records
+
+Independent replication records live in `lib/replications.ts` and are separately inspectable at `/replications`.
+
+A `ReplicationRecord` must contain:
+
+- a stable record ID and title;
+- one or more linked Algorithms;
+- exactly one curated independent replication/evaluation Reference;
+- one or more original References being evaluated;
+- a controlled outcome;
+- a neutral summary;
+- an explicit independence note;
+- a verification date.
+
+Validation rules:
+
+1. The independent source must already exist as a curated Reference.
+2. Its `evidenceRole` must be `Replication / evaluation`.
+3. The independent source must link every Algorithm claimed by the replication record.
+4. Every original Reference must exist and link every claimed Algorithm.
+5. The independent source cannot also be listed as an original source.
+6. Duplicate original sources are rejected.
+7. Independence must be described rather than assumed from author names or repository differences.
+8. Do not create a replication record from this project's own experiment; that remains a project Experiment record.
+9. Do not infer replication merely because multiple implementations exist.
+10. Do not infer replication from a second paper that cites, extends, or compares a method without materially reproducing/evaluating it.
+
+The catalog may correctly contain zero replication records. Zero is preferable to fabricated or weakly inferred replication coverage.
+
+---
+
+## 6. Citation graph rules
 
 Reference-to-reference citation edges must be explicit and verified.
 
@@ -99,7 +144,7 @@ Rules:
 
 ---
 
-## 6. Current seeded citation edges
+## 7. Current seeded citation edges
 
 The initial graph intentionally contains only verified edges inside the existing curated source set:
 
@@ -113,7 +158,7 @@ More edges should be added only as they are checked.
 
 ---
 
-## 7. UI requirements
+## 8. UI requirements
 
 The UI must:
 
@@ -122,19 +167,22 @@ The UI must:
 - show evidence dimensions separately;
 - expose Reference evidence roles;
 - expose citation verification metadata on source pages;
+- expose independent replication outcome separately from the `Replicated` coverage stage;
+- show zero independent replication records explicitly when none are curated;
 - keep citation graphs sparse and focused rather than implying completeness;
-- preserve negative, mixed, failed, and inconclusive experiment results.
+- preserve negative, mixed, failed, and inconclusive project experiment results;
+- preserve supporting, contradicting, partial, and inconclusive independent replication outcomes.
 
 ---
 
-## 8. Future extensions
+## 9. Future extensions
 
 The following may be added without changing the core policy:
 
-- first-class independent replication records;
-- claim/passage-level source records;
+- broader independent replication coverage through direct verification;
 - result-to-reference comparison records;
 - historical evidence-stage transitions;
+- Claim wording/provenance history;
 - source retraction/correction metadata;
 - benchmark-quality metadata;
 - statistical-power/reproduction metadata.
