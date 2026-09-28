@@ -8,7 +8,7 @@ import { filterArchiveDocuments, type ArchiveEvidenceFilter, type ArchiveEvidenc
 import type { DocSummary } from "@/lib/content";
 import type { ChapterDiscoveryMetadata, EvidenceAvailability } from "@/lib/discovery";
 import type { EvidenceStage } from "@/lib/evidence-stage";
-import { findPassageMatch } from "@/lib/search-passages";
+import { findPassageMatches } from "@/lib/search-passages";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 type ArchiveExplorerProps = {
@@ -236,8 +236,9 @@ export function ArchiveExplorer({
       <section className="archive-list" aria-live="polite">
         {results.map((doc) => {
           const meta = metadataBySlug.get(doc.slug);
-          const passage = findPassageMatch(doc.passages, query);
-          const href = passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`;
+          const passages = findPassageMatches(doc.passages, query, 2);
+          const primaryPassage = passages[0];
+          const href = primaryPassage?.anchor ? `/archive/${doc.slug}#${primaryPassage.anchor}` : `/archive/${doc.slug}`;
           return (
             <Link key={doc.slug} href={href} className="archive-row">
               <div className={`archive-row-index field-${fieldKey(doc.field)}`}>{doc.number}</div>
@@ -245,7 +246,9 @@ export function ArchiveExplorer({
                 <div className="archive-row-label">{doc.field}</div>
                 <h2>{doc.title}</h2>
                 <p>{doc.summary}</p>
-                {passage && <SearchSnippet heading={passage.heading} text={passage.text} query={query} />}
+                {passages.map((passage) => (
+                  <SearchSnippet key={passage.id} heading={passage.heading} text={passage.snippet} query={query} />
+                ))}
                 <div className="archive-row-headings">
                   {(meta?.algorithms.slice(0, 2).map((item) => item.name) ?? doc.headings.slice(0, 2)).map((label) => <span key={label}>{label}</span>)}
                   {meta?.evidence.slice(0, 2).map((item) => <span key={item} className="evidence-tag">{item}</span>)}
@@ -253,6 +256,7 @@ export function ArchiveExplorer({
                 </div>
               </div>
               <div className="archive-row-meta">
+                {passages.length > 0 && <span>{passages.length === 1 ? "1 ranked passage" : "Top 2 passages"}</span>}
                 <span>{doc.minutes} min</span>
                 <span>{doc.words.toLocaleString()} words</span>
                 <ArrowUpRight size={18} />
