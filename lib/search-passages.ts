@@ -9,6 +9,8 @@ export type SearchPassage = {
 
 export type PassageMatch = SearchPassage & {
   snippet: string;
+  score: number;
+  occurrences: number;
 };
 
 function normalizeQuery(query: string) {
@@ -25,21 +27,64 @@ function snippetAround(text: string, query: string) {
   return `${start > 0 ? "…" : ""}${text.slice(start, end).trim()}${end < text.length ? "…" : ""}`;
 }
 
-/**
- * Finds the first inspectable lexical passage match. Semantic retrieval can be
- * layered on later without replacing this deterministic source-backed path.
- */
-export function findPassageMatch(passages: SearchPassage[], query: string): PassageMatch | null {
-  const needle = normalizeQuery(query);
-  if (!needle) return null;
+function countLiteralOccurrences(text: string, needle: string) {
+  let count = 0;
+  let index = 0;
+  while (index < text.length) {
+    const found = text.indexOf(needle, index);
+    if (found < 0) break;
+    count += 1;
+    index = found + Math.max(needle.length, 1);
+  }
+  return count;
+}
 
-  const exact = passages.find((passage) => passage.text.toLowerCase().includes(needle));
-  if (!exact) return null;
+function lexicalScore(passage: SearchPassage, needle: string) {
+  const text = passage.text.toLowerCase();
+  const heading = passage.heading.toLowerCase();
+  const firstIndex = text.indexOf(needle);
+  if (firstIndex < 0) return null;
+
+  const occurrences = countLiteralOccurrences(text, needle);
+  const headingScore = heading === needle ? 100 : heading.includes(needle) ? 50 : 0;
+  const occurrenceScore = Math.min(30, occurrences * 10);
+  const positionScore = Math.max(0, 20 - Math.floor(firstIndex / 20));
 
   return {
-    ...exact,
-    snippet: snippetAround(exact.text, needle),
+    score: headingScore + occurrenceScore + positionScore,
+    occurrences,
   };
+}
+
+/**
+ * Ranks inspectable literal passage matches without semantic inference.
+ * Ranking uses only heading overlap, literal frequency, phrase position, and
+ * deterministic source order for ties.
+ */
+export function findPassageMatches(passages: SearchPassage[], query: string, limit = Number.POSITIVE_INFINITY): PassageMatch[] {
+  const needle = normalizeQuery(query);
+  if (!needle || limit <= 0) return [];
+
+  return passages
+    .map((passage, sourceIndex) => {
+      const ranked = lexicalScore(passage, needle);
+      if (!ranked) return null;
+      return {
+        ...passage,
+        snippet: snippetAround(passage.text, needle),
+        score: ranked.score,
+        occurrences: ranked.occurrences,
+        sourceIndex,
+      };
+    })
+    .filter((match): match is PassageMatch & { sourceIndex: number } => Boolean(match))
+    .sort((a, b) => b.score - a.score || a.sourceIndex - b.sourceIndex || a.id.localeCompare(b.id))
+    .slice(0, limit)
+    .map(({ sourceIndex: _sourceIndex, ...match }) => match);
+}
+
+export function findPassageMatch(passages: SearchPassage[], query: string): PassageMatch | null {
+  return findPassageMatches(passages, query, 1)[0] ?? null;
 }
 
 export function passageSearchText(passages: SearchPassage[]) {
