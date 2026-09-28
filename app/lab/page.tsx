@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Beaker, BookOpen, CheckCircle2, FlaskConical, TriangleAlert } from "lucide-react";
+import { ArrowRight, Beaker, BookOpen, CheckCircle2, FlaskConical, ScrollText, TriangleAlert } from "lucide-react";
 import { CombinationBuilder } from "@/components/combination-builder";
 import { algorithms, getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { assertValidResearchCombinations } from "@/lib/combination-validation";
 import { getAllDocuments } from "@/lib/content";
+import { referencesForCombination } from "@/lib/references";
 
 export const metadata: Metadata = {
   title: "Lab",
@@ -40,6 +41,7 @@ export default function LabPage() {
           const sourceDocs = combination.sourceChapters
             .map((slug) => documents.find((doc) => doc.slug === slug))
             .filter((doc) => Boolean(doc));
+          const evidence = referencesForCombination(combination.id);
 
           return (
             <article key={combination.id} className="lab-record" id={combination.id}>
@@ -90,6 +92,20 @@ export default function LabPage() {
                   <ol>{combination.experimentPlan.map((step) => <li key={step}>{step}</li>)}</ol>
                 </div>
               </div>
+
+              {evidence.length > 0 && (
+                <section className="lab-evidence-links" aria-label={`References supporting ${combination.title}`}>
+                  <div><ScrollText size={14} /><span>Primary references</span></div>
+                  <div>
+                    {evidence.map((reference) => (
+                      <Link key={reference.id} href={`/references/${reference.id}`}>
+                        <span>{reference.year}</span>
+                        <strong>{reference.title}</strong>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               <footer className="lab-record-footer">
                 <div><BookOpen size={14} /><span>Research sources</span></div>
