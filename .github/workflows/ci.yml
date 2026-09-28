@@ -20,8 +20,59 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Check Markdown links
+        run: npm run check:links
+
       - name: Typecheck
         run: npm run typecheck
 
       - name: Build
         run: npm run build
+
+      - name: Production route smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run start -- -H 127.0.0.1 -p 3000 > /tmp/foundation-algorithms-next.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          READY=0
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail --output /dev/null http://127.0.0.1:3000/; then
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$READY" -ne 1 ]; then
+            echo "Production server did not become ready."
+            cat /tmp/foundation-algorithms-next.log
+            exit 1
+          fi
+
+          routes=(
+            "/"
+            "/archive"
+            "/algorithms"
+            "/algorithms/linucb"
+            "/atlas"
+            "/lab"
+            "/evidence"
+            "/references"
+            "/references/graph"
+            "/references/li-2010-contextual-bandit-news"
+            "/implementations"
+            "/implementations/faiss-hnsw"
+            "/experiments"
+          )
+
+          for route in "${routes[@]}"; do
+            echo "Checking $route"
+            if ! curl --silent --fail --output /dev/null "http://127.0.0.1:3000${route}"; then
+              echo "Route failed: $route"
+              cat /tmp/foundation-algorithms-next.log
+              exit 1
+            fi
+          done
