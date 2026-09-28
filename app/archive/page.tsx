@@ -7,6 +7,24 @@ export const metadata: Metadata = {
   description: "Search and browse every chapter in the Foundation Algorithms research collection.",
 };
 
-export default function ArchivePage() {
-  return <ArchiveExplorer documents={getAllDocuments()} />;
+type ArchiveSearchParams = {
+  q?: string | string[];
+  field?: string | string[];
+  sort?: string | string[];
+};
+
+function first(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function ArchivePage({ searchParams }: { searchParams: Promise<ArchiveSearchParams> }) {
+  const params = await searchParams;
+  return (
+    <ArchiveExplorer
+      documents={getAllDocuments()}
+      initialQuery={first(params.q) ?? ""}
+      initialField={first(params.field)}
+      initialSort={first(params.sort)}
+    />
+  );
 }
