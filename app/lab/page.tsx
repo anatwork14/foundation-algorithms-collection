@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowRight, Beaker, BookOpen, CheckCircle2, FlaskConical, TriangleAlert } from "lucide-react";
 import { CombinationBuilder } from "@/components/combination-builder";
 import { algorithms, getAlgorithm } from "@/lib/algorithm-catalog";
-import { combinations } from "@/lib/combinations";
+import { combinations } from "@/lib/combination-catalog";
+import { assertValidResearchCombinations } from "@/lib/combination-validation";
 import { getAllDocuments } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default function LabPage() {
+  assertValidResearchCombinations(combinations, algorithms);
   const documents = getAllDocuments();
 
   return (
