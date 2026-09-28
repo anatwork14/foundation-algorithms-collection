@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import GithubSlugger from "github-slugger";
+import type { SearchPassage } from "@/lib/search-passages";
 import { fieldForSlug, type ResearchField } from "@/lib/taxonomy";
 
 const DOCS_DIR = path.join(process.cwd(), "docs");
@@ -15,6 +16,7 @@ export type DocSummary = {
   minutes: number;
   headings: string[];
   searchText: string;
+  passages: SearchPassage[];
 };
 
 export type DocRecord = DocSummary & {
@@ -25,6 +27,7 @@ export type DocRecord = DocSummary & {
 
 function cleanInlineMarkdown(value: string) {
   return value
+    .replace(/!\[([^\]]*)\]\([^\)]+\)/g, "$1")
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
     .replace(/[`*_~]/g, "")
     .replace(/<[^>]+>/g, "")
@@ -84,6 +87,67 @@ function tocFrom(content: string) {
   });
 }
 
+function plainPassageText(lines: string[]) {
+  return cleanInlineMarkdown(
+    lines
+      .join(" ")
+      .replace(/^\s*(?:[-*+] |\d+\. |> )/gm, "")
+      .replace(/\\\(|\\\)|\\\[|\\\]/g, " ")
+      .replace(/\s+/g, " "),
+  );
+}
+
+function passagesFrom(content: string): SearchPassage[] {
+  const body = contentWithoutDocumentTitle(content);
+  const slugger = new GithubSlugger();
+  const passages: SearchPassage[] = [];
+  let heading = "Document overview";
+  let anchor = "";
+  let buffer: string[] = [];
+  let inFence = false;
+
+  const flush = () => {
+    if (!buffer.length) return;
+    const text = plainPassageText(buffer);
+    buffer = [];
+    if (text.length < 35) return;
+    passages.push({
+      heading,
+      anchor,
+      text,
+      searchText: text.toLowerCase(),
+    });
+  };
+
+  for (const line of body.split("\n")) {
+    if (/^\s*(```|~~~)/.test(line)) {
+      flush();
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
+    const headingMatch = line.match(/^(#|##|###)\s+(.+)$/);
+    if (headingMatch) {
+      flush();
+      heading = cleanInlineMarkdown(headingMatch[2]);
+      anchor = slugger.slug(heading);
+      continue;
+    }
+
+    if (!line.trim()) {
+      flush();
+      continue;
+    }
+
+    if (/^\s*\|/.test(line) || /^\s*[-:| ]{3,}\s*$/.test(line)) continue;
+    buffer.push(line);
+  }
+  flush();
+
+  return passages.slice(0, 100);
+}
+
 /**
  * The corpus intentionally stores familiar LaTeX delimiters (\(...\) and
  * \[...\]). remark-math expects dollar delimiters, so normalize only the
@@ -109,6 +173,7 @@ function toSummary(filename: string, content: string): DocSummary {
   const words = content.split(/\s+/).filter(Boolean).length;
   const title = titleFrom(content, slug);
   const headings = headingsFrom(content);
+  const passages = passagesFrom(content);
   const numberMatch = slug.match(/^(\d+)/);
   const searchText = cleanInlineMarkdown(
     content
@@ -127,6 +192,7 @@ function toSummary(filename: string, content: string): DocSummary {
     minutes: Math.max(1, Math.ceil(words / 220)),
     headings,
     searchText,
+    passages,
   };
 }
 
