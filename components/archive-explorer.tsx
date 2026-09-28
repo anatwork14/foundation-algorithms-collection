@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Filter, Network, ScrollText, Search, ShieldCheck, Sigma, SlidersHorizontal } from "lucide-react";
+import { SearchSnippet } from "@/components/search-snippet";
 import type { DocSummary } from "@/lib/content";
 import type { ChapterDiscoveryMetadata, EvidenceAvailability } from "@/lib/discovery";
 import type { EvidenceStage } from "@/lib/evidence-profile";
+import { findPassageMatch } from "@/lib/search-passages";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 type SortMode = "number" | "title" | "length";
@@ -259,13 +261,16 @@ export function ArchiveExplorer({
       <section className="archive-list" aria-live="polite">
         {results.map((doc) => {
           const meta = metadataBySlug.get(doc.slug);
+          const passage = findPassageMatch(doc.passages, query);
+          const href = passage?.anchor ? `/archive/${doc.slug}#${passage.anchor}` : `/archive/${doc.slug}`;
           return (
-            <Link key={doc.slug} href={`/archive/${doc.slug}`} className="archive-row">
+            <Link key={doc.slug} href={href} className="archive-row">
               <div className={`archive-row-index field-${fieldKey(doc.field)}`}>{doc.number}</div>
               <div className="archive-row-main">
                 <div className="archive-row-label">{doc.field}</div>
                 <h2>{doc.title}</h2>
                 <p>{doc.summary}</p>
+                {passage && <SearchSnippet heading={passage.heading} text={passage.text} query={query} />}
                 <div className="archive-row-headings">
                   {(meta?.algorithms.slice(0, 2).map((item) => item.name) ?? doc.headings.slice(0, 2)).map((label) => <span key={label}>{label}</span>)}
                   {meta?.evidence.slice(0, 2).map((item) => <span key={item} className="evidence-tag">{item}</span>)}
