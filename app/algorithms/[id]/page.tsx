@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, BookOpen, FlaskConical, GitBranch, Layers3, ShieldCheck } from "lucide-react";
-import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithms";
+import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combinations";
 import { getAllDocuments } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
