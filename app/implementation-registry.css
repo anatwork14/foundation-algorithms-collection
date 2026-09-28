@@ -79,7 +79,7 @@
 
 .implementation-row {
   display: grid;
-  grid-template-columns: 90px minmax(0, 1fr) 150px;
+  grid-template-columns: 90px minmax(0, 1fr) 170px;
   gap: var(--space-5);
   padding: var(--space-6) var(--space-2);
   border-bottom: 1px solid var(--line);
@@ -136,12 +136,22 @@
 
 .implementation-row-meta {
   display: flex;
-  justify-content: flex-end;
-  align-items: start;
-  gap: var(--space-2);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 5px;
   color: var(--muted-2);
   font-size: var(--text-label);
   text-align: right;
+}
+
+.implementation-row-meta code {
+  color: var(--ink);
+  font-size: inherit;
+}
+
+.implementation-row-meta svg {
+  margin-top: var(--space-1);
 }
 
 .implementation-detail-page {
@@ -245,7 +255,7 @@
   .implementation-page { padding-top: var(--space-7); }
   .implementation-controls { grid-template-columns: 1fr; }
   .implementation-row { grid-template-columns: 60px minmax(0, 1fr); gap: var(--space-3); }
-  .implementation-row-meta { grid-column: 2; justify-content: flex-start; text-align: left; }
+  .implementation-row-meta { grid-column: 2; align-items: flex-start; justify-content: flex-start; text-align: left; }
   .implementation-detail-hero { padding-top: var(--space-6); padding-bottom: var(--space-7); }
   .implementation-detail-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
 }
