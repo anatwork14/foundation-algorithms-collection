@@ -32,7 +32,7 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
       <header className="implementation-hero">
         <span className="eyebrow"><Code2 size={13} /> Implementation registry</span>
         <h1>Move from theory to inspectable code.</h1>
-        <p>Curated repositories connect algorithm entities to maintained implementations, source paths, interfaces, license metadata, and verification dates.</p>
+        <p>Curated repositories connect algorithm entities to immutable source snapshots, interfaces, license metadata, and exact verification revisions.</p>
         <EvidenceNav current="implementations" />
       </header>
 
@@ -62,6 +62,7 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
               </div>
             </div>
             <div className="implementation-row-meta">
+              <span>{record.verifiedRef} · <code>{record.verifiedCommit.slice(0, 12)}</code></span>
               <span>Verified {record.lastVerified}</span>
               <ArrowRight size={15} />
             </div>
