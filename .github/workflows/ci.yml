@@ -64,6 +64,7 @@ jobs:
             "/atlas"
             "/lab"
             "/evidence"
+            "/passages"
             "/references"
             "/references/graph"
             "/references/li-2010-contextual-bandit-news"
