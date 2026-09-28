@@ -1,0 +1,64 @@
+/* Cross-surface provenance links layered on top of research-evidence.css. */
+
+.chapter-reference-card > a span {
+  min-width: 36px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+}
+
+.lab-evidence-links {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-top: 1px solid var(--line);
+}
+
+.lab-evidence-links > div:first-child {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--muted-2);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.lab-evidence-links > div:last-child {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.lab-evidence-links a {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-2) 0;
+  color: var(--muted);
+}
+
+.lab-evidence-links a span {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-label);
+  color: var(--muted-2);
+}
+
+.lab-evidence-links a strong {
+  color: var(--ink);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.lab-evidence-links a:hover strong {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .lab-evidence-links {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
