@@ -20,6 +20,8 @@ Markdown source of truth
       ↓
 Next.js Archive + chapter reader
       ↓
+Source-backed passage index
+      ↓
 Curated Algorithm entities
       ↓
 Typed relationship Atlas
@@ -29,7 +31,8 @@ Structured Combination Lab
 Unified Evidence hub
       ├── Primary references + verified citation graph
       ├── Implementation registry
-      └── Experiment registry
+      ├── Experiment registry
+      └── Passage provenance
       ↓
 Descriptive evidence profiles + structural discovery
 ```
@@ -39,13 +42,13 @@ Descriptive evidence profiles + structural discovery
 | Phase | Status |
 |---|---|
 | 0 — Research corpus | ✅ Established |
-| 1 — Next.js archive foundation | ✅ Established |
+| 1 — Next.js archive foundation | ✅ Established with passage-level lexical discovery |
 | 2 — Design-system consolidation | 🟡 Implemented; browser/accessibility cleanup open |
 | 3 — Algorithm-level indexing | 🟡 Working first version with evidence profiles |
 | 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
 | 5 — Lab | 🟡 Working first version with structured seed hypotheses |
-| 6 — Research evidence layer | 🟡 Working first version: sources + citation provenance + code + planned experiments |
-| 7 — Advanced discovery | 🟡 Structural/evidence-stage discovery implemented; semantic retrieval intentionally deferred |
+| 6 — Research evidence layer | 🟡 Working first version: sources + citation provenance + code + experiments + passages |
+| 7 — Advanced discovery | 🟡 Structural/evidence/passage discovery implemented; semantic retrieval intentionally deferred |
 
 ---
 
@@ -69,7 +72,7 @@ Descriptive evidence profiles + structural discovery
 - [ ] Add more executable/reference implementations.
 - [ ] Add benchmark/dataset recommendations by family.
 - [ ] Add explicit maturity labels into Markdown research itself.
-- [ ] Add explicit claim/passage identifiers where heading-level provenance is insufficient.
+- [ ] Add manually curated claim identifiers where automatic passage segmentation is too broad.
 
 ---
 
@@ -83,6 +86,10 @@ Descriptive evidence profiles + structural discovery
 - [x] GitHub-compatible heading slugs.
 - [x] `#`, `##`, and `###` research sections indexed after document title.
 - [x] Render-time normalization of `\(...\)` / `\[...\]` outside fenced code.
+- [x] Compact lexical passage segmentation derived from Markdown prose.
+- [x] Deterministic passage IDs derived from section + content.
+- [x] Exact Markdown source-line ranges retained per passage.
+- [x] Passage anchors validated against live chapter TOCs during research-integrity checks.
 
 ## Home / Archive
 
@@ -103,11 +110,13 @@ Descriptive evidence profiles + structural discovery
 - [x] Algorithm evidence-stage filter derived from linked evidence records.
 - [x] Archive search also matches curated Algorithm names, families, and evidence stages.
 - [x] Archive rows expose linked Algorithm/evidence metadata and represented evidence stages.
+- [x] Matching passage snippets/highlighting for lexical body matches.
+- [x] Passage body matches link directly to the matching chapter section.
 
 ### Archive still needed
 
-- [ ] Matching-passage snippets/highlighting.
 - [ ] Decide whether a separate conceptual-maturity filter is useful at chapter level; do not conflate it with evidence stage.
+- [ ] Passage-result ranking beyond deterministic first lexical match.
 
 ## Chapter reader
 
@@ -124,10 +133,11 @@ Descriptive evidence profiles + structural discovery
 - [x] Lists, blockquotes, links, code, and research tables.
 - [x] KaTeX mathematics and local equation/table overflow handling.
 - [x] Algorithm → heading-level chapter provenance using live TOC anchors.
+- [x] Passage-level provenance records with stable IDs, section anchors, and Markdown line ranges.
 
 ### Reader still needed
 
-- [ ] Claim/paragraph-level provenance where a heading is too broad.
+- [ ] Curated claim → passage/reference assertions where automatic passage units are still too broad.
 - [ ] Browser acceptance for extreme equations/tables.
 - [ ] Math accessibility review.
 
@@ -145,10 +155,13 @@ Descriptive evidence profiles + structural discovery
 - [x] Dedicated Reference search/type/evidence-role filters.
 - [x] Dedicated Implementation search/maturity filter.
 - [x] Dedicated Experiment search/status filter.
+- [x] Passage-level body snippets in Home, Archive, and global chapter results.
+- [x] Global chapter body results link to the matching section anchor.
+- [x] `/passages` searchable provenance index with chapter/field/source-line context.
 
 ### Search still needed
 
-- [ ] Passage-level result snippets.
+- [ ] Passage relevance ranking and multiple passage matches per chapter.
 - [ ] Optional semantic retrieval after structural search/evidence coverage matures.
 
 ---
@@ -173,8 +186,8 @@ Descriptive evidence profiles + structural discovery
 - [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
 - [x] Header and application icon use canonical SVG.
 - [x] Primary product navigation consolidated to Archive / Algorithms / Atlas / Lab / Evidence.
-- [x] Evidence sub-navigation standardized across Overview / References / Implementations / Experiments.
-- [x] Evidence-profile and citation-provenance surfaces use the same restrained research UI system.
+- [x] Evidence sub-navigation standardized across Overview / References / Implementations / Experiments / Passages.
+- [x] Evidence-profile, citation-provenance, and passage-provenance surfaces use the restrained research UI system.
 
 ## Still needed
 
@@ -236,7 +249,7 @@ Descriptive evidence profiles + structural discovery
 
 ## Still needed
 
-- [ ] Explicit claim/paragraph-level source linkage.
+- [ ] Curated Algorithm claim → passage/reference linkage.
 - [ ] Explicit variant records rather than relation-only variants.
 - [ ] Broader curated coverage across all Markdown algorithms.
 - [ ] First-class independent-replication records.
@@ -333,10 +346,11 @@ Descriptive evidence profiles + structural discovery
 ## Unified evidence surface
 
 - [x] `/evidence` overview route.
-- [x] Evidence model visually distinguishes conceptual knowledge, primary sources, implementations, and experiments.
-- [x] Shared Evidence sub-navigation across Overview / References / Implementations / Experiments.
+- [x] Evidence model visually distinguishes conceptual knowledge, primary sources, implementations, experiments, and source passages.
+- [x] Shared Evidence sub-navigation across Overview / References / Implementations / Experiments / Passages.
 - [x] Evidence sub-surfaces remain separately searchable and inspectable.
 - [x] Evidence overview shows archive-stage coverage distribution without presenting it as a quality score.
+- [x] `/passages` exposes inspectable Markdown-derived provenance units.
 
 ## References
 
@@ -360,7 +374,7 @@ Descriptive evidence profiles + structural discovery
 - [x] References included in global command search.
 - [x] Initial verified in-corpus citation edges seeded conservatively.
 - [ ] Broader primary-reference coverage across all entities.
-- [ ] Exact claim-level source linkage.
+- [ ] Curated reference → passage/claim linkage.
 - [ ] Broader citation-graph coverage through direct source verification.
 - [ ] Retraction/correction/version metadata where relevant.
 
@@ -414,7 +428,9 @@ Descriptive evidence profiles + structural discovery
 - [x] Heading-level Algorithm → Markdown provenance is generated from live TOC anchors.
 - [x] Evidence stage is derived from actual linked records rather than manually scored.
 - [x] Evidence dimensions remain independent instead of being collapsed into a numeric score.
-- [ ] Claim-level/source-passage provenance model.
+- [x] Source-passage provenance model with deterministic IDs, section anchors, and source-line ranges.
+- [x] Passage IDs/source ranges participate in build-time integrity validation.
+- [ ] Curated claim → passage/reference assertion model.
 - [ ] First-class independent-replication record model.
 
 ## Evidence history still needed
@@ -436,10 +452,12 @@ Descriptive evidence profiles + structural discovery
 - [x] Algorithm index filtering by conceptual maturity and evidence stage separately.
 - [x] Shareable URL-backed Archive discovery state.
 - [x] Global search can match/display Algorithm evidence stage.
+- [x] Passage-level lexical snippets and section links.
+- [x] Dedicated passage provenance search/index.
 
 ## Still needed
 
-- [ ] Passage-level results.
+- [ ] Multi-passage ranking per chapter.
 - [ ] Semantic retrieval with inspectable evidence.
 - [ ] Related-algorithm suggestions beyond curated relationships.
 - [ ] Saved research trails.
@@ -454,31 +472,34 @@ Descriptive evidence profiles + structural discovery
 
 - [x] GitHub Actions validation workflow.
 - [x] Dependency installation step.
+- [x] Markdown local-link integrity check.
 - [x] TypeScript typecheck.
 - [x] Next.js production build.
+- [x] Production-server route smoke tests for core index/detail/provenance routes.
 - [x] Algorithm validation participates in static build.
 - [x] Combination validation participates in Lab static build.
 - [x] Reference validation participates in Reference static build.
 - [x] Citation-edge verification metadata participates in Reference validation.
 - [x] Implementation validation participates in Implementation static build.
 - [x] Experiment validation participates in Experiment static build.
+- [x] Passage ID/source-line/TOC validation participates in research-integrity checks.
+- [x] Passage search unit tests cover blank queries, case-insensitive matching, deterministic selection, and snippet cropping.
 - [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
 - [x] Complete Evidence + Archive discovery + heading-level provenance tranche passes typecheck and production build (GitHub Actions run 118).
 - [x] Evidence-profile + citation-provenance + Algorithm/Archive evidence-stage discovery code passes typecheck and production build (GitHub Actions run 153).
+- [x] Passage discovery/provenance + dedicated search tests + `/passages` production smoke route pass GitHub Actions run 183.
 
 ## Still needed
 
 - [ ] ESLint/static lint workflow.
-- [ ] Content-parser unit tests.
+- [ ] Content-parser unit tests beyond passage search behavior.
 - [ ] Algorithm/Combination/Reference/Implementation/Experiment validation unit tests.
 - [ ] Citation graph validation unit tests.
 - [ ] Evidence-profile derivation tests.
 - [ ] Math-delimiter normalization tests.
 - [ ] Heading/TOC slug tests.
-- [ ] Search/filter tests.
-- [ ] Route smoke tests.
-- [ ] Broken-link validation.
-- [ ] Markdown/reference validation.
+- [ ] Archive structural-filter tests.
+- [ ] Markdown/reference external-link validation policy.
 - [ ] Accessibility CI.
 - [ ] Screenshot/visual regression tests.
 - [ ] Browser acceptance matrix.
@@ -596,15 +617,25 @@ Descriptive evidence profiles + structural discovery
 - added `EVIDENCE_PROFILE_POLICY.md` and updated evidence authoring contract;
 - code checkpoint passes TypeScript and Next.js production build in GitHub Actions run 153.
 
+## 2026-09-28 — Passage discovery / CI tranche
+
+- added Markdown-derived lexical passage records with deterministic content IDs, live section anchors, and exact source-line ranges;
+- added passage-index validation against chapter TOCs and source-line invariants;
+- Home, Archive, and global chapter search now expose passage-level context and direct section navigation;
+- added `/passages` provenance index with literal search, field filtering, passage IDs, source ranges, section links, and GitHub source-line links;
+- added dedicated passage-search tests using Node's built-in test runner;
+- added Markdown local-link integrity checks and real production-server route smoke tests to CI;
+- full passage/search/provenance route checkpoint passes GitHub Actions run 183.
+
 ---
 
 ## Immediate next engineering work
 
-1. Add stronger CI checks for route/data/internal-link consistency without duplicating the existing validators.
-2. Add passage-level search snippets before semantic retrieval.
+1. Add curated claim → passage/reference assertions on top of the automatic passage units.
+2. Add content-parser, evidence-profile, citation-validator, entity-validator, math-normalization, and Archive-filter unit tests.
 3. Expand primary-reference, citation-edge, and implementation coverage through direct verification.
-4. Add explicit claim/paragraph provenance where heading-level anchors are insufficient.
-5. Add tests for content parsing, search/filter behavior, evidence-profile derivation, citation validation, heading math normalization, and entity validators.
+4. Add multi-passage lexical ranking before considering semantic retrieval.
+5. Add explicit release/version/commit pinning to implementation records.
 6. Connect this repository to a preview hosting project, then run phone/tablet/desktop and light/dark browser acceptance.
 7. Perform keyboard, contrast, screen-reader, table, and math accessibility acceptance.
 8. Clean obsolete legacy CSS only after rendered browser review.
