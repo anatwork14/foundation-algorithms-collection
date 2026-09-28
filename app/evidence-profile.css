@@ -4,6 +4,20 @@
   grid-template-columns: minmax(0, 1fr) auto auto;
 }
 
+.algorithm-evidence-controls {
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+}
+
+.entity-tags .entity-evidence-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-style: dashed;
+  border-color: var(--line-strong);
+  color: var(--muted);
+  background: transparent;
+}
+
 .reference-graph-link {
   display: inline-flex;
   align-items: center;
@@ -165,17 +179,22 @@
 }
 
 @media (max-width: 1100px) {
+  .algorithm-evidence-controls { grid-template-columns: minmax(0, 1fr) 1fr 1fr; }
+  .algorithm-evidence-controls .entity-search { grid-column: 1 / -1; }
   .evidence-coverage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 900px) {
   .reference-controls { grid-template-columns: 1fr 1fr; }
   .reference-controls label { grid-column: 1 / -1; }
+  .algorithm-evidence-controls { grid-template-columns: 1fr 1fr; }
   .evidence-coverage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
-  .reference-controls { grid-template-columns: 1fr; }
-  .reference-controls label { grid-column: auto; }
+  .reference-controls,
+  .algorithm-evidence-controls { grid-template-columns: 1fr; }
+  .reference-controls label,
+  .algorithm-evidence-controls .entity-search { grid-column: auto; }
   .evidence-coverage-grid { grid-template-columns: 1fr; }
 }
