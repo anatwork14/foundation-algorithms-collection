@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, FlaskConical, GitBranch, Layers3, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, FlaskConical, GitBranch, Layers3, ScrollText, ShieldCheck } from "lucide-react";
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
+import { referencesForAlgorithm } from "@/lib/references";
 import { fieldKey } from "@/lib/taxonomy";
 
 export function generateStaticParams() {
@@ -34,6 +35,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
       .map((relation) => ({ algorithm: candidate, relation })))
     .filter((item) => !related.some((direct) => direct.algorithm.id === item.algorithm.id));
   const labMatches = combinations.filter((combination) => combination.algorithmIds.includes(algorithm.id));
+  const primaryReferences = referencesForAlgorithm(algorithm.id);
 
   return (
     <main className="algorithm-detail-page">
@@ -58,6 +60,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Maturity</span><strong>{algorithm.maturity}</strong></div>
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
+          <div><span>References</span><strong>{primaryReferences.length}</strong></div>
           <div><span>Lab hypotheses</span><strong>{labMatches.length}</strong></div>
           <div><span>Source chapters</span><strong>{algorithm.chapterSlugs.length}</strong></div>
         </aside>
@@ -140,6 +143,19 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
             ))}
           </div>
 
+          {primaryReferences.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><ScrollText size={14} /> Primary references</div>
+              {primaryReferences.map((reference) => (
+                <Link key={reference.id} href={`/references/${reference.id}`} className="entity-reference-link">
+                  <span>{reference.kind} · {reference.year}</span>
+                  <strong>{reference.title}</strong>
+                  <small>{reference.venue ?? reference.authors[0]}</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
           {labMatches.length > 0 && (
             <div className="entity-side-card">
               <div className="entity-side-title"><FlaskConical size={14} /> Lab hypotheses</div>
@@ -172,7 +188,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus; the linked research chapters remain the source of truth.</p>
+            <p>Entity metadata indexes the Markdown corpus; linked primary references and source chapters provide the evidence trail.</p>
           </div>
         </aside>
       </div>
