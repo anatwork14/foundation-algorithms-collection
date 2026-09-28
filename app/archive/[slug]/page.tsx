@@ -7,6 +7,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, Sigma } from "lucide-react";
+import { ChapterToc } from "@/components/chapter-toc";
 import { algorithmsForChapter } from "@/lib/algorithms";
 import { getAllDocuments, getDocument } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
@@ -94,13 +95,7 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
         <aside className="detail-aside">
           <div className="toc-card">
             <div className="toc-title">On this page</div>
-            <nav>
-              {doc.toc.slice(0, 30).map((item, index) => (
-                <a key={`${item.id}-${index}`} href={`#${item.id}`} className={item.level === 3 ? "toc-nested" : ""}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+            <ChapterToc items={doc.toc} />
           </div>
 
           {chapterAlgorithms.length > 0 && (
