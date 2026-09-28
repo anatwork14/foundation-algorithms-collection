@@ -6,7 +6,7 @@ See also [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md) for the de
 
 The governing rule is simple:
 
-> **Concepts, sources, implementations, hypotheses, and empirical results are different kinds of knowledge. Never collapse them into one record.**
+> **Concepts, sources, claims, implementations, hypotheses, and empirical results are different kinds of knowledge. Never collapse them into one record.**
 
 The website deliberately separates:
 
@@ -15,7 +15,9 @@ Algorithm / concept
       ↓
 Primary reference
       ↓
-Implementation
+Curated claim ↔ Markdown passage
+      ↓
+Implementation snapshot
       ↓
 Lab hypothesis
       ↓
@@ -61,7 +63,7 @@ Algorithm pages automatically resolve heading-level source sections from the liv
 
 This is a **navigation/provenance aid**, not claim-level citation proof.
 
-If an important algorithm has no matching heading, improve the Markdown structure or add a future explicit passage record rather than inventing an anchor.
+When a statement needs stronger provenance, add a curated Claim record that resolves to one passage and one or more explicit References. Do not infer a claim citation from a heading match alone.
 
 ### Evidence profile
 
@@ -149,13 +151,41 @@ Run/build validation must reject broken Algorithm, Combination, chapter, and cit
 
 ---
 
-## 3. Implementation records
+## 3. Claim records and passage provenance
+
+Claims live in `lib/claims.ts`. Passage records are generated from canonical Markdown and exposed through `/passages`.
+
+Use a Claim record only for an important statement that benefits from explicit inspectable provenance. A Claim must contain:
+
+- a stable lowercase ID;
+- a controlled kind (`Mechanism`, `Assumption`, `Guarantee`, `Standard`, or `Empirical`);
+- a concise statement that does not overstate the source;
+- one or more linked Algorithm IDs;
+- one canonical chapter slug;
+- a `passageContains` literal that resolves to exactly one generated passage;
+- one or more explicit Reference IDs;
+- a note describing the intended scope/limitation of the claim.
+
+Rules:
+
+1. Do not auto-generate Claim records from every paragraph.
+2. `passageContains` must be specific enough to match exactly one passage. Build validation rejects zero or ambiguous matches.
+3. Every linked Reference must overlap the Claim's Algorithms and source chapter rather than merely being topically related.
+4. Prefer primary method papers or normative standards for mechanism/standard claims.
+5. The Claim statement should be no stronger than both the Markdown passage and linked source support.
+6. Changing the Markdown can intentionally break Claim validation; repair the selector only after reviewing whether the claim still maps to the intended passage.
+
+The generated passage ID and source-line range are provenance coordinates. They are not a substitute for the Claim's human-curated source interpretation.
+
+---
+
+## 4. Implementation records
 
 Implementations live in `lib/implementations.ts`.
 
 An implementation record says:
 
-> **There is inspectable code implementing or operationalizing this mechanism.**
+> **There is inspectable code implementing or operationalizing this mechanism at a specific verified revision.**
 
 It does not say:
 
@@ -173,22 +203,30 @@ Record:
 - license metadata exactly/conservatively;
 - implementation maturity;
 - short implementation-specific notes;
-- direct source paths when available;
+- `verifiedRef` describing the branch/ref inspected;
+- the full 40-character `verifiedCommit` Git SHA;
+- source paths pinned to that exact commit;
 - verification date.
 
 ### License rule
 
 Do not infer a license from memory. If repository metadata is unclear, store that uncertainty explicitly rather than assigning a familiar license.
 
+### Immutable source rule
+
+Every implementation source URL must contain the declared `verifiedCommit`. Do not store floating `blob/main`, `tree/main`, `blob/master`, or equivalent source links as evidence paths.
+
+The repository homepage may remain a moving project link; the evidence source paths may not.
+
 ### Freshness rule
 
-`lastVerified` means the record was checked on that date. It is not a guarantee that the external repository remains unchanged afterward.
+`lastVerified` records when the pinned revision and metadata were inspected. The exact commit preserves reproducibility even if the upstream branch moves later.
 
-Future work should add explicit release/commit pinning for reproducibility.
+Re-verifying a project should create an explicit new pinned revision in the record, not silently reinterpret an old verification date as applying to new upstream code.
 
 ---
 
-## 4. Lab hypotheses
+## 5. Lab hypotheses
 
 Lab records live in the combination catalogs.
 
@@ -211,7 +249,7 @@ Use conservative status labels. A plausible idea remains a hypothesis until evid
 
 ---
 
-## 5. Experiment records
+## 6. Experiment records
 
 Experiments live in `lib/experiments.ts`.
 
@@ -260,7 +298,7 @@ Only attach results produced by the specific recorded experiment or a clearly id
 
 ---
 
-## 6. Artifact handling
+## 7. Artifact handling
 
 Experiment artifacts may include:
 
@@ -278,7 +316,7 @@ If an artifact is planned but does not exist, keep the slot explicitly pending. 
 
 ---
 
-## 7. Validation
+## 8. Validation
 
 Current build-time validators cover:
 
@@ -286,8 +324,12 @@ Current build-time validators cover:
 - Combination component IDs and required fields;
 - Reference roles and links to Algorithms, combinations, and chapters;
 - Reference citation targets, duplicate/self edges, verification URL, verification note, and verification date;
-- Implementation links and required repository metadata;
-- Experiment links to Algorithms and combinations and required protocol fields.
+- Claim IDs, Algorithm/Reference/chapter links, and unique passage resolution;
+- Passage IDs, source-line ranges, and live TOC anchors;
+- Implementation links, immutable commit pins, and required repository metadata;
+- Experiment links to Algorithms and combinations and required protocol/result fields.
+
+The research utility test suite additionally exercises passage search, Claim resolution, evidence-stage derivation, Markdown heading/math processing, citation validation, entity graph validation, and implementation/experiment provenance rules.
 
 A production build is therefore also a structural research-data validation pass.
 
@@ -303,7 +345,7 @@ Validation does **not** prove scientific correctness. Human review remains requi
 
 ---
 
-## 8. Naming and IDs
+## 9. Naming and IDs
 
 Use stable lowercase kebab-case IDs.
 
@@ -321,7 +363,7 @@ Avoid encoding temporary UI position, maturity, or status into IDs.
 
 ---
 
-## 9. Evidence quality ladder
+## 10. Evidence quality ladder
 
 A useful mental model is:
 
@@ -332,7 +374,9 @@ Structured hypothesis
         ↓
 Primary literature / standard
         ↓
-Inspectable implementation
+Curated claim + source passage
+        ↓
+Inspectable pinned implementation
         ↓
 Predeclared experiment protocol
         ↓
@@ -347,7 +391,7 @@ Do not visually or textually present lower rungs as if they were higher rungs.
 
 ---
 
-## 10. Before committing a new evidence record
+## 11. Before committing a new evidence record
 
 Check:
 
@@ -356,10 +400,13 @@ Check:
 - [ ] Is the source/repository URL verified?
 - [ ] Does every Reference have the correct evidence role?
 - [ ] If adding a citation edge, did I record a verification URL, note, and checked date?
+- [ ] If adding a Claim, does its selector resolve to exactly one passage and do all References directly support its scope?
+- [ ] If adding an Implementation, are all source links pinned to its full verified commit SHA?
 - [ ] Are uncertainty and limitations preserved?
 - [ ] Is the wording descriptive rather than promotional?
 - [ ] For an experiment, were success criteria defined before the result?
 - [ ] Are negative/inconclusive outcomes retained?
+- [ ] Does `npm run test:research` pass?
 - [ ] Does `npm run typecheck` pass?
 - [ ] Does `npm run build` pass?
 
