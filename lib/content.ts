@@ -79,6 +79,26 @@ function tocFrom(content: string) {
   });
 }
 
+/**
+ * The corpus intentionally stores familiar LaTeX delimiters (\(...\) and
+ * \[...\]). remark-math expects dollar delimiters, so normalize only the
+ * rendered copy and leave fenced code blocks untouched. The Markdown source
+ * on GitHub therefore remains canonical and human-friendly.
+ */
+function normalizeMathForRendering(markdown: string) {
+  return markdown
+    .split(/(```[\s\S]*?```|~~~[\s\S]*?~~~)/g)
+    .map((part, index) => {
+      if (index % 2 === 1) return part;
+      return part
+        .replace(/\\\[/g, () => "$$")
+        .replace(/\\\]/g, () => "$$")
+        .replace(/\\\(/g, () => "$")
+        .replace(/\\\)/g, () => "$");
+    })
+    .join("");
+}
+
 function toSummary(filename: string, content: string): DocSummary {
   const slug = filename.replace(/\.md$/, "");
   const words = content.split(/\s+/).filter(Boolean).length;
@@ -125,12 +145,12 @@ export function getDocument(slug: string): DocRecord | null {
 
   const content = fs.readFileSync(file, "utf8");
   const summary = toSummary(`${safeSlug}.md`, content);
-  const body = content.replace(/^#\s+.+\n+/, "");
+  const rawBody = content.replace(/^#\s+.+\n+/, "");
 
   return {
     ...summary,
     content,
-    body,
-    toc: tocFrom(body),
+    body: normalizeMathForRendering(rawBody),
+    toc: tocFrom(rawBody),
   };
 }
