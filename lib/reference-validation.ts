@@ -1,6 +1,14 @@
 import type { AlgorithmEntity } from "@/lib/algorithms";
 import type { ResearchCombination } from "@/lib/combinations";
-import type { ReferenceEntity } from "@/lib/references";
+import type { ReferenceEntity, ReferenceEvidenceRole } from "@/lib/references";
+
+const evidenceRoles = new Set<ReferenceEvidenceRole>([
+  "Primary method",
+  "Primary extension",
+  "Normative standard",
+  "Survey / synthesis",
+  "Replication / evaluation",
+]);
 
 export function validateReferences(
   references: ReferenceEntity[],
@@ -21,6 +29,7 @@ export function validateReferences(
     if (!reference.title.trim()) errors.push(`${reference.id}: title is required`);
     if (!reference.authors.length) errors.push(`${reference.id}: authors are required`);
     if (!Number.isInteger(reference.year) || reference.year < 1900 || reference.year > 2100) errors.push(`${reference.id}: valid publication year is required`);
+    if (!evidenceRoles.has(reference.evidenceRole)) errors.push(`${reference.id}: invalid evidence role ${reference.evidenceRole}`);
     if (!/^https:\/\//.test(reference.url)) errors.push(`${reference.id}: HTTPS URL is required`);
     if (!reference.algorithmIds.length && !reference.combinationIds.length) errors.push(`${reference.id}: must link to an algorithm or combination`);
     for (const id of reference.algorithmIds) if (!algorithmIds.has(id)) errors.push(`${reference.id}: unknown algorithm ${id}`);
@@ -30,7 +39,18 @@ export function validateReferences(
     if (!reference.summary.trim()) errors.push(`${reference.id}: summary is required`);
     if (!reference.significance.trim()) errors.push(`${reference.id}: significance is required`);
     if (!reference.tags.length) errors.push(`${reference.id}: at least one tag is required`);
+
+    const uniqueCitations = new Set(reference.citesReferenceIds);
+    if (uniqueCitations.size !== reference.citesReferenceIds.length) errors.push(`${reference.id}: duplicate cited reference id`);
+    if (reference.citesReferenceIds.includes(reference.id)) errors.push(`${reference.id}: reference cannot cite itself`);
   }
+
+  for (const reference of references) {
+    for (const citedId of reference.citesReferenceIds) {
+      if (!ids.has(citedId)) errors.push(`${reference.id}: unknown cited reference ${citedId}`);
+    }
+  }
+
   return errors;
 }
 
