@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Layers3, ScrollText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Beaker, BookOpen, Code2, FlaskConical, GitBranch, Layers3, ScrollText, ShieldCheck } from "lucide-react";
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
+import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
 import { fieldKey } from "@/lib/taxonomy";
@@ -38,6 +39,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
   const labMatches = combinations.filter((combination) => combination.algorithmIds.includes(algorithm.id));
   const primaryReferences = referencesForAlgorithm(algorithm.id);
   const implementationRecords = implementationsForAlgorithm(algorithm.id);
+  const experimentRecords = experimentsForAlgorithm(algorithm.id);
 
   return (
     <main className="algorithm-detail-page">
@@ -64,6 +66,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
           <div><span>References</span><strong>{primaryReferences.length}</strong></div>
           <div><span>Implementations</span><strong>{implementationRecords.length}</strong></div>
+          <div><span>Experiments</span><strong>{experimentRecords.length}</strong></div>
           <div><span>Lab hypotheses</span><strong>{labMatches.length}</strong></div>
           <div><span>Source chapters</span><strong>{algorithm.chapterSlugs.length}</strong></div>
         </aside>
@@ -172,6 +175,19 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
             </div>
           )}
 
+          {experimentRecords.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><Beaker size={14} /> Experiments</div>
+              {experimentRecords.map((experiment) => (
+                <Link key={experiment.id} href={`/experiments/${experiment.id}`} className="algorithm-experiment-link">
+                  <span>{experiment.status}</span>
+                  <strong>{experiment.title}</strong>
+                  <small>{experiment.metrics.length} metrics · {experiment.lastUpdated}</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
           {labMatches.length > 0 && (
             <div className="entity-side-card">
               <div className="entity-side-title"><FlaskConical size={14} /> Lab hypotheses</div>
@@ -204,7 +220,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus; linked primary references, source chapters, and implementation records provide the evidence trail.</p>
+            <p>Entity metadata indexes the Markdown corpus; linked references, implementations, experiments, and source chapters provide the evidence trail.</p>
           </div>
         </aside>
       </div>
