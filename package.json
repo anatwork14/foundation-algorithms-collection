@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check:links": "node scripts/check-markdown-links.mjs",
+    "check:source": "node scripts/check-source-hygiene.mjs",
     "test:research": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
