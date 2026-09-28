@@ -5,571 +5,13 @@
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)
 
-This file tracks what has been completed, what is currently established but still needs refinement, and what remains to be built.
-
-The checkboxes reflect implementation state in the repository, not aspirational design intent.
+This file tracks implementation state in the repository. A checked item means the implementation exists; visual, accessibility, or production acceptance is tracked separately and is not implied by code being present.
 
 ---
 
-## 1. Overall status
+## 1. Current checkpoint
 
-### Completed foundations
-
-- [x] General foundational algorithm research collection established.
-- [x] AI / ML research branch added.
-- [x] Quantum computing research branch added.
-- [x] Cybersecurity research branch added.
-- [x] Cross-field research combination map added.
-- [x] Emerging-algorithms research watchlist added.
-- [x] Next.js research-hub application created.
-- [x] Markdown corpus used as the application content source.
-- [x] Home research-discovery experience implemented.
-- [x] Archive browsing implemented.
-- [x] Chapter rendering implemented.
-- [x] Full-corpus local search implemented.
-- [x] Global command search implemented.
-- [x] Field filtering implemented.
-- [x] Related research navigation implemented.
-- [x] Previous/next chapter navigation implemented.
-- [x] Light/dark system styling exists.
-- [x] Responsive layout exists.
-- [x] GitHub source provenance links exist.
-- [x] CI typecheck/build workflow exists and has passed.
-- [x] Product/UI rationale documented in `DESIGN.md`.
-- [x] Intended development architecture documented in `DEVELOPMENT_SPEC.md`.
-- [x] Progress tracking established in this file.
-
-### Major work still ahead
-
-- [ ] Typography/design-system consolidation.
-- [ ] Algorithm-level entity indexing.
-- [ ] Proper mathematical rendering.
-- [ ] Research-quality comparison table system.
-- [ ] Atlas as a real interactive research surface.
-- [ ] Lab as a real research-hypothesis/experiment surface.
-- [ ] Citation/reference entities and citation graph.
-- [ ] Experiment/evidence records.
-- [ ] Maturity/evidence metadata across algorithms.
-- [ ] Diff-aware research history.
-- [ ] Accessibility acceptance pass.
-- [ ] Visual regression/browser acceptance pass.
-- [ ] Public production deployment and documented URL.
-
----
-
-# Phase 0 — Research corpus foundation
-
-**Goal:** Build the core research archive itself.
-
-## General foundations
-
-- [x] `00-research-framework.md`
-- [x] `01-core-problem-solving-paradigms.md`
-- [x] `02-search-graphs-ordering-indexing.md`
-- [x] `03-optimization-randomization-constraints.md`
-- [x] `04-state-streaming-dataflow-systems.md`
-- [x] `05-probabilistic-control-reinforcement-learning.md`
-- [x] `06-representation-similarity-compression-parsing.md`
-- [x] `07-distributed-coordination-reliability.md`
-- [x] `08-bandits-contextual-bandits-linucb.md`
-- [x] `09-combination-research-map.md`
-
-## AI / ML
-
-- [x] `10-ai-optimization-learning-theory.md`
-- [x] `11-neural-architectures-attention-ssm-moe-gnn.md`
-- [x] `12-generative-models-diffusion-flow-autoregressive.md`
-- [x] `13-ai-reasoning-alignment-agents.md`
-- [x] `14-uncertainty-causal-active-continual-meta-learning.md`
-
-## Quantum computing
-
-- [x] `20-quantum-computation-foundations.md`
-- [x] `21-quantum-search-fourier-phase-estimation.md`
-- [x] `22-quantum-simulation-qsp-qsvt-linear-algebra.md`
-- [x] `23-quantum-optimization-vqe-qaoa.md`
-- [x] `24-quantum-error-correction-decoding.md`
-- [x] `25-fault-tolerance-error-mitigation-compilation.md`
-
-## Cybersecurity
-
-- [x] `30-cryptographic-foundations.md`
-- [x] `31-post-quantum-cryptography.md`
-- [x] `32-zero-knowledge-verifiable-computation.md`
-- [x] `33-mpc-homomorphic-encryption-differential-privacy.md`
-- [x] `34-security-analysis-symbolic-execution-fuzzing.md`
-- [x] `35-cryptanalysis-side-channels-adversarial-methods.md`
-
-## Cross-field research
-
-- [x] `40-ai-quantum-cybersecurity-combination-map.md`
-- [x] `41-emerging-algorithms-research-watchlist.md`
-
-## Corpus improvements still needed
-
-- [ ] Standardize primary-reference formatting across chapters.
-- [ ] Add proof/proof-sketch coverage where especially useful.
-- [ ] Add more executable examples and reference implementations.
-- [ ] Add benchmark/dataset recommendations per algorithm family.
-- [ ] Add explicit maturity labels to research topics.
-- [ ] Add machine-readable relation metadata.
-- [ ] Add exact source passage references for future algorithm entities.
-
----
-
-# Phase 1 — Research archive web foundation
-
-**Goal:** Make the corpus discoverable, searchable, and readable through Next.js.
-
-## Application foundation
-
-- [x] Next.js App Router application created.
-- [x] React/TypeScript application structure created.
-- [x] Root layout implemented.
-- [x] Global styling implemented.
-- [x] Repository content remains the canonical source.
-
-## Content pipeline
-
-- [x] Read `docs/*.md` from the repository at build/server time.
-- [x] Extract chapter title.
-- [x] Extract summary.
-- [x] Extract numeric chapter identifier.
-- [x] Map chapters to high-level fields.
-- [x] Calculate word count.
-- [x] Calculate approximate reading time.
-- [x] Extract headings.
-- [x] Generate search text from chapter contents.
-- [x] Generate chapter TOC.
-- [x] Match TOC slugs to Markdown renderer behavior.
-
-## Home page
-
-- [x] Mission/orientation hero exists.
-- [x] Primary search exists.
-- [x] Quick field filters exist.
-- [x] Field overview exists.
-- [x] Archive preview exists.
-- [x] Combination/research-direction preview exists.
-- [x] Research identity/orbit visual exists.
-
-## Archive
-
-- [x] `/archive` route exists.
-- [x] Full corpus is browsable.
-- [x] Full-text filtering exists.
-- [x] Field filter exists.
-- [x] Sorting exists.
-- [x] Result count exists.
-- [x] Direct navigation to chapter pages exists.
-- [ ] Archive redesigned into the final list-first visual system.
-- [ ] Filter/search state encoded into URL.
-- [ ] Family-level filters.
-- [ ] Algorithm-level filters.
-- [ ] Maturity filters.
-
-## Chapter pages
-
-- [x] Dynamic `/archive/[slug]` route exists.
-- [x] Markdown chapter rendering exists.
-- [x] GFM support exists.
-- [x] TOC exists.
-- [x] Related research exists.
-- [x] Previous/next navigation exists.
-- [x] GitHub source link exists.
-- [ ] Proper mathematical rendering.
-- [ ] Final research table styling.
-- [ ] Final code-block styling.
-- [ ] Algorithm-level relationship panel.
-- [ ] Exact reference/citation entities.
-
-## Search
-
-- [x] Search chapter titles.
-- [x] Search chapter summaries.
-- [x] Search chapter body text.
-- [x] Home-page search.
-- [x] Archive search.
-- [x] Global `Cmd/Ctrl + K` search.
-- [ ] Highlight matching passages.
-- [ ] Search algorithm entities independently.
-- [ ] Search references independently.
-- [ ] Optional semantic retrieval.
-
-## Responsive behavior
-
-- [x] Responsive layout rules exist.
-- [x] Mobile navigation treatment exists.
-- [x] Main grids collapse responsively.
-- [x] Chapter layout responds to smaller screens.
-- [ ] Full mobile acceptance pass.
-- [ ] Large-table overflow acceptance.
-- [ ] Equation overflow acceptance.
-- [ ] Mobile screen-reader acceptance.
-
-## Theme
-
-- [x] Light palette exists.
-- [x] Dark palette exists.
-- [x] System preference is supported.
-- [ ] Explicit color contrast audit.
-- [ ] Visual consistency audit across all major components.
-
----
-
-# Phase 2 — Design-system consolidation
-
-**Goal:** Establish one coherent visual language before adding large new product surfaces.
-
-## Typography
-
-- [ ] Add IBM Plex Sans.
-- [ ] Add IBM Plex Mono.
-- [ ] Load fonts through a deterministic Next.js/self-hosted strategy.
-- [ ] Replace current `Inter` declaration.
-- [ ] Remove generic serif hero/title overrides.
-- [ ] Create type tokens.
-- [ ] Apply type tokens across all components.
-- [ ] Standardize research prose size/line height.
-- [ ] Standardize label/metadata typography.
-- [ ] Standardize code typography.
-
-## Color
-
-- [x] Warm-neutral archive palette concept exists.
-- [x] Field colors exist.
-- [ ] Refine light token values against final typography/components.
-- [ ] Refine dark token values.
-- [ ] Restrict field colors to accents/identifiers.
-- [ ] Audit selected/hover/focus contrast.
-
-## Shape
-
-- [x] Border/radius system exists in first version.
-- [ ] Reduce default large radii.
-- [ ] Standardize button radius.
-- [ ] Standardize input radius.
-- [ ] Standardize panel radius.
-- [ ] Reserve pill shapes for semantic pills/badges.
-- [ ] Reduce decorative shadows.
-
-## Spacing
-
-- [ ] Create explicit spacing tokens.
-- [ ] Align page sections to documented 8px-derived scale.
-- [ ] Normalize card/list padding.
-- [ ] Normalize chapter vertical rhythm.
-- [ ] Normalize header/footer spacing.
-
-## Archive visual redesign
-
-- [ ] Replace card-heavy archive sections with list-first research rows.
-- [ ] Improve title/metadata hierarchy.
-- [ ] Improve dense scanning.
-- [ ] Keep filters compact.
-- [ ] Preserve field identity without large color surfaces.
-
-## Research reading surface
-
-- [ ] Set controlled reading width.
-- [ ] Improve H1/H2/H3 hierarchy.
-- [ ] Improve blockquote styling.
-- [ ] Improve lists.
-- [ ] Improve reference/link styling.
-- [ ] Improve code blocks.
-- [ ] Improve tables.
-- [ ] Add math rendering.
-- [ ] Improve TOC active/current-section feedback.
-
-## Logo/brand
-
-- [x] Circular/orbit identity concept exists.
-- [x] Website brand mark component exists.
-- [ ] Create/refine canonical SVG logo source.
-- [ ] Verify favicon-scale legibility.
-- [ ] Verify monochrome variant.
-- [ ] Verify dark/light variants.
-- [ ] Add social/share asset if needed.
-
-## Phase 2 acceptance
-
-- [ ] IBM Plex Sans is the primary typeface everywhere.
-- [ ] IBM Plex Mono is used consistently for code/technical identifiers.
-- [ ] No accidental font-family fragmentation remains.
-- [ ] Archive is list-first.
-- [ ] Field colors are restrained accents.
-- [ ] Tables are research-quality.
-- [ ] Equations use a math renderer.
-- [ ] Mobile reading has no page-level horizontal overflow.
-- [ ] Keyboard focus is clearly visible.
-- [ ] Light/dark visual review passes.
-- [ ] `npm run typecheck` passes.
-- [ ] `npm run build` passes.
-
----
-
-# Phase 3 — Algorithm-level indexing
-
-**Goal:** Let users discover and navigate individual algorithms independently of chapter files.
-
-## Data model
-
-- [ ] Define `AlgorithmEntity` schema.
-- [ ] Define alias model.
-- [ ] Define family model.
-- [ ] Define assumption model.
-- [ ] Define complexity model.
-- [ ] Define maturity model.
-- [ ] Define source-chapter linkage.
-- [ ] Define source-passage linkage.
-
-## Extraction / authoring
-
-- [ ] Decide generated vs. curated entity metadata strategy.
-- [ ] Seed entities for major algorithms.
-- [ ] Validate duplicate/alias handling.
-- [ ] Add consistency checks.
-
-## UI
-
-- [ ] Algorithm search results.
-- [ ] Algorithm detail route.
-- [ ] Algorithm metadata summary.
-- [ ] Motivation/contribution/implementation quick navigation.
-- [ ] Assumptions/failure modes summary.
-- [ ] Complexity summary.
-- [ ] Variants and alternatives.
-- [ ] Combination opportunities.
-- [ ] Source chapter links.
-
----
-
-# Phase 4 — Atlas
-
-**Goal:** Make research relationships traversable.
-
-## Relationship model
-
-- [ ] Define node types.
-- [ ] Define edge types.
-- [ ] Create machine-readable relation storage.
-- [ ] Define validation rules.
-- [ ] Add initial relationships for major foundations.
-
-## Atlas UX
-
-- [ ] `/atlas` route.
-- [ ] Entity search/select.
-- [ ] Focused-neighborhood graph.
-- [ ] Relationship text panel.
-- [ ] Progressive expansion.
-- [ ] Field/relation filters.
-- [ ] Archive links from graph nodes.
-- [ ] Mobile textual fallback.
-- [ ] Accessible non-visual relationship representation.
-
-## Initial relation coverage
-
-- [ ] Search → A* → learned heuristics.
-- [ ] Dynamic programming → Bellman equations → RL.
-- [ ] Bayesian inference → Thompson Sampling / Bayesian optimization.
-- [ ] UCB → LinUCB → NeuralUCB.
-- [ ] Representation learning → embeddings → ANN/HNSW.
-- [ ] CSP/SAT → symbolic execution/formal analysis.
-- [ ] Error-correcting codes → QEC → decoding.
-- [ ] Lattices → PQC / FHE.
-- [ ] Polynomial methods → ZK / QSP/QSVT relation maps where meaningful.
-
----
-
-# Phase 5 — Lab
-
-**Goal:** Support disciplined research-combination ideation and experiments.
-
-## Combination model
-
-- [ ] Define `ResearchCombination` schema.
-- [ ] Component entities.
-- [ ] Motivation.
-- [ ] Hypothesis.
-- [ ] Compatibility.
-- [ ] Conflicts/tensions.
-- [ ] Expected benefits.
-- [ ] Risks.
-- [ ] Metrics.
-- [ ] Experiment plan.
-- [ ] Status/evidence.
-
-## Lab UX
-
-- [ ] `/lab` route.
-- [ ] Select algorithm/mechanism A.
-- [ ] Select algorithm/mechanism B.
-- [ ] Show shared interfaces.
-- [ ] Show assumption conflicts.
-- [ ] Create hypothesis record.
-- [ ] Create experiment plan.
-- [ ] Attach evidence/results.
-- [ ] Distinguish speculation from established knowledge.
-
-## Seed combinations
-
-- [x] Combination ideas documented in research Markdown.
-- [ ] Contextual bandits × fuzzing as structured Lab record.
-- [ ] GNN/SSM × quantum decoding as structured Lab record.
-- [ ] Bayesian optimization × quantum calibration as structured Lab record.
-- [ ] LLM × SMT/symbolic execution as structured Lab record.
-- [ ] FHE/MPC × ZK × AI as structured Lab record.
-- [ ] Learned heuristics × A*/branch-and-bound as structured Lab record.
-
----
-
-# Phase 6 — Research evidence layer
-
-**Goal:** Make the hub useful for reproducible, evidence-aware research.
-
-## References
-
-- [ ] Define reference entity schema.
-- [ ] Extract/curate primary references.
-- [ ] Link references to algorithms.
-- [ ] Link references to combinations.
-- [ ] Citation graph.
-
-## Implementations
-
-- [ ] Link reference implementations.
-- [ ] Track language/framework.
-- [ ] Track implementation maturity.
-- [ ] Track license/source repository.
-
-## Experiments
-
-- [ ] Experiment entity schema.
-- [ ] Dataset/benchmark links.
-- [ ] Metrics.
-- [ ] Environment/configuration.
-- [ ] Results.
-- [ ] Reproduction instructions.
-- [ ] Failed/inconclusive result preservation.
-
-## Change history
-
-- [ ] Research-chapter diff view.
-- [ ] Algorithm metadata diff view.
-- [ ] Evidence/maturity change history.
-
----
-
-# Phase 7 — Advanced discovery
-
-**Goal:** Add advanced retrieval only after structural discovery is strong.
-
-- [ ] Passage-level search.
-- [ ] Semantic retrieval.
-- [ ] Inspectable retrieval evidence.
-- [ ] Related-algorithm suggestions.
-- [ ] Saved research trails.
-- [ ] Research boards/hypothesis collections.
-- [ ] Contribution templates.
-- [ ] Research update workflow.
-
----
-
-# Accessibility status
-
-## Already present
-
-- [x] Semantic HTML used in major page structure.
-- [x] Search inputs use native controls.
-- [x] Navigation is available without the command palette.
-- [x] Responsive behavior exists.
-- [x] Color is accompanied by textual field names in major UI.
-
-## Still required
-
-- [ ] Automated accessibility testing.
-- [ ] Keyboard-only full walkthrough.
-- [ ] Visible-focus audit.
-- [ ] VoiceOver spot check.
-- [ ] NVDA spot check.
-- [ ] WCAG contrast review.
-- [ ] Command palette dialog semantics audit.
-- [ ] Table accessibility review.
-- [ ] Math accessibility review.
-- [ ] Reduced-motion review.
-
----
-
-# Quality / CI status
-
-## Implemented
-
-- [x] GitHub Actions validation workflow.
-- [x] TypeScript typecheck step.
-- [x] Next.js production build step.
-- [x] Successful CI run recorded after implementation.
-
-## Planned
-
-- [ ] ESLint/static lint workflow.
-- [ ] Unit tests for content parser.
-- [ ] Unit tests for heading/TOC slug generation.
-- [ ] Search behavior tests.
-- [ ] Route smoke tests.
-- [ ] Broken-link validation.
-- [ ] Markdown/reference validation.
-- [ ] Accessibility CI.
-- [ ] Screenshot/visual regression testing.
-- [ ] Browser acceptance matrix.
-
----
-
-# Deployment status
-
-- [x] Repository is buildable as a Next.js application.
-- [x] CI confirms production build succeeds.
-- [ ] Vercel/project hosting connected.
-- [ ] Preview deployment reviewed.
-- [ ] Production deployment reviewed.
-- [ ] Public production URL documented.
-- [ ] Deployment status linked from README.
-
----
-
-# Documentation status
-
-- [x] `README.md` — research collection and reading map.
-- [x] `DESIGN.md` — product/UI rationale and research behind initial interface.
-- [x] `DEVELOPMENT_SPEC.md` — intended product/technical development specification.
-- [x] `PROGRESS.md` — implementation tracker.
-- [ ] Contribution guide.
-- [ ] Algorithm metadata authoring guide.
-- [ ] Relationship/Atlas authoring guide.
-- [ ] Lab hypothesis/experiment authoring guide.
-- [ ] Deployment/operations guide.
-
----
-
-# Immediate next work
-
-The next implementation sequence should be:
-
-1. **Typography migration** — IBM Plex Sans + IBM Plex Mono.
-2. **Design tokens** — type, spacing, radius, color, focus.
-3. **Archive redesign** — list-first, denser, calmer.
-4. **Research reading refinement** — controlled measure, hierarchy, code, tables.
-5. **Math rendering** — KaTeX or equivalent.
-6. **Accessibility pass** — focus, keyboard, semantics, contrast.
-7. **Responsive acceptance** — mobile/tablet/desktop, light/dark.
-8. **Deploy preview** — inspect real browser rendering.
-9. **Algorithm entity model** — begin Phase 3 only after visual foundation is stable.
-
----
-
-# Current project checkpoint
-
-At this checkpoint, the project has moved beyond being only a Markdown collection. It now has:
+The project currently has:
 
 ```text
 Research corpus
@@ -582,15 +24,17 @@ Searchable Archive
       ↓
 Research chapter reader
       ↓
+Consistent design-system implementation
+      ↓
+KaTeX mathematics + research tables/code
+      ↓
 Combination inspiration
 ```
 
-The next checkpoint should establish:
+The next major product layers remain:
 
 ```text
-Consistent design system
-      ↓
-Research-quality typography/math/tables
+Browser/accessibility acceptance
       ↓
 Algorithm entities
       ↓
@@ -598,17 +42,452 @@ Atlas
       ↓
 Lab
       ↓
-Evidence + experiments
+Evidence + experiments + citations
 ```
+
+### Overall phase status
+
+| Phase | Status |
+|---|---|
+| 0 — Research corpus | ✅ Established |
+| 1 — Next.js archive foundation | ✅ Established |
+| 2 — Design-system consolidation | 🟡 Implemented, acceptance/cleanup still open |
+| 3 — Algorithm-level indexing | ⬜ Not started |
+| 4 — Atlas | ⬜ Not started |
+| 5 — Lab | ⬜ Not started |
+| 6 — Research evidence layer | ⬜ Not started |
+| 7 — Advanced discovery | ⬜ Not started |
+
+---
+
+# Phase 0 — Research corpus foundation
+
+## Completed
+
+- [x] General foundational algorithm research collection (`00–09`).
+- [x] AI / ML research branch (`10–14`).
+- [x] Quantum computing research branch (`20–25`).
+- [x] Cybersecurity research branch (`30–35`).
+- [x] Cross-field combination map (`40`).
+- [x] Emerging-algorithms watchlist (`41`).
+- [x] Motivation / Contribution / Implementation framing established across the collection.
+- [x] Combination-research perspective established.
+
+## Still needed
+
+- [ ] Standardize primary-reference formatting across chapters.
+- [ ] Add proof/proof-sketch coverage where useful.
+- [ ] Add more executable examples and reference implementations.
+- [ ] Add benchmark/dataset recommendations by algorithm family.
+- [ ] Add explicit maturity labels.
+- [ ] Add machine-readable relationship metadata.
+- [ ] Add source-passage anchors for future algorithm entities.
+
+---
+
+# Phase 1 — Research archive web foundation
+
+## Application/content pipeline
+
+- [x] Next.js App Router application.
+- [x] React + TypeScript structure.
+- [x] `docs/*.md` remains the canonical content source.
+- [x] Chapter title/summary/number/field extraction.
+- [x] Word count and reading-time extraction.
+- [x] Full-body search text generation.
+- [x] Heading extraction.
+- [x] GitHub-compatible heading slug generation.
+- [x] Major `#` section headings are now indexed after the document title.
+- [x] Table of contents includes `#`, `##`, and `###` research sections.
+
+## Home
+
+- [x] Mission/orientation hero.
+- [x] Primary research search.
+- [x] Quick field filters.
+- [x] Research-field overview.
+- [x] Algorithm-atlas visual motif.
+- [x] Combination/research-direction preview.
+- [x] Archive preview.
+- [x] Home archive preview converted from cards to list-first research rows.
+
+## Archive
+
+- [x] `/archive` route.
+- [x] Full-text chapter search.
+- [x] Field filter.
+- [x] Sorting.
+- [x] Result count and clear-filter behavior.
+- [x] List-first archive rows.
+- [x] Direct chapter navigation.
+- [x] Field identity is now restrained to accents/identifiers in the design-system layer.
+
+### Archive still needed
+
+- [ ] Encode filter/search state in the URL.
+- [ ] Family-level filters.
+- [ ] Algorithm-level filters.
+- [ ] Maturity/evidence filters.
+- [ ] Matching-passage highlighting.
+
+## Research chapter reader
+
+- [x] Dynamic `/archive/[slug]` route.
+- [x] GFM Markdown rendering.
+- [x] Source/provenance link to GitHub Markdown.
+- [x] TOC.
+- [x] Related research.
+- [x] Previous/next navigation.
+- [x] Major internal Markdown H1 sections normalized semantically under the page H1.
+- [x] Controlled research reading width implemented.
+- [x] Refined H1/H2/H3 hierarchy implemented.
+- [x] Refined paragraphs/lists/blockquotes/links.
+- [x] Refined inline and block code styling.
+- [x] Research-oriented table styling and horizontal overflow handling.
+- [x] KaTeX math rendering stack implemented.
+- [x] Existing `\(...\)` and `\[...\]` corpus delimiters normalized at render time while fenced code remains untouched.
+- [x] Equation overflow handling implemented.
+
+### Reader still needed
+
+- [ ] Active/current-section TOC feedback.
+- [ ] Algorithm-level relationship panel.
+- [ ] Reference/citation entities.
+- [ ] Browser acceptance for especially large equations/tables.
+- [ ] Math accessibility review.
+
+## Search
+
+- [x] Search titles.
+- [x] Search summaries.
+- [x] Search chapter body text.
+- [x] Home search.
+- [x] Archive search.
+- [x] Global `Cmd/Ctrl + K` search.
+
+### Search still needed
+
+- [ ] Independent algorithm-entity search.
+- [ ] Independent reference search.
+- [ ] Passage result snippets/highlighting.
+- [ ] Optional semantic retrieval after structural search matures.
+
+---
+
+# Phase 2 — Design-system consolidation
+
+**State:** first implementation pass complete; visual/accessibility acceptance still open.
+
+## Typography
+
+- [x] IBM Plex Sans added through `next/font/google`.
+- [x] IBM Plex Mono added through `next/font/google`.
+- [x] Font loading uses deterministic Next.js font integration.
+- [x] IBM Plex Sans is the effective primary runtime font.
+- [x] IBM Plex Mono is used for code and technical identifiers.
+- [x] Explicit type tokens created.
+- [x] Display/H1/H2/H3/body/UI/meta/label/code hierarchy defined.
+- [x] Research prose size and line height standardized in the consolidation layer.
+- [x] Label/metadata typography standardized.
+- [x] Code typography standardized.
+- [ ] Remove obsolete `Inter` and generic-serif declarations from legacy `globals.css` instead of only overriding them.
+- [ ] Final browser audit for font fallback/weight behavior.
+
+## Color
+
+- [x] Warm-neutral light palette refined.
+- [x] Warm-neutral dark palette refined.
+- [x] Field colors retained for Foundations, AI/ML, Quantum, Cybersecurity, Cross-field.
+- [x] Field colors restricted toward identifiers, borders, labels, and small states in the consolidation layer.
+- [x] Selection/focus tokens established.
+- [ ] Formal WCAG contrast audit.
+- [ ] Browser review of selected/hover/focus states.
+
+## Shape/elevation
+
+- [x] Button radius token.
+- [x] Input radius token.
+- [x] Panel radius token.
+- [x] Modal radius token.
+- [x] Large default radii reduced through the consolidation layer.
+- [x] Decorative shadows reduced.
+- [x] Borders are favored over elevation for research surfaces.
+- [ ] Remove obsolete legacy radius/shadow declarations after visual acceptance.
+
+## Spacing
+
+- [x] 8px-derived spacing token system added (`4/8/12/16/24/32/48/64/96/128`).
+- [x] Research-reader vertical rhythm moved onto spacing tokens.
+- [x] Archive/home list padding normalized.
+- [x] Main reading layout gap normalized.
+- [ ] Complete migration of every legacy component declaration to spacing tokens.
+
+## Archive visual language
+
+- [x] `/archive` is list-first.
+- [x] Home archive preview is list-first.
+- [x] Chapter number/field identity uses restrained accent treatment rather than saturated blocks.
+- [x] Dense title/summary/metadata hierarchy refined.
+- [x] Archive controls remain compact.
+- [ ] Visual acceptance at phone/tablet/desktop widths.
+
+## Research reading surface
+
+- [x] Controlled prose width.
+- [x] Heading hierarchy.
+- [x] Paragraph/list rhythm.
+- [x] Blockquotes.
+- [x] Reference/link treatment.
+- [x] Inline code.
+- [x] Code blocks.
+- [x] Research tables.
+- [x] KaTeX equations.
+- [x] Equation horizontal overflow handling.
+- [ ] Active TOC state.
+- [ ] Screen-reader/math accessibility acceptance.
+
+## Logo / brand
+
+- [x] Circular/orbit identity concept.
+- [x] Canonical SVG logo source: `public/foundation-algorithms-mark.svg`.
+- [x] Canonical mark is now used by the React header component.
+- [x] SVG adapts its neutral disc/orbit treatment to system dark mode.
+- [x] Monochrome SVG variant: `public/foundation-algorithms-mark-mono.svg`.
+- [x] Canonical SVG configured as application icon metadata.
+- [ ] Visually verify favicon-scale legibility in browsers.
+- [ ] Visually verify dark/light variants in browsers.
+- [ ] Social/share image asset.
+
+## Accessibility implementation
+
+- [x] Semantic HTML in major page structure.
+- [x] Native form controls for search/filtering.
+- [x] Keyboard-independent navigation exists.
+- [x] Global `:focus-visible` treatment added.
+- [x] Reduced-motion CSS behavior added.
+- [x] Color is accompanied by text labels in major UI.
+- [ ] Full keyboard-only walkthrough.
+- [ ] Command-palette focus management audit.
+- [ ] VoiceOver spot check.
+- [ ] NVDA spot check.
+- [ ] WCAG contrast review.
+- [ ] Table accessibility review.
+- [ ] Math accessibility review.
+
+## Phase 2 acceptance gates
+
+- [x] IBM Plex Sans is the effective primary typeface.
+- [x] IBM Plex Mono is the effective code/identifier typeface.
+- [x] Archive implementation is list-first.
+- [x] Field colors are restrained in the consolidation layer.
+- [x] Research table styling exists.
+- [x] Equations use a math renderer.
+- [x] Equation/table containers have local overflow handling.
+- [x] Keyboard focus styling exists.
+- [x] `npm run typecheck` passes in CI after the implementation tranche.
+- [x] `npm run build` passes in CI after the implementation tranche.
+- [ ] No legacy font/radius declaration cleanup remains.
+- [ ] Mobile browser acceptance passes.
+- [ ] Desktop browser acceptance passes.
+- [ ] Light/dark visual review passes.
+- [ ] Accessibility acceptance passes.
+
+---
+
+# Phase 3 — Algorithm-level indexing
+
+**Goal:** let users discover individual algorithms independently of chapter files.
+
+- [ ] Define `AlgorithmEntity` schema.
+- [ ] Define aliases/families/assumptions/complexity/maturity.
+- [ ] Define source chapter and exact passage linkage.
+- [ ] Decide curated vs generated metadata strategy.
+- [ ] Seed major algorithm entities.
+- [ ] Add entity validation and duplicate/alias handling.
+- [ ] Add algorithm detail route.
+- [ ] Add algorithm search results.
+- [ ] Add motivation/contribution/implementation quick navigation.
+- [ ] Add assumptions/failure modes/complexity summaries.
+- [ ] Add variants, alternatives, combinations, references, implementations.
+
+---
+
+# Phase 4 — Atlas
+
+**Goal:** make algorithm relationships traversable.
+
+- [ ] Define node types.
+- [ ] Define relation/edge types.
+- [ ] Add machine-readable relation storage and validation.
+- [ ] Build `/atlas`.
+- [ ] Focused-neighborhood graph rather than an unreadable all-node hairball.
+- [ ] Text relationship panel.
+- [ ] Progressive expansion.
+- [ ] Field/relation filters.
+- [ ] Archive/entity links from nodes.
+- [ ] Mobile textual fallback.
+- [ ] Accessible non-visual relationship representation.
+
+Initial relation targets:
+
+- [ ] Search → A* → learned heuristics.
+- [ ] Dynamic programming → Bellman equations → RL.
+- [ ] Bayesian inference → Thompson Sampling / Bayesian optimization.
+- [ ] UCB → LinUCB → NeuralUCB.
+- [ ] Representation learning → embeddings → ANN/HNSW.
+- [ ] CSP/SAT → symbolic execution/formal analysis.
+- [ ] Error-correcting codes → QEC → decoding.
+- [ ] Lattices → PQC / FHE.
+
+---
+
+# Phase 5 — Lab
+
+**Goal:** turn combinations into explicit hypotheses and experiments.
+
+- [ ] Define `ResearchCombination` schema.
+- [ ] Model component entities, motivation, hypothesis, compatibility, conflicts, benefits, risks, metrics, plan, status, and evidence.
+- [ ] Build `/lab`.
+- [ ] Select mechanism/algorithm A and B.
+- [ ] Show shared interfaces and assumption conflicts.
+- [ ] Create hypothesis records.
+- [ ] Create experiment plans.
+- [ ] Attach evidence/results.
+- [ ] Visually distinguish speculation from established knowledge.
+
+Seed structured combinations:
+
+- [ ] Contextual bandits × fuzzing.
+- [ ] GNN/SSM × quantum decoding.
+- [ ] Bayesian optimization × quantum calibration.
+- [ ] LLM × SMT/symbolic execution.
+- [ ] FHE/MPC × ZK × AI.
+- [ ] Learned heuristics × A*/branch-and-bound.
+
+---
+
+# Phase 6 — Research evidence layer
+
+- [ ] Reference entity schema.
+- [ ] Primary-reference extraction/curation.
+- [ ] Reference → algorithm links.
+- [ ] Reference → combination links.
+- [ ] Citation graph.
+- [ ] Implementation records and maturity/license/source metadata.
+- [ ] Experiment schema.
+- [ ] Dataset/benchmark links.
+- [ ] Metrics/environment/results/reproduction instructions.
+- [ ] Preserve failed and inconclusive experiments.
+- [ ] Research-chapter diff view.
+- [ ] Algorithm/evidence maturity history.
+
+---
+
+# Phase 7 — Advanced discovery
+
+- [ ] Passage-level results.
+- [ ] Semantic retrieval with inspectable evidence.
+- [ ] Related-algorithm suggestions.
+- [ ] Saved research trails.
+- [ ] Research/hypothesis boards.
+- [ ] Contribution templates and update workflow.
+
+---
+
+# Quality / CI
+
+## Current
+
+- [x] GitHub Actions workflow.
+- [x] Dependency installation.
+- [x] TypeScript typecheck.
+- [x] Next.js production build.
+- [x] Latest design-system/math/logo implementation tranche passes both typecheck and build.
+
+## Still needed
+
+- [ ] ESLint/static lint workflow.
+- [ ] Content-parser unit tests.
+- [ ] Math-delimiter normalization tests.
+- [ ] Heading/TOC slug tests.
+- [ ] Search tests.
+- [ ] Route smoke tests.
+- [ ] Broken-link validation.
+- [ ] Markdown/reference validation.
+- [ ] Accessibility CI.
+- [ ] Screenshot/visual regression tests.
+- [ ] Browser acceptance matrix.
+
+---
+
+# Deployment
+
+- [x] Repository builds as a Next.js application.
+- [x] CI confirms production builds succeed.
+- [ ] Hosting/Vercel project connected.
+- [ ] Preview deployment reviewed.
+- [ ] Production deployment reviewed.
+- [ ] Public production URL documented.
+- [ ] Deployment status linked from README.
+
+---
+
+# Documentation
+
+- [x] `README.md` — research collection and reading map.
+- [x] `DESIGN.md` — initial product/UI rationale.
+- [x] `DEVELOPMENT_SPEC.md` — intended product and technical specification.
+- [x] `PROGRESS.md` — active implementation tracker.
+- [ ] Contribution guide.
+- [ ] Algorithm metadata authoring guide.
+- [ ] Atlas relationship authoring guide.
+- [ ] Lab hypothesis/experiment authoring guide.
+- [ ] Deployment/operations guide.
+
+---
+
+# Implementation log
+
+## 2026-09-28 — Design-system tranche 1
+
+Completed:
+
+- IBM Plex Sans + IBM Plex Mono integration through `next/font`;
+- global type, spacing, radius, neutral color, field color, and focus tokens;
+- canonical color SVG algorithm-atlas mark;
+- monochrome SVG mark;
+- application metadata icon wired to canonical SVG;
+- home archive converted to list-first rows;
+- field color treatment reduced from large surfaces toward accents;
+- controlled research reading width and improved vertical rhythm;
+- code, blockquote, link, list, and table refinement;
+- `remark-math` + `rehype-katex` + KaTeX integration;
+- render-time conversion of the corpus's LaTeX `\(...\)` / `\[...\]` delimiters;
+- code-fence protection during math normalization;
+- major body `#` headings added to TOC/preview extraction;
+- internal research H1 sections rendered semantically beneath the page H1;
+- reduced-motion support;
+- visible focus treatment;
+- successful CI typecheck and production build.
+
+Still intentionally open after this tranche:
+
+- rendered browser inspection;
+- mobile/tablet/desktop acceptance;
+- light/dark acceptance;
+- formal contrast/accessibility testing;
+- active TOC highlighting;
+- physical cleanup of overridden legacy font/radius CSS;
+- Phase 3 algorithm entity model.
 
 ---
 
 ## Maintenance rule
 
-Update this file whenever a meaningful feature, acceptance gate, or project phase changes.
+Update this file whenever a meaningful feature, acceptance gate, or phase changes.
 
 Use these meanings consistently:
 
 - `[x]` — implemented and present in the repository;
 - `[ ]` — not yet complete;
-- do not mark planned work complete merely because it is described in `DEVELOPMENT_SPEC.md` or `DESIGN.md`.
+- implementation does **not** imply visual/accessibility/production acceptance unless the corresponding acceptance item is also checked.
