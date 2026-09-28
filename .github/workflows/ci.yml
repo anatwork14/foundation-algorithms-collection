@@ -23,6 +23,9 @@ jobs:
       - name: Check Markdown links
         run: npm run check:links
 
+      - name: Check source hygiene
+        run: npm run check:source
+
       - name: Test research utilities
         run: npm run test:research
 
