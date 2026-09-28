@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, ArrowUpRight, Code2, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
+import { EvidenceNav } from "@/components/evidence-nav";
 import type { ReferenceEntity, ReferenceKind } from "@/lib/references";
 import { referenceSearchText } from "@/lib/references";
 
@@ -25,10 +26,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
         <span className="eyebrow"><span className="live-dot" /> Evidence layer</span>
         <h1>Primary sources should be as navigable as algorithms.</h1>
         <p>Papers, standards, and books become first-class records linked back to the mechanisms and research hypotheses they support.</p>
-        <div className="evidence-switch">
-          <span>References</span>
-          <Link href="/implementations"><Code2 size={14} /> Browse implementations <ArrowRight size={13} /></Link>
-        </div>
+        <EvidenceNav current="references" />
       </header>
 
       <section className="reference-controls" aria-label="Reference filters">
