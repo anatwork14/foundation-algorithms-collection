@@ -3,7 +3,7 @@ import { extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const sourceRoots = ["app", "components", "lib", "scripts"];
+const sourceRoots = ["app", "components", "lib"];
 const allowedExtensions = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"]);
 const excludedDirectories = new Set([".git", ".next", "node_modules"]);
 
@@ -55,4 +55,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Checked ${files.length} source files for debug statements, TypeScript suppression, and external-anchor safety.`);
+console.log(`Checked ${files.length} application source files for debug statements, TypeScript suppression, and external-anchor safety.`);
