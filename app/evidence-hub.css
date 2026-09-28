@@ -1,0 +1,185 @@
+/* Unified Evidence hub: references, implementations, experiments. */
+
+.evidence-hub {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-10);
+}
+
+.evidence-hub-hero {
+  max-width: 940px;
+  padding-bottom: var(--space-7);
+}
+
+.evidence-hub-hero h1 {
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: var(--text-h1);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.04;
+}
+
+.evidence-hub-hero p {
+  max-width: 800px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.evidence-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  margin-bottom: var(--space-8);
+}
+
+.evidence-summary > div {
+  display: grid;
+  gap: 4px;
+  padding: var(--space-4) var(--space-3);
+  border-right: 1px solid var(--line);
+}
+
+.evidence-summary > div:last-child {
+  border-right: 0;
+}
+
+.evidence-summary strong {
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: -.03em;
+}
+
+.evidence-summary span {
+  color: var(--muted-2);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.evidence-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.evidence-hub-card {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-large);
+  background: var(--surface);
+}
+
+.evidence-hub-card:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-strong);
+}
+
+.evidence-hub-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent);
+}
+
+.evidence-hub-card h2 {
+  margin: 6px 0 var(--space-3);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+.evidence-hub-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.65;
+}
+
+.evidence-card-stats {
+  width: 100%;
+  display: grid;
+  gap: 5px;
+  margin: auto 0 var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+  color: var(--muted-2);
+  font-size: var(--text-label);
+}
+
+.evidence-hub-card > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-size: var(--text-meta);
+  font-weight: 600;
+}
+
+.evidence-flow {
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--line-strong);
+}
+
+.evidence-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-large);
+  overflow: hidden;
+  background: var(--line);
+}
+
+.evidence-flow-grid > div {
+  min-height: 220px;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--surface);
+}
+
+.evidence-flow-grid > div > span {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-label);
+}
+
+.evidence-flow-grid svg {
+  color: var(--accent);
+}
+
+.evidence-flow-grid strong {
+  font-size: .95rem;
+}
+
+.evidence-flow-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-meta);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .evidence-hub-grid { grid-template-columns: 1fr; }
+  .evidence-hub-card { min-height: 260px; }
+  .evidence-flow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .evidence-hub { padding-top: var(--space-7); }
+  .evidence-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .evidence-summary > div:nth-child(2) { border-right: 0; }
+  .evidence-summary > div:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+  .evidence-flow-grid { grid-template-columns: 1fr; }
+}
