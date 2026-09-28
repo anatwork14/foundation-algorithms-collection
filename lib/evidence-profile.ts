@@ -2,6 +2,7 @@ import { deriveEvidenceStage, type EvidenceStage } from "@/lib/evidence-stage";
 import { experimentsForAlgorithm, type ExperimentRecord } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
+import { replicationsForAlgorithm } from "@/lib/replications";
 
 export type { EvidenceStage } from "@/lib/evidence-stage";
 
@@ -32,16 +33,17 @@ function hasResult(experiment: ExperimentRecord) {
 /**
  * Evidence stage is a descriptive archive state, not a scientific quality score.
  * It answers "which evidence layers are present?", not "how true is this algorithm?".
+ * A Replicated stage means an explicit independent replication/evaluation record
+ * exists; the replication outcome may support, contradict, or remain inconclusive.
  */
 export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvidenceProfile {
   const references = referencesForAlgorithm(algorithmId);
   const implementations = implementationsForAlgorithm(algorithmId);
   const experiments = experimentsForAlgorithm(algorithmId);
+  const replicationRecords = replicationsForAlgorithm(algorithmId);
   const completedExperiments = experiments.filter((experiment) => experiment.status === "Completed").length;
   const resultExperiments = experiments.filter(hasResult).length;
-
-  // Independent replication is intentionally zero until explicit replication records exist.
-  const replicatedResults: number = 0;
+  const replicatedResults = replicationRecords.length;
   const stage = deriveEvidenceStage({
     references: references.length,
     implementations: implementations.length,
@@ -55,6 +57,9 @@ export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvide
     : experiments.length > 0
       ? `${experiments.length} protocol${experiments.length === 1 ? "" : "s"}`
       : "No project experiment";
+  const replicationState = replicationRecords.length > 0
+    ? `${replicationRecords.length} independent record${replicationRecords.length === 1 ? "" : "s"}`
+    : "Not yet recorded";
 
   return {
     algorithmId,
@@ -90,9 +95,9 @@ export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvide
       {
         key: "replication",
         label: "Independent replication",
-        state: "Not yet recorded",
-        present: false,
-        count: replicatedResults,
+        state: replicationState,
+        present: replicationRecords.length > 0,
+        count: replicationRecords.length,
       },
     ],
   };
