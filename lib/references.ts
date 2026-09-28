@@ -6,6 +6,13 @@ export type ReferenceEvidenceRole =
   | "Survey / synthesis"
   | "Replication / evaluation";
 
+export type ReferenceCitation = {
+  targetId: string;
+  note: string;
+  verificationUrl: string;
+  verifiedAt: string;
+};
+
 export type ReferenceEntity = {
   id: string;
   title: string;
@@ -19,7 +26,7 @@ export type ReferenceEntity = {
   algorithmIds: string[];
   combinationIds: string[];
   chapterSlugs: string[];
-  citesReferenceIds: string[];
+  citations: ReferenceCitation[];
   summary: string;
   significance: string;
   tags: string[];
@@ -39,7 +46,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["linucb"],
     combinationIds: ["linucb-adaptive-fuzzing", "retrieval-bandit-routing"],
     chapterSlugs: ["08-bandits-contextual-bandits-linucb"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Introduces the contextual-bandit formulation and LinUCB-style algorithm for personalized news recommendation, together with offline replay evaluation on logged randomized traffic.",
     significance: "Primary source for LinUCB in the collection and an important bridge between contextual-bandit theory and large-scale online recommendation.",
     tags: ["contextual-bandit", "linucb", "offline-evaluation"],
@@ -56,7 +63,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["transformer-attention", "embedding-models"],
     combinationIds: ["verifiable-agent-planning", "private-verifiable-ai"],
     chapterSlugs: ["11-neural-architectures-attention-ssm-moe-gnn", "13-ai-reasoning-alignment-agents"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Introduces the Transformer architecture based on attention mechanisms without recurrent or convolutional sequence layers.",
     significance: "Foundational source for modern Transformer attention and many representation, generative, retrieval, and agent systems built on top of it.",
     tags: ["transformer", "attention", "sequence-modeling"],
@@ -74,7 +81,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["hnsw", "embedding-models"],
     combinationIds: ["retrieval-bandit-routing"],
     chapterSlugs: ["06-representation-similarity-compression-parsing", "09-combination-research-map"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Presents the hierarchical navigable small-world graph index for approximate nearest-neighbor search with controllable hierarchy and high-recall practical performance.",
     significance: "Primary source for one of the most widely used graph-based ANN indexing mechanisms in modern vector retrieval systems.",
     tags: ["ann", "hnsw", "vector-search"],
@@ -91,7 +98,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["adamw"],
     combinationIds: [],
     chapterSlugs: ["10-ai-optimization-learning-theory"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Shows that L2 regularization and weight decay are not equivalent for adaptive optimizers such as Adam and proposes decoupling weight decay from the gradient update.",
     significance: "Primary source for AdamW, now a standard optimizer choice across Transformer and large-model training pipelines.",
     tags: ["optimization", "adamw", "regularization"],
@@ -108,7 +115,14 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["neural-ucb", "linucb", "ucb1"],
     combinationIds: [],
     chapterSlugs: ["08-bandits-contextual-bandits-linucb", "14-uncertainty-causal-active-continual-meta-learning"],
-    citesReferenceIds: ["li-2010-contextual-bandit-news"],
+    citations: [
+      {
+        targetId: "li-2010-contextual-bandit-news",
+        note: "The NeuralUCB introduction explicitly cites Li et al. (2010) while discussing the theoretical and practical success of linear contextual bandits.",
+        verificationUrl: "https://proceedings.mlr.press/v119/zhou20a/zhou20a.pdf",
+        verifiedAt: "2026-09-28",
+      },
+    ],
     summary: "Introduces NeuralUCB, using a neural network representation and confidence construction for UCB-style exploration in nonlinear contextual bandits.",
     significance: "Important research bridge from linear contextual bandits toward nonlinear learned representations while retaining an explicit exploration mechanism.",
     tags: ["neuralucb", "contextual-bandit", "uncertainty"],
@@ -124,7 +138,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["qsvt", "quantum-phase-estimation"],
     combinationIds: [],
     chapterSlugs: ["22-quantum-simulation-qsp-qsvt-linear-algebra"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Develops singular-value transformation of block-encoded operators and shows how the framework unifies and improves a wide range of quantum matrix algorithms.",
     significance: "Core source for QSVT as a reusable polynomial-transformation framework rather than a single isolated quantum algorithm.",
     tags: ["qsvt", "quantum-linear-algebra", "block-encoding"],
@@ -141,7 +155,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["conformal-prediction"],
     combinationIds: ["private-adaptive-learning"],
     chapterSlugs: ["14-uncertainty-causal-active-continual-meta-learning"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "Combines conformal calibration with quantile regression to produce adaptive prediction intervals with finite-sample marginal coverage under the standard conformal assumptions.",
     significance: "A practical modern conformal method that makes uncertainty intervals adaptive to heteroscedasticity while preserving finite-sample coverage guarantees.",
     tags: ["conformal", "uncertainty", "calibration"],
@@ -157,7 +171,14 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["state-space-models"],
     combinationIds: ["learned-quantum-decoder"],
     chapterSlugs: ["11-neural-architectures-attention-ssm-moe-gnn"],
-    citesReferenceIds: ["vaswani-2017-attention"],
+    citations: [
+      {
+        targetId: "vaswani-2017-attention",
+        note: "The Mamba introduction explicitly identifies the Transformer (Vaswani et al., 2017) as the predominant modern foundation-model sequence architecture.",
+        verificationUrl: "https://arxiv.org/html/2312.00752",
+        verifiedAt: "2026-09-28",
+      },
+    ],
     summary: "Introduces input-dependent selective state-space updates and a hardware-aware parallel recurrent algorithm for linear-scaling sequence modeling.",
     significance: "A major modern reference for selective state-space models as an alternative/complement to dense attention on long sequences.",
     tags: ["ssm", "mamba", "sequence-modeling"],
@@ -175,7 +196,7 @@ export const references: ReferenceEntity[] = [
     algorithmIds: ["ml-kem", "lattice-problems"],
     combinationIds: [],
     chapterSlugs: ["31-post-quantum-cryptography"],
-    citesReferenceIds: [],
+    citations: [],
     summary: "The final NIST standard specifying ML-KEM key generation, encapsulation, decapsulation, and the ML-KEM-512/768/1024 parameter sets.",
     significance: "Normative implementation source for standardized ML-KEM and a critical reference for post-quantum migration work.",
     tags: ["ml-kem", "pqc", "standard"],
@@ -200,14 +221,22 @@ export function referencesForChapter(chapterSlug: string) {
   return references.filter((reference) => reference.chapterSlugs.includes(chapterSlug));
 }
 
+export function citedReferenceIds(reference: ReferenceEntity) {
+  return reference.citations.map((citation) => citation.targetId);
+}
+
 export function getCitedReferences(reference: ReferenceEntity) {
-  return reference.citesReferenceIds
-    .map((id) => byId.get(id))
+  return reference.citations
+    .map((citation) => byId.get(citation.targetId))
     .filter((item): item is ReferenceEntity => Boolean(item));
 }
 
 export function getCitingReferences(referenceId: string) {
-  return references.filter((reference) => reference.citesReferenceIds.includes(referenceId));
+  return references.filter((reference) => reference.citations.some((citation) => citation.targetId === referenceId));
+}
+
+export function getCitation(reference: ReferenceEntity, targetId: string) {
+  return reference.citations.find((citation) => citation.targetId === targetId) ?? null;
 }
 
 export function formatReferenceAuthors(reference: ReferenceEntity, maxAuthors = 4) {
