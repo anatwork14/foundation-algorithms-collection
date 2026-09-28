@@ -8,7 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "check:links": "node scripts/check-markdown-links.mjs",
-    "test:search": "node --experimental-strip-types --test tests/search-passages.test.mjs"
+    "test:research": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
