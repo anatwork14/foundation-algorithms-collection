@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Network, ScrollText, Search, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Network, RefreshCcw, ScrollText, Search, ShieldCheck } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
 import { algorithms } from "@/lib/algorithm-catalog";
 import { claims } from "@/lib/claims";
@@ -9,10 +9,11 @@ import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
+import { replications } from "@/lib/replications";
 
 export const metadata: Metadata = {
   title: "Evidence",
-  description: "Trace Foundation Algorithms research from source passages and primary references to implementations and reproducible experiments.",
+  description: "Trace Foundation Algorithms research from source passages and primary references to implementations, experiments, and independent replication.",
 };
 
 const evidenceStages: EvidenceStage[] = [
@@ -30,6 +31,7 @@ export default function EvidencePage() {
   const algorithmsWithReferences = new Set(references.flatMap((reference) => reference.algorithmIds)).size;
   const algorithmsWithImplementations = new Set(implementations.flatMap((implementation) => implementation.algorithmIds)).size;
   const algorithmsWithExperiments = new Set(experiments.flatMap((experiment) => experiment.algorithmIds)).size;
+  const algorithmsWithReplications = new Set(replications.flatMap((replication) => replication.algorithmIds)).size;
   const profiles = algorithms.map((algorithm) => getAlgorithmEvidenceProfile(algorithm.id));
   const stageCounts = new Map<EvidenceStage, number>(evidenceStages.map((stage) => [stage, 0]));
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
@@ -41,7 +43,7 @@ export default function EvidencePage() {
         <span className="eyebrow"><GitBranch size={13} /> Research evidence</span>
         <h1>Trace an idea from source to code to experiment.</h1>
         <p>
-          Evidence is kept separate from conceptual descriptions so the archive can distinguish source passages, primary literature and standards, executable code, curated claim assertions, and what this project has actually tested.
+          Evidence is kept separate from conceptual descriptions so the archive can distinguish source passages, primary literature and standards, executable code, curated claim assertions, project experiments, and independently authored replication evidence.
         </p>
         <EvidenceNav current="overview" />
       </header>
@@ -51,6 +53,7 @@ export default function EvidencePage() {
         <div><strong>{claims.length}</strong><span>curated claims</span></div>
         <div><strong>{implementations.length}</strong><span>implementation records</span></div>
         <div><strong>{experiments.length}</strong><span>experiment records</span></div>
+        <div><strong>{replications.length}</strong><span>independent replications</span></div>
       </section>
 
       <section className="evidence-stage-section">
@@ -58,7 +61,7 @@ export default function EvidencePage() {
           <div>
             <span className="section-kicker">Evidence profile</span>
             <h2>Coverage stages, not truth scores.</h2>
-            <p>An algorithm advances through this archive only when another evidence layer is actually present. The stage does not rank scientific quality or correctness.</p>
+            <p>An algorithm advances through this archive only when another evidence layer is actually present. A `Replicated` stage means an explicit independent evaluation record exists; it does not imply that evaluation agreed with the original result.</p>
           </div>
         </div>
         <div className="evidence-coverage-grid">
@@ -103,18 +106,27 @@ export default function EvidencePage() {
           <div className="evidence-hub-icon"><Code2 size={19} /></div>
           <span className="research-block-label">Executable knowledge</span>
           <h2>Implementations</h2>
-          <p>Curated repositories with language, interface, license, maturity, source paths, and verification metadata.</p>
+          <p>Curated repositories with immutable source snapshots, interfaces, license metadata, and exact verification revisions.</p>
           <div className="evidence-card-stats"><span>{implementations.length} records</span><span>{algorithmsWithImplementations} algorithms covered</span></div>
           <strong>Inspect implementations <ArrowRight size={14} /></strong>
         </Link>
 
         <Link href="/experiments" className="evidence-hub-card">
           <div className="evidence-hub-icon"><FlaskConical size={19} /></div>
-          <span className="research-block-label">Empirical knowledge</span>
+          <span className="research-block-label">Project empirical knowledge</span>
           <h2>Experiments</h2>
           <p>Reproducible plans and results preserving baselines, datasets, metrics, environment controls, success criteria, and negative findings.</p>
           <div className="evidence-card-stats"><span>{experiments.length} records</span><span>{algorithmsWithExperiments} algorithms under study</span></div>
           <strong>Browse experiments <ArrowRight size={14} /></strong>
+        </Link>
+
+        <Link href="/replications" className="evidence-hub-card">
+          <div className="evidence-hub-icon"><RefreshCcw size={19} /></div>
+          <span className="research-block-label">Independent evaluation</span>
+          <h2>Replications</h2>
+          <p>Independently authored replication/evaluation sources with explicit links to original references, outcomes, and independence notes.</p>
+          <div className="evidence-card-stats"><span>{replications.length} records</span><span>{algorithmsWithReplications} algorithms independently evaluated</span></div>
+          <strong>Inspect replications <ArrowRight size={14} /></strong>
         </Link>
       </section>
 
@@ -127,8 +139,9 @@ export default function EvidencePage() {
           <div><span>02</span><Search size={17} /><strong>Passage</strong><p>Passage records identify the exact place in the Markdown corpus where an archive statement is grounded.</p></div>
           <div><span>03</span><ScrollText size={17} /><strong>Source</strong><p>References establish where the mechanism, guarantee, standard, or empirical result comes from.</p></div>
           <div><span>04</span><ShieldCheck size={17} /><strong>Claim</strong><p>Curated claims join a precise archive statement to a unique passage and explicit supporting references.</p></div>
-          <div><span>05</span><Code2 size={17} /><strong>Implementation</strong><p>Registry records identify inspectable code without treating an implementation as proof of correctness.</p></div>
-          <div><span>06</span><FlaskConical size={17} /><strong>Experiment</strong><p>Experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
+          <div><span>05</span><Code2 size={17} /><strong>Implementation</strong><p>Registry records identify exact inspected code revisions without treating an implementation as proof of correctness.</p></div>
+          <div><span>06</span><FlaskConical size={17} /><strong>Experiment</strong><p>Project experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
+          <div><span>07</span><RefreshCcw size={17} /><strong>Replication</strong><p>Independent records preserve agreement, disagreement, partial reproduction, or inconclusive evaluation without converting any outcome into a truth score.</p></div>
         </div>
       </section>
 
