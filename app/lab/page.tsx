@@ -6,6 +6,7 @@ import { algorithms, getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { assertValidResearchCombinations } from "@/lib/combination-validation";
 import { getAllDocuments } from "@/lib/content";
+import { experimentsForCombination } from "@/lib/experiments";
 import { referencesForCombination } from "@/lib/references";
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function LabPage() {
             .map((slug) => documents.find((doc) => doc.slug === slug))
             .filter((doc) => Boolean(doc));
           const evidence = referencesForCombination(combination.id);
+          const linkedExperiments = experimentsForCombination(combination.id);
 
           return (
             <article key={combination.id} className="lab-record" id={combination.id}>
@@ -92,6 +94,21 @@ export default function LabPage() {
                   <ol>{combination.experimentPlan.map((step) => <li key={step}>{step}</li>)}</ol>
                 </div>
               </div>
+
+              {linkedExperiments.length > 0 && (
+                <section className="lab-evidence-links" aria-label={`Experiment records for ${combination.title}`}>
+                  <div><FlaskConical size={14} /><span>Experiment records</span></div>
+                  <div>
+                    {linkedExperiments.map((experiment) => (
+                      <Link key={experiment.id} href={`/experiments/${experiment.id}`} className="lab-experiment-links">
+                        <span>{experiment.status}</span>
+                        <strong>{experiment.title}</strong>
+                        <small>{experiment.metrics.length} metrics · updated {experiment.lastUpdated}</small>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               {evidence.length > 0 && (
                 <section className="lab-evidence-links" aria-label={`References supporting ${combination.title}`}>
