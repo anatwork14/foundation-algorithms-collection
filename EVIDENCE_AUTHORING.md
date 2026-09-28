@@ -2,6 +2,8 @@
 
 This guide defines how to extend the Foundation Algorithms evidence layer without weakening the research archive's provenance.
 
+See also [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md) for the descriptive evidence-stage model, reference roles, and citation-provenance rules.
+
 The governing rule is simple:
 
 > **Concepts, sources, implementations, hypotheses, and empirical results are different kinds of knowledge. Never collapse them into one record.**
@@ -61,6 +63,12 @@ This is a **navigation/provenance aid**, not claim-level citation proof.
 
 If an important algorithm has no matching heading, improve the Markdown structure or add a future explicit passage record rather than inventing an anchor.
 
+### Evidence profile
+
+Algorithm evidence stages are derived from linked records and describe **archive coverage**, not scientific quality.
+
+Do not manually promote an Algorithm by changing a stage label. Add the missing Reference, Implementation, Experiment, result, or future replication record; the profile should follow the evidence graph.
+
 ---
 
 ## 2. Reference entities
@@ -77,8 +85,44 @@ Required discipline:
 4. Link only to Algorithms / Lab combinations / chapters that the source genuinely informs.
 5. Write `summary` as a neutral description of the source.
 6. Write `significance` as why the source matters to this archive—not as a claim that the source proves everything linked to it.
+7. Assign the controlled `evidenceRole` that describes why the source is in the archive.
+8. Add source-to-source citation edges only after direct verification.
 
-Example shape:
+### Reference evidence roles
+
+Use one of:
+
+- `Primary method` — introduces/defines the central method represented here;
+- `Primary extension` — introduces a material extension/variant;
+- `Normative standard` — specifies normative requirements;
+- `Survey / synthesis` — synthesizes existing literature;
+- `Replication / evaluation` — materially reproduces or independently evaluates an existing method.
+
+The role is descriptive, not a quality grade.
+
+### Citation edges
+
+Citation graph edges use this shape:
+
+```ts
+{
+  targetId: "another-reference-id",
+  note: "Why the citation is known to exist and where it appears.",
+  verificationUrl: "https://authoritative-source/...",
+  verifiedAt: "2026-09-28"
+}
+```
+
+Rules:
+
+1. Verify against the source itself or an authoritative proceedings/standards copy.
+2. Never infer a citation because two papers are related or chronologically ordered.
+3. Never add a citation edge from model memory alone.
+4. Keep the note concise and descriptive.
+5. A missing edge means **not curated yet**, not **does not cite**.
+6. Re-check the verification source when materially editing an edge.
+
+Example Reference shape:
 
 ```ts
 {
@@ -87,19 +131,21 @@ Example shape:
   authors: ["..."],
   year: 2026,
   kind: "Paper",
+  evidenceRole: "Primary method",
   venue: "...",
   url: "https://...",
   doi: "...",
   algorithmIds: ["..."],
   combinationIds: ["..."],
   chapterSlugs: ["..."],
+  citations: [],
   summary: "...",
   significance: "...",
   tags: ["..."]
 }
 ```
 
-Run/build validation must reject broken Algorithm, Combination, or chapter links.
+Run/build validation must reject broken Algorithm, Combination, chapter, and citation links, as well as malformed citation-verification metadata.
 
 ---
 
@@ -238,7 +284,8 @@ Current build-time validators cover:
 
 - Algorithm entity identifiers and relation targets;
 - Combination component IDs and required fields;
-- Reference links to Algorithms, combinations, and chapters;
+- Reference roles and links to Algorithms, combinations, and chapters;
+- Reference citation targets, duplicate/self edges, verification URL, verification note, and verification date;
 - Implementation links and required repository metadata;
 - Experiment links to Algorithms and combinations and required protocol fields.
 
@@ -294,6 +341,8 @@ Reproducible result
 Independent replication / broader evidence
 ```
 
+The UI calls the derived position an **evidence stage**. It is an archive-coverage description, never a scalar truth or quality score.
+
 Do not visually or textually present lower rungs as if they were higher rungs.
 
 ---
@@ -305,6 +354,8 @@ Check:
 - [ ] Is this the correct record type?
 - [ ] Are all IDs stable and linked to real entities?
 - [ ] Is the source/repository URL verified?
+- [ ] Does every Reference have the correct evidence role?
+- [ ] If adding a citation edge, did I record a verification URL, note, and checked date?
 - [ ] Are uncertainty and limitations preserved?
 - [ ] Is the wording descriptive rather than promotional?
 - [ ] For an experiment, were success criteria defined before the result?
