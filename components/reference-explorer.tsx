@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowUpRight, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import type { ReferenceEntity, ReferenceKind } from "@/lib/references";
 import { referenceSearchText } from "@/lib/references";
 
@@ -45,18 +45,25 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
             <div className="reference-year">{reference.year}</div>
             <div className="reference-main">
               <div className="reference-overline">{reference.kind}{reference.venue ? ` · ${reference.venue}` : ""}</div>
-              <h2>{reference.title}</h2>
+              <h2><Link href={`/references/${reference.id}`}>{reference.title}</Link></h2>
               <p className="reference-authors">{reference.authors.join(", ")}</p>
               <p>{reference.summary}</p>
               <div className="reference-tags">{reference.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </div>
             <div className="reference-actions">
+              <Link href={`/references/${reference.id}`}>Evidence record <ArrowRight size={13} /></Link>
               <a href={reference.url} target="_blank" rel="noreferrer">Primary source <ArrowUpRight size={13} /></a>
-              {reference.algorithmIds.slice(0, 3).map((id) => <Link key={id} href={`/algorithms/${id}`}>Algorithm · {id}</Link>)}
-              {reference.combinationIds.slice(0, 2).map((id) => <Link key={id} href={`/lab#${id}`}>Lab · {id}</Link>)}
+              <span>{reference.algorithmIds.length} algorithms · {reference.combinationIds.length} Lab records</span>
             </div>
           </article>
         ))}
+        {!results.length && (
+          <div className="reference-empty">
+            <Search size={20} />
+            <strong>No matching reference.</strong>
+            <span>Try an author, algorithm, standard, venue, or broader keyword.</span>
+          </div>
+        )}
       </section>
     </main>
   );
