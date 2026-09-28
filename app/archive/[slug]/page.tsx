@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown, { type Components } from "react-markdown";
+import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, Sigma } from "lucide-react";
 import { getAllDocuments, getDocument } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
@@ -75,7 +77,11 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
 
       <div className="shell detail-layout">
         <article className="markdown-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]} components={markdownComponents}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeSlug, rehypeKatex]}
+            components={markdownComponents}
+          >
             {doc.body}
           </ReactMarkdown>
         </article>
