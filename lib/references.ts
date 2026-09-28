@@ -170,6 +170,15 @@ export function referencesForCombination(combinationId: string) {
   return references.filter((reference) => reference.combinationIds.includes(combinationId));
 }
 
+export function referencesForChapter(chapterSlug: string) {
+  return references.filter((reference) => reference.chapterSlugs.includes(chapterSlug));
+}
+
+export function formatReferenceAuthors(reference: ReferenceEntity, maxAuthors = 4) {
+  if (reference.authors.length <= maxAuthors) return reference.authors.join(", ");
+  return `${reference.authors.slice(0, maxAuthors).join(", ")} et al.`;
+}
+
 export function referenceSearchText(reference: ReferenceEntity) {
   return [
     reference.title,
@@ -177,6 +186,7 @@ export function referenceSearchText(reference: ReferenceEntity) {
     reference.year.toString(),
     reference.kind,
     reference.venue ?? "",
+    reference.doi ?? "",
     reference.summary,
     reference.significance,
     ...reference.tags,
