@@ -14,6 +14,7 @@ import "./archive-discovery.css";
 import "./citation-graph.css";
 import "./evidence-profile.css";
 import "./search-passages.css";
+import "./passage-provenance.css";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
