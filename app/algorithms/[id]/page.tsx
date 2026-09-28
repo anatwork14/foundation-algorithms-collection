@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Beaker, BookOpen, Code2, FlaskConical, GitBranch
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
+import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
@@ -42,6 +43,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
   const primaryReferences = referencesForAlgorithm(algorithm.id);
   const implementationRecords = implementationsForAlgorithm(algorithm.id);
   const experimentRecords = experimentsForAlgorithm(algorithm.id);
+  const evidenceProfile = getAlgorithmEvidenceProfile(algorithm.id);
 
   return (
     <main className="algorithm-detail-page">
@@ -64,6 +66,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
         </div>
         <aside className="algorithm-summary-panel">
           <div><span>Maturity</span><strong>{algorithm.maturity}</strong></div>
+          <div><span>Evidence stage</span><strong>{evidenceProfile.stage}</strong></div>
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
           <div><span>Source sections</span><strong>{sourceSections.length}</strong></div>
@@ -132,6 +135,23 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
         </article>
 
         <aside className="algorithm-side">
+          <div className="entity-side-card evidence-profile">
+            <div className="entity-side-title"><ShieldCheck size={14} /> Evidence profile</div>
+            <div className="evidence-profile-stage">
+              <span>Current archive stage</span>
+              <strong>{evidenceProfile.stage}</strong>
+              <small>Describes which evidence layers are present. It is not a scientific quality or truth score.</small>
+            </div>
+            <div className="evidence-dimensions">
+              {evidenceProfile.dimensions.map((dimension) => (
+                <div key={dimension.key} className={`evidence-dimension ${dimension.present ? "is-present" : ""}`}>
+                  <span>{dimension.label}</span>
+                  <strong>{dimension.state}</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="entity-side-card">
             <div className="entity-side-title"><GitBranch size={14} /> Relationships</div>
             {related.map(({ relation, algorithm: target }) => (
@@ -171,7 +191,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
               <div className="entity-side-title"><ScrollText size={14} /> Primary references</div>
               {primaryReferences.map((reference) => (
                 <Link key={reference.id} href={`/references/${reference.id}`} className="entity-reference-link">
-                  <span>{reference.kind} · {reference.year}</span>
+                  <span>{reference.evidenceRole} · {reference.year}</span>
                   <strong>{reference.title}</strong>
                   <small>{reference.venue ?? reference.authors[0]}</small>
                 </Link>
