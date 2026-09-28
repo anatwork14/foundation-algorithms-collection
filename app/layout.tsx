@@ -13,6 +13,7 @@ import "./evidence-hub.css";
 import "./archive-discovery.css";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
+import { assertResearchIntegrity } from "@/lib/research-integrity";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const documents = getAllDocuments();
+  assertResearchIntegrity(documents);
 
   return (
     <html lang="en">
