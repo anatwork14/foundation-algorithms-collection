@@ -5,7 +5,7 @@
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)
 
-A checked item means the implementation exists in the repository. Visual, accessibility, evidence, and production acceptance are tracked separately.
+A checked item means the implementation exists in the repository. Visual, accessibility, evidence-quality, and production acceptance are tracked separately.
 
 ---
 
@@ -24,7 +24,10 @@ Typed relationship Atlas
       ↓
 Structured Combination Lab
       ↓
-Hypotheses + experiment plans
+Unified Evidence hub
+      ├── Primary references
+      ├── Implementation registry
+      └── Experiment registry
 ```
 
 ### Phase status
@@ -37,7 +40,7 @@ Hypotheses + experiment plans
 | 3 — Algorithm-level indexing | 🟡 Working first version |
 | 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
 | 5 — Lab | 🟡 Working first version with structured seed hypotheses |
-| 6 — Research evidence layer | ⬜ Not started |
+| 6 — Research evidence layer | 🟡 Working first version: sources + code + planned experiments |
 | 7 — Advanced discovery | ⬜ Not started |
 
 ---
@@ -106,6 +109,7 @@ Hypotheses + experiment plans
 - [x] Active/current-section TOC via `IntersectionObserver`.
 - [x] Related chapters + previous/next navigation.
 - [x] Chapter → Algorithm entity panel.
+- [x] Chapter → curated Reference panel.
 - [x] Internal Markdown H1 sections normalized beneath page H1.
 - [x] Controlled reading width and research typography.
 - [x] Lists, blockquotes, links, code, and research tables.
@@ -113,8 +117,7 @@ Hypotheses + experiment plans
 
 ### Reader still needed
 
-- [ ] Exact source-passage backlinks from Algorithm entities.
-- [ ] First-class citation/reference entities.
+- [ ] Exact source-passage backlinks from Algorithm/Reference entities.
 - [ ] Browser acceptance for extreme equations/tables.
 - [ ] Math accessibility review.
 
@@ -124,11 +127,16 @@ Hypotheses + experiment plans
 - [x] Home and Archive search.
 - [x] Global `Cmd/Ctrl + K` search.
 - [x] Global search includes Algorithm entities.
+- [x] Global search includes References.
+- [x] Global search includes Implementation records.
+- [x] Global search includes Experiment records.
 - [x] Dedicated Algorithm search with field + maturity filters.
+- [x] Dedicated Reference search/type filter.
+- [x] Dedicated Implementation search/maturity filter.
+- [x] Dedicated Experiment search/status filter.
 
 ### Search still needed
 
-- [ ] Reference/paper search.
 - [ ] Passage-level result snippets.
 - [ ] Optional semantic retrieval after structural search matures.
 
@@ -153,6 +161,7 @@ Hypotheses + experiment plans
 - [x] Canonical SVG logo: `public/foundation-algorithms-mark.svg`.
 - [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
 - [x] Header and application icon use canonical SVG.
+- [x] Primary product navigation consolidated to Archive / Algorithms / Atlas / Lab / Evidence.
 
 ## Still needed
 
@@ -189,6 +198,9 @@ Hypotheses + experiment plans
 - [x] `/algorithms/[id]` static research cards.
 - [x] Incoming/outgoing typed relationships.
 - [x] Source-chapter links.
+- [x] Primary Reference backlinks.
+- [x] Implementation-record backlinks.
+- [x] Experiment-record backlinks.
 - [x] Lab hypothesis links from Algorithm cards.
 - [x] Algorithm entities in global search.
 - [x] Chapter → Algorithm backlinks.
@@ -208,8 +220,7 @@ Hypotheses + experiment plans
 
 - [ ] Exact source-passage linkage.
 - [ ] Explicit variant records rather than relation-only variants.
-- [ ] First-class papers/references.
-- [ ] First-class implementation repository records.
+- [ ] Broader curated coverage across all Markdown algorithms.
 
 ---
 
@@ -249,8 +260,8 @@ Hypotheses + experiment plans
 ## Still needed
 
 - [ ] More relation density across all seeded entities.
-- [ ] Reference/paper nodes.
-- [ ] Implementation nodes.
+- [ ] Reference/paper nodes in Atlas itself.
+- [ ] Implementation nodes in Atlas itself.
 - [ ] Evidence strength on edges.
 - [ ] Historical/evolution relationships.
 
@@ -272,6 +283,8 @@ Hypotheses + experiment plans
 - [x] Structured hypothesis records and experiment plans.
 - [x] Speculation/status labels distinct from established knowledge.
 - [x] Algorithm cards link into relevant Lab hypotheses.
+- [x] Lab records link to supporting curated References where available.
+- [x] Lab records link to structured Experiment records where available.
 
 ## Structured seed hypotheses
 
@@ -288,26 +301,85 @@ Hypotheses + experiment plans
 
 - [ ] Persist user-authored hypotheses/experiments.
 - [ ] Automatic assumption-conflict analysis for arbitrary pairs.
-- [ ] Evidence/results field and persistence.
-- [ ] Dataset/benchmark attachments.
-- [ ] Experiment status/history.
+- [ ] Attach actual empirical outcomes as experiments are run.
+- [ ] Rich dataset/benchmark attachments.
+- [ ] Experiment revision/status history.
 
 ---
 
 # Phase 6 — Research evidence layer
 
-- [ ] Reference entity schema.
-- [ ] Primary-reference extraction/curation.
-- [ ] Reference → Algorithm links.
-- [ ] Reference → Combination links.
-- [ ] Citation graph.
-- [ ] Implementation records with language/framework/license/source metadata.
-- [ ] Experiment entity schema.
-- [ ] Dataset/benchmark links.
-- [ ] Environment/configuration/results/reproduction instructions.
-- [ ] Preserve failed and inconclusive experiments.
+**State:** first structured evidence system implemented; breadth and empirical results still limited.
+
+## Unified evidence surface
+
+- [x] `/evidence` overview route.
+- [x] Evidence model visually distinguishes conceptual knowledge, primary sources, implementations, and experiments.
+- [x] Evidence sub-surfaces remain separately searchable and inspectable.
+
+## References
+
+- [x] `ReferenceEntity` schema.
+- [x] Initial curated primary-source/standards set.
+- [x] Reference validation for IDs, HTTPS source, year, tags, Algorithm links, Combination links, and chapter slugs.
+- [x] `/references` searchable/type-filtered index.
+- [x] `/references/[id]` evidence detail pages.
+- [x] Reference → Algorithm links.
+- [x] Reference → Combination/Lab links.
+- [x] Reference → chapter links.
+- [x] Algorithm → Reference backlinks.
+- [x] Lab → Reference backlinks where curated.
+- [x] Chapter → Reference backlinks.
+- [x] References included in global command search.
+- [ ] Broader primary-reference coverage across all entities.
+- [ ] Exact claim/source-passage linkage.
+- [ ] Reference-to-reference citation graph.
+
+## Implementations
+
+- [x] `ImplementationRecord` schema.
+- [x] Repository, homepage, Algorithm links, language, interfaces, license, maturity, implementation notes, source paths, and verification date.
+- [x] Initial registry includes verified HNSW, QPE, and ML-KEM implementation sources.
+- [x] Implementation validation against Algorithm entity IDs and required metadata.
+- [x] `/implementations` searchable/maturity-filtered registry.
+- [x] `/implementations/[id]` detail pages.
+- [x] Algorithm → Implementation backlinks.
+- [x] Implementation → Algorithm links.
+- [x] Implementation records included in global command search.
+- [ ] Expand implementation coverage across more Algorithm entities.
+- [ ] Automated repository freshness/version checks.
+- [ ] Track specific release/version/commit in addition to verification date.
+
+## Experiments
+
+- [x] `ExperimentRecord` schema.
+- [x] Planned/Running/Completed/Inconclusive/Failed status model.
+- [x] Positive/Negative/Mixed/Inconclusive outcome model.
+- [x] Baselines.
+- [x] Dataset/benchmark descriptions.
+- [x] Metrics.
+- [x] Environment/configuration controls.
+- [x] Reproduction procedure.
+- [x] Precommitted success criteria.
+- [x] Artifact slots.
+- [x] Result/outcome/limitations slots.
+- [x] Validation against Algorithm and Combination IDs.
+- [x] `/experiments` searchable/status-filtered registry.
+- [x] `/experiments/[id]` detail pages.
+- [x] Algorithm → Experiment backlinks.
+- [x] Lab hypothesis → Experiment backlinks.
+- [x] Experiments included in global command search.
+- [x] Initial planned studies for LinUCB×fuzzing, HNSW×LinUCB, and learned-QEC priors.
+- [x] Schema can preserve failed/inconclusive studies instead of deleting them.
+- [ ] Run and attach first empirical result.
+- [ ] Add concrete benchmark URLs/data artifacts as experiments mature.
+- [ ] Persist user-authored experiment updates/results.
+
+## Evidence history still needed
+
 - [ ] Research-chapter diff view.
 - [ ] Algorithm/evidence maturity history.
+- [ ] Evidence-strength scoring/provenance policy.
 
 ---
 
@@ -332,13 +404,16 @@ Hypotheses + experiment plans
 - [x] Next.js production build.
 - [x] Algorithm validation participates in static build.
 - [x] Combination validation participates in Lab static build.
+- [x] Reference validation participates in Reference static build.
+- [x] Implementation validation participates in Implementation static build.
+- [x] Experiment validation participates in Experiment static build.
 - [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
 
 ## Still needed
 
 - [ ] ESLint/static lint workflow.
 - [ ] Content-parser unit tests.
-- [ ] Algorithm/Combination validation unit tests.
+- [ ] Algorithm/Combination/Reference/Implementation/Experiment validation unit tests.
 - [ ] Math-delimiter normalization tests.
 - [ ] Heading/TOC slug tests.
 - [ ] Search tests.
@@ -354,7 +429,8 @@ Hypotheses + experiment plans
 # Deployment
 
 - [x] Repository builds as a Next.js application.
-- [x] CI confirms production builds succeed.
+- [x] CI confirms production builds succeed through the pre-Evidence-hub integration checkpoint.
+- [ ] Reconfirm latest full Evidence integration run after all current commits.
 - [ ] Hosting/Vercel project connected.
 - [ ] Preview deployment reviewed.
 - [ ] Production deployment reviewed.
@@ -372,7 +448,7 @@ Hypotheses + experiment plans
 - [ ] Contribution guide.
 - [ ] Algorithm metadata authoring guide.
 - [ ] Atlas relationship authoring guide.
-- [ ] Lab hypothesis/experiment authoring guide.
+- [ ] Evidence/reference/implementation/experiment authoring guide.
 - [ ] Deployment/operations guide.
 
 ---
@@ -405,22 +481,37 @@ Hypotheses + experiment plans
 
 - added Learned Heuristics, Branch and Bound, NeuralUCB, Embedding Models, SAT/SMT, Error-Correcting Codes, Lattice foundations, and MPC;
 - introduced combined Algorithm catalog so all new entities participate in search, Archive backlinks, Algorithm pages, and Atlas;
-- closed the initial Atlas chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, and lattice/PQC/FHE;
-- added FHE × MPC × ZK × AI structured research hypothesis;
+- closed initial Atlas chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, and lattice/PQC/FHE;
+- added FHE × MPC × ZK × AI structured hypothesis;
 - added Learned Heuristics × A* × Branch-and-Bound structured hypothesis;
 - added Combination validation;
-- latest expanded catalog passed TypeScript and production Next.js build in GitHub Actions.
+- expanded catalog passed TypeScript and production Next.js build in GitHub Actions.
+
+## 2026-09-28 — Evidence tranche 1
+
+- added first-class `ReferenceEntity` records with validation and `/references` index/detail routes;
+- connected References bidirectionally with Algorithms, Lab hypotheses, and Archive chapters;
+- added first-class `ImplementationRecord` registry with repository/source-path/license/maturity metadata and validation;
+- verified initial implementation repositories and relevant source paths before adding them to the registry;
+- added `/implementations` index/detail routes and Algorithm backlinks;
+- added `ExperimentRecord` schema with baselines, datasets, metrics, environments, procedure, success criteria, artifacts, result slots, and negative/inconclusive outcome support;
+- added three initial planned experiment records and `/experiments` index/detail routes;
+- connected experiments to Algorithms and Lab hypotheses;
+- added unified `/evidence` hub and consolidated top navigation to Archive / Algorithms / Atlas / Lab / Evidence;
+- global command search now spans Algorithms, References, Implementations, Experiments, and chapters.
 
 ---
 
 ## Immediate next engineering work
 
-1. Browser acceptance across phone/tablet/desktop and light/dark.
-2. Accessibility/contrast/math acceptance.
-3. Clean obsolete legacy CSS after browser review.
-4. Start Phase 6 with reference/paper entities and source-passage provenance.
-5. Add experiment/evidence records to Lab.
-6. Add tests for content parsing, entity validation, search, routes, and broken links.
+1. Reconfirm CI for the complete Evidence tranche and repair any integration issue.
+2. Browser acceptance across phone/tablet/desktop and light/dark.
+3. Accessibility/contrast/math acceptance.
+4. Clean obsolete legacy CSS after browser review.
+5. Add tests for content parsing, all entity validators, search, routes, and broken links.
+6. Expand reference and implementation coverage before semantic retrieval.
+7. Add exact source-passage provenance.
+8. Run the first reproducible experiment and preserve its result, including negative/inconclusive outcomes if applicable.
 
 ---
 
@@ -430,4 +521,4 @@ Update this file whenever a meaningful feature, acceptance gate, or phase change
 
 - `[x]` — implemented and present in the repository.
 - `[ ]` — not yet complete.
-- Implementation does **not** imply visual/accessibility/evidence/production acceptance unless that acceptance item is also checked.
+- Implementation does **not** imply visual/accessibility/evidence-quality/production acceptance unless that acceptance item is also checked.
