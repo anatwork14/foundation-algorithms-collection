@@ -144,7 +144,7 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
                     <div className="archive-row-label">{doc.field}</div>
                     <h3>{doc.title}</h3>
                     <p>{doc.summary}</p>
-                    {passage && <SearchSnippet heading={passage.heading} text={passage.text} query={query} />}
+                    {passage && <SearchSnippet heading={passage.heading} text={passage.snippet} query={query} />}
                   </div>
                   <div className="home-archive-meta">
                     <span>{doc.minutes} min</span>
