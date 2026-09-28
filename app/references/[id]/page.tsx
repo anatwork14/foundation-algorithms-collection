@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, S
 import { getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
-import { formatReferenceAuthors, getReference, references } from "@/lib/references";
+import { formatReferenceAuthors, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
 
 export function generateStaticParams() {
   return references.map((reference) => ({ id: reference.id }));
@@ -34,6 +34,8 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
   const linkedChapters = reference.chapterSlugs
     .map((slug) => documents.find((document) => document.slug === slug))
     .filter((item) => Boolean(item));
+  const citedReferences = getCitedReferences(reference);
+  const citingReferences = getCitingReferences(reference.id);
 
   return (
     <main className="reference-detail-page">
@@ -45,15 +47,18 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
 
       <header className="shell reference-detail-hero">
         <div>
-          <span className="reference-detail-kind">{reference.kind}{reference.venue ? ` · ${reference.venue}` : ""}</span>
+          <span className="reference-detail-kind">{reference.evidenceRole} · {reference.kind}{reference.venue ? ` · ${reference.venue}` : ""}</span>
           <h1>{reference.title}</h1>
           <p className="reference-detail-authors">{formatReferenceAuthors(reference, 12)}</p>
           <p>{reference.summary}</p>
         </div>
         <aside className="reference-detail-meta">
           <div><span>Year</span><strong>{reference.year}</strong></div>
+          <div><span>Evidence role</span><strong>{reference.evidenceRole}</strong></div>
           <div><span>Algorithms</span><strong>{reference.algorithmIds.length}</strong></div>
           <div><span>Lab records</span><strong>{reference.combinationIds.length}</strong></div>
+          <div><span>Curated citations</span><strong>{citedReferences.length}</strong></div>
+          <div><span>Curated citing sources</span><strong>{citingReferences.length}</strong></div>
           <div><span>Chapters</span><strong>{reference.chapterSlugs.length}</strong></div>
         </aside>
       </header>
@@ -77,8 +82,35 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
             </div>
           </section>
 
+          {(citedReferences.length > 0 || citingReferences.length > 0) && (
+            <section className="research-block">
+              <div className="research-block-label">03 · Citation neighborhood</div>
+              <h2>How this curated source connects to other sources</h2>
+              <p>These are explicit citation edges verified inside the current curated reference set. The graph is intentionally incomplete rather than inferred.</p>
+              <div className="reference-citation-list">
+                {citedReferences.map((cited) => (
+                  <Link key={`cites-${cited.id}`} href={`/references/${cited.id}`} className="reference-citation-link">
+                    <span>Cites · {cited.year}</span>
+                    <strong>{cited.title}</strong>
+                    <small>{cited.evidenceRole}</small>
+                    <ArrowRight size={13} />
+                  </Link>
+                ))}
+                {citingReferences.map((citing) => (
+                  <Link key={`cited-by-${citing.id}`} href={`/references/${citing.id}`} className="reference-citation-link">
+                    <span>Cited by · {citing.year}</span>
+                    <strong>{citing.title}</strong>
+                    <small>{citing.evidenceRole}</small>
+                    <ArrowRight size={13} />
+                  </Link>
+                ))}
+              </div>
+              <Link href="/references/graph" className="reference-graph-link"><Network size={14} /> Explore focused citation graph <ArrowRight size={13} /></Link>
+            </section>
+          )}
+
           <section className="research-block">
-            <div className="research-block-label">03 · Research connections</div>
+            <div className="research-block-label">04 · Research connections</div>
             <h2>Where this source enters the knowledge graph</h2>
             <div className="reference-connection-grid">
               {linkedAlgorithms.map((algorithm) => algorithm && (
