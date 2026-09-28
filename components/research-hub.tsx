@@ -131,19 +131,20 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
         </div>
 
         {filtered.length ? (
-          <div className="chapter-grid">
-            {filtered.slice(0, 9).map((doc) => (
-              <Link key={doc.slug} href={`/archive/${doc.slug}`} className="chapter-card">
-                <div className="chapter-card-top">
-                  <span className={`chapter-number field-${fieldKey(doc.field)}`}>{doc.number}</span>
-                  <span className="chapter-field">{doc.field}</span>
+          <div className="home-archive-list">
+            {filtered.slice(0, 8).map((doc) => (
+              <Link key={doc.slug} href={`/archive/${doc.slug}`} className="home-archive-row">
+                <span className={`chapter-number field-${fieldKey(doc.field)}`}>{doc.number}</span>
+                <div className="home-archive-copy">
+                  <div className="archive-row-label">{doc.field}</div>
+                  <h3>{doc.title}</h3>
+                  <p>{doc.summary}</p>
                 </div>
-                <h3>{doc.title}</h3>
-                <p>{doc.summary}</p>
-                <div className="chapter-tags">
-                  {doc.headings.slice(0, 2).map((heading) => <span key={heading}>{heading}</span>)}
+                <div className="home-archive-meta">
+                  <span>{doc.minutes} min</span>
+                  <span>{doc.words.toLocaleString()} words</span>
+                  <ArrowRight size={16} aria-hidden="true" />
                 </div>
-                <div className="chapter-footer"><span>{doc.minutes} min read</span><span>{doc.words.toLocaleString()} words</span><ArrowRight size={16} /></div>
               </Link>
             ))}
           </div>
@@ -156,7 +157,7 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
           </div>
         )}
 
-        {filtered.length > 9 && (
+        {filtered.length > 8 && (
           <div className="section-cta">
             <Link href="/archive" className="primary-button">Open full archive <ArrowRight size={16} /></Link>
           </div>
