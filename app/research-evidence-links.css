@@ -1,5 +1,6 @@
 /* Cross-surface provenance links layered on top of research-evidence.css. */
 
+.evidence-subnav,
 .evidence-switch {
   display: flex;
   flex-wrap: wrap;
@@ -8,6 +9,7 @@
   margin-top: var(--space-5);
 }
 
+.evidence-subnav > a,
 .evidence-switch > span,
 .evidence-switch > a {
   display: inline-flex;
@@ -17,9 +19,11 @@
   padding: 0 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius-button);
+  color: var(--muted);
   font-size: var(--text-meta);
 }
 
+.evidence-subnav > a.is-active,
 .evidence-switch > span {
   border-color: var(--line-strong);
   background: var(--surface-strong);
@@ -27,10 +31,7 @@
   font-weight: 600;
 }
 
-.evidence-switch > a {
-  color: var(--muted);
-}
-
+.evidence-subnav > a:hover,
 .evidence-switch > a:hover {
   color: var(--accent);
   border-color: var(--line-strong);
@@ -93,6 +94,15 @@
 }
 
 @media (max-width: 760px) {
+  .evidence-subnav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .evidence-subnav > a {
+    justify-content: center;
+  }
+
   .lab-evidence-links {
     grid-template-columns: 1fr;
     gap: var(--space-3);
