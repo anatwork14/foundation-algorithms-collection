@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, GitBranch, Layers3, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, FlaskConical, GitBranch, Layers3, ShieldCheck } from "lucide-react";
 import { algorithms, getAlgorithm, getRelatedAlgorithms } from "@/lib/algorithms";
+import { combinations } from "@/lib/combinations";
 import { getAllDocuments } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
 
@@ -32,6 +33,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
       .filter((relation) => relation.target === algorithm.id)
       .map((relation) => ({ algorithm: candidate, relation })))
     .filter((item) => !related.some((direct) => direct.algorithm.id === item.algorithm.id));
+  const labMatches = combinations.filter((combination) => combination.algorithmIds.includes(algorithm.id));
 
   return (
     <main className="algorithm-detail-page">
@@ -56,6 +58,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Maturity</span><strong>{algorithm.maturity}</strong></div>
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
+          <div><span>Lab hypotheses</span><strong>{labMatches.length}</strong></div>
           <div><span>Source chapters</span><strong>{algorithm.chapterSlugs.length}</strong></div>
         </aside>
       </header>
@@ -136,6 +139,20 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
               </Link>
             ))}
           </div>
+
+          {labMatches.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><FlaskConical size={14} /> Lab hypotheses</div>
+              {labMatches.map((combination) => (
+                <Link key={combination.id} href={`/lab#${combination.id}`} className="relation-link">
+                  <span>{combination.status}</span>
+                  <strong>{combination.title}</strong>
+                  <small>{combination.hypothesis}</small>
+                  <ArrowRight size={14} />
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className="entity-side-card">
             <div className="entity-side-title"><BookOpen size={14} /> Research sources</div>
