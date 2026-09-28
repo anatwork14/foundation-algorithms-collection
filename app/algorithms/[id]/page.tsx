@@ -8,6 +8,7 @@ import { getAllDocuments } from "@/lib/content";
 import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
+import { getAlgorithmSourceSections } from "@/lib/source-provenance";
 import { fieldKey } from "@/lib/taxonomy";
 
 export function generateStaticParams() {
@@ -30,6 +31,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
   const sources = algorithm.chapterSlugs
     .map((slug) => documents.find((doc) => doc.slug === slug))
     .filter((doc) => Boolean(doc));
+  const sourceSections = getAlgorithmSourceSections(algorithm);
   const related = getRelatedAlgorithms(algorithm);
   const inbound = algorithms
     .flatMap((candidate) => candidate.relations
@@ -64,6 +66,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Maturity</span><strong>{algorithm.maturity}</strong></div>
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
+          <div><span>Source sections</span><strong>{sourceSections.length}</strong></div>
           <div><span>References</span><strong>{primaryReferences.length}</strong></div>
           <div><span>Implementations</span><strong>{implementationRecords.length}</strong></div>
           <div><span>Experiments</span><strong>{experimentRecords.length}</strong></div>
@@ -149,6 +152,20 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
             ))}
           </div>
 
+          {sourceSections.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><BookOpen size={14} /> Source sections</div>
+              {sourceSections.slice(0, 10).map((section) => (
+                <Link key={`${section.chapterSlug}-${section.anchor}`} href={`/archive/${section.chapterSlug}#${section.anchor}`} className="source-section-link">
+                  <span>{section.chapterNumber} · heading match</span>
+                  <strong>{section.heading}</strong>
+                  <small>{section.chapterTitle}</small>
+                  <ArrowRight size={13} />
+                </Link>
+              ))}
+            </div>
+          )}
+
           {primaryReferences.length > 0 && (
             <div className="entity-side-card">
               <div className="entity-side-title"><ScrollText size={14} /> Primary references</div>
@@ -203,7 +220,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           )}
 
           <div className="entity-side-card">
-            <div className="entity-side-title"><BookOpen size={14} /> Research sources</div>
+            <div className="entity-side-title"><Layers3 size={14} /> Chapter context</div>
             {sources.map((source) => source && (
               <Link key={source.slug} href={`/archive/${source.slug}`} className="source-chapter-link">
                 <span>{source.number}</span>
@@ -220,7 +237,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus; linked references, implementations, experiments, and source chapters provide the evidence trail.</p>
+            <p>Entity metadata indexes the Markdown corpus. Heading-level source links are resolved from the live chapter TOC; references, implementations, experiments, and source chapters provide the wider evidence trail.</p>
           </div>
         </aside>
       </div>
