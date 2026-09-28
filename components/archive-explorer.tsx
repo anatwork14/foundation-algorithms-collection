@@ -1,17 +1,86 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Filter, Search, SlidersHorizontal } from "lucide-react";
 import type { DocSummary } from "@/lib/content";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 type SortMode = "number" | "title" | "length";
 
-export function ArchiveExplorer({ documents }: { documents: DocSummary[] }) {
-  const [query, setQuery] = useState("");
-  const [field, setField] = useState<ResearchField | "All">("All");
-  const [sort, setSort] = useState<SortMode>("number");
+type ArchiveExplorerProps = {
+  documents: DocSummary[];
+  initialQuery?: string;
+  initialField?: string;
+  initialSort?: string;
+};
+
+const fieldNames = new Set(fields.map((item) => item.name));
+
+function normalizeField(value?: string): ResearchField | "All" {
+  return value && fieldNames.has(value as ResearchField) ? value as ResearchField : "All";
+}
+
+function normalizeSort(value?: string): SortMode {
+  return value === "title" || value === "length" ? value : "number";
+}
+
+function stateFromLocation() {
+  if (typeof window === "undefined") return { query: "", field: "All" as const, sort: "number" as SortMode };
+  const params = new URLSearchParams(window.location.search);
+  return {
+    query: params.get("q") ?? "",
+    field: normalizeField(params.get("field") ?? undefined),
+    sort: normalizeSort(params.get("sort") ?? undefined),
+  };
+}
+
+export function ArchiveExplorer({ documents, initialQuery = "", initialField, initialSort }: ArchiveExplorerProps) {
+  const [query, setQuery] = useState(initialQuery);
+  const [field, setField] = useState<ResearchField | "All">(() => normalizeField(initialField));
+  const [sort, setSort] = useState<SortMode>(() => normalizeSort(initialSort));
+
+  useEffect(() => {
+    const onPopState = () => {
+      const next = stateFromLocation();
+      setQuery(next.query);
+      setField(next.field);
+      setSort(next.sort);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  function writeUrl(nextQuery: string, nextField: ResearchField | "All", nextSort: SortMode) {
+    const params = new URLSearchParams();
+    const cleanQuery = nextQuery.trim();
+    if (cleanQuery) params.set("q", cleanQuery);
+    if (nextField !== "All") params.set("field", nextField);
+    if (nextSort !== "number") params.set("sort", nextSort);
+    const search = params.toString();
+    window.history.replaceState({}, "", `${window.location.pathname}${search ? `?${search}` : ""}${window.location.hash}`);
+  }
+
+  function updateQuery(next: string) {
+    setQuery(next);
+    writeUrl(next, field, sort);
+  }
+
+  function updateField(next: ResearchField | "All") {
+    setField(next);
+    writeUrl(query, next, sort);
+  }
+
+  function updateSort(next: SortMode) {
+    setSort(next);
+    writeUrl(query, field, next);
+  }
+
+  function clearFilters() {
+    setQuery("");
+    setField("All");
+    writeUrl("", "All", sort);
+  }
 
   const results = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -50,18 +119,18 @@ export function ArchiveExplorer({ documents }: { documents: DocSummary[] }) {
       <section className="archive-toolbar" aria-label="Archive controls">
         <label className="archive-search">
           <Search size={18} />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the full archive…" />
+          <input value={query} onChange={(event) => updateQuery(event.target.value)} placeholder="Search the full archive…" />
         </label>
         <label className="select-control">
           <Filter size={16} />
-          <select value={field} onChange={(event) => setField(event.target.value as ResearchField | "All")}>
+          <select value={field} onChange={(event) => updateField(event.target.value as ResearchField | "All")}>
             <option value="All">All fields</option>
             {fields.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}
           </select>
         </label>
         <label className="select-control">
           <SlidersHorizontal size={16} />
-          <select value={sort} onChange={(event) => setSort(event.target.value as SortMode)}>
+          <select value={sort} onChange={(event) => updateSort(event.target.value as SortMode)}>
             <option value="number">Collection order</option>
             <option value="title">Title A–Z</option>
             <option value="length">Longest first</option>
@@ -71,7 +140,7 @@ export function ArchiveExplorer({ documents }: { documents: DocSummary[] }) {
 
       <div className="archive-result-meta">
         <span>{results.length} chapters</span>
-        {(query || field !== "All") && <button onClick={() => { setQuery(""); setField("All"); }}>Clear filters</button>}
+        {(query || field !== "All") && <button onClick={clearFilters}>Clear filters</button>}
       </div>
 
       <section className="archive-list" aria-live="polite">
