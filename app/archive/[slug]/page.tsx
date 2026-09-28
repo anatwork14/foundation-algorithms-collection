@@ -22,6 +22,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 const markdownComponents: Components = {
+  h1({ node: _node, children, ...props }) {
+    return <h2 {...props}>{children}</h2>;
+  },
   a({ href, children, ...props }) {
     const external = Boolean(href?.startsWith("http"));
     return (
@@ -90,7 +93,7 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
           <div className="toc-card">
             <div className="toc-title">On this page</div>
             <nav>
-              {doc.toc.slice(0, 22).map((item, index) => (
+              {doc.toc.slice(0, 30).map((item, index) => (
                 <a key={`${item.id}-${index}`} href={`#${item.id}`} className={item.level === 3 ? "toc-nested" : ""}>
                   {item.label}
                 </a>
