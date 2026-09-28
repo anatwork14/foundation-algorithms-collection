@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, ScrollText } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, ScrollText, ShieldCheck } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
+import { claimsForReference } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
 import { formatReferenceAuthors, getCitation, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
@@ -34,6 +35,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
   const linkedChapters = reference.chapterSlugs
     .map((slug) => documents.find((document) => document.slug === slug))
     .filter((item) => Boolean(item));
+  const claimRecords = claimsForReference(reference.id);
   const citedReferences = getCitedReferences(reference);
   const citingReferences = getCitingReferences(reference.id);
 
@@ -56,6 +58,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           <div><span>Year</span><strong>{reference.year}</strong></div>
           <div><span>Evidence role</span><strong>{reference.evidenceRole}</strong></div>
           <div><span>Algorithms</span><strong>{reference.algorithmIds.length}</strong></div>
+          <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
           <div><span>Lab records</span><strong>{reference.combinationIds.length}</strong></div>
           <div><span>Curated citations</span><strong>{citedReferences.length}</strong></div>
           <div><span>Curated citing sources</span><strong>{citingReferences.length}</strong></div>
@@ -150,6 +153,19 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
         </article>
 
         <aside className="reference-detail-side">
+          {claimRecords.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><ShieldCheck size={14} /> Curated claims using this source</div>
+              {claimRecords.map((claim) => (
+                <Link key={claim.id} href={`/claims#${claim.id}`} className="entity-reference-link">
+                  <span>{claim.kind}</span>
+                  <strong>{claim.statement}</strong>
+                  <small>Unique passage + reference assertion</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
           <div className="entity-side-card">
             <div className="entity-side-title"><BookOpen size={14} /> Source chapters</div>
             {linkedChapters.map((chapter) => chapter && (
