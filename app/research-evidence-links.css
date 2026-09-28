@@ -37,6 +37,45 @@
   border-color: var(--line-strong);
 }
 
+.source-section-link {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: var(--space-3) 28px var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+
+.source-section-link > span {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.source-section-link strong {
+  font-size: .8125rem;
+  line-height: 1.4;
+}
+
+.source-section-link small {
+  color: var(--muted);
+  font-size: var(--text-label);
+  line-height: 1.45;
+}
+
+.source-section-link > svg {
+  position: absolute;
+  right: 0;
+  top: var(--space-4);
+  color: var(--muted-2);
+}
+
+.source-section-link:hover strong,
+.source-section-link:hover > svg {
+  color: var(--accent);
+}
+
 .chapter-reference-card > a span {
   min-width: 36px;
   font-family: var(--font-mono), ui-monospace, monospace;
