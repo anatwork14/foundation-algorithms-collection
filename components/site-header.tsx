@@ -7,6 +7,7 @@ import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
 import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
 import type { DocSummary } from "@/lib/content";
+import { experiments, experimentSearchText } from "@/lib/experiments";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
@@ -19,7 +20,7 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "chapter" | "reference" | "implementation";
+  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment";
 };
 
 function linkedField(algorithmIds: string[]): ResearchField {
@@ -86,6 +87,16 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           score: 1,
           kind: "implementation" as const,
         })),
+        ...experiments.slice(0, 2).map((experiment) => ({
+          id: `experiment-${experiment.id}`,
+          title: experiment.title,
+          field: linkedField(experiment.algorithmIds),
+          meta: `${experiment.status} · ${experiment.metrics.length} metrics`,
+          href: `/experiments/${experiment.id}`,
+          marker: "EXP",
+          score: 1,
+          kind: "experiment" as const,
+        })),
         ...documents.slice(0, 2).map((doc) => ({
           id: `chapter-${doc.slug}`,
           title: doc.title,
@@ -149,6 +160,22 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
+    const experimentResults: SearchResult[] = experiments.map((experiment) => {
+      const exactTitle = experiment.title.toLowerCase() === needle ? 12 : 0;
+      const titleHit = experiment.title.toLowerCase().includes(needle) ? 8 : 0;
+      const bodyHit = experimentSearchText(experiment).includes(needle) ? 3 : 0;
+      return {
+        id: `experiment-${experiment.id}`,
+        title: experiment.title,
+        field: linkedField(experiment.algorithmIds),
+        meta: `${experiment.status} · ${experiment.metrics.length} metrics`,
+        href: `/experiments/${experiment.id}`,
+        marker: "EXP",
+        score: exactTitle + titleHit + bodyHit,
+        kind: "experiment",
+      };
+    });
+
     const chapterResults: SearchResult[] = documents.map((doc) => {
       const titleHit = doc.title.toLowerCase().includes(needle) ? 6 : 0;
       const summaryHit = doc.summary.toLowerCase().includes(needle) ? 3 : 0;
@@ -165,24 +192,25 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...referenceResults, ...implementationResults, ...chapterResults]
+    return [...algorithmResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
   }, [documents, query]);
 
   const nav = [
-    { href: "/archive", label: "Archive" },
-    { href: "/algorithms", label: "Algorithms" },
-    { href: "/atlas", label: "Atlas" },
-    { href: "/lab", label: "Lab" },
-    { href: "/references", label: "References" },
+    { href: "/archive", label: "Archive", matches: ["/archive"] },
+    { href: "/algorithms", label: "Algorithms", matches: ["/algorithms"] },
+    { href: "/atlas", label: "Atlas", matches: ["/atlas"] },
+    { href: "/lab", label: "Lab", matches: ["/lab"] },
+    { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments"] },
   ];
 
   function resultKindLabel(kind: SearchResult["kind"]) {
     if (kind === "algorithm") return "Algorithm";
     if (kind === "reference") return "Reference";
     if (kind === "implementation") return "Implementation";
+    if (kind === "experiment") return "Experiment";
     return "Research chapter";
   }
 
@@ -200,7 +228,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
 
           <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
             {nav.map((item) => {
-              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const active = item.matches.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
               return (
                 <Link key={item.href} href={item.href} className={active ? "is-active" : ""} onClick={() => setMenuOpen(false)}>
                   {item.label}
@@ -240,7 +268,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, papers, implementations, chapters…"
+                placeholder="Search algorithms, papers, code, experiments, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -267,7 +295,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + evidence + implementations + chapters</span>
+              <span>Algorithms + sources + code + experiments + chapters</span>
               <span>Use dedicated indexes for deeper filtering</span>
             </div>
           </div>
