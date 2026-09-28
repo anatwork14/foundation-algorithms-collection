@@ -23,6 +23,9 @@ jobs:
       - name: Check Markdown links
         run: npm run check:links
 
+      - name: Test passage search
+        run: npm run test:search
+
       - name: Typecheck
         run: npm run typecheck
 
@@ -55,6 +58,7 @@ jobs:
           routes=(
             "/"
             "/archive"
+            "/archive?q=contextual%20bandit"
             "/algorithms"
             "/algorithms/linucb"
             "/atlas"
