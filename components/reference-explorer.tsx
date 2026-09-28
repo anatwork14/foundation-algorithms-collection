@@ -72,7 +72,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
             <div className="reference-actions">
               <Link href={`/references/${reference.id}`}>Evidence record <ArrowRight size={13} /></Link>
               <a href={reference.url} target="_blank" rel="noreferrer">Primary source <ArrowUpRight size={13} /></a>
-              <span>{reference.algorithmIds.length} algorithms · {reference.combinationIds.length} Lab records · {reference.citesReferenceIds.length} curated citations</span>
+              <span>{reference.algorithmIds.length} algorithms · {reference.combinationIds.length} Lab records · {reference.citations.length} verified citations</span>
             </div>
           </article>
         ))}
