@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, S
 import { getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
-import { formatReferenceAuthors, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
+import { formatReferenceAuthors, getCitation, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
 
 export function generateStaticParams() {
   return references.map((reference) => ({ id: reference.id }));
@@ -88,22 +88,38 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
               <h2>How this curated source connects to other sources</h2>
               <p>These are explicit citation edges verified inside the current curated reference set. The graph is intentionally incomplete rather than inferred.</p>
               <div className="reference-citation-list">
-                {citedReferences.map((cited) => (
-                  <Link key={`cites-${cited.id}`} href={`/references/${cited.id}`} className="reference-citation-link">
-                    <span>Cites · {cited.year}</span>
-                    <strong>{cited.title}</strong>
-                    <small>{cited.evidenceRole}</small>
-                    <ArrowRight size={13} />
-                  </Link>
-                ))}
-                {citingReferences.map((citing) => (
-                  <Link key={`cited-by-${citing.id}`} href={`/references/${citing.id}`} className="reference-citation-link">
-                    <span>Cited by · {citing.year}</span>
-                    <strong>{citing.title}</strong>
-                    <small>{citing.evidenceRole}</small>
-                    <ArrowRight size={13} />
-                  </Link>
-                ))}
+                {citedReferences.map((cited) => {
+                  const citation = getCitation(reference, cited.id);
+                  if (!citation) return null;
+                  return (
+                    <div key={`cites-${cited.id}`} className="reference-citation-entry">
+                      <Link href={`/references/${cited.id}`} className="reference-citation-link">
+                        <span>Cites · {cited.year}</span>
+                        <strong>{cited.title}</strong>
+                        <small>{cited.evidenceRole}</small>
+                        <ArrowRight size={13} />
+                      </Link>
+                      <p>{citation.note}</p>
+                      <a href={citation.verificationUrl} target="_blank" rel="noreferrer">Verification source · checked {citation.verifiedAt} ↗</a>
+                    </div>
+                  );
+                })}
+                {citingReferences.map((citing) => {
+                  const citation = getCitation(citing, reference.id);
+                  if (!citation) return null;
+                  return (
+                    <div key={`cited-by-${citing.id}`} className="reference-citation-entry">
+                      <Link href={`/references/${citing.id}`} className="reference-citation-link">
+                        <span>Cited by · {citing.year}</span>
+                        <strong>{citing.title}</strong>
+                        <small>{citing.evidenceRole}</small>
+                        <ArrowRight size={13} />
+                      </Link>
+                      <p>{citation.note}</p>
+                      <a href={citation.verificationUrl} target="_blank" rel="noreferrer">Verification source · checked {citation.verifiedAt} ↗</a>
+                    </div>
+                  );
+                })}
               </div>
               <Link href="/references/graph" className="reference-graph-link"><Network size={14} /> Explore focused citation graph <ArrowRight size={13} /></Link>
             </section>
