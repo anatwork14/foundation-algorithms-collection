@@ -7,6 +7,7 @@ import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
 import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
 import type { DocSummary } from "@/lib/content";
+import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
@@ -26,6 +27,11 @@ type SearchResult = {
 function linkedField(algorithmIds: string[]): ResearchField {
   const linked = algorithms.find((algorithm) => algorithmIds.includes(algorithm.id));
   return linked?.fields[0] ?? "Cross-field";
+}
+
+function algorithmMeta(algorithmId: string, family: string, maturity: string) {
+  const profile = getAlgorithmEvidenceProfile(algorithmId);
+  return `${family} · ${maturity} · ${profile.stage}`;
 }
 
 export function SiteHeader({ documents }: { documents: DocSummary[] }) {
@@ -61,7 +67,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           id: `algorithm-${algorithm.id}`,
           title: algorithm.name,
           field: algorithm.fields[0],
-          meta: `${algorithm.families[0]} · ${algorithm.maturity}`,
+          meta: algorithmMeta(algorithm.id, algorithm.families[0], algorithm.maturity),
           href: `/algorithms/${algorithm.id}`,
           marker: "ALG",
           score: 1,
@@ -71,7 +77,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           id: `reference-${reference.id}`,
           title: reference.title,
           field: linkedField(reference.algorithmIds),
-          meta: `${reference.kind} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
+          meta: `${reference.evidenceRole} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
           href: `/references/${reference.id}`,
           marker: "REF",
           score: 1,
@@ -111,18 +117,20 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     }
 
     const algorithmResults: SearchResult[] = algorithms.map((algorithm) => {
+      const profile = getAlgorithmEvidenceProfile(algorithm.id);
       const exactName = algorithm.name.toLowerCase() === needle ? 12 : 0;
       const titleHit = algorithm.name.toLowerCase().includes(needle) ? 7 : 0;
       const aliasHit = algorithm.aliases.some((alias) => alias.toLowerCase().includes(needle)) ? 5 : 0;
+      const stageHit = profile.stage.toLowerCase().includes(needle) ? 4 : 0;
       const bodyHit = algorithmSearchText(algorithm).includes(needle) ? 2 : 0;
       return {
         id: `algorithm-${algorithm.id}`,
         title: algorithm.name,
         field: algorithm.fields[0],
-        meta: `${algorithm.families[0]} · ${algorithm.maturity}`,
+        meta: `${algorithm.families[0]} · ${algorithm.maturity} · ${profile.stage}`,
         href: `/algorithms/${algorithm.id}`,
         marker: "ALG",
-        score: exactName + titleHit + aliasHit + bodyHit,
+        score: exactName + titleHit + aliasHit + stageHit + bodyHit,
         kind: "algorithm",
       };
     });
@@ -136,7 +144,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
         id: `reference-${reference.id}`,
         title: reference.title,
         field: linkedField(reference.algorithmIds),
-        meta: `${reference.kind} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
+        meta: `${reference.evidenceRole} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
         href: `/references/${reference.id}`,
         marker: "REF",
         score: exactTitle + titleHit + authorHit + bodyHit,
