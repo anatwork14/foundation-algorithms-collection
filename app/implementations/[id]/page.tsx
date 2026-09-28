@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Code2, ExternalLink, GitBranch, ShieldCheck } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
-import { getImplementation, implementations } from "@/lib/implementations";
+import { getImplementation, implementationCommitUrl, implementations } from "@/lib/implementations";
 
 export function generateStaticParams() {
   return implementations.map((implementation) => ({ id: implementation.id }));
@@ -22,6 +22,7 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
   if (!implementation) notFound();
 
   const linkedAlgorithms = implementation.algorithmIds.map(getAlgorithm).filter((item) => Boolean(item));
+  const commitUrl = implementationCommitUrl(implementation);
 
   return (
     <main className="implementation-detail-page">
@@ -41,6 +42,8 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
           <div><span>License</span><strong>{implementation.license}</strong></div>
           <div><span>Interfaces</span><strong>{implementation.interfaces.join(" · ")}</strong></div>
           <div><span>Algorithms</span><strong>{implementation.algorithmIds.length}</strong></div>
+          <div><span>Verified ref</span><strong>{implementation.verifiedRef}</strong></div>
+          <div><span>Verified commit</span><strong><code>{implementation.verifiedCommit.slice(0, 12)}</code></strong></div>
           <div><span>Verified</span><strong>{implementation.lastVerified}</strong></div>
         </aside>
       </header>
@@ -55,7 +58,8 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
 
           <section className="research-block">
             <div className="research-block-label">02 · Source locations</div>
-            <h2>Jump into the code</h2>
+            <h2>Jump into the pinned code</h2>
+            <p>These links are immutable snapshots at the verified commit, not floating branch URLs.</p>
             <div className="implementation-source-list">
               {implementation.sourcePaths.map((source) => (
                 <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
@@ -68,9 +72,10 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
           </section>
 
           <section className="research-block">
-            <div className="research-block-label">03 · Repository</div>
-            <h2>Project context</h2>
+            <div className="research-block-label">03 · Repository revision</div>
+            <h2>Reproduce the inspected code state</h2>
             <div className="implementation-repository-links">
+              <a href={commitUrl} target="_blank" rel="noreferrer"><GitBranch size={15} /> Commit {implementation.verifiedCommit.slice(0, 12)} <ExternalLink size={13} /></a>
               <a href={implementation.repository} target="_blank" rel="noreferrer"><Code2 size={15} /> Open repository <ExternalLink size={13} /></a>
               {implementation.homepage && <a href={implementation.homepage} target="_blank" rel="noreferrer">Project homepage <ExternalLink size={13} /></a>}
             </div>
@@ -92,7 +97,7 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Registry provenance</div>
-            <p>Repository metadata and implementation paths are curated records. Verification date: {implementation.lastVerified}.</p>
+            <p>Repository metadata and implementation paths are curated records. The inspected revision is pinned to <code>{implementation.verifiedCommit}</code> from <strong>{implementation.verifiedRef}</strong>, verified {implementation.lastVerified}.</p>
           </div>
         </aside>
       </div>
