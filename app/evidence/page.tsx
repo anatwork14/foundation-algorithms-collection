@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Network, ScrollText } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Network, ScrollText, Search, ShieldCheck } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
 import { algorithms } from "@/lib/algorithm-catalog";
+import { claims } from "@/lib/claims";
+import { getAllDocuments } from "@/lib/content";
 import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-profile";
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
@@ -10,7 +12,7 @@ import { references } from "@/lib/references";
 
 export const metadata: Metadata = {
   title: "Evidence",
-  description: "Trace Foundation Algorithms research from primary sources to implementations and reproducible experiments.",
+  description: "Trace Foundation Algorithms research from source passages and primary references to implementations and reproducible experiments.",
 };
 
 const evidenceStages: EvidenceStage[] = [
@@ -23,6 +25,8 @@ const evidenceStages: EvidenceStage[] = [
 ];
 
 export default function EvidencePage() {
+  const documents = getAllDocuments();
+  const passageCount = documents.reduce((sum, document) => sum + document.passages.length, 0);
   const algorithmsWithReferences = new Set(references.flatMap((reference) => reference.algorithmIds)).size;
   const algorithmsWithImplementations = new Set(implementations.flatMap((implementation) => implementation.algorithmIds)).size;
   const algorithmsWithExperiments = new Set(experiments.flatMap((experiment) => experiment.algorithmIds)).size;
@@ -37,16 +41,16 @@ export default function EvidencePage() {
         <span className="eyebrow"><GitBranch size={13} /> Research evidence</span>
         <h1>Trace an idea from source to code to experiment.</h1>
         <p>
-          Evidence is kept separate from conceptual descriptions so the archive can distinguish what a paper or standard establishes, what executable code exists, and what this project has actually tested.
+          Evidence is kept separate from conceptual descriptions so the archive can distinguish source passages, primary literature and standards, executable code, curated claim assertions, and what this project has actually tested.
         </p>
         <EvidenceNav current="overview" />
       </header>
 
       <section className="evidence-summary" aria-label="Evidence coverage">
         <div><strong>{references.length}</strong><span>curated references</span></div>
+        <div><strong>{claims.length}</strong><span>curated claims</span></div>
         <div><strong>{implementations.length}</strong><span>implementation records</span></div>
         <div><strong>{experiments.length}</strong><span>experiment records</span></div>
-        <div><strong>{algorithms.length}</strong><span>algorithm entities total</span></div>
       </section>
 
       <section className="evidence-stage-section">
@@ -68,6 +72,24 @@ export default function EvidencePage() {
       </section>
 
       <section className="evidence-hub-grid">
+        <Link href="/passages" className="evidence-hub-card">
+          <div className="evidence-hub-icon"><Search size={19} /></div>
+          <span className="research-block-label">Source units</span>
+          <h2>Passages</h2>
+          <p>Deterministic Markdown-derived prose units with section anchors, stable content IDs, and exact source-line ranges.</p>
+          <div className="evidence-card-stats"><span>{passageCount} passages</span><span>{documents.length} source chapters</span></div>
+          <strong>Inspect passages <ArrowRight size={14} /></strong>
+        </Link>
+
+        <Link href="/claims" className="evidence-hub-card">
+          <div className="evidence-hub-icon"><ShieldCheck size={19} /></div>
+          <span className="research-block-label">Curated assertions</span>
+          <h2>Claims</h2>
+          <p>Reviewed statements that explicitly connect an Algorithm to one unique source passage and one or more curated references.</p>
+          <div className="evidence-card-stats"><span>{claims.length} records</span><span>validated provenance</span></div>
+          <strong>Inspect claims <ArrowRight size={14} /></strong>
+        </Link>
+
         <Link href="/references" className="evidence-hub-card">
           <div className="evidence-hub-icon"><ScrollText size={19} /></div>
           <span className="research-block-label">Primary knowledge</span>
@@ -102,9 +124,11 @@ export default function EvidencePage() {
         </div>
         <div className="evidence-flow-grid">
           <div><span>01</span><BookOpen size={17} /><strong>Concept</strong><p>Algorithm cards summarize mechanisms, assumptions, failure modes, and open questions.</p></div>
-          <div><span>02</span><ScrollText size={17} /><strong>Source</strong><p>References establish where the mechanism, guarantee, standard, or empirical result comes from.</p></div>
-          <div><span>03</span><Code2 size={17} /><strong>Implementation</strong><p>Registry records identify inspectable code without treating an implementation as proof of correctness.</p></div>
-          <div><span>04</span><FlaskConical size={17} /><strong>Experiment</strong><p>Experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
+          <div><span>02</span><Search size={17} /><strong>Passage</strong><p>Passage records identify the exact place in the Markdown corpus where an archive statement is grounded.</p></div>
+          <div><span>03</span><ScrollText size={17} /><strong>Source</strong><p>References establish where the mechanism, guarantee, standard, or empirical result comes from.</p></div>
+          <div><span>04</span><ShieldCheck size={17} /><strong>Claim</strong><p>Curated claims join a precise archive statement to a unique passage and explicit supporting references.</p></div>
+          <div><span>05</span><Code2 size={17} /><strong>Implementation</strong><p>Registry records identify inspectable code without treating an implementation as proof of correctness.</p></div>
+          <div><span>06</span><FlaskConical size={17} /><strong>Experiment</strong><p>Experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
         </div>
       </section>
 
