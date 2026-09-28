@@ -3,8 +3,14 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Search, ScrollText } from "lucide-react";
-import type { ReferenceEntity } from "@/lib/references";
+import type { ReferenceCitation, ReferenceEntity } from "@/lib/references";
 import { formatReferenceAuthors, referenceSearchText } from "@/lib/references";
+
+type CitationEdge = {
+  source: ReferenceEntity;
+  target: ReferenceEntity;
+  citation: ReferenceCitation;
+};
 
 export function ReferenceCitationExplorer({ references }: { references: ReferenceEntity[] }) {
   const [query, setQuery] = useState("");
@@ -19,24 +25,22 @@ export function ReferenceCitationExplorer({ references }: { references: Referenc
     return references.filter((reference) => referenceSearchText(reference).includes(needle));
   }, [query, references]);
 
+  const edges = useMemo<CitationEdge[]>(() => references.flatMap((source) => source.citations
+    .map((citation) => {
+      const target = byId.get(citation.targetId);
+      return target ? { source, target, citation } : null;
+    })
+    .filter((item): item is CitationEdge => Boolean(item))), [byId, references]);
+
   const outgoing = useMemo(() => {
     if (!focus) return [];
-    return focus.citesReferenceIds
-      .map((id) => byId.get(id))
-      .filter((item): item is ReferenceEntity => Boolean(item));
-  }, [byId, focus]);
+    return edges.filter((edge) => edge.source.id === focus.id);
+  }, [edges, focus]);
 
   const incoming = useMemo(() => {
     if (!focus) return [];
-    return references.filter((reference) => reference.citesReferenceIds.includes(focus.id));
-  }, [focus, references]);
-
-  const edges = useMemo(() => references.flatMap((source) => source.citesReferenceIds
-    .map((targetId) => {
-      const target = byId.get(targetId);
-      return target ? { source, target } : null;
-    })
-    .filter((item): item is { source: ReferenceEntity; target: ReferenceEntity } => Boolean(item))), [byId, references]);
+    return edges.filter((edge) => edge.target.id === focus.id);
+  }, [edges, focus]);
 
   if (!focus) {
     return <main className="citation-page shell"><p>No references are available yet.</p></main>;
@@ -71,11 +75,11 @@ export function ReferenceCitationExplorer({ references }: { references: Referenc
         <section className="citation-neighborhood" aria-live="polite">
           <div className="citation-column">
             <div className="citation-column-title">Cited by this source</div>
-            {outgoing.length ? outgoing.map((reference) => (
-              <button key={reference.id} className="citation-neighbor" onClick={() => setFocusId(reference.id)}>
-                <span>{reference.year}</span>
-                <strong>{reference.title}</strong>
-                <small>{reference.evidenceRole}</small>
+            {outgoing.length ? outgoing.map(({ target, citation }) => (
+              <button key={target.id} className="citation-neighbor" onClick={() => setFocusId(target.id)} title={citation.note}>
+                <span>{target.year} · verified {citation.verifiedAt}</span>
+                <strong>{target.title}</strong>
+                <small>{target.evidenceRole}</small>
                 <ArrowLeft size={13} />
               </button>
             )) : <div className="citation-empty">No curated outgoing citation edge.</div>}
@@ -95,11 +99,11 @@ export function ReferenceCitationExplorer({ references }: { references: Referenc
 
           <div className="citation-column">
             <div className="citation-column-title">Sources citing this source</div>
-            {incoming.length ? incoming.map((reference) => (
-              <button key={reference.id} className="citation-neighbor" onClick={() => setFocusId(reference.id)}>
-                <span>{reference.year}</span>
-                <strong>{reference.title}</strong>
-                <small>{reference.evidenceRole}</small>
+            {incoming.length ? incoming.map(({ source, citation }) => (
+              <button key={source.id} className="citation-neighbor" onClick={() => setFocusId(source.id)} title={citation.note}>
+                <span>{source.year} · verified {citation.verifiedAt}</span>
+                <strong>{source.title}</strong>
+                <small>{source.evidenceRole}</small>
                 <ArrowRight size={13} />
               </button>
             )) : <div className="citation-empty">No curated incoming citation edge.</div>}
@@ -113,14 +117,14 @@ export function ReferenceCitationExplorer({ references }: { references: Referenc
         </div>
         <div className="table-scroll">
           <table>
-            <thead><tr><th>Source</th><th>Year</th><th>Cites</th><th>Year</th></tr></thead>
+            <thead><tr><th>Source</th><th>Cites</th><th>Verification note</th><th>Checked</th></tr></thead>
             <tbody>
-              {edges.map(({ source, target }) => (
+              {edges.map(({ source, target, citation }) => (
                 <tr key={`${source.id}-${target.id}`}>
                   <td><button onClick={() => setFocusId(source.id)}>{source.title}</button></td>
-                  <td>{source.year}</td>
                   <td><button onClick={() => setFocusId(target.id)}>{target.title}</button></td>
-                  <td>{target.year}</td>
+                  <td><a href={citation.verificationUrl} target="_blank" rel="noreferrer">{citation.note}</a></td>
+                  <td>{citation.verifiedAt}</td>
                 </tr>
               ))}
             </tbody>
