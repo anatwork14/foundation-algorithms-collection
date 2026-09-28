@@ -19,9 +19,15 @@ export function validateImplementations(records: ImplementationRecord[], algorit
     if (!record.license.trim()) errors.push(`${record.id}: license metadata is required`);
     if (!record.summary.trim()) errors.push(`${record.id}: summary is required`);
     if (!record.implementationNotes.length) errors.push(`${record.id}: implementation notes are required`);
+    if (!record.verifiedRef.trim()) errors.push(`${record.id}: verifiedRef is required`);
+    if (!/^[0-9a-f]{40}$/.test(record.verifiedCommit)) errors.push(`${record.id}: verifiedCommit must be a 40-character lowercase Git SHA`);
     for (const source of record.sourcePaths) {
       if (!source.label.trim() || !/^https:\/\/github\.com\//.test(source.url)) errors.push(`${record.id}: invalid source path ${source.url}`);
+      if (record.verifiedCommit && !source.url.includes(`/${record.verifiedCommit}/`)) {
+        errors.push(`${record.id}: source path must be pinned to verified commit ${record.verifiedCommit}: ${source.url}`);
+      }
     }
+    if (!record.sourcePaths.length) errors.push(`${record.id}: at least one pinned source path is required`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(record.lastVerified)) errors.push(`${record.id}: lastVerified must use YYYY-MM-DD`);
   }
 
