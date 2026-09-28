@@ -1,5 +1,28 @@
 /* Small follow-up refinements that depend on the entity/Atlas/Lab layer. */
 
+.toc-card nav a {
+  position: relative;
+  transition: color .15s ease, background .15s ease;
+}
+
+.toc-card nav a.is-current,
+.toc-card nav a[aria-current="location"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.toc-card nav a.is-current::before,
+.toc-card nav a[aria-current="location"]::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 .atlas-filter-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -229,6 +252,17 @@
 }
 
 @media (max-width: 760px) {
+  .toc-card nav a.is-current::before,
+  .toc-card nav a[aria-current="location"]::before {
+    display: none;
+  }
+
+  .toc-card nav a.is-current,
+  .toc-card nav a[aria-current="location"] {
+    background: var(--surface-strong);
+    border-color: var(--line-strong);
+  }
+
   .atlas-filter-row {
     grid-template-columns: 1fr 1fr;
   }
