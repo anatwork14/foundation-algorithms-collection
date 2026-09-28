@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, FlaskConical, Search } from "lucide-react";
+import { EvidenceNav } from "@/components/evidence-nav";
 import type { ExperimentRecord, ExperimentStatus } from "@/lib/experiments";
 import { experimentSearchText } from "@/lib/experiments";
 
@@ -27,6 +28,7 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
         <span className="eyebrow"><FlaskConical size={13} /> Experiment registry</span>
         <h1>Turn research hypotheses into reproducible study plans.</h1>
         <p>Experiment records preserve baselines, datasets, metrics, environment controls, procedures, success criteria, artifacts, and eventual outcomes—even when the result is negative or inconclusive.</p>
+        <EvidenceNav current="experiments" />
       </header>
 
       <section className="experiment-controls" aria-label="Experiment filters">
