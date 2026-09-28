@@ -47,6 +47,36 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["nist-2024-fips203"],
     note: "This is a normative-standard claim and should track FIPS 203 rather than an implementation repository.",
   },
+  {
+    id: "adamw-decoupled-weight-decay",
+    kind: "Mechanism",
+    statement: "AdamW applies weight decay separately from the adaptive gradient update rather than treating L2 regularization as equivalent under adaptive scaling.",
+    algorithmIds: ["adamw"],
+    chapterSlug: "10-ai-optimization-learning-theory",
+    passageContains: "Decouples weight decay from the adaptive gradient update",
+    referenceIds: ["loshchilov-2019-adamw"],
+    note: "The claim is limited to the defining decoupling mechanism; optimizer performance depends on task, schedule, and hyperparameters.",
+  },
+  {
+    id: "attention-content-addressable-communication",
+    kind: "Mechanism",
+    statement: "Scaled dot-product attention uses query-key similarity to compute content-dependent weights over values, making communication content-addressable.",
+    algorithmIds: ["transformer-attention"],
+    chapterSlug: "11-neural-architectures-attention-ssm-moe-gnn",
+    passageContains: "Attention makes communication content-addressable. A query determines which keys are relevant",
+    referenceIds: ["vaswani-2017-attention"],
+    note: "This record describes the core attention communication mechanism, not a claim that attention is uniquely optimal for sequence modeling.",
+  },
+  {
+    id: "selective-ssm-input-dependent-state-update",
+    kind: "Mechanism",
+    statement: "Selective state-space models make parts of the recurrent state update input-dependent so the model can adapt what information it retains or discards.",
+    algorithmIds: ["state-space-models"],
+    chapterSlug: "11-neural-architectures-attention-ssm-moe-gnn",
+    passageContains: "Selective SSMs make parts of the state update input-dependent rather than fixed",
+    referenceIds: ["gu-2023-mamba"],
+    note: "The claim describes selectivity as a mechanism. It does not assert universal superiority over attention or other sequence architectures.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
