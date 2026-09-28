@@ -14,6 +14,7 @@ type ArchiveSearchParams = {
   family?: string | string[];
   algorithm?: string | string[];
   evidence?: string | string[];
+  stage?: string | string[];
   sort?: string | string[];
 };
 
@@ -33,6 +34,7 @@ export default async function ArchivePage({ searchParams }: { searchParams: Prom
       initialFamily={first(params.family)}
       initialAlgorithm={first(params.algorithm)}
       initialEvidence={first(params.evidence)}
+      initialStage={first(params.stage)}
       initialSort={first(params.sort)}
     />
   );
