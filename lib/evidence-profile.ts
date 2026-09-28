@@ -1,14 +1,9 @@
+import { deriveEvidenceStage, type EvidenceStage } from "@/lib/evidence-stage";
 import { experimentsForAlgorithm, type ExperimentRecord } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { referencesForAlgorithm } from "@/lib/references";
 
-export type EvidenceStage =
-  | "Concept only"
-  | "Source-backed"
-  | "Inspectable implementation"
-  | "Experiment protocol"
-  | "Empirical result"
-  | "Replicated";
+export type { EvidenceStage } from "@/lib/evidence-stage";
 
 export type EvidenceDimension = {
   key: "literature" | "implementation" | "experiment" | "replication";
@@ -47,13 +42,13 @@ export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvide
 
   // Independent replication is intentionally zero until explicit replication records exist.
   const replicatedResults: number = 0;
-
-  let stage: EvidenceStage = "Concept only";
-  if (references.length > 0) stage = "Source-backed";
-  if (implementations.length > 0) stage = "Inspectable implementation";
-  if (experiments.length > 0) stage = "Experiment protocol";
-  if (resultExperiments > 0) stage = "Empirical result";
-  if (replicatedResults > 0) stage = "Replicated";
+  const stage = deriveEvidenceStage({
+    references: references.length,
+    implementations: implementations.length,
+    experiments: experiments.length,
+    resultExperiments,
+    replicatedResults,
+  });
 
   const experimentState = resultExperiments > 0
     ? `${resultExperiments} result${resultExperiments === 1 ? "" : "s"}`
