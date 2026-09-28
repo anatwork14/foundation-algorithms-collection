@@ -16,6 +16,8 @@ export type ImplementationRecord = {
   summary: string;
   implementationNotes: string[];
   sourcePaths: Array<{ label: string; url: string }>;
+  verifiedRef: string;
+  verifiedCommit: string;
   lastVerified: string;
 };
 
@@ -36,9 +38,11 @@ export const implementations: ImplementationRecord[] = [
       "The implementation separates the HNSW link structure from the storage index abstraction.",
     ],
     sourcePaths: [
-      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/main/faiss/IndexHNSW.h" },
-      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/main/faiss/IndexHNSW.cpp" },
+      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/fdb9535c15b1b2990fd28f76f0641e65b95162f8/faiss/IndexHNSW.h" },
+      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/fdb9535c15b1b2990fd28f76f0641e65b95162f8/faiss/IndexHNSW.cpp" },
     ],
+    verifiedRef: "main",
+    verifiedCommit: "fdb9535c15b1b2990fd28f76f0641e65b95162f8",
     lastVerified: "2026-09-28",
   },
   {
@@ -56,8 +60,10 @@ export const implementations: ImplementationRecord[] = [
       "Useful as a contrast with Faiss, where HNSW is one index family inside a larger retrieval system.",
     ],
     sourcePaths: [
-      { label: "Repository source", url: "https://github.com/nmslib/hnswlib/tree/master/hnswlib" },
+      { label: "Repository source", url: "https://github.com/nmslib/hnswlib/tree/ca426729609b3221563047ceb269cc1213e0d376/hnswlib" },
     ],
+    verifiedRef: "master",
+    verifiedCommit: "ca426729609b3221563047ceb269cc1213e0d376",
     lastVerified: "2026-09-28",
   },
   {
@@ -76,9 +82,11 @@ export const implementations: ImplementationRecord[] = [
       "The circuit-library implementation exposes QPE composition while the surrounding SDK handles transpilation and execution concerns.",
     ],
     sourcePaths: [
-      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/main/qiskit/circuit/library/phase_estimation.py" },
-      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/main/test/python/circuit/library/test_phase_estimation.py" },
+      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133/qiskit/circuit/library/phase_estimation.py" },
+      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133/test/python/circuit/library/test_phase_estimation.py" },
     ],
+    verifiedRef: "main",
+    verifiedCommit: "8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133",
     lastVerified: "2026-09-28",
   },
   {
@@ -97,8 +105,10 @@ export const implementations: ImplementationRecord[] = [
       "Use the normative FIPS 203 record in References for specification authority; this record is about executable implementation study.",
     ],
     sourcePaths: [
-      { label: "ML-KEM sources", url: "https://github.com/open-quantum-safe/liboqs/tree/main/src/kem/ml_kem" },
+      { label: "ML-KEM sources", url: "https://github.com/open-quantum-safe/liboqs/tree/b196b57aa615c84d62cbf6a59a8bfc294e6747dd/src/kem/ml_kem" },
     ],
+    verifiedRef: "main",
+    verifiedCommit: "b196b57aa615c84d62cbf6a59a8bfc294e6747dd",
     lastVerified: "2026-09-28",
   },
 ];
@@ -113,6 +123,10 @@ export function implementationsForAlgorithm(algorithmId: string) {
   return implementations.filter((implementation) => implementation.algorithmIds.includes(algorithmId));
 }
 
+export function implementationCommitUrl(implementation: ImplementationRecord) {
+  return `${implementation.repository}/commit/${implementation.verifiedCommit}`;
+}
+
 export function implementationSearchText(implementation: ImplementationRecord) {
   return [
     implementation.name,
@@ -125,5 +139,7 @@ export function implementationSearchText(implementation: ImplementationRecord) {
     implementation.maturity,
     implementation.summary,
     ...implementation.implementationNotes,
+    implementation.verifiedRef,
+    implementation.verifiedCommit,
   ].join(" ").toLowerCase();
 }
