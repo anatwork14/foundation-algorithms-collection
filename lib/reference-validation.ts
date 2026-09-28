@@ -6,11 +6,13 @@ export function validateReferences(
   references: ReferenceEntity[],
   algorithms: AlgorithmEntity[],
   combinations: ResearchCombination[],
+  chapterSlugs: string[],
 ) {
   const errors: string[] = [];
   const ids = new Set<string>();
   const algorithmIds = new Set(algorithms.map((item) => item.id));
   const combinationIds = new Set(combinations.map((item) => item.id));
+  const chapterIds = new Set(chapterSlugs);
 
   for (const reference of references) {
     if (!reference.id || !/^[a-z0-9-]+$/.test(reference.id)) errors.push(`Invalid reference id: ${reference.id || "<empty>"}`);
@@ -18,14 +20,16 @@ export function validateReferences(
     ids.add(reference.id);
     if (!reference.title.trim()) errors.push(`${reference.id}: title is required`);
     if (!reference.authors.length) errors.push(`${reference.id}: authors are required`);
-    if (!Number.isInteger(reference.year)) errors.push(`${reference.id}: integer publication year is required`);
+    if (!Number.isInteger(reference.year) || reference.year < 1900 || reference.year > 2100) errors.push(`${reference.id}: valid publication year is required`);
     if (!/^https:\/\//.test(reference.url)) errors.push(`${reference.id}: HTTPS URL is required`);
     if (!reference.algorithmIds.length && !reference.combinationIds.length) errors.push(`${reference.id}: must link to an algorithm or combination`);
     for (const id of reference.algorithmIds) if (!algorithmIds.has(id)) errors.push(`${reference.id}: unknown algorithm ${id}`);
     for (const id of reference.combinationIds) if (!combinationIds.has(id)) errors.push(`${reference.id}: unknown combination ${id}`);
     if (!reference.chapterSlugs.length) errors.push(`${reference.id}: at least one source chapter is required`);
+    for (const slug of reference.chapterSlugs) if (!chapterIds.has(slug)) errors.push(`${reference.id}: unknown source chapter ${slug}`);
     if (!reference.summary.trim()) errors.push(`${reference.id}: summary is required`);
     if (!reference.significance.trim()) errors.push(`${reference.id}: significance is required`);
+    if (!reference.tags.length) errors.push(`${reference.id}: at least one tag is required`);
   }
   return errors;
 }
@@ -34,7 +38,8 @@ export function assertValidReferences(
   references: ReferenceEntity[],
   algorithms: AlgorithmEntity[],
   combinations: ResearchCombination[],
+  chapterSlugs: string[],
 ) {
-  const errors = validateReferences(references, algorithms, combinations);
+  const errors = validateReferences(references, algorithms, combinations, chapterSlugs);
   if (errors.length) throw new Error(`Reference validation failed:\n- ${errors.join("\n- ")}`);
 }
