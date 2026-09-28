@@ -7,6 +7,7 @@ import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
 import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
 import type { DocSummary } from "@/lib/content";
+import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
 
@@ -18,10 +19,10 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "chapter" | "reference";
+  kind: "algorithm" | "chapter" | "reference" | "implementation";
 };
 
-function referenceField(algorithmIds: string[]): ResearchField {
+function linkedField(algorithmIds: string[]): ResearchField {
   const linked = algorithms.find((algorithm) => algorithmIds.includes(algorithm.id));
   return linked?.fields[0] ?? "Cross-field";
 }
@@ -55,7 +56,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
 
     if (!needle) {
       return [
-        ...algorithms.slice(0, 3).map((algorithm) => ({
+        ...algorithms.slice(0, 2).map((algorithm) => ({
           id: `algorithm-${algorithm.id}`,
           title: algorithm.name,
           field: algorithm.fields[0],
@@ -65,17 +66,27 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           score: 1,
           kind: "algorithm" as const,
         })),
-        ...references.slice(0, 3).map((reference) => ({
+        ...references.slice(0, 2).map((reference) => ({
           id: `reference-${reference.id}`,
           title: reference.title,
-          field: referenceField(reference.algorithmIds),
+          field: linkedField(reference.algorithmIds),
           meta: `${reference.kind} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
           href: `/references/${reference.id}`,
           marker: "REF",
           score: 1,
           kind: "reference" as const,
         })),
-        ...documents.slice(0, 3).map((doc) => ({
+        ...implementations.slice(0, 2).map((implementation) => ({
+          id: `implementation-${implementation.id}`,
+          title: implementation.name,
+          field: linkedField(implementation.algorithmIds),
+          meta: `${implementation.language} · ${implementation.maturity}`,
+          href: `/implementations/${implementation.id}`,
+          marker: "CODE",
+          score: 1,
+          kind: "implementation" as const,
+        })),
+        ...documents.slice(0, 2).map((doc) => ({
           id: `chapter-${doc.slug}`,
           title: doc.title,
           field: doc.field,
@@ -113,12 +124,28 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       return {
         id: `reference-${reference.id}`,
         title: reference.title,
-        field: referenceField(reference.algorithmIds),
+        field: linkedField(reference.algorithmIds),
         meta: `${reference.kind} · ${reference.year}${reference.venue ? ` · ${reference.venue}` : ""}`,
         href: `/references/${reference.id}`,
         marker: "REF",
         score: exactTitle + titleHit + authorHit + bodyHit,
         kind: "reference",
+      };
+    });
+
+    const implementationResults: SearchResult[] = implementations.map((implementation) => {
+      const exactName = implementation.name.toLowerCase() === needle ? 12 : 0;
+      const titleHit = implementation.name.toLowerCase().includes(needle) ? 8 : 0;
+      const bodyHit = implementationSearchText(implementation).includes(needle) ? 3 : 0;
+      return {
+        id: `implementation-${implementation.id}`,
+        title: implementation.name,
+        field: linkedField(implementation.algorithmIds),
+        meta: `${implementation.language} · ${implementation.maturity}`,
+        href: `/implementations/${implementation.id}`,
+        marker: "CODE",
+        score: exactName + titleHit + bodyHit,
+        kind: "implementation",
       };
     });
 
@@ -138,7 +165,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...referenceResults, ...chapterResults]
+    return [...algorithmResults, ...referenceResults, ...implementationResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
@@ -151,6 +178,13 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     { href: "/lab", label: "Lab" },
     { href: "/references", label: "References" },
   ];
+
+  function resultKindLabel(kind: SearchResult["kind"]) {
+    if (kind === "algorithm") return "Algorithm";
+    if (kind === "reference") return "Reference";
+    if (kind === "implementation") return "Implementation";
+    return "Research chapter";
+  }
 
   return (
     <>
@@ -206,7 +240,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, papers, chapters, mechanisms…"
+                placeholder="Search algorithms, papers, implementations, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -226,14 +260,14 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                   <span className={`result-index field-${fieldKey(result.field)} ${result.kind !== "chapter" ? "algorithm-result-index" : ""}`}>{result.marker}</span>
                   <span className="result-copy">
                     <strong>{result.title}</strong>
-                    <small>{result.kind === "algorithm" ? "Algorithm" : result.kind === "reference" ? "Reference" : "Research chapter"} · {result.meta}</small>
+                    <small>{resultKindLabel(result.kind)} · {result.meta}</small>
                   </span>
                   <span className="result-arrow">↗</span>
                 </button>
-              )) : <div className="empty-search">No algorithm, reference, or chapter matches that phrase yet.</div>}
+              )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + references + full chapter corpus</span>
+              <span>Algorithms + evidence + implementations + chapters</span>
               <span>Use dedicated indexes for deeper filtering</span>
             </div>
           </div>
