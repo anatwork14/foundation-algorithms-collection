@@ -46,7 +46,7 @@ export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvide
   const resultExperiments = experiments.filter(hasResult).length;
 
   // Independent replication is intentionally zero until explicit replication records exist.
-  const replicatedResults = 0;
+  const replicatedResults: number = 0;
 
   let stage: EvidenceStage = "Concept only";
   if (references.length > 0) stage = "Source-backed";
@@ -95,8 +95,8 @@ export function getAlgorithmEvidenceProfile(algorithmId: string): AlgorithmEvide
       {
         key: "replication",
         label: "Independent replication",
-        state: replicatedResults > 0 ? `${replicatedResults} replication${replicatedResults === 1 ? "" : "s"}` : "Not yet recorded",
-        present: replicatedResults > 0,
+        state: "Not yet recorded",
+        present: false,
         count: replicatedResults,
       },
     ],
