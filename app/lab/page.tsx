@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Beaker, BookOpen, CheckCircle2, FlaskConical, TriangleAlert } from "lucide-react";
 import { CombinationBuilder } from "@/components/combination-builder";
-import { algorithms, getAlgorithm } from "@/lib/algorithms";
+import { algorithms, getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combinations";
 import { getAllDocuments } from "@/lib/content";
 
