@@ -2,22 +2,29 @@ import { assertValidAlgorithmEntities } from "@/lib/algorithm-validation";
 import { algorithms } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
 import { assertValidResearchCombinations } from "@/lib/combination-validation";
-import type { DocSummary } from "@/lib/content";
+import { getDocument, type DocSummary } from "@/lib/content";
 import { assertValidExperiments } from "@/lib/experiment-validation";
 import { experiments } from "@/lib/experiments";
 import { assertValidImplementations } from "@/lib/implementation-validation";
 import { implementations } from "@/lib/implementations";
 import { assertValidReferences } from "@/lib/reference-validation";
 import { references } from "@/lib/references";
+import { assertValidSearchPassages } from "@/lib/search-passage-validation";
 
 export function assertResearchIntegrity(documents: DocSummary[]) {
   const chapterSlugs = documents.map((document) => document.slug);
+  const records = new Map(
+    chapterSlugs
+      .map((slug) => [slug, getDocument(slug)] as const)
+      .filter((entry): entry is readonly [string, NonNullable<ReturnType<typeof getDocument>>] => Boolean(entry[1])),
+  );
 
   assertValidAlgorithmEntities(algorithms, chapterSlugs);
   assertValidResearchCombinations(combinations, algorithms, chapterSlugs);
   assertValidReferences(references, algorithms, combinations, chapterSlugs);
   assertValidImplementations(implementations, algorithms);
   assertValidExperiments(experiments, algorithms, combinations);
+  assertValidSearchPassages(documents, records);
 
   return {
     chapters: chapterSlugs.length,
@@ -26,5 +33,6 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
     references: references.length,
     implementations: implementations.length,
     experiments: experiments.length,
+    passages: documents.reduce((sum, document) => sum + document.passages.length, 0),
   };
 }
