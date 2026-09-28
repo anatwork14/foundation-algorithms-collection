@@ -1,0 +1,198 @@
+/* Phase 6 — reference/evidence surfaces. */
+
+.reference-page {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-9);
+}
+
+.reference-hero {
+  max-width: 900px;
+  padding-bottom: var(--space-7);
+}
+
+.reference-hero h1 {
+  margin: var(--space-3) 0 var(--space-4);
+  font-size: var(--text-h1);
+  font-weight: 500;
+  letter-spacing: -.038em;
+  line-height: 1.06;
+}
+
+.reference-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.reference-controls {
+  position: sticky;
+  top: calc(var(--header-height) + 12px);
+  z-index: 20;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-large);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.reference-controls label {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  background: var(--surface-strong);
+  color: var(--muted);
+}
+
+.reference-controls input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-ui);
+}
+
+.reference-controls select {
+  min-height: 42px;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  background: var(--surface-strong);
+  color: var(--ink);
+  font-size: var(--text-meta);
+}
+
+.reference-result-count {
+  padding: var(--space-5) var(--space-2) var(--space-3);
+  color: var(--muted-2);
+  font-size: var(--text-meta);
+}
+
+.reference-list {
+  border-top: 1px solid var(--line);
+}
+
+.reference-row {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 210px;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.reference-year {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: .875rem;
+}
+
+.reference-overline {
+  color: var(--muted-2);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.reference-main h2 {
+  max-width: 760px;
+  margin: 5px 0 5px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.reference-main > p {
+  max-width: 780px;
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: .8125rem;
+  line-height: 1.58;
+}
+
+.reference-main .reference-authors {
+  margin-top: 0;
+  color: var(--muted-2);
+  font-size: var(--text-meta);
+}
+
+.reference-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: var(--space-3);
+}
+
+.reference-tags span {
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted-2);
+  font-size: var(--text-label);
+}
+
+.reference-actions {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+}
+
+.reference-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: var(--text-meta);
+  line-height: 1.4;
+}
+
+.reference-actions a:first-child {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.reference-actions a:hover {
+  color: var(--ink);
+}
+
+.entity-reference-link {
+  display: grid;
+  gap: 4px;
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+
+.entity-reference-link > span {
+  color: var(--muted-2);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.entity-reference-link strong {
+  font-size: .8125rem;
+  line-height: 1.4;
+}
+
+.entity-reference-link small {
+  color: var(--muted);
+  font-size: var(--text-label);
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .reference-page { padding-top: var(--space-7); }
+  .reference-controls { position: static; grid-template-columns: 1fr; }
+  .reference-row { grid-template-columns: 50px 1fr; gap: var(--space-3); }
+  .reference-actions { grid-column: 2; }
+}
