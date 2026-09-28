@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import GithubSlugger from "github-slugger";
+import { cleanInlineMarkdown, normalizeMathForRendering, tocFrom } from "@/lib/markdown-processing";
 import type { SearchPassage } from "@/lib/search-passages";
 import { fieldForSlug, type ResearchField } from "@/lib/taxonomy";
 
@@ -25,15 +26,6 @@ export type DocRecord = DocSummary & {
   body: string;
   toc: Array<{ id: string; label: string; level: number }>;
 };
-
-function cleanInlineMarkdown(value: string) {
-  return value
-    .replace(/!\[([^\]]*)\]\([^\)]+\)/g, "$1")
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1")
-    .replace(/[`*_~]/g, "")
-    .replace(/<[^>]+>/g, "")
-    .trim();
-}
 
 function titleFrom(content: string, slug: string) {
   const match = content.match(/^#\s+(.+)$/m);
@@ -79,18 +71,6 @@ function headingsFrom(content: string) {
   return [...body.matchAll(/^(#|##)\s+(.+)$/gm)]
     .map((match) => cleanInlineMarkdown(match[2]))
     .slice(0, 8);
-}
-
-function tocFrom(content: string) {
-  const slugger = new GithubSlugger();
-  return [...content.matchAll(/^(#|##|###)\s+(.+)$/gm)].map((match) => {
-    const label = cleanInlineMarkdown(match[2]);
-    return {
-      id: slugger.slug(label),
-      label,
-      level: match[1].length,
-    };
-  });
 }
 
 function plainPassageText(lines: string[]) {
@@ -167,26 +147,6 @@ function passagesFrom(content: string): SearchPassage[] {
   flush();
 
   return passages.slice(0, 100);
-}
-
-/**
- * The corpus intentionally stores familiar LaTeX delimiters (\(...\) and
- * \[...\]). remark-math expects dollar delimiters, so normalize only the
- * rendered copy and leave fenced code blocks untouched. The Markdown source
- * on GitHub therefore remains canonical and human-friendly.
- */
-function normalizeMathForRendering(markdown: string) {
-  return markdown
-    .split(/(```[\s\S]*?```|~~~[\s\S]*?~~~)/g)
-    .map((part, index) => {
-      if (index % 2 === 1) return part;
-      return part
-        .replace(/\\\[/g, () => "$$")
-        .replace(/\\\]/g, () => "$$")
-        .replace(/\\\(/g, () => "$")
-        .replace(/\\\)/g, () => "$");
-    })
-    .join("");
 }
 
 function toSummary(filename: string, content: string): DocSummary {
