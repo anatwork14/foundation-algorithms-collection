@@ -11,6 +11,8 @@ import { assertValidImplementations } from "@/lib/implementation-validation";
 import { implementations } from "@/lib/implementations";
 import { assertValidReferences } from "@/lib/reference-validation";
 import { references } from "@/lib/references";
+import { assertValidReplications } from "@/lib/replication-validation";
+import { replications } from "@/lib/replications";
 import { assertValidSearchPassages } from "@/lib/search-passage-validation";
 
 export function assertResearchIntegrity(documents: DocSummary[]) {
@@ -24,6 +26,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   assertValidAlgorithmEntities(algorithms, chapterSlugs);
   assertValidResearchCombinations(combinations, algorithms, chapterSlugs);
   assertValidReferences(references, algorithms, combinations, chapterSlugs);
+  assertValidReplications(replications, algorithms, references);
   assertValidImplementations(implementations, algorithms);
   assertValidExperiments(experiments, algorithms, combinations);
   assertValidSearchPassages(documents, records);
@@ -34,6 +37,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
     algorithms: algorithms.length,
     combinations: combinations.length,
     references: references.length,
+    replications: replications.length,
     implementations: implementations.length,
     experiments: experiments.length,
     claims: claims.length,
