@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, Sigma } from "lucide-react";
 import { ChapterToc } from "@/components/chapter-toc";
-import { algorithmsForChapter } from "@/lib/algorithms";
+import { algorithmsForChapter } from "@/lib/algorithm-catalog";
 import { getAllDocuments, getDocument } from "@/lib/content";
 import { fieldKey } from "@/lib/taxonomy";
 
