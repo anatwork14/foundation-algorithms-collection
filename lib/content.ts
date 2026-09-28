@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import GithubSlugger from "github-slugger";
@@ -64,6 +65,11 @@ function summaryFrom(content: string) {
   return "A research chapter in the Foundation Algorithms Collection.";
 }
 
+function documentTitleLineOffset(content: string) {
+  const match = content.match(/^#\s+.+\n+/);
+  return match ? match[0].split("\n").length - 1 : 0;
+}
+
 function contentWithoutDocumentTitle(content: string) {
   return content.replace(/^#\s+.+\n+/, "");
 }
@@ -90,8 +96,8 @@ function tocFrom(content: string) {
 function plainPassageText(lines: string[]) {
   return cleanInlineMarkdown(
     lines
+      .map((line) => line.replace(/^\s*(?:[-*+] |\d+\. |> )/, ""))
       .join(" ")
-      .replace(/^\s*(?:[-*+] |\d+\. |> )/gm, "")
       .replace(/\\\(|\\\)|\\\[|\\\]/g, " ")
       .replace(/\s+/g, " "),
   );
@@ -99,11 +105,15 @@ function plainPassageText(lines: string[]) {
 
 function passagesFrom(content: string): SearchPassage[] {
   const body = contentWithoutDocumentTitle(content);
+  const lineOffset = documentTitleLineOffset(content);
   const slugger = new GithubSlugger();
   const passages: SearchPassage[] = [];
+  const passageIdCounts = new Map<string, number>();
   let heading = "Document overview";
   let anchor = "";
   let buffer: string[] = [];
+  let bufferStartLine = 0;
+  let bufferEndLine = 0;
   let inFence = false;
 
   const flush = () => {
@@ -111,15 +121,24 @@ function passagesFrom(content: string): SearchPassage[] {
     const text = plainPassageText(buffer);
     buffer = [];
     if (text.length < 35) return;
+
+    const digest = createHash("sha1").update(`${heading}\n${text}`).digest("hex").slice(0, 12);
+    const occurrence = (passageIdCounts.get(digest) ?? 0) + 1;
+    passageIdCounts.set(digest, occurrence);
+
     passages.push({
+      id: occurrence === 1 ? `p-${digest}` : `p-${digest}-${occurrence}`,
       heading,
       anchor,
       text,
-      searchText: text.toLowerCase(),
+      startLine: bufferStartLine,
+      endLine: bufferEndLine,
     });
   };
 
-  for (const line of body.split("\n")) {
+  for (const [index, line] of body.split("\n").entries()) {
+    const sourceLine = lineOffset + index + 1;
+
     if (/^\s*(```|~~~)/.test(line)) {
       flush();
       inFence = !inFence;
@@ -141,6 +160,8 @@ function passagesFrom(content: string): SearchPassage[] {
     }
 
     if (/^\s*\|/.test(line) || /^\s*[-:| ]{3,}\s*$/.test(line)) continue;
+    if (!buffer.length) bufferStartLine = sourceLine;
+    bufferEndLine = sourceLine;
     buffer.push(line);
   }
   flush();
