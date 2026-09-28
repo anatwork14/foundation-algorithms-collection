@@ -3,7 +3,8 @@
 **Status:** Active  
 **Last updated:** 2026-09-28  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
-**Design rationale:** [`DESIGN.md`](./DESIGN.md)
+**Design rationale:** [`DESIGN.md`](./DESIGN.md)  
+**Evidence authoring:** [`EVIDENCE_AUTHORING.md`](./EVIDENCE_AUTHORING.md)
 
 A checked item means the implementation exists in the repository. Visual, accessibility, evidence-quality, and production acceptance are tracked separately.
 
@@ -41,7 +42,7 @@ Unified Evidence hub
 | 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
 | 5 — Lab | 🟡 Working first version with structured seed hypotheses |
 | 6 — Research evidence layer | 🟡 Working first version: sources + code + planned experiments |
-| 7 — Advanced discovery | ⬜ Not started |
+| 7 — Advanced discovery | 🟡 Structural discovery started; semantic retrieval intentionally deferred |
 
 ---
 
@@ -65,7 +66,7 @@ Unified Evidence hub
 - [ ] Add more executable/reference implementations.
 - [ ] Add benchmark/dataset recommendations by family.
 - [ ] Add explicit maturity labels into Markdown research itself.
-- [ ] Add stable source-passage anchors for entity provenance.
+- [ ] Add explicit claim/passage identifiers where heading-level provenance is insufficient.
 
 ---
 
@@ -91,13 +92,17 @@ Unified Evidence hub
 - [x] List-first archive and home preview.
 - [x] Field filtering, sorting, result count, clear filters.
 - [x] Restrained field identity treatment.
+- [x] Archive query/field/family/algorithm/evidence/sort state encoded in URL.
+- [x] Back/forward navigation restores URL-backed Archive state.
+- [x] Algorithm-family filters.
+- [x] Individual Algorithm filters.
+- [x] Evidence-availability filters for References / Implementations / Experiments.
+- [x] Archive search also matches curated Algorithm names and families.
+- [x] Archive rows expose linked Algorithm/evidence metadata.
 
 ### Archive still needed
 
-- [ ] Encode filter/search state in URL.
-- [ ] Family filters inside Archive.
-- [ ] Algorithm filters inside Archive.
-- [ ] Maturity/evidence filters inside Archive.
+- [ ] Maturity/evidence-strength filters after a consistent cross-record maturity model exists.
 - [ ] Matching-passage snippets/highlighting.
 
 ## Chapter reader
@@ -117,7 +122,8 @@ Unified Evidence hub
 
 ### Reader still needed
 
-- [ ] Exact source-passage backlinks from Algorithm/Reference entities.
+- [x] Algorithm → heading-level chapter provenance using live TOC anchors.
+- [ ] Claim/paragraph-level provenance where a heading is too broad.
 - [ ] Browser acceptance for extreme equations/tables.
 - [ ] Math accessibility review.
 
@@ -138,7 +144,7 @@ Unified Evidence hub
 ### Search still needed
 
 - [ ] Passage-level result snippets.
-- [ ] Optional semantic retrieval after structural search matures.
+- [ ] Optional semantic retrieval after structural search/evidence coverage matures.
 
 ---
 
@@ -162,6 +168,7 @@ Unified Evidence hub
 - [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
 - [x] Header and application icon use canonical SVG.
 - [x] Primary product navigation consolidated to Archive / Algorithms / Atlas / Lab / Evidence.
+- [x] Evidence sub-navigation standardized across Overview / References / Implementations / Experiments.
 
 ## Still needed
 
@@ -190,6 +197,7 @@ Unified Evidence hub
 - [x] IDs, aliases, fields, families, assumptions, complexity, maturity.
 - [x] Motivation, Contribution, Implementation, failure modes, open questions.
 - [x] Source-chapter linkage.
+- [x] Heading-level source provenance resolved from live chapter TOCs.
 - [x] Curated metadata strategy.
 - [x] Core + extension catalogs.
 - [x] Cross-field entity coverage spanning foundations, AI/ML, quantum, and cybersecurity.
@@ -198,6 +206,7 @@ Unified Evidence hub
 - [x] `/algorithms/[id]` static research cards.
 - [x] Incoming/outgoing typed relationships.
 - [x] Source-chapter links.
+- [x] Source-section anchor links when Algorithm names/aliases match chapter headings.
 - [x] Primary Reference backlinks.
 - [x] Implementation-record backlinks.
 - [x] Experiment-record backlinks.
@@ -218,7 +227,7 @@ Unified Evidence hub
 
 ## Still needed
 
-- [ ] Exact source-passage linkage.
+- [ ] Explicit claim/paragraph-level source linkage.
 - [ ] Explicit variant records rather than relation-only variants.
 - [ ] Broader curated coverage across all Markdown algorithms.
 
@@ -315,6 +324,7 @@ Unified Evidence hub
 
 - [x] `/evidence` overview route.
 - [x] Evidence model visually distinguishes conceptual knowledge, primary sources, implementations, and experiments.
+- [x] Shared Evidence sub-navigation across Overview / References / Implementations / Experiments.
 - [x] Evidence sub-surfaces remain separately searchable and inspectable.
 
 ## References
@@ -332,7 +342,7 @@ Unified Evidence hub
 - [x] Chapter → Reference backlinks.
 - [x] References included in global command search.
 - [ ] Broader primary-reference coverage across all entities.
-- [ ] Exact claim/source-passage linkage.
+- [ ] Exact claim-level source linkage.
 - [ ] Reference-to-reference citation graph.
 
 ## Implementations
@@ -375,15 +385,34 @@ Unified Evidence hub
 - [ ] Add concrete benchmark URLs/data artifacts as experiments mature.
 - [ ] Persist user-authored experiment updates/results.
 
+## Evidence authoring / provenance
+
+- [x] `EVIDENCE_AUTHORING.md` defines the distinction between concepts, sources, implementations, hypotheses, experiments, and results.
+- [x] Evidence quality ladder documented.
+- [x] Explicit no-fabricated-results rule documented.
+- [x] Negative/inconclusive result preservation documented.
+- [x] Heading-level Algorithm → Markdown provenance is generated from live TOC anchors.
+- [ ] Claim-level/source-passage provenance model.
+- [ ] Evidence-strength scoring/provenance policy.
+
 ## Evidence history still needed
 
 - [ ] Research-chapter diff view.
 - [ ] Algorithm/evidence maturity history.
-- [ ] Evidence-strength scoring/provenance policy.
 
 ---
 
 # Phase 7 — Advanced discovery
+
+## Structural discovery already implemented
+
+- [x] Archive structural filtering by field.
+- [x] Archive structural filtering by Algorithm family.
+- [x] Archive structural filtering by individual Algorithm.
+- [x] Archive structural filtering by Evidence availability.
+- [x] Shareable URL-backed Archive discovery state.
+
+## Still needed
 
 - [ ] Passage-level results.
 - [ ] Semantic retrieval with inspectable evidence.
@@ -408,6 +437,7 @@ Unified Evidence hub
 - [x] Implementation validation participates in Implementation static build.
 - [x] Experiment validation participates in Experiment static build.
 - [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
+- [x] Complete Evidence + Archive discovery + heading-level provenance tranche passes typecheck and production build (GitHub Actions run 118).
 
 ## Still needed
 
@@ -426,16 +456,23 @@ Unified Evidence hub
 
 ---
 
-# Deployment
+# Deployment / browser acceptance
 
 - [x] Repository builds as a Next.js application.
-- [x] CI confirms production builds succeed through the pre-Evidence-hub integration checkpoint.
-- [ ] Reconfirm latest full Evidence integration run after all current commits.
-- [ ] Hosting/Vercel project connected.
+- [x] CI confirms the current full implementation builds successfully.
+- [ ] Hosting/Vercel project connected for this repository.
 - [ ] Preview deployment reviewed.
 - [ ] Production deployment reviewed.
 - [ ] Public production URL documented.
 - [ ] Deployment status linked from README.
+- [ ] Real-browser phone/tablet/desktop acceptance.
+- [ ] Real-browser light/dark acceptance.
+
+### Current environment limitation
+
+- Vercel account/team access is available, but there is currently no Vercel project linked to this repository.
+- The available local execution environment could not resolve `github.com` to clone/serve the repository for browser automation.
+- Therefore browser/deployment acceptance remains intentionally open rather than inferred from CI.
 
 ---
 
@@ -445,10 +482,10 @@ Unified Evidence hub
 - [x] `DESIGN.md` — product/UI rationale.
 - [x] `DEVELOPMENT_SPEC.md` — intended product/technical specification.
 - [x] `PROGRESS.md` — active implementation tracker.
-- [ ] Contribution guide.
+- [x] `EVIDENCE_AUTHORING.md` — reference/implementation/experiment/provenance authoring contract.
+- [ ] General contribution guide.
 - [ ] Algorithm metadata authoring guide.
 - [ ] Atlas relationship authoring guide.
-- [ ] Evidence/reference/implementation/experiment authoring guide.
 - [ ] Deployment/operations guide.
 
 ---
@@ -489,29 +526,42 @@ Unified Evidence hub
 
 ## 2026-09-28 — Evidence tranche 1
 
-- added first-class `ReferenceEntity` records with validation and `/references` index/detail routes;
-- connected References bidirectionally with Algorithms, Lab hypotheses, and Archive chapters;
-- added first-class `ImplementationRecord` registry with repository/source-path/license/maturity metadata and validation;
-- verified initial implementation repositories and relevant source paths before adding them to the registry;
-- added `/implementations` index/detail routes and Algorithm backlinks;
-- added `ExperimentRecord` schema with baselines, datasets, metrics, environments, procedure, success criteria, artifacts, result slots, and negative/inconclusive outcome support;
-- added three initial planned experiment records and `/experiments` index/detail routes;
-- connected experiments to Algorithms and Lab hypotheses;
-- added unified `/evidence` hub and consolidated top navigation to Archive / Algorithms / Atlas / Lab / Evidence;
-- global command search now spans Algorithms, References, Implementations, Experiments, and chapters.
+- first-class `ReferenceEntity` records with validation and `/references` index/detail routes;
+- bidirectional Reference links with Algorithms, Lab hypotheses, and Archive chapters;
+- first-class `ImplementationRecord` registry with repository/source-path/license/maturity metadata and validation;
+- verified initial implementation repositories/source paths before registry inclusion;
+- `/implementations` index/detail routes and Algorithm backlinks;
+- `ExperimentRecord` schema with baselines, datasets, metrics, environments, procedure, success criteria, artifacts, result slots, and negative/inconclusive outcome support;
+- three initial planned experiment records and `/experiments` index/detail routes;
+- Experiment links from Algorithms and Lab hypotheses;
+- unified `/evidence` hub;
+- global command search across Algorithms, References, Implementations, Experiments, and chapters.
+
+## 2026-09-28 — Discovery / provenance tranche
+
+- primary navigation standardized as Archive / Algorithms / Atlas / Lab / Evidence;
+- shared Evidence sub-navigation added;
+- Archive state made shareable through URL query parameters;
+- Archive family / Algorithm / evidence-availability structural filters added;
+- chapter discovery metadata generated from Algorithm and Evidence catalogs;
+- Algorithm source provenance now resolves matching Markdown sections through the chapter's live generated TOC;
+- Algorithm cards link directly to matching source headings;
+- `EVIDENCE_AUTHORING.md` added with evidence-quality and no-fabricated-results rules;
+- full tranche passes TypeScript and Next.js production build in GitHub Actions.
 
 ---
 
 ## Immediate next engineering work
 
-1. Reconfirm CI for the complete Evidence tranche and repair any integration issue.
-2. Browser acceptance across phone/tablet/desktop and light/dark.
-3. Accessibility/contrast/math acceptance.
-4. Clean obsolete legacy CSS after browser review.
-5. Add tests for content parsing, all entity validators, search, routes, and broken links.
-6. Expand reference and implementation coverage before semantic retrieval.
-7. Add exact source-passage provenance.
-8. Run the first reproducible experiment and preserve its result, including negative/inconclusive outcomes if applicable.
+1. Add stronger CI checks for route/data/internal-link consistency without duplicating the existing validators.
+2. Add passage-level search snippets before semantic retrieval.
+3. Expand primary-reference and implementation coverage.
+4. Add explicit claim/paragraph provenance where heading-level anchors are insufficient.
+5. Add tests for content parsing, search behavior, heading math normalization, and entity validators.
+6. Connect this repository to a preview hosting project, then run phone/tablet/desktop and light/dark browser acceptance.
+7. Perform keyboard, contrast, screen-reader, table, and math accessibility acceptance.
+8. Clean obsolete legacy CSS only after rendered browser review.
+9. Run the first reproducible experiment and preserve its outcome, including negative/inconclusive results.
 
 ---
 
