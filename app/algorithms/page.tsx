@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AlgorithmExplorer } from "@/components/algorithm-explorer";
 import { assertValidAlgorithmEntities } from "@/lib/algorithm-validation";
-import { algorithms } from "@/lib/algorithms";
+import { algorithms } from "@/lib/algorithm-catalog";
 
 export const metadata: Metadata = {
   title: "Algorithms",
