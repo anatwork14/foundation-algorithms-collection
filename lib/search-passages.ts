@@ -15,6 +15,16 @@ function normalizeQuery(query: string) {
   return query.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
+function snippetAround(text: string, query: string) {
+  const lower = text.toLowerCase();
+  const index = lower.indexOf(query);
+  if (index < 0 || text.length <= 280) return text;
+
+  const start = Math.max(0, index - 90);
+  const end = Math.min(text.length, index + query.length + 170);
+  return `${start > 0 ? "…" : ""}${text.slice(start, end).trim()}${end < text.length ? "…" : ""}`;
+}
+
 /**
  * Finds the most useful indexed passage for a literal query. This intentionally
  * stays lexical and inspectable; semantic retrieval can be layered on later.
@@ -29,7 +39,7 @@ export function findPassageMatch(passages: SearchPassage[], query: string): Pass
   return {
     heading: exact.heading,
     anchor: exact.anchor,
-    text: exact.text,
+    text: snippetAround(exact.text, needle),
   };
 }
 
