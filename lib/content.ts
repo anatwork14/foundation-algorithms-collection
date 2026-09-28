@@ -61,15 +61,20 @@ function summaryFrom(content: string) {
   return "A research chapter in the Foundation Algorithms Collection.";
 }
 
+function contentWithoutDocumentTitle(content: string) {
+  return content.replace(/^#\s+.+\n+/, "");
+}
+
 function headingsFrom(content: string) {
-  return [...content.matchAll(/^##\s+(.+)$/gm)]
-    .map((match) => cleanInlineMarkdown(match[1]))
+  const body = contentWithoutDocumentTitle(content);
+  return [...body.matchAll(/^(#|##)\s+(.+)$/gm)]
+    .map((match) => cleanInlineMarkdown(match[2]))
     .slice(0, 8);
 }
 
 function tocFrom(content: string) {
   const slugger = new GithubSlugger();
-  return [...content.matchAll(/^(##|###)\s+(.+)$/gm)].map((match) => {
+  return [...content.matchAll(/^(#|##|###)\s+(.+)$/gm)].map((match) => {
     const label = cleanInlineMarkdown(match[2]);
     return {
       id: slugger.slug(label),
@@ -145,7 +150,7 @@ export function getDocument(slug: string): DocRecord | null {
 
   const content = fs.readFileSync(file, "utf8");
   const summary = toSummary(`${safeSlug}.md`, content);
-  const rawBody = content.replace(/^#\s+.+\n+/, "");
+  const rawBody = contentWithoutDocumentTitle(content);
 
   return {
     ...summary,
