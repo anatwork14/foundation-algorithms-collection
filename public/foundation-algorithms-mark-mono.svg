@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Foundation Algorithms monochrome mark</title>
+  <desc id="desc">A circular algorithm atlas mark with intersecting orbits around a central foundation node.</desc>
+  <circle cx="32" cy="32" r="30" fill="#17191e"/>
+  <g fill="none" stroke="#f7f6f1" stroke-width="1.7" opacity=".58">
+    <ellipse cx="32" cy="32" rx="21" ry="8.5"/>
+    <ellipse cx="32" cy="32" rx="21" ry="8.5" transform="rotate(60 32 32)"/>
+    <ellipse cx="32" cy="32" rx="21" ry="8.5" transform="rotate(-60 32 32)"/>
+  </g>
+  <g fill="#f7f6f1">
+    <circle cx="32" cy="32" r="4.2"/>
+    <circle cx="11.2" cy="32" r="2.55"/>
+    <circle cx="42.4" cy="13.9" r="2.55"/>
+    <circle cx="42.4" cy="50.1" r="2.55"/>
+    <circle cx="21.6" cy="13.9" r="2.55"/>
+    <circle cx="52.8" cy="32" r="2.55"/>
+  </g>
+</svg>
