@@ -12,6 +12,7 @@ import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
+import { replications, replicationSearchText } from "@/lib/replications";
 import { findPassageMatches } from "@/lib/search-passages";
 import { fieldKey, type ResearchField } from "@/lib/taxonomy";
 
@@ -24,7 +25,7 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment" | "claim";
+  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment" | "claim" | "replication";
 };
 
 function linkedField(algorithmIds: string[]): ResearchField {
@@ -85,6 +86,16 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           marker: "CLM",
           score: 1,
           kind: "claim" as const,
+        })),
+        ...replications.slice(0, 1).map((replication) => ({
+          id: `replication-${replication.id}`,
+          title: replication.title,
+          field: linkedField(replication.algorithmIds),
+          meta: `${replication.outcome} · independent evaluation`,
+          href: `/replications#${replication.id}`,
+          marker: "REP",
+          score: 1,
+          kind: "replication" as const,
         })),
         ...references.slice(0, 2).map((reference) => ({
           id: `reference-${reference.id}`,
@@ -163,6 +174,21 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
+    const replicationResults: SearchResult[] = replications.map((replication) => {
+      const titleHit = replication.title.toLowerCase().includes(needle) ? 9 : 0;
+      const bodyHit = replicationSearchText(replication, references).includes(needle) ? 4 : 0;
+      return {
+        id: `replication-${replication.id}`,
+        title: replication.title,
+        field: linkedField(replication.algorithmIds),
+        meta: `${replication.outcome} · independent evaluation`,
+        href: `/replications#${replication.id}`,
+        marker: "REP",
+        score: titleHit + bodyHit,
+        kind: "replication",
+      };
+    });
+
     const referenceResults: SearchResult[] = references.map((reference) => {
       const exactTitle = reference.title.toLowerCase() === needle ? 12 : 0;
       const titleHit = reference.title.toLowerCase().includes(needle) ? 8 : 0;
@@ -234,7 +260,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...claimResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
+    return [...algorithmResults, ...claimResults, ...replicationResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
@@ -245,12 +271,13 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     { href: "/algorithms", label: "Algorithms", matches: ["/algorithms"] },
     { href: "/atlas", label: "Atlas", matches: ["/atlas"] },
     { href: "/lab", label: "Lab", matches: ["/lab"] },
-    { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments", "/passages", "/claims"] },
+    { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments", "/passages", "/claims", "/replications"] },
   ];
 
   function resultKindLabel(kind: SearchResult["kind"]) {
     if (kind === "algorithm") return "Algorithm";
     if (kind === "claim") return "Curated claim";
+    if (kind === "replication") return "Independent replication";
     if (kind === "reference") return "Reference";
     if (kind === "implementation") return "Implementation";
     if (kind === "experiment") return "Experiment";
@@ -311,7 +338,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, claims, papers, code, experiments, chapters…"
+                placeholder="Search algorithms, claims, replications, papers, code, experiments, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -339,7 +366,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + claims + sources + code + experiments + chapters</span>
+              <span>Algorithms + claims + replications + sources + code + experiments + chapters</span>
               <span>Chapter body matches rank inspectable passages and jump to the top section</span>
             </div>
           </div>
