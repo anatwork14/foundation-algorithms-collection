@@ -16,14 +16,19 @@
 
 .reference-citation-list {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
+}
+
+.reference-citation-entry {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
 }
 
 .reference-citation-link {
   position: relative;
   display: grid;
   gap: 4px;
-  padding: var(--space-3) 34px var(--space-3) 0;
+  padding: var(--space-3) 34px var(--space-2) 0;
   border-top: 1px solid var(--line);
 }
 
@@ -55,6 +60,19 @@
 
 .reference-citation-link:hover strong {
   color: var(--accent);
+}
+
+.reference-citation-entry > p {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: var(--text-meta);
+  line-height: 1.55;
+}
+
+.reference-citation-entry > a:not(.reference-citation-link) {
+  color: var(--accent);
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 .evidence-profile {
@@ -122,7 +140,7 @@
 
 .evidence-coverage-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-2);
   margin-top: var(--space-5);
 }
@@ -144,6 +162,10 @@
   color: var(--muted);
   font-size: var(--text-label);
   line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .evidence-coverage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 900px) {
