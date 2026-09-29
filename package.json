@@ -10,7 +10,8 @@
     "check:links": "node scripts/check-markdown-links.mjs",
     "check:source": "node scripts/check-source-hygiene.mjs",
     "check:ui": "node scripts/check-ui-consistency.mjs",
-    "test:research": "node --experimental-strip-types --test tests/*.test.mjs"
+    "test:research": "node --experimental-strip-types --test tests/*.test.mjs",
+    "test:acceptance": "playwright test"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
@@ -26,6 +27,8 @@
     "remark-math": "^6.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.51.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
