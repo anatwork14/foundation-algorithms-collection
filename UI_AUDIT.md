@@ -50,6 +50,8 @@ Current core values:
 - reduced-motion support;
 - no decorative global shadows or glass blur.
 
+No new global visual override layer should be introduced after `research-ui.css`. Route/feature styles should solve specialized structure; they must not establish a separate color, typography, surface, control, or interaction system.
+
 ## Concrete issues found and fixed
 
 ### 1. Conflicting visual systems
@@ -83,6 +85,8 @@ The Evidence page rendered five summary metrics into a four-column grid, leaving
 
 Evidence destination cards were also shortened and no longer use artificial 340 px minimum heights.
 
+The Evidence root uses `.evidence-hub`; the canonical page-rhythm selectors must target that real class at both desktop and mobile breakpoints so it receives the same top spacing as Archive, Algorithms, Atlas, Lab and the registry routes.
+
 ### 4. Registry controls drifted
 
 References, Implementations and Experiments independently recreated nearly identical filter toolbars. They now share the same:
@@ -115,9 +119,11 @@ Both provenance routes still used blurred sticky bars and one-off breakpoints (`
 
 Research-field color is now neutral by default. Experiment status retains restrained semantic color because planned/running/completed/failed is actual state information.
 
-### 9. Theme control referenced retired tokens
+### 9. Theme control referenced retired tokens and lived outside the header action system
 
-The floating theme control still referenced old `--glass-*` variables after the glass system was retired. It now uses only canonical neutral tokens.
+The theme control previously referenced old `--glass-*` variables after the glass system was retired and was visually mounted as a floating utility outside the header.
+
+Both issues are resolved. The control uses canonical neutral tokens, and `ThemeToggle` portals its interactive button into `.header-actions`. The root layout keeps only a nonvisual `display: contents` mount so theme initialization remains independent from the header implementation while the actual control shares the same DOM/action group, geometry, hover/focus behavior and responsive treatment as Search and GitHub.
 
 ### 10. Future drift was unguarded
 
@@ -127,7 +133,10 @@ Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI now rejects:
 - importing old visual layers;
 - a layout where `research-ui.css` is not the final app CSS layer;
 - removal of the required font/theme/control/breakpoint contracts;
-- return of retired glass tokens in the theme control.
+- return of retired glass tokens in the theme control;
+- detaching the theme control from `.header-actions`;
+- turning the layout theme mount back into a visual/floating surface;
+- stale Evidence root selectors that would break shared page rhythm.
 
 ## Surface rules going forward
 
@@ -153,14 +162,13 @@ Keep prose near 760 px, use generous vertical section spacing, real math renderi
 
 ## Known follow-up acceptance work
 
-The structural/design-system cleanup is implemented, but the following should continue to be checked on actual rendered deployments whenever the environment permits full browser automation:
+The structural/design-system cleanup is implemented. Continue checking these items on actual rendered deployments whenever full browser automation is available:
 
 - desktop/tablet/phone screenshots in both themes;
 - long tables at narrow widths;
 - long mathematical expressions;
 - keyboard-only navigation across every workspace;
 - screen-reader labeling of complex relationship/evidence surfaces;
-- contrast of muted text and semantic experiment-status colors;
-- whether the persistent theme control should ultimately be placed inside the header action group rather than remain a floating utility.
+- contrast of muted text and semantic experiment-status colors.
 
-The last item is intentionally recorded instead of hidden: the control is now visually consistent, but its placement is still a product-level decision.
+These are acceptance checks, not separate visual-system work. Any future fix should preserve the canonical hierarchy rather than add another override layer.
