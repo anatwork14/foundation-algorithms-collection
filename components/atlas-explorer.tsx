@@ -72,8 +72,13 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
       <div className="atlas-workspace">
         <aside className="atlas-picker">
           <label className="atlas-search">
-            <Search size={16} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find an algorithm…" />
+            <Search size={16} aria-hidden="true" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Find an algorithm…"
+              aria-label="Search algorithms in Atlas"
+            />
           </label>
           <div className="atlas-filter-row">
             <select value={field} onChange={(event) => setField(event.target.value as ResearchField | "All")} aria-label="Filter Atlas by field">
@@ -84,27 +89,32 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
               {relationTypes.map((item) => <option key={item} value={item}>{item === "All" ? "All relations" : item.replaceAll("-", " ")}</option>)}
             </select>
           </div>
-          <div className="atlas-picker-list">
+          <div className="atlas-picker-list" aria-label="Atlas algorithms">
             {matches.map((algorithm) => (
-              <button key={algorithm.id} className={algorithm.id === selected.id ? "is-active" : ""} onClick={() => setSelectedId(algorithm.id)}>
-                <span className={`entity-field-dot field-dot-${fieldKey(algorithm.fields[0])}`} />
+              <button
+                key={algorithm.id}
+                className={algorithm.id === selected.id ? "is-active" : ""}
+                onClick={() => setSelectedId(algorithm.id)}
+                aria-pressed={algorithm.id === selected.id}
+              >
+                <span className={`entity-field-dot field-dot-${fieldKey(algorithm.fields[0])}`} aria-hidden="true" />
                 <span><strong>{algorithm.name}</strong><small>{algorithm.families[0]}</small></span>
               </button>
             ))}
           </div>
         </aside>
 
-        <section className="atlas-focus" aria-live="polite">
+        <section className="atlas-focus" aria-live="polite" aria-atomic="false">
           <div className="atlas-focus-header">
             <div>
               <span className="research-block-label">Focused entity</span>
               <h2>{selected.name}</h2>
               <p>{selected.summary}</p>
             </div>
-            <Link href={`/algorithms/${selected.id}`} className="atlas-open-link">Open research card <ArrowRight size={14} /></Link>
+            <Link href={`/algorithms/${selected.id}`} className="atlas-open-link">Open research card <ArrowRight size={14} aria-hidden="true" /></Link>
           </div>
 
-          <div className="atlas-neighborhood" aria-label={`Relationships around ${selected.name}`}>
+          <div className="atlas-neighborhood" role="region" aria-label={`Relationships around ${selected.name}`}>
             <div className="atlas-core-node">
               <span>{selected.fields[0]}</span>
               <strong>{selected.name}</strong>
@@ -118,7 +128,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                 const direction = outgoingRelation ? "out" : "in";
                 return (
                   <button key={neighbor.id} className="atlas-neighbor" onClick={() => setSelectedId(neighbor.id)}>
-                    <span className={`entity-field-dot field-dot-${fieldKey(neighbor.fields[0])}`} />
+                    <span className={`entity-field-dot field-dot-${fieldKey(neighbor.fields[0])}`} aria-hidden="true" />
                     <small>{direction === "out" ? relation?.type.replaceAll("-", " ") : `referenced by · ${relation?.type.replaceAll("-", " ")}`}</small>
                     <strong>{neighbor.name}</strong>
                     <p>{relation?.note}</p>
@@ -133,7 +143,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
             </div>
           </div>
 
-          <div className="atlas-relation-table">
+          <div className="atlas-relation-table" role="region" aria-label={`Relationship details for ${selected.name}`}>
             <div className="atlas-table-head"><span>Direction</span><span>Relation</span><span>Algorithm</span><span>Research meaning</span></div>
             {outgoing.map(({ relation, target }) => (
               <Link key={`out-${relation.type}-${target.id}`} href={`/algorithms/${target.id}`} className="atlas-table-row">
