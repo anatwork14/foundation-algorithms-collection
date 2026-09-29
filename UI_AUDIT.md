@@ -48,6 +48,7 @@ Current core values:
 - common responsive boundaries at 980 px, 760 px and 520 px;
 - visible keyboard focus;
 - reduced-motion support;
+- AA-capable small metadata contrast in both themes;
 - no decorative global shadows or glass blur.
 
 No new global visual override layer should be introduced after `research-ui.css`. Route/feature styles should solve specialized structure; they must not establish a separate color, typography, surface, control, or interaction system.
@@ -127,16 +128,43 @@ Both issues are resolved. The control uses canonical neutral tokens, and `ThemeT
 
 ### 10. Future drift was unguarded
 
-Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI now rejects:
+Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI rejects reintroduction of deprecated theme files, incorrect CSS ordering, removal of canonical visual contracts, stale Evidence-root selectors, theme-control regressions and the accessibility/contrast contracts listed below.
 
-- reintroduction of deprecated theme files;
-- importing old visual layers;
-- a layout where `research-ui.css` is not the final app CSS layer;
-- removal of the required font/theme/control/breakpoint contracts;
-- return of retired glass tokens in the theme control;
-- detaching the theme control from `.header-actions`;
-- turning the layout theme mount back into a visual/floating surface;
-- stale Evidence root selectors that would break shared page rhythm.
+### 11. Acceptance hardening exposed semantic and narrow-screen gaps
+
+The source-level acceptance pass identified issues that were not visual-theme problems but still affected usability:
+
+- the Atlas search input relied on placeholder text rather than an explicit accessible name;
+- the active Atlas entity was indicated visually but not exposed as selected to assistive technology;
+- complex Atlas relationship areas were not named regions;
+- the mobile menu toggle did not expose `aria-expanded` / `aria-controls`, and current navigation links lacked `aria-current`;
+- Escape closed Search but not an open mobile menu;
+- long KaTeX display equations had no local horizontal-overflow containment;
+- the secondary muted token was too low-contrast for the small metadata text that consumes it.
+
+These are now resolved:
+
+- Atlas search has an explicit accessible name, picker buttons expose `aria-pressed`, and relationship areas are named regions;
+- mobile navigation exposes ownership and expanded state, current links expose page state, Search declares dialog-popup behavior, and Escape closes either transient header surface;
+- display equations scroll inside the reading surface instead of widening the page;
+- `.table-scroll` already provides local horizontal scrolling for wide tables;
+- `--muted-2` is now `#6d7076` in light mode and `#81848a` in dark mode. Against the common canvas/surface backgrounds, the worst-case ratios are approximately 4.63:1 and 4.55:1 respectively, clearing WCAG AA's 4.5:1 threshold for normal text;
+- `check:ui` computes the metadata-token contrast ratio from the CSS itself and fails if a future palette change drops below 4.5:1.
+
+## CI consistency contract
+
+`npm run check:ui` currently protects all of the following:
+
+- deprecated visual layers cannot return;
+- `research-ui.css` remains the final app CSS import;
+- required typography, theme, control, shell and breakpoint contracts remain present;
+- the theme control remains portal-mounted into `.header-actions` while its layout mount stays nonvisual;
+- the real `.evidence-hub` root remains part of shared page rhythm;
+- mobile navigation keeps expanded/current-page semantics;
+- Search keeps dialog-popup semantics;
+- Atlas keeps explicit search, selected-entity and relationship-region semantics;
+- long display equations remain locally horizontally scrollable;
+- light and dark `--muted-2` tokens remain at or above 4.5:1 against the primary canvas and strong surface.
 
 ## Surface rules going forward
 
@@ -158,17 +186,16 @@ Use compact destination surfaces at the hub level and lists for references/imple
 
 ### Long-form research
 
-Keep prose near 760 px, use generous vertical section spacing, real math rendering, horizontally scrollable tables, restrained code blocks and a consistent TOC.
+Keep prose near 760 px, use generous vertical section spacing, real math rendering, locally scrollable wide tables/equations, restrained code blocks and a consistent TOC.
 
 ## Known follow-up acceptance work
 
-The structural/design-system cleanup is implemented. Continue checking these items on actual rendered deployments whenever full browser automation is available:
+The structural/design-system cleanup and the source-level accessibility hardening are implemented. Continue checking these items on actual rendered deployments whenever full browser/assistive-technology automation is available:
 
 - desktop/tablet/phone screenshots in both themes;
-- long tables at narrow widths;
-- long mathematical expressions;
-- keyboard-only navigation across every workspace;
-- screen-reader labeling of complex relationship/evidence surfaces;
-- contrast of muted text and semantic experiment-status colors.
+- a complete keyboard-only traversal across every workspace, not just source-level semantic checks;
+- VoiceOver/NVDA-style verification of the command palette, Atlas relationships and Evidence provenance surfaces;
+- rendered contrast spot checks for semantic experiment-status colors and unusual mixed surfaces;
+- real-device overflow checks for unusually long tables, equations and code blocks.
 
 These are acceptance checks, not separate visual-system work. Any future fix should preserve the canonical hierarchy rather than add another override layer.
