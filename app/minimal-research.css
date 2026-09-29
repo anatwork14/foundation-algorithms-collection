@@ -1,0 +1,439 @@
+/*
+ * Minimal research visual system
+ *
+ * Loaded after the legacy glass/theme layers. This file intentionally keeps
+ * layout and information architecture intact while reducing decorative color,
+ * elevation, blur, and surface effects. The hierarchy should come primarily
+ * from typography, spacing, borders, and content.
+ */
+
+:root {
+  color-scheme: light;
+
+  --bg: #f7f7f5;
+  --surface: #fbfbfa;
+  --surface-strong: #ffffff;
+  --ink: #1b1c1f;
+  --muted: #686b70;
+  --muted-2: #8b8e94;
+  --line: #e5e5e1;
+  --line-strong: #d4d4cf;
+
+  /* One restrained interaction accent. Categories are intentionally neutral. */
+  --accent: #3f4854;
+  --accent-soft: rgba(63, 72, 84, .07);
+  --accent-strong: #232a32;
+  --foundation: #5f6976;
+  --ai: #5f6976;
+  --quantum: #5f6976;
+  --security: #5f6976;
+  --cross: #5f6976;
+
+  --glass-fill: #fbfbfa;
+  --glass-fill-soft: #fafaf8;
+  --glass-fill-strong: #ffffff;
+  --glass-border: #e7e7e3;
+  --glass-border-outer: #e2e2de;
+  --glass-highlight: transparent;
+  --glass-shadow: none;
+  --glass-shadow-hover: none;
+  --glass-blur: 0px;
+
+  --radius-button: 8px;
+  --radius-input: 10px;
+  --radius-panel: 12px;
+  --radius-large: 16px;
+  --radius-modal: 16px;
+  --radius-sm: var(--radius-button);
+  --radius-md: var(--radius-panel);
+  --radius-lg: var(--radius-large);
+
+  --shadow: none;
+  --header-height: 72px;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #101113;
+  --surface: #151619;
+  --surface-strong: #191b1e;
+  --ink: #f2f2ef;
+  --muted: #a4a6ab;
+  --muted-2: #7d8087;
+  --line: #292b2f;
+  --line-strong: #383b40;
+
+  --accent: #b8bdc5;
+  --accent-soft: rgba(255, 255, 255, .065);
+  --accent-strong: #f2f2ef;
+  --foundation: #596474;
+  --ai: #596474;
+  --quantum: #596474;
+  --security: #596474;
+  --cross: #596474;
+
+  --glass-fill: #151619;
+  --glass-fill-soft: #141518;
+  --glass-fill-strong: #191b1e;
+  --glass-border: #2d3035;
+  --glass-border-outer: #292c30;
+  --glass-highlight: transparent;
+  --glass-shadow: none;
+  --glass-shadow-hover: none;
+  --shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+
+    --bg: #101113;
+    --surface: #151619;
+    --surface-strong: #191b1e;
+    --ink: #f2f2ef;
+    --muted: #a4a6ab;
+    --muted-2: #7d8087;
+    --line: #292b2f;
+    --line-strong: #383b40;
+
+    --accent: #b8bdc5;
+    --accent-soft: rgba(255, 255, 255, .065);
+    --accent-strong: #f2f2ef;
+    --foundation: #596474;
+    --ai: #596474;
+    --quantum: #596474;
+    --security: #596474;
+    --cross: #596474;
+
+    --glass-fill: #151619;
+    --glass-fill-soft: #141518;
+    --glass-fill-strong: #191b1e;
+    --glass-border: #2d3035;
+    --glass-border-outer: #292c30;
+    --glass-highlight: transparent;
+    --glass-shadow: none;
+    --glass-shadow-hover: none;
+    --shadow: none;
+  }
+}
+
+html,
+body {
+  background: var(--bg) !important;
+}
+
+body {
+  background-image: none !important;
+  letter-spacing: -.004em;
+}
+
+body::before {
+  display: none !important;
+}
+
+::selection {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 12%, transparent) !important;
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline-color: var(--accent-strong) !important;
+}
+
+/* Flat, quiet structural surfaces --------------------------------------- */
+[class$="-card"],
+[class*="-card "],
+[class$="-panel"],
+[class*="-panel "],
+[class$="-toolbar"],
+[class*="-toolbar "],
+.command-palette,
+.hero-search-wrap,
+.archive-search,
+.select-control,
+.table-scroll,
+.empty-state {
+  border-color: var(--line) !important;
+  background: var(--surface-strong) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+[class$="-card"]::after,
+[class*="-card "]::after {
+  display: none !important;
+}
+
+/* Header: one line, no floating glass capsule --------------------------- */
+.site-header {
+  top: 0 !important;
+  height: var(--header-height) !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: color-mix(in srgb, var(--bg) 94%, transparent) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  pointer-events: auto !important;
+}
+
+.header-inner {
+  height: 100% !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.brand-mark-image {
+  border-color: var(--line) !important;
+  box-shadow: none !important;
+}
+
+.main-nav {
+  gap: 2px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.main-nav a {
+  border-radius: 7px !important;
+  color: var(--muted) !important;
+}
+
+.main-nav a:hover,
+.main-nav a.is-active {
+  color: var(--ink) !important;
+  background: var(--accent-soft) !important;
+  box-shadow: none !important;
+}
+
+.search-trigger,
+.icon-button,
+.theme-toggle {
+  border-color: var(--line) !important;
+  background: var(--surface-strong) !important;
+  box-shadow: none !important;
+}
+
+.search-trigger:hover,
+.icon-button:hover,
+.theme-toggle:hover {
+  border-color: var(--line-strong) !important;
+  background: var(--surface) !important;
+  box-shadow: none !important;
+}
+
+.search-trigger,
+.icon-button {
+  border-radius: 8px !important;
+}
+
+.search-trigger kbd {
+  border-color: var(--line) !important;
+  background: var(--surface) !important;
+  box-shadow: none !important;
+}
+
+/* Typography carries hierarchy, not color ------------------------------- */
+.hero-copy h1 span,
+.archive-hero h1 span,
+.detail-hero h1 span,
+.section-heading h2 span {
+  color: inherit !important;
+}
+
+.eyebrow,
+.section-kicker,
+.palette-label,
+.atlas-topline {
+  color: var(--muted) !important;
+}
+
+.markdown-body a,
+.prose a,
+.article-body a {
+  color: inherit !important;
+  text-decoration-color: color-mix(in srgb, currentColor 42%, transparent) !important;
+  text-underline-offset: .18em;
+}
+
+.markdown-body a:hover,
+.prose a:hover,
+.article-body a:hover {
+  text-decoration-color: currentColor !important;
+}
+
+/* Search, filters, buttons ---------------------------------------------- */
+.hero-search-wrap,
+.archive-search,
+.select-control,
+input,
+select,
+textarea {
+  box-shadow: none !important;
+}
+
+.hero-search-wrap:focus-within,
+.archive-search:focus-within,
+.select-control:focus-within {
+  border-color: var(--line-strong) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+
+.quick-filters button,
+.filter-chip,
+.chip,
+.tag,
+.badge {
+  color: var(--muted) !important;
+  border-color: var(--line) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.quick-filters button:hover,
+.quick-filters button.is-active,
+.filter-chip:hover,
+.filter-chip.is-active,
+.chip:hover,
+.tag:hover {
+  color: var(--ink) !important;
+  border-color: var(--line-strong) !important;
+  background: var(--accent-soft) !important;
+}
+
+/* Research visualizations: monochrome by default ------------------------ */
+.hero-atlas,
+.atlas-center {
+  border-color: var(--line) !important;
+  background: var(--surface-strong) !important;
+  box-shadow: none !important;
+}
+
+.atlas-orbit {
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 7%, transparent) 0 7%, transparent 7.5%),
+    repeating-radial-gradient(circle, transparent 0 23%, color-mix(in srgb, var(--ink) 10%, transparent) 23.3% 23.8%, transparent 24.2% 34%) !important;
+}
+
+.atlas-orbit::before,
+.atlas-orbit::after {
+  border-color: color-mix(in srgb, var(--ink) 14%, transparent) !important;
+}
+
+.atlas-node,
+.result-index,
+.chapter-number {
+  background: #5f6976 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] .atlas-node,
+html[data-theme="dark"] .result-index,
+html[data-theme="dark"] .chapter-number {
+  background: #596474 !important;
+}
+
+.live-dot {
+  background: currentColor !important;
+  box-shadow: none !important;
+  opacity: .62;
+}
+
+/* Remove decorative gradients and excessive elevation ------------------ */
+.hero-atlas,
+.command-palette,
+.palette-backdrop,
+.theme-toggle-dock,
+[class*="gradient"],
+[class*="glow"] {
+  background-image: none !important;
+}
+
+.command-palette {
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .14) !important;
+}
+
+html[data-theme="dark"] .command-palette {
+  box-shadow: 0 20px 54px rgba(0, 0, 0, .42) !important;
+}
+
+.palette-backdrop {
+  background: rgba(18, 19, 21, .34) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.theme-toggle-dock {
+  padding: 3px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 11px !important;
+  background: var(--surface-strong) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .06) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="dark"] .theme-toggle-dock {
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .25) !important;
+}
+
+.theme-toggle-dock .theme-toggle {
+  border-radius: 8px !important;
+}
+
+/* Tables and dense research surfaces ------------------------------------ */
+.table-scroll,
+table {
+  box-shadow: none !important;
+}
+
+th {
+  color: var(--muted) !important;
+  background: var(--surface) !important;
+}
+
+td,
+th {
+  border-color: var(--line) !important;
+}
+
+tr:hover td {
+  background: color-mix(in srgb, var(--ink) 2.5%, transparent) !important;
+}
+
+/* Make active/selected state work without bright hue -------------------- */
+[aria-selected="true"],
+[aria-current="page"],
+[data-state="active"],
+.is-selected {
+  color: var(--ink) !important;
+}
+
+/* Preserve semantic colors only for real state messaging. */
+:where(.success, .warning, .danger, .error, .status) {
+  forced-color-adjust: auto;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --radius-panel: 10px;
+    --radius-large: 12px;
+  }
+
+  .site-header {
+    background: color-mix(in srgb, var(--bg) 97%, transparent) !important;
+  }
+
+  .theme-toggle-dock {
+    border-radius: 10px !important;
+  }
+}
