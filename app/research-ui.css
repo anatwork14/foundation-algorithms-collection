@@ -542,6 +542,10 @@ input, select, textarea { border-color: var(--line); background: var(--surface-s
 .inspiration-section .section-heading.inverse,
 .inspiration-section .section-heading.inverse h2,
 .inspiration-section .section-heading.inverse .section-kicker { color: inherit !important; }
+.inspiration-card { color: var(--ink) !important; }
+.inspiration-card .inspiration-kicker,
+.inspiration-card > p,
+.inspiration-card .inspiration-footer { color: var(--muted) !important; }
 
 /* Lab / Atlas ---------------------------------------------------------- */
 .combination-builder { border-radius: var(--radius-panel) !important; }
@@ -552,6 +556,11 @@ input, select, textarea { border-color: var(--line); background: var(--surface-s
 .atlas-node,
 .atlas-center,
 .atlas-picker { box-shadow: none !important; }
+.atlas-orbit .atlas-node {
+  border-color: var(--line-strong) !important;
+  background: var(--surface-strong) !important;
+  color: var(--ink) !important;
+}
 
 /* Reading surface ------------------------------------------------------ */
 .detail-layout { grid-template-columns: minmax(0,var(--reading-width)) 250px !important; gap: 64px !important; }
