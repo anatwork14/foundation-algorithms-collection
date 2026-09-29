@@ -5,10 +5,14 @@ const root = process.cwd();
 const layoutPath = path.join(root, "app", "layout.tsx");
 const uiPath = path.join(root, "app", "research-ui.css");
 const themeDockPath = path.join(root, "app", "theme-dock.css");
+const themeTogglePath = path.join(root, "components", "theme-toggle.tsx");
+const auditPath = path.join(root, "UI_AUDIT.md");
 
 const layout = fs.readFileSync(layoutPath, "utf8");
 const ui = fs.readFileSync(uiPath, "utf8");
 const themeDock = fs.readFileSync(themeDockPath, "utf8");
+const themeToggle = fs.readFileSync(themeTogglePath, "utf8");
+const audit = fs.readFileSync(auditPath, "utf8");
 
 const deprecatedVisualLayers = [
   "liquid-glass.css",
@@ -54,6 +58,30 @@ for (const [label, needle] of requiredUiContracts) {
 
 if (/--glass-|backdrop-filter:\s*blur\(2[0-9]px\)/.test(themeDock)) {
   errors.push("Theme control must use canonical neutral tokens, not the retired glass system");
+}
+
+if (!themeToggle.includes('import { createPortal } from "react-dom";')) {
+  errors.push("Theme control must portal its interactive button into the header action group");
+}
+
+if (!themeToggle.includes('querySelector<HTMLElement>(".header-actions")')) {
+  errors.push("Theme control portal must target .header-actions");
+}
+
+if (!layout.includes('className="theme-toggle-dock"') || !layout.includes('style={{ display: "contents" }}')) {
+  errors.push("Theme toggle layout mount must remain nonvisual with display: contents");
+}
+
+if (audit.includes("should ultimately be placed inside the header action group") || audit.includes("should be moved into `.header-actions`")) {
+  errors.push("UI_AUDIT.md still describes the resolved floating theme-control issue as unfinished");
+}
+
+if (ui.includes(".evidence-hub-page")) {
+  errors.push("Canonical page rhythm uses the wrong Evidence root class; target .evidence-hub instead of .evidence-hub-page");
+}
+
+if (!/\.lab-page,\s*\n\.evidence-hub,\s*\n\.reference-page,/.test(ui)) {
+  errors.push("Canonical desktop/mobile page-rhythm groups must include the real .evidence-hub root");
 }
 
 if (errors.length) {
