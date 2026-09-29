@@ -4,10 +4,14 @@
 **Last updated:** 2026-09-29  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
+**Contribution guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)  
+**Algorithm authoring:** [`ALGORITHM_AUTHORING.md`](./ALGORITHM_AUTHORING.md)  
+**Atlas authoring:** [`ATLAS_AUTHORING.md`](./ATLAS_AUTHORING.md)  
 **Evidence authoring:** [`EVIDENCE_AUTHORING.md`](./EVIDENCE_AUTHORING.md)  
-**Evidence profile policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)
+**Evidence profile policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)  
+**Operations:** [`OPERATIONS.md`](./OPERATIONS.md)
 
-A checked item means the implementation exists in the repository. Visual, accessibility, evidence-quality, and production acceptance are tracked separately.
+A checked item means the implementation exists in the repository. Build success, research-evidence quality, visual acceptance, accessibility acceptance, and production acceptance are tracked independently.
 
 ---
 
@@ -20,690 +24,449 @@ Markdown source of truth
       ↓
 Next.js Archive + chapter reader
       ↓
-Source-backed passage index
-      ↓
-Curated Claim assertions ↔ primary References
+Deterministic passage index
       ↓
 Curated Algorithm entities
       ↓
-Typed relationship Atlas
+Typed Atlas relationship graph
       ↓
 Structured Combination Lab
       ↓
 Unified Evidence hub
+      ├── Claims → unique passages + explicit References
       ├── Primary references + verified citation graph
       ├── Commit-pinned implementation registry
-      ├── Experiment registry
-      ├── Curated claim provenance
+      ├── Experiment protocols/results
+      ├── Independent replication/evaluation records
       └── Passage provenance
       ↓
-Descriptive evidence profiles + structural discovery
+Descriptive evidence profiles + structural/lexical discovery
 ```
 
-### Phase status
+---
 
-| Phase | Status |
+# Phase overview
+
+| Phase | State |
 |---|---|
 | 0 — Research corpus | ✅ Established |
-| 1 — Next.js archive foundation | ✅ Established with passage-level lexical discovery |
-| 2 — Design-system consolidation | 🟡 Implemented; browser/accessibility cleanup open |
-| 3 — Algorithm-level indexing | 🟡 Working first version with evidence profiles + initial curated claims |
-| 4 — Atlas | 🟡 Working first version with initial foundation graph coverage |
-| 5 — Lab | 🟡 Working first version with structured seed hypotheses |
-| 6 — Research evidence layer | 🟡 Sources + citation provenance + curated claims + pinned code + experiments + passages |
-| 7 — Advanced discovery | 🟡 Structural/evidence/passage discovery implemented; semantic retrieval intentionally deferred |
+| 1 — Archive foundation | ✅ Established |
+| 2 — Design system | 🟡 Implemented; real-browser/accessibility acceptance open |
+| 3 — Algorithm indexing | 🟡 Strong curated first system; breadth can expand |
+| 4 — Atlas | 🟡 Working typed-neighborhood graph; edge provenance remains open |
+| 5 — Lab | 🟡 Structured hypotheses/protocol links implemented; persistence/results open |
+| 6 — Evidence layer | 🟡 Full record architecture implemented; breadth and real empirical outcomes remain limited |
+| 7 — Discovery | 🟡 Structural + deterministic multi-passage lexical discovery implemented; semantic retrieval intentionally deferred |
+| 8 — Production acceptance | 🔴 Dedicated preview/production deployment and real-browser acceptance still open |
 
 ---
 
 # Phase 0 — Research corpus
 
-## Done
+## Implemented
 
-- [x] General foundations (`00–09`).
-- [x] AI / ML (`10–14`).
-- [x] Quantum computing (`20–25`).
-- [x] Cybersecurity (`30–35`).
-- [x] Cross-field combination map (`40`).
-- [x] Emerging-algorithms watchlist (`41`).
+- [x] General foundations chapters.
+- [x] AI / ML chapters.
+- [x] Quantum computing chapters.
+- [x] Cybersecurity / cryptography chapters.
+- [x] Cross-field combination map.
+- [x] Emerging-algorithms watchlist.
 - [x] Motivation / Contribution / Implementation framing.
 - [x] Combination-research perspective.
-- [x] Initial manually curated Claim identifiers layered over automatically generated passage units.
+- [x] Markdown remains the canonical long-form source.
 
-## Still needed
+## Open
 
-- [ ] Standardize primary-reference formatting across chapters.
-- [ ] Add proof/proof-sketch coverage where useful.
-- [ ] Add more executable/reference implementations.
-- [ ] Add benchmark/dataset recommendations by family.
-- [ ] Add explicit maturity labels into Markdown research itself.
-- [ ] Expand curated Claim coverage across more high-value passages.
+- [ ] Standardize primary-reference formatting across every chapter.
+- [ ] Add proof/proof-sketch coverage where it materially improves the archive.
+- [ ] Expand benchmark/dataset recommendations by family.
+- [ ] Continue replacing broad prose with curated Claim records where claim-level provenance matters.
 
 ---
 
-# Phase 1 — Research archive web foundation
+# Phase 1 — Archive and reader
 
 ## Content pipeline
 
 - [x] Next.js App Router + TypeScript.
-- [x] `docs/*.md` remains canonical research source.
-- [x] Extract title, summary, number, field, headings, search text, word count, reading time.
-- [x] GitHub-compatible heading slugs.
-- [x] `#`, `##`, and `###` research sections indexed after document title.
-- [x] Render-time normalization of `\(...\)` / `\[...\]` outside fenced code.
-- [x] Compact lexical passage segmentation derived from Markdown prose.
-- [x] Deterministic passage IDs derived from section + content.
-- [x] Exact Markdown source-line ranges retained per passage.
-- [x] Passage anchors validated against live chapter TOCs during research-integrity checks.
-- [x] Markdown heading/math normalization extracted into directly tested utilities.
+- [x] Titles, summaries, chapter numbers, fields, headings, word counts, reading time, and search text derived from Markdown.
+- [x] GitHub-compatible heading slugs including duplicate-heading behavior.
+- [x] Render-time math-delimiter normalization outside fenced code.
+- [x] Deterministic lexical passage segmentation.
+- [x] Content-derived passage IDs.
+- [x] Exact Markdown source-line ranges per passage.
+- [x] Passage anchors validated against live chapter TOCs.
+- [x] Content-summary/passage-segmentation regression tests.
 
-## Home / Archive
+## Archive
 
-- [x] Mission/orientation hero.
-- [x] Full-corpus search.
-- [x] Quick field filters.
-- [x] Field overview.
-- [x] Combination preview.
 - [x] `/archive` route.
-- [x] List-first archive and home preview.
-- [x] Field filtering, sorting, result count, clear filters.
-- [x] Restrained field identity treatment.
-- [x] Archive query/field/family/algorithm/evidence/stage/sort state encoded in URL.
-- [x] Back/forward navigation restores URL-backed Archive state.
-- [x] Algorithm-family filters.
-- [x] Individual Algorithm filters.
-- [x] Evidence-availability filters for References / Implementations / Experiments.
-- [x] Algorithm evidence-stage filter derived from linked evidence records.
-- [x] Archive search also matches curated Algorithm names, families, and evidence stages.
-- [x] Archive rows expose linked Algorithm/evidence metadata and represented evidence stages.
-- [x] Matching passage snippets/highlighting for lexical body matches.
-- [x] Passage body matches link directly to the matching chapter section.
-
-### Archive still needed
-
-- [ ] Decide whether a separate conceptual-maturity filter is useful at chapter level; do not conflate it with evidence stage.
-- [ ] Passage-result ranking beyond deterministic first lexical match.
+- [x] URL-backed query, field, family, Algorithm, evidence-availability, evidence-stage, and sort state.
+- [x] Back/forward restoration of Archive state.
+- [x] Field/family/Algorithm/evidence/stage filters.
+- [x] Dedicated structural-filter/sort unit tests.
+- [x] Deterministic multi-passage lexical ranking.
+- [x] Top ranked passage navigation and cropped search snippets.
+- [x] Multiple matching passages surfaced instead of silently treating the first source paragraph as definitive.
 
 ## Chapter reader
 
 - [x] Dynamic `/archive/[slug]` route.
 - [x] GFM Markdown rendering.
-- [x] GitHub source/provenance link.
-- [x] Generated TOC.
-- [x] Active/current-section TOC via `IntersectionObserver`.
-- [x] Related chapters + previous/next navigation.
-- [x] Chapter → Algorithm entity panel.
-- [x] Chapter → curated Reference panel.
-- [x] Internal Markdown H1 sections normalized beneath page H1.
-- [x] Controlled reading width and research typography.
-- [x] Lists, blockquotes, links, code, and research tables.
-- [x] KaTeX mathematics and local equation/table overflow handling.
-- [x] Algorithm → heading-level chapter provenance using live TOC anchors.
-- [x] Passage-level provenance records with stable IDs, section anchors, and Markdown line ranges.
-- [x] Initial curated Claim → passage → Reference assertions with build-time unique passage resolution.
+- [x] Generated/current-section TOC.
+- [x] KaTeX mathematics.
+- [x] Research tables, code, links, lists, and blockquotes.
+- [x] Related chapters and previous/next navigation.
+- [x] Chapter → Algorithm links.
+- [x] Chapter → curated Reference links.
+- [x] Algorithm → heading-level chapter provenance.
+- [x] Passage-level provenance with stable IDs and source lines.
 
-### Reader still needed
+## Open reader acceptance
 
-- [ ] Broader Claim coverage where automatic passage units are too broad.
-- [ ] Browser acceptance for extreme equations/tables.
+- [ ] Real-browser review for extreme equations/tables.
 - [ ] Math accessibility review.
-
-## Search
-
-- [x] Chapter title/summary/body search.
-- [x] Home and Archive search.
-- [x] Global `Cmd/Ctrl + K` search.
-- [x] Global search includes Algorithm entities.
-- [x] Global search includes References.
-- [x] Global search includes Implementation records.
-- [x] Global search includes Experiment records.
-- [x] Global search includes curated Claim records.
-- [x] Global Algorithm results expose and match evidence stage.
-- [x] Dedicated Algorithm search with field + maturity + evidence-stage filters.
-- [x] Dedicated Reference search/type/evidence-role filters.
-- [x] Dedicated Implementation search/maturity filter.
-- [x] Dedicated Experiment search/status filter.
-- [x] Passage-level body snippets in Home, Archive, and global chapter results.
-- [x] Global chapter body results link to the matching section anchor.
-- [x] `/passages` searchable provenance index with chapter/field/source-line context.
-- [x] `/claims` curated provenance index linking statement → passage → References/Algorithms.
-
-### Search still needed
-
-- [ ] Passage relevance ranking and multiple passage matches per chapter.
-- [ ] Optional semantic retrieval after structural search/evidence coverage matures.
 
 ---
 
-# Phase 2 — Design-system consolidation
+# Phase 2 — Design system and accessibility
 
-## Done
+## Implemented
 
-- [x] IBM Plex Sans through `next/font`.
-- [x] IBM Plex Mono through `next/font`.
-- [x] Explicit typography tokens.
-- [x] Warm-neutral light and dark palettes.
-- [x] Restrained field colors.
-- [x] Radius, spacing, focus, and reading-width tokens.
-- [x] Reduced decorative shadow/elevation.
-- [x] 8px-derived spacing system.
-- [x] Visible `:focus-visible` treatment.
+- [x] IBM Plex Sans + IBM Plex Mono via `next/font`.
+- [x] Explicit typography, spacing, radius, color, focus, and reading-width tokens.
+- [x] Warm-neutral light/dark palettes and restrained field colors.
+- [x] Canonical color and monochrome SVG marks.
+- [x] SVG mark used in product chrome/favicon.
+- [x] Visible `:focus-visible` styling.
 - [x] Reduced-motion behavior.
-- [x] Research table/code/math treatment.
-- [x] Active TOC state.
-- [x] Canonical SVG logo: `public/foundation-algorithms-mark.svg`.
-- [x] Monochrome SVG: `public/foundation-algorithms-mark-mono.svg`.
-- [x] Header and application icon use canonical SVG.
-- [x] Primary product navigation consolidated to Archive / Algorithms / Atlas / Lab / Evidence.
-- [x] Evidence sub-navigation standardized across Overview / References / Implementations / Experiments / Claims / Passages.
-- [x] Evidence-profile, claim, citation, implementation, and passage-provenance surfaces use the restrained research UI system.
+- [x] Primary navigation: Archive / Algorithms / Atlas / Lab / Evidence.
+- [x] Shared Evidence sub-navigation including Claims and Replications.
+- [x] Command-palette modal focus containment and previous-focus restoration.
+- [x] Background scroll locked while modal dialogs are active.
 
-## Still needed
+## Open acceptance
 
-- [ ] Remove obsolete overridden Inter/serif/radius/shadow rules from legacy `globals.css`.
-- [ ] Finish migration of all legacy components to spacing tokens.
+- [ ] Remove obsolete legacy CSS only after rendered browser review.
 - [ ] Browser font/weight audit.
 - [ ] Favicon-scale visual verification.
 - [ ] Light/dark visual acceptance.
 - [ ] Phone/tablet/desktop visual acceptance.
 - [ ] Formal WCAG contrast audit.
-- [ ] Full keyboard-only walkthrough.
-- [ ] Command-palette focus-trap/return-focus audit.
+- [ ] Full keyboard-only walkthrough in a real browser.
 - [ ] VoiceOver/NVDA checks.
 - [ ] Table/math accessibility checks.
 - [ ] Social/share image.
 
 ---
 
-# Phase 3 — Algorithm-level indexing
+# Phase 3 — Algorithm indexing
 
-**State:** working curated entity system.
+## Implemented
 
-## Done
-
-- [x] `AlgorithmEntity` schema.
-- [x] IDs, aliases, fields, families, assumptions, complexity, maturity.
-- [x] Motivation, Contribution, Implementation, failure modes, open questions.
-- [x] Source-chapter linkage.
-- [x] Heading-level source provenance resolved from live chapter TOCs.
-- [x] Curated metadata strategy.
-- [x] Core + extension catalogs.
-- [x] Cross-field entity coverage spanning foundations, AI/ML, quantum, and cybersecurity.
-- [x] Validation for duplicate IDs/names/aliases, missing required data, self/duplicate/broken relations.
+- [x] `AlgorithmEntity` schema and curated catalogs.
+- [x] IDs, aliases, fields, families, assumptions, complexity, maturity, implementation guidance, failure modes, tags, and open questions.
+- [x] Duplicate/alias/relation/chapter validation.
 - [x] `/algorithms` searchable index.
-- [x] `/algorithms/[id]` static research cards.
+- [x] `/algorithms/[id]` research-card detail routes.
 - [x] Incoming/outgoing typed relationships.
-- [x] Source-chapter links.
-- [x] Source-section anchor links when Algorithm names/aliases match chapter headings.
-- [x] Primary Reference backlinks.
-- [x] Implementation-record backlinks.
-- [x] Experiment-record backlinks.
-- [x] Curated Claim backlinks for covered Algorithms.
-- [x] Lab hypothesis links from Algorithm cards.
-- [x] Algorithm entities in global search.
-- [x] Chapter → Algorithm backlinks.
-- [x] Derived multidimensional evidence profile per Algorithm.
-- [x] Evidence stage shown separately from conceptual maturity.
-- [x] Evidence dimensions expose literature, inspectable code, project experiments, and independent replication independently.
+- [x] Source chapter and source-section links.
+- [x] Reference, Claim, Implementation, Experiment, Replication, and Lab backlinks.
+- [x] Multidimensional evidence profile per Algorithm.
+- [x] Evidence stage separated from conceptual maturity.
+- [x] Independent-replication count shown explicitly, including zero.
+- [x] Dedicated Algorithm metadata authoring guide.
 
-## Second-wave entities now added
+## Open
 
-- [x] Learned Heuristics.
-- [x] Branch and Bound.
-- [x] NeuralUCB.
-- [x] Embedding Models.
-- [x] SAT / SMT Solving.
-- [x] Error-Correcting Codes.
-- [x] Lattice Problems and Reduction.
-- [x] Secure Multi-Party Computation.
-
-## Initial curated Claim coverage
-
-- [x] LinUCB optimistic contextual score.
-- [x] HNSW hierarchical navigation.
-- [x] ML-KEM FIPS 203 parameter sets.
-- [x] AdamW decoupled weight decay.
-- [x] Transformer attention content-addressable communication.
-- [x] Selective SSM input-dependent state updates.
-
-## Still needed
-
-- [ ] Broader curated Claim coverage across more Algorithms/chapters.
-- [ ] Explicit variant records rather than relation-only variants.
-- [ ] Broader curated Algorithm coverage across all Markdown algorithms.
-- [ ] First-class independent-replication records.
+- [ ] Broader curated coverage across all Markdown mechanisms.
+- [ ] Explicit first-class variant records where relation-only variants become ambiguous.
 
 ---
 
 # Phase 4 — Atlas
 
-**State:** focused-neighborhood first version implemented.
+## Implemented
 
-## Done
-
-- [x] Algorithm nodes backed by machine-readable entities.
-- [x] Typed relation/edge model.
-- [x] Relationship target validation.
-- [x] `/atlas` route.
-- [x] Focused-neighborhood view rather than all-node hairball.
-- [x] Incoming and outgoing relations.
+- [x] Typed Algorithm relation model.
+- [x] Relation target/self/duplicate validation.
+- [x] `/atlas` focused-neighborhood explorer.
+- [x] Incoming/outgoing relations.
 - [x] Progressive traversal by selecting neighbors.
-- [x] Algorithm search.
-- [x] Field filter.
-- [x] Relation-type filter.
-- [x] Algorithm research-card links.
-- [x] Mobile layout.
+- [x] Search, field filtering, and relation-type filtering.
 - [x] Accessible textual relationship table.
+- [x] Mobile layout.
+- [x] Cross-field foundation chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, lattices/PQC/FHE, MPC/FHE/ZK, and related mechanisms.
+- [x] Dedicated Atlas relationship authoring guide.
 
-## Initial foundation chains
+## Open
 
-- [x] Search → A* ↔ Learned Heuristics.
-- [x] Learned Heuristics ↔ Branch and Bound.
-- [x] Dynamic Programming → reinforcement learning / Q-Learning.
-- [x] Bayesian Inference → Thompson Sampling / Bayesian Optimization.
-- [x] UCB → LinUCB → NeuralUCB.
-- [x] Representation learning / Embeddings → HNSW.
-- [x] SAT / SMT → Symbolic Execution / formal analysis.
-- [x] Error-Correcting Codes → QEC / Surface-Code Decoding.
-- [x] Lattice foundations → ML-KEM / FHE.
-- [x] MPC ↔ FHE / Zero-Knowledge proof relationships.
-
-## Still needed
-
-- [ ] More relation density across all seeded entities.
-- [ ] Reference/paper nodes in Atlas itself.
-- [ ] Implementation nodes in Atlas itself.
-- [ ] Evidence/provenance metadata on Algorithm relation edges.
+- [ ] Broader relation density where a mechanism-level edge is justified.
+- [ ] Reference/paper nodes inside Atlas itself.
+- [ ] Implementation nodes inside Atlas itself.
+- [ ] Explicit evidence/provenance metadata on Algorithm relation edges.
 - [ ] Historical/evolution relationships.
 
 ---
 
-# Phase 5 — Lab
+# Phase 5 — Combination Lab
 
-**State:** structured hypothesis + experiment-design first version implemented.
-
-## Done
+## Implemented
 
 - [x] `ResearchCombination` schema.
-- [x] Core + extension combination catalogs.
-- [x] Components, Motivation, hypothesis, compatibility, tensions, benefits, risks, metrics, experiment plan, status.
-- [x] Combination validation for IDs, component existence, required research fields, and experiment structure.
+- [x] Validation of components, chapter links, required research fields, and experiment-plan structure.
 - [x] `/lab` route.
-- [x] Algorithm A × Algorithm B pair explorer.
-- [x] Pair explorer shows shared fields/families, direct Atlas relation, and existing Lab records.
-- [x] Structured hypothesis records and experiment plans.
-- [x] Speculation/status labels distinct from established knowledge.
-- [x] Algorithm cards link into relevant Lab hypotheses.
-- [x] Lab records link to supporting curated References where available.
-- [x] Lab records link to structured Experiment records where available.
+- [x] Algorithm pair explorer.
+- [x] Shared fields/families and direct Atlas relations surfaced.
+- [x] Structured hypotheses with compatibility, tensions, expected benefits, risks, metrics, experiment plan, and status.
+- [x] Distinction between speculation/research intent and established evidence.
+- [x] Lab → Reference and Lab → Experiment links where curated.
 
-## Structured seed hypotheses
-
-- [x] LinUCB × coverage-guided fuzzing.
-- [x] GNN / SSM × quantum error decoding.
-- [x] Bayesian optimization × quantum calibration / QEC.
-- [x] Learned planning × symbolic execution × proof constraints.
-- [x] HNSW retrieval × LinUCB reranking.
-- [x] FHE × uncertainty-aware prediction.
-- [x] FHE × MPC × Zero Knowledge × AI.
-- [x] Learned Heuristics × A* × Branch and Bound.
-
-## Still needed
+## Open
 
 - [ ] Persist user-authored hypotheses/experiments.
 - [ ] Automatic assumption-conflict analysis for arbitrary pairs.
-- [ ] Attach actual empirical outcomes as experiments are run.
-- [ ] Rich dataset/benchmark attachments.
+- [ ] Attach real empirical outcomes as experiments are actually run.
+- [ ] Rich dataset/benchmark artifact attachments.
 - [ ] Experiment revision/status history.
 
 ---
 
-# Phase 6 — Research evidence layer
+# Phase 6 — Evidence layer
 
-**State:** structured evidence system implemented; breadth and empirical results remain limited.
+## Unified Evidence surface
 
-## Unified evidence surface
-
-- [x] `/evidence` overview route.
-- [x] Evidence model visually distinguishes conceptual knowledge, primary sources, Claims, implementations, experiments, and source passages.
-- [x] Shared Evidence sub-navigation across Overview / References / Implementations / Experiments / Claims / Passages.
-- [x] Evidence sub-surfaces remain separately searchable and inspectable.
-- [x] Evidence overview shows archive-stage coverage distribution without presenting it as a quality score.
-- [x] `/passages` exposes inspectable Markdown-derived provenance units.
-- [x] `/claims` exposes curated statement → source-passage → Reference provenance.
+- [x] `/evidence` overview.
+- [x] Separate surfaces for References, Implementations, Experiments, Passages, Claims, and Replications.
+- [x] Shared Evidence navigation.
+- [x] Archive-stage coverage distribution without numeric truth/quality scoring.
+- [x] Global command search spans Algorithms, Claims, References, Implementations, Experiments, Replications, and chapters.
 
 ## References
 
 - [x] `ReferenceEntity` schema.
-- [x] Controlled evidence-role metadata: Primary method / Primary extension / Normative standard / Survey-synthesis / Replication-evaluation.
-- [x] Initial curated primary-source/standards set.
-- [x] Reference validation for IDs, HTTPS source, year, role, tags, Algorithm links, Combination links, and chapter slugs.
-- [x] Verified citation-edge schema with target, note, verification URL, and checked date.
-- [x] Citation validation rejects broken, duplicate, self-referential, or malformed verification edges.
-- [x] `/references` searchable/type/evidence-role-filtered index.
-- [x] `/references/[id]` evidence detail pages.
-- [x] `/references/graph` focused citation-neighborhood explorer.
-- [x] Accessible citation-edge table.
-- [x] Reference detail pages expose citation notes, verification source, and checked date.
-- [x] Reference → Algorithm links.
-- [x] Reference → Combination/Lab links.
-- [x] Reference → chapter links.
-- [x] Reference → curated Claim backlinks where covered.
-- [x] Algorithm → Reference backlinks.
-- [x] Lab → Reference backlinks where curated.
-- [x] Chapter → Reference backlinks.
-- [x] References included in global command search.
-- [x] Initial verified in-corpus citation edges seeded conservatively.
-- [ ] Broader primary-reference coverage across all entities.
-- [ ] Broader Claim linkage across curated References.
-- [ ] Broader citation-graph coverage through direct source verification.
+- [x] Controlled evidence roles: Primary method / Primary extension / Normative standard / Survey-synthesis / Replication-evaluation.
+- [x] HTTPS/year/tag/link validation.
+- [x] Verified citation-edge model with note, verification URL, and checked date.
+- [x] Citation validation rejects broken, duplicate, self-referential, and malformed edges.
+- [x] `/references` index and detail routes.
+- [x] `/references/graph` focused citation explorer.
+- [x] Citation-edge unit tests.
+
+### Open
+
+- [ ] Broader primary-reference coverage.
+- [ ] Broader directly verified citation-graph coverage.
 - [ ] Retraction/correction/version metadata where relevant.
 
-## Claims / passage assertions
+## Claims and passage provenance
 
-- [x] `ClaimRecord` schema with controlled kind, statement, Algorithms, chapter selector, References, and scope note.
-- [x] Claim validation requires a unique current passage resolution.
-- [x] Claim validation requires valid Algorithm / Reference / chapter links and Reference overlap with claimed Algorithms/chapter.
-- [x] `/claims` provenance surface.
-- [x] Claim records included in global command search.
-- [x] Algorithm and Reference detail pages expose bidirectional Claim backlinks.
-- [x] Initial six high-confidence claims seeded conservatively.
-- [ ] Expand Claim coverage only after additional primary-source verification.
-- [ ] Add richer claim-status/version history if Claim wording evolves over time.
+- [x] `ClaimRecord` model.
+- [x] Claim → exactly one passage selector contract.
+- [x] Claim → one or more explicit supporting References.
+- [x] Claim validation rejects missing/ambiguous passages and broken graph links.
+- [x] `/claims` evidence surface.
+- [x] Initial curated Claims for LinUCB, HNSW, ML-KEM, AdamW, Transformer attention, and selective SSMs.
+- [x] `/passages` source-provenance index.
+- [x] Passage search/ranking regression tests.
+
+### Open
+
+- [ ] Expand Claim coverage only where both a unique archive passage and appropriate curated source exist.
 
 ## Implementations
 
 - [x] `ImplementationRecord` schema.
-- [x] Repository, homepage, Algorithm links, language, interfaces, license, maturity, implementation notes, source paths, and verification date.
-- [x] Initial registry includes verified HNSW, QPE, and ML-KEM implementation sources.
-- [x] Full 40-character verified Git commit + inspected ref recorded per implementation.
-- [x] All evidence source paths pinned to the declared immutable commit.
-- [x] Build validation rejects malformed commit pins and floating/mismatched source paths.
-- [x] `/implementations` searchable/maturity-filtered registry exposes revision metadata.
-- [x] `/implementations/[id]` detail pages link directly to pinned source files and the verified commit.
-- [x] Algorithm → Implementation backlinks.
-- [x] Implementation → Algorithm links.
-- [x] Implementation records included in global command search.
-- [ ] Expand implementation coverage across more Algorithm entities.
-- [ ] Automated upstream freshness/version checks without silently changing pinned evidence.
-- [ ] Optional release/tag metadata in addition to commit pins where a stable release is authoritative.
+- [x] Repository, homepage, Algorithm links, language, interfaces, license, maturity, notes, source paths, ref, commit, and verification date.
+- [x] Every implementation source path pinned to its declared full 40-character Git commit.
+- [x] Build/test validation rejects floating or mismatched source paths.
+- [x] `/implementations` index and detail routes.
+- [x] Commit/ref provenance visible in UI.
+- [x] Current curated registry includes HNSW implementations, Qiskit QPE, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, and Z3 SAT/SMT.
+
+### Open
+
+- [ ] Continue expanding implementation coverage through direct upstream verification.
+- [ ] Automated freshness/version checks that preserve immutable historical pins.
 
 ## Experiments
 
 - [x] `ExperimentRecord` schema.
-- [x] Planned/Running/Completed/Inconclusive/Failed status model.
-- [x] Positive/Negative/Mixed/Inconclusive outcome model.
-- [x] Baselines.
-- [x] Dataset/benchmark descriptions.
-- [x] Metrics.
-- [x] Environment/configuration controls.
-- [x] Reproduction procedure.
-- [x] Precommitted success criteria.
-- [x] Artifact slots.
-- [x] Result/outcome/limitations slots.
-- [x] Validation against Algorithm and Combination IDs.
-- [x] `/experiments` searchable/status-filtered registry.
-- [x] `/experiments/[id]` detail pages.
-- [x] Algorithm → Experiment backlinks.
-- [x] Lab hypothesis → Experiment backlinks.
-- [x] Experiments included in global command search.
-- [x] Initial planned studies for LinUCB×fuzzing, HNSW×LinUCB, and learned-QEC priors.
-- [x] Schema can preserve failed/inconclusive studies instead of deleting them.
-- [ ] Run and attach first empirical result.
-- [ ] Add concrete benchmark URLs/data artifacts as experiments mature.
+- [x] Planned / Running / Completed / Inconclusive / Failed status model.
+- [x] Positive / Negative / Mixed / Inconclusive outcome model.
+- [x] Baselines, datasets/benchmarks, metrics, environment controls, procedure, success criteria, artifacts, results, and limitations.
+- [x] Completed experiments require a result.
+- [x] Negative/inconclusive studies remain representable.
+- [x] `/experiments` index/detail routes.
+- [x] Initial predeclared protocols for selected cross-field hypotheses.
+- [x] Experiment validator unit tests.
+
+### Open
+
+- [ ] Run and attach the first real empirical result.
+- [ ] Add concrete benchmark/data artifacts as studies mature.
 - [ ] Persist user-authored experiment updates/results.
 
-## Evidence authoring / provenance
+## Independent replications
 
-- [x] `EVIDENCE_AUTHORING.md` defines the distinction between concepts, sources, Claims, pinned implementations, hypotheses, experiments, and results.
-- [x] `EVIDENCE_PROFILE_POLICY.md` defines descriptive evidence stages and citation-provenance rules.
-- [x] Evidence quality ladder documented.
-- [x] Explicit no-fabricated-results rule documented.
-- [x] Negative/inconclusive result preservation documented.
-- [x] Heading-level Algorithm → Markdown provenance is generated from live TOC anchors.
-- [x] Evidence stage is derived from actual linked records rather than manually scored.
-- [x] Evidence dimensions remain independent instead of being collapsed into a numeric score.
-- [x] Source-passage provenance model with deterministic IDs, section anchors, and source-line ranges.
-- [x] Passage IDs/source ranges participate in build-time integrity validation.
-- [x] Curated Claim → passage/reference assertion model.
-- [x] Immutable implementation revision/source-path provenance contract.
-- [ ] First-class independent-replication record model.
+- [x] First-class `ReplicationRecord` model.
+- [x] Explicit outcome separate from coverage state.
+- [x] Source must be classified `Replication / evaluation`.
+- [x] Original source and independent evaluation source must be distinct.
+- [x] Algorithm overlap, independence note, and verification date required.
+- [x] `/replications` Evidence route with an honest zero-record state.
+- [x] Algorithm evidence profiles derive `Replicated` only from explicit replication records.
+- [x] Replication validation unit tests.
+- [x] No fabricated seed replication records.
 
-## Evidence history still needed
+### Open
 
-- [ ] Research-chapter diff view.
-- [ ] Algorithm/evidence-stage history.
-- [ ] Claim wording/provenance history.
+- [ ] Curate the first independent replication only after directly verifying a genuinely independent evaluation source.
 
 ---
 
-# Phase 7 — Advanced discovery
+# Phase 7 — Discovery
 
-## Structural discovery already implemented
+## Implemented
 
-- [x] Archive structural filtering by field.
-- [x] Archive structural filtering by Algorithm family.
-- [x] Archive structural filtering by individual Algorithm.
-- [x] Archive structural filtering by Evidence availability.
-- [x] Archive structural filtering by Algorithm evidence stage.
-- [x] Algorithm index filtering by conceptual maturity and evidence stage separately.
-- [x] Shareable URL-backed Archive discovery state.
-- [x] Global search can match/display Algorithm evidence stage.
-- [x] Global search can match curated Claims.
-- [x] Passage-level lexical snippets and section links.
-- [x] Dedicated passage provenance search/index.
+- [x] Structural Archive filtering by field, Algorithm family, individual Algorithm, evidence availability, and evidence stage.
+- [x] Conceptual maturity and evidence stage kept separate on Algorithm discovery.
+- [x] Shareable URL-backed Archive state.
+- [x] Deterministic ranked multi-passage lexical matching.
+- [x] Multiple passage matches per chapter can remain inspectable while navigation selects the highest-ranked source unit.
+- [x] Global chapter search exposes ranked passage count and source-line context.
+- [x] Dedicated `/passages` provenance search.
+- [x] Archive-filter unit tests.
+- [x] Passage-ranking unit tests.
 
-## Still needed
+## Deferred intentionally
 
-- [ ] Multi-passage ranking per chapter.
-- [ ] Semantic retrieval with inspectable evidence.
-- [ ] Related-algorithm suggestions beyond curated relationships.
-- [ ] Saved research trails.
-- [ ] Research/hypothesis boards.
-- [ ] Contribution templates and update workflow.
+- [ ] Semantic/vector retrieval with inspectable source grounding.
+- [ ] Related-Algorithm suggestions beyond curated graph structure.
+- [ ] Saved research trails/boards.
+
+Semantic retrieval should not be added merely to make search appear sophisticated. Structural and lexical evidence paths must remain inspectable.
 
 ---
 
-# Quality / CI
+# Quality and CI
 
-## Done
+## Implemented
 
-- [x] GitHub Actions validation workflow.
-- [x] Dependency installation step.
-- [x] Markdown local-link integrity check.
+- [x] GitHub Actions workflow on `main` and pull requests.
+- [x] Markdown local-link validation.
+- [x] Deterministic external-URL/HTTPS policy without third-party network dependency.
+- [x] Dependency-free application source-hygiene check.
+- [x] Research utility test suite.
 - [x] TypeScript typecheck.
 - [x] Next.js production build.
-- [x] Production-server route smoke tests for core index/detail/provenance routes.
-- [x] Algorithm validation participates in static build.
-- [x] Combination validation participates in Lab static build.
-- [x] Reference validation participates in Reference static build.
-- [x] Citation-edge verification metadata participates in Reference validation.
-- [x] Claim/passages participate in research-integrity validation.
-- [x] Implementation validation participates in Implementation static build.
-- [x] Experiment validation participates in Experiment static build.
-- [x] Passage ID/source-line/TOC validation participates in research-integrity checks.
-- [x] Passage search unit tests cover blank queries, case-insensitive matching, deterministic selection, and snippet cropping.
-- [x] Claim provenance unit tests cover unique/ambiguous/missing selectors.
-- [x] Evidence-stage derivation unit tests cover the full descriptive stage ladder.
-- [x] Reference/citation validation tests cover valid records, self/duplicate/broken edges, and malformed verification metadata.
-- [x] Algorithm/Combination validation tests cover ambiguous aliases, broken/self relations, duplicate/unknown components, and source chapters.
-- [x] Implementation/Experiment validation tests cover immutable revision pins, broken graph links, and completed-result invariants.
-- [x] Markdown-processing tests cover GitHub duplicate heading slugs, inline normalization, and fenced-code-safe math delimiter conversion.
-- [x] Expanded Algorithm / Atlas / Lab catalog passes typecheck and production build.
-- [x] Complete Evidence + Archive discovery + heading-level provenance tranche passes typecheck and production build (GitHub Actions run 118).
-- [x] Evidence-profile + citation-provenance + Algorithm/Archive evidence-stage discovery code passes typecheck and production build (GitHub Actions run 153).
-- [x] Passage discovery/provenance + dedicated search tests + `/passages` production smoke route pass GitHub Actions run 183.
-- [x] Initial Claims surface/search/backlinks + research utility tests pass GitHub Actions run 201.
-- [x] Immutable implementation provenance test/build checkpoint passes GitHub Actions run 206.
-- [x] Markdown heading/math processing checkpoint passes GitHub Actions run 216.
+- [x] Production-server route smoke tests.
+- [x] Algorithm validation tests.
+- [x] Combination validation tests.
+- [x] Reference/citation validation tests.
+- [x] Claim provenance tests.
+- [x] Implementation pinning/validation tests.
+- [x] Experiment validation tests.
+- [x] Replication validation tests.
+- [x] Evidence-stage derivation tests.
+- [x] Heading/TOC slug tests.
+- [x] Math-delimiter normalization tests.
+- [x] Archive structural-filter tests.
+- [x] Content-summary/passage-segmentation tests.
+- [x] Passage ranking/snippet tests.
 
-## Still needed
+## Open quality gates
 
-- [ ] ESLint/static lint workflow.
-- [ ] Archive structural-filter tests.
-- [ ] Full content-summary/passage-segmentation parser tests beyond the isolated Markdown/search utilities.
-- [ ] Markdown/reference external-link validation policy.
-- [ ] Accessibility CI.
-- [ ] Screenshot/visual regression tests.
-- [ ] Browser acceptance matrix.
+- [ ] Full ESLint rule set if/when added deliberately and pinned.
+- [ ] Automated accessibility testing in addition to manual acceptance.
+- [ ] Screenshot/visual regression testing after a stable browser/deployment harness exists.
+- [ ] Real-browser acceptance matrix.
 
 ---
 
-# Deployment / browser acceptance
+# Deployment and browser acceptance
 
-- [x] Repository builds as a Next.js application.
-- [x] CI confirms the current code implementation builds successfully.
-- [ ] Hosting/Vercel project connected for this repository.
+## Implemented
+
+- [x] Repository builds as a production Next.js application.
+- [x] CI starts the production server and smoke-tests representative routes.
+- [x] Deployment/acceptance procedure documented in [`OPERATIONS.md`](./OPERATIONS.md).
+
+## Blocked / open
+
+- [ ] Dedicated Vercel project connected to this repository.
 - [ ] Preview deployment reviewed.
 - [ ] Production deployment reviewed.
 - [ ] Public production URL documented.
 - [ ] Deployment status linked from README.
 - [ ] Real-browser phone/tablet/desktop acceptance.
 - [ ] Real-browser light/dark acceptance.
+- [ ] Full keyboard walkthrough.
+- [ ] Formal contrast audit.
+- [ ] Screen-reader review.
 
 ### Current environment limitation
 
-- Vercel account/team access is available, but there is currently no Vercel project linked to this repository.
-- The available local execution environment could not resolve `github.com` to clone/serve the repository for browser automation.
-- Therefore browser/deployment acceptance remains intentionally open rather than inferred from CI.
+The connected Vercel account is readable, but no dedicated Vercel project currently exists for `anatwork14/foundation-algorithms-collection`. Existing projects belong to other applications. The connected Vercel tool surface does not expose project creation, and the browser-automation CLI described by the installed workflow is not available in this execution environment.
+
+Therefore the repository has intentionally **not** been attached to an unrelated project, and preview/production/browser acceptance remains open rather than inferred from CI.
 
 ---
 
 # Documentation
 
-- [x] `README.md` — research collection and reading map.
+- [x] `README.md` — collection overview and reading map.
 - [x] `DESIGN.md` — product/UI rationale.
-- [x] `DEVELOPMENT_SPEC.md` — intended product/technical specification.
-- [x] `PROGRESS.md` — active implementation tracker.
-- [x] `EVIDENCE_AUTHORING.md` — Reference/Claim/Implementation/Experiment/provenance authoring contract.
-- [x] `EVIDENCE_PROFILE_POLICY.md` — evidence-stage, source-role, and citation-edge policy.
-- [ ] General contribution guide.
-- [ ] Algorithm metadata authoring guide.
-- [ ] Atlas relationship authoring guide.
-- [ ] Deployment/operations guide.
+- [x] `DEVELOPMENT_SPEC.md` — product/technical specification.
+- [x] `PROGRESS.md` — current implementation tracker.
+- [x] `CONTRIBUTING.md` — repository-wide contribution contract.
+- [x] `ALGORITHM_AUTHORING.md` — Algorithm metadata guidance.
+- [x] `ATLAS_AUTHORING.md` — typed relationship guidance.
+- [x] `EVIDENCE_AUTHORING.md` — evidence authoring contract.
+- [x] `EVIDENCE_PROFILE_POLICY.md` — evidence-stage/citation/replication policy.
+- [x] `OPERATIONS.md` — CI, deployment, browser, and release operations.
 
 ---
 
-# Implementation log
+# Recent implementation checkpoints
 
-## 2026-09-28 — Design-system tranche 1
+## 2026-09-29 — Evidence integrity and discovery hardening
 
-- IBM Plex Sans + IBM Plex Mono;
-- type/spacing/radius/color/focus tokens;
-- canonical color + monochrome SVG mark;
-- list-first Archive language;
-- refined research reader, code, tables, KaTeX mathematics;
-- active section-ready heading/TOC structure;
-- reduced motion + visible focus;
-- CI typecheck/build passed.
+- immutable implementation commit pinning and UI provenance;
+- curated Claim model and six initial passage/reference-backed Claims;
+- evidence-stage derivation tests;
+- Algorithm/Combination/Reference/Implementation/Experiment validation tests;
+- heading/math processing tests;
+- deterministic multi-passage lexical ranking and Archive/global-search integration;
+- Archive structural-filter tests;
+- static external-link policy and application source-hygiene CI gate;
+- first-class independent-replication model, validator, Evidence route, search integration, and Algorithm transparency;
+- content summary/passage segmentation regression tests;
+- pinned PyTorch AdamW and MultiheadAttention implementations;
+- pinned Z3 SAT/SMT implementation;
+- global modal focus containment/return-focus behavior;
+- contribution, Algorithm-authoring, Atlas-authoring, and operations guides.
 
-## 2026-09-28 — Algorithms / Atlas / Lab tranche 1
-
-- curated `AlgorithmEntity` model and validation;
-- searchable `/algorithms` and research-card detail pages;
-- chapter/entity/global-search integration;
-- typed relationship Atlas with search, filters, progressive traversal, textual fallback;
-- structured `ResearchCombination` model;
-- Lab hypotheses, metrics, experiment plans, and pair explorer;
-- active chapter TOC tracking;
-- CI typecheck/build passed.
-
-## 2026-09-28 — Algorithms / Atlas / Lab tranche 2
-
-- added Learned Heuristics, Branch and Bound, NeuralUCB, Embedding Models, SAT/SMT, Error-Correcting Codes, Lattice foundations, and MPC;
-- introduced combined Algorithm catalog so all new entities participate in search, Archive backlinks, Algorithm pages, and Atlas;
-- closed initial Atlas chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, and lattice/PQC/FHE;
-- added FHE × MPC × ZK × AI structured hypothesis;
-- added Learned Heuristics × A* × Branch-and-Bound structured hypothesis;
-- added Combination validation;
-- expanded catalog passed TypeScript and production Next.js build in GitHub Actions.
-
-## 2026-09-28 — Evidence tranche 1
-
-- first-class `ReferenceEntity` records with validation and `/references` index/detail routes;
-- bidirectional Reference links with Algorithms, Lab hypotheses, and Archive chapters;
-- first-class `ImplementationRecord` registry with repository/source-path/license/maturity metadata and validation;
-- verified initial implementation repositories/source paths before registry inclusion;
-- `/implementations` index/detail routes and Algorithm backlinks;
-- `ExperimentRecord` schema with baselines, datasets, metrics, environments, procedure, success criteria, artifacts, result slots, and negative/inconclusive outcome support;
-- three initial planned experiment records and `/experiments` index/detail routes;
-- Experiment links from Algorithms and Lab hypotheses;
-- unified `/evidence` hub;
-- global command search across Algorithms, References, Implementations, Experiments, and chapters.
-
-## 2026-09-28 — Discovery / provenance tranche
-
-- primary navigation standardized as Archive / Algorithms / Atlas / Lab / Evidence;
-- shared Evidence sub-navigation added;
-- Archive state made shareable through URL query parameters;
-- Archive family / Algorithm / evidence-availability structural filters added;
-- chapter discovery metadata generated from Algorithm and Evidence catalogs;
-- Algorithm source provenance now resolves matching Markdown sections through the chapter's live generated TOC;
-- Algorithm cards link directly to matching source headings;
-- `EVIDENCE_AUTHORING.md` added with evidence-quality and no-fabricated-results rules;
-- full tranche passes TypeScript and Next.js production build in GitHub Actions.
-
-## 2026-09-28 — Evidence profile / citation provenance tranche
-
-- added controlled Reference evidence roles;
-- added verified source-to-source citation edge records with notes, verification URLs, and checked dates;
-- added build validation for duplicate/self/broken citation edges and malformed verification metadata;
-- added `/references/graph` focused citation explorer and accessible edge table;
-- Reference pages now expose citation neighborhoods and verification provenance;
-- added multidimensional Algorithm evidence profiles instead of a scalar quality score;
-- added derived evidence stages from concept-only through future independent replication;
-- Evidence overview now shows stage coverage distribution;
-- Algorithm pages expose evidence stage and independent evidence dimensions;
-- Archive supports shareable Algorithm evidence-stage filtering;
-- Algorithm index separates conceptual maturity from evidence stage;
-- global Algorithm search exposes/matches evidence stage;
-- added `EVIDENCE_PROFILE_POLICY.md` and updated evidence authoring contract;
-- code checkpoint passes TypeScript and Next.js production build in GitHub Actions run 153.
-
-## 2026-09-28 — Passage discovery / CI tranche
-
-- added Markdown-derived lexical passage records with deterministic content IDs, live section anchors, and exact source-line ranges;
-- added passage-index validation against chapter TOCs and source-line invariants;
-- Home, Archive, and global chapter search now expose passage-level context and direct section navigation;
-- added `/passages` provenance index with literal search, field filtering, passage IDs, source ranges, section links, and GitHub source-line links;
-- added dedicated passage-search tests using Node's built-in test runner;
-- added Markdown local-link integrity checks and real production-server route smoke tests to CI;
-- full passage/search/provenance route checkpoint passes GitHub Actions run 183.
-
-## 2026-09-29 — Claim / immutable implementation provenance / test-hardening tranche
-
-- added curated `ClaimRecord` model and validation requiring exactly one live Markdown passage plus linked Algorithm/Reference/chapter consistency;
-- added `/claims`, global Claim search, Algorithm Claim backlinks, and Reference Claim backlinks;
-- seeded six conservative claims spanning LinUCB, HNSW, ML-KEM, AdamW, Transformer attention, and selective SSMs;
-- added full verified commit/ref metadata to every Implementation record;
-- replaced implementation evidence links with immutable commit-pinned source URLs;
-- exposed pinned commits on implementation index/detail surfaces;
-- added build validation and unit tests for immutable implementation source provenance;
-- extracted pure evidence-stage derivation and added ladder tests;
-- added direct Reference/citation, Algorithm/Combination, Implementation/Experiment validator tests;
-- extracted Markdown heading/math processing and added duplicate-slug + fenced-code-safe math normalization tests;
-- updated evidence authoring contract for Claims and immutable implementation revisions.
+Earlier implementation detail remains preserved in Git history and the specification/design documents; this tracker intentionally reflects current state rather than duplicating every historical commit.
 
 ---
 
-## Immediate next engineering work
+# Immediate next work
 
-1. Expand primary-reference, Claim, citation-edge, and implementation coverage through direct verification.
-2. Add Archive structural-filter tests and richer multi-passage lexical ranking.
-3. Add a static lint workflow and continue content-parser test extraction where useful.
-4. Define external-link/reference validation policy without turning CI into a flaky network checker.
-5. Connect this repository to a preview hosting project, then run phone/tablet/desktop and light/dark browser acceptance.
-6. Perform keyboard, contrast, screen-reader, table, and math accessibility acceptance.
-7. Clean obsolete legacy CSS only after rendered browser review.
-8. Run the first reproducible experiment and preserve its outcome, including negative/inconclusive results.
-9. Add first-class independent-replication records before allowing any `Replicated` evidence stage.
-10. Add evidence-history/version views after the core records and acceptance gates are stable.
+1. Obtain a dedicated preview deployment for this repository, then perform real-browser phone/tablet/desktop and light/dark acceptance.
+2. Perform keyboard, contrast, VoiceOver/NVDA, table, and math accessibility acceptance against the deployed build.
+3. Continue conservative primary Reference, Claim, citation-edge, and commit-pinned Implementation coverage through direct verification.
+4. Add relation-edge provenance if Atlas relationships need to support source-level claims.
+5. Run the first reproducible project Experiment and preserve the real outcome, including negative/mixed/inconclusive results.
+6. Curate independent replication records only when genuinely independent evaluation sources are directly verified.
+7. Add semantic retrieval only after it can preserve inspectable provenance and outperform the deterministic structural/lexical baseline.
 
 ---
 
 ## Maintenance rule
 
-Update this file whenever a meaningful feature, acceptance gate, or phase changes.
+Update this tracker whenever a meaningful feature, acceptance gate, or blocker changes.
 
-- `[x]` — implemented and present in the repository.
-- `[ ]` — not yet complete.
-- Implementation does **not** imply visual/accessibility/evidence-quality/production acceptance unless that acceptance item is also checked.
+- `[x]` — implementation exists in the repository.
+- `[ ]` — not complete or not yet accepted.
+- Build success does **not** imply visual, accessibility, evidence-quality, or production acceptance.
