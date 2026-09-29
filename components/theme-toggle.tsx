@@ -7,7 +7,11 @@ import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
   document.documentElement.style.colorScheme = theme;
-  localStorage.setItem(THEME_STORAGE_KEY, theme);
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    // The visible theme should still change when storage is unavailable.
+  }
 }
 
 export function ThemeToggle() {
