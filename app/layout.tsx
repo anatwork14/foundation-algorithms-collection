@@ -20,6 +20,7 @@ import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
+import { siteUrlFromEnvironment } from "@/lib/site-url";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     template: "%s — Foundation Algorithms",
   },
   description: siteDescription,
-  metadataBase: new URL("https://github.com/anatwork14/foundation-algorithms-collection"),
+  metadataBase: new URL(siteUrlFromEnvironment(process.env)),
   icons: {
     icon: "/foundation-algorithms-mark.svg",
   },
