@@ -20,6 +20,7 @@ import "./liquid-glass.css";
 import "./liquid-glass-research.css";
 import "./theme-dock.css";
 import "./agocode-typography.css";
+import "./minimal-research.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeToggle } from "@/components/theme-toggle";
