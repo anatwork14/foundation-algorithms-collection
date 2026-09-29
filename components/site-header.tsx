@@ -52,7 +52,10 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
         event.preventDefault();
         setSearchOpen(true);
       }
-      if (event.key === "Escape") setSearchOpen(false);
+      if (event.key === "Escape") {
+        setSearchOpen(false);
+        setMenuOpen(false);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -296,11 +299,17 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
             </span>
           </Link>
 
-          <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
+          <nav id="primary-navigation" className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
             {nav.map((item) => {
               const active = item.matches.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
               return (
-                <Link key={item.href} href={item.href} className={active ? "is-active" : ""} onClick={() => setMenuOpen(false)}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={active ? "is-active" : ""}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setMenuOpen(false)}
+                >
                   {item.label}
                 </Link>
               );
@@ -308,8 +317,8 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           </nav>
 
           <div className="header-actions">
-            <button className="search-trigger" onClick={() => setSearchOpen(true)} aria-label="Search research">
-              <Search size={16} />
+            <button className="search-trigger" onClick={() => setSearchOpen(true)} aria-label="Search research" aria-haspopup="dialog">
+              <Search size={16} aria-hidden="true" />
               <span>Search</span>
               <kbd>⌘ K</kbd>
             </button>
@@ -320,10 +329,16 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               rel="noreferrer"
               aria-label="Open GitHub repository"
             >
-              <Github size={18} />
+              <Github size={18} aria-hidden="true" />
             </a>
-            <button className="icon-button mobile-menu-button" onClick={() => setMenuOpen((value) => !value)} aria-label="Toggle navigation">
-              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            <button
+              className="icon-button mobile-menu-button"
+              onClick={() => setMenuOpen((value) => !value)}
+              aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={menuOpen}
+              aria-controls="primary-navigation"
+            >
+              {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -333,7 +348,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
         <div className="palette-backdrop" role="presentation" onMouseDown={() => setSearchOpen(false)}>
           <div className="command-palette" role="dialog" aria-modal="true" aria-label="Search the research hub" onMouseDown={(event) => event.stopPropagation()}>
             <div className="palette-input-row">
-              <Search size={19} />
+              <Search size={19} aria-hidden="true" />
               <input
                 ref={inputRef}
                 value={query}
@@ -343,7 +358,9 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
             </div>
-            <div className="palette-label">{query ? `Results for “${query}”` : "Jump into the research map"}</div>
+            <div className="palette-label" aria-live="polite">
+              {query ? `${results.length} result${results.length === 1 ? "" : "s"} for “${query}”` : "Jump into the research map"}
+            </div>
             <div className="palette-results">
               {results.length ? results.map((result) => (
                 <button
@@ -361,7 +378,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                     <small>{resultKindLabel(result.kind)} · {result.meta}</small>
                     {result.context && <em>{result.context}</em>}
                   </span>
-                  <span className="result-arrow">↗</span>
+                  <span className="result-arrow" aria-hidden="true">↗</span>
                 </button>
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
