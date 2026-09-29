@@ -8,6 +8,7 @@ const phone = { width: 390, height: 844 };
 const primaryRoutes = [
   "/",
   "/archive",
+  "/archive/08-bandits-contextual-bandits-linucb",
   "/algorithms",
   "/algorithms/linucb",
   "/atlas",
@@ -24,6 +25,7 @@ const primaryRoutes = [
 
 const representativeRoutes = [
   "/",
+  "/archive/08-bandits-contextual-bandits-linucb",
   "/algorithms/linucb",
   "/atlas",
   "/evidence",
@@ -128,13 +130,13 @@ test("mobile navigation exposes state, current page, and Escape behavior", async
   const navigation = page.getByRole("navigation", { name: "Primary navigation" });
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await expect(toggle).toHaveAccessibleName("Open navigation");
-  await expect(page.getByRole("link", { name: "Atlas", exact: true })).toHaveAttribute("aria-current", "page");
 
   await toggle.focus();
   await page.keyboard.press("Enter");
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await expect(toggle).toHaveAccessibleName("Close navigation");
   await expect(navigation).toBeVisible();
+  await expect(page.getByRole("link", { name: "Atlas", exact: true })).toHaveAttribute("aria-current", "page");
 
   await page.keyboard.press("Escape");
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -143,7 +145,7 @@ test("mobile navigation exposes state, current page, and Escape behavior", async
 
 test("long-form math and wide content stay locally contained on phone", async ({ page }) => {
   await page.setViewportSize(phone);
-  await openWithTheme(page, "/algorithms/linucb", "light");
+  await openWithTheme(page, "/archive/08-bandits-contextual-bandits-linucb", "light");
 
   const displayMath = page.locator(".markdown-body .katex-display");
   expect(await displayMath.count()).toBeGreaterThan(0);
