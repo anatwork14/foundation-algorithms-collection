@@ -4,14 +4,20 @@ import path from "node:path";
 const root = process.cwd();
 const layoutPath = path.join(root, "app", "layout.tsx");
 const uiPath = path.join(root, "app", "research-ui.css");
+const refinementsPath = path.join(root, "app", "research-refinements.css");
 const themeDockPath = path.join(root, "app", "theme-dock.css");
 const themeTogglePath = path.join(root, "components", "theme-toggle.tsx");
+const siteHeaderPath = path.join(root, "components", "site-header.tsx");
+const atlasExplorerPath = path.join(root, "components", "atlas-explorer.tsx");
 const auditPath = path.join(root, "UI_AUDIT.md");
 
 const layout = fs.readFileSync(layoutPath, "utf8");
 const ui = fs.readFileSync(uiPath, "utf8");
+const refinements = fs.readFileSync(refinementsPath, "utf8");
 const themeDock = fs.readFileSync(themeDockPath, "utf8");
 const themeToggle = fs.readFileSync(themeTogglePath, "utf8");
+const siteHeader = fs.readFileSync(siteHeaderPath, "utf8");
+const atlasExplorer = fs.readFileSync(atlasExplorerPath, "utf8");
 const audit = fs.readFileSync(auditPath, "utf8");
 
 const deprecatedVisualLayers = [
@@ -82,6 +88,33 @@ if (ui.includes(".evidence-hub-page")) {
 
 if (!/\.lab-page,\s*\n\.evidence-hub,\s*\n\.reference-page,/.test(ui)) {
   errors.push("Canonical desktop/mobile page-rhythm groups must include the real .evidence-hub root");
+}
+
+const headerAccessibilityContracts = [
+  ["mobile navigation target", 'id="primary-navigation"'],
+  ["mobile navigation expanded state", "aria-expanded={menuOpen}"],
+  ["mobile navigation ownership", 'aria-controls="primary-navigation"'],
+  ["active navigation current-page state", 'aria-current={active ? "page" : undefined}'],
+  ["search dialog popup semantics", 'aria-haspopup="dialog"'],
+];
+
+for (const [label, needle] of headerAccessibilityContracts) {
+  if (!siteHeader.includes(needle)) errors.push(`Header accessibility contract missing ${label}: ${needle}`);
+}
+
+const atlasAccessibilityContracts = [
+  ["explicit Atlas search name", 'aria-label="Search algorithms in Atlas"'],
+  ["Atlas selected-entity state", "aria-pressed={algorithm.id === selected.id}"],
+  ["Atlas relationship landmark", 'role="region"'],
+  ["Atlas relationship details label", 'aria-label={`Relationship details for ${selected.name}`}'],
+];
+
+for (const [label, needle] of atlasAccessibilityContracts) {
+  if (!atlasExplorer.includes(needle)) errors.push(`Atlas accessibility contract missing ${label}: ${needle}`);
+}
+
+if (!refinements.includes(".markdown-body .katex-display") || !refinements.includes("overflow-x: auto")) {
+  errors.push("Long display equations must remain horizontally scrollable inside the reading surface");
 }
 
 if (errors.length) {
