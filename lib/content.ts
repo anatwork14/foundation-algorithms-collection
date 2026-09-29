@@ -2,9 +2,9 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import GithubSlugger from "github-slugger";
-import { cleanInlineMarkdown, normalizeMathForRendering, tocFrom } from "@/lib/markdown-processing";
-import type { SearchPassage } from "@/lib/search-passages";
-import { fieldForSlug, type ResearchField } from "@/lib/taxonomy";
+import { cleanInlineMarkdown, normalizeMathForRendering, tocFrom } from "./markdown-processing.ts";
+import type { SearchPassage } from "./search-passages.ts";
+import { fieldForSlug, type ResearchField } from "./taxonomy.ts";
 
 const DOCS_DIR = path.join(process.cwd(), "docs");
 
