@@ -2,8 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
 const THEME_STORAGE_KEY = "foundation-algorithms-theme";
-const desktop = { width: 1440, height: 1000 };
-const phone = { width: 390, height: 844 };
+const desktop = { name: "desktop", width: 1440, height: 1000 } as const;
+const tablet = { name: "tablet", width: 820, height: 1180 } as const;
+const phone = { name: "phone", width: 390, height: 844 } as const;
+const responsiveViewports = [desktop, tablet, phone];
 
 const primaryRoutes = [
   "/",
@@ -61,7 +63,7 @@ async function expectNoDocumentOverflow(page: Page) {
 test.describe("production route rendering", () => {
   for (const route of primaryRoutes) {
     test(`${route} renders without page-level horizontal overflow`, async ({ page }) => {
-      await page.setViewportSize(desktop);
+      await page.setViewportSize({ width: desktop.width, height: desktop.height });
       await openWithTheme(page, route, "light");
       await expect(page.locator("main").first()).toBeVisible();
       await expectNoDocumentOverflow(page);
@@ -72,10 +74,9 @@ test.describe("production route rendering", () => {
 test.describe("theme and responsive matrix", () => {
   for (const route of representativeRoutes) {
     for (const theme of ["light", "dark"] as const) {
-      for (const viewport of [desktop, phone]) {
-        const label = viewport.width === phone.width ? "phone" : "desktop";
-        test(`${route} stays contained in ${theme} ${label}`, async ({ page }) => {
-          await page.setViewportSize(viewport);
+      for (const viewport of responsiveViewports) {
+        test(`${route} stays contained in ${theme} ${viewport.name}`, async ({ page }) => {
+          await page.setViewportSize({ width: viewport.width, height: viewport.height });
           await openWithTheme(page, route, theme);
           await expectNoDocumentOverflow(page);
         });
@@ -88,7 +89,7 @@ test.describe("automated accessibility", () => {
   for (const route of representativeRoutes) {
     for (const theme of ["light", "dark"] as const) {
       test(`${route} has no WCAG A/AA axe violations in ${theme}`, async ({ page }) => {
-        await page.setViewportSize(desktop);
+        await page.setViewportSize({ width: desktop.width, height: desktop.height });
         await openWithTheme(page, route, theme);
 
         const results = await new AxeBuilder({ page })
@@ -102,7 +103,7 @@ test.describe("automated accessibility", () => {
 });
 
 test("command palette is keyboard-operable and restores focus", async ({ page }) => {
-  await page.setViewportSize(desktop);
+  await page.setViewportSize({ width: desktop.width, height: desktop.height });
   await openWithTheme(page, "/", "light");
 
   const trigger = page.getByRole("button", { name: "Search research" });
@@ -123,7 +124,7 @@ test("command palette is keyboard-operable and restores focus", async ({ page })
 });
 
 test("mobile navigation exposes state, current page, and Escape behavior", async ({ page }) => {
-  await page.setViewportSize(phone);
+  await page.setViewportSize({ width: phone.width, height: phone.height });
   await openWithTheme(page, "/atlas", "dark");
 
   const toggle = page.locator(".mobile-menu-button");
@@ -143,8 +144,8 @@ test("mobile navigation exposes state, current page, and Escape behavior", async
   await expect(navigation).toBeHidden();
 });
 
-test("long-form math and wide content stay locally contained on phone", async ({ page }) => {
-  await page.setViewportSize(phone);
+test("long-form math and wide content stay locally contained and keyboard reachable on phone", async ({ page }) => {
+  await page.setViewportSize({ width: phone.width, height: phone.height });
   await openWithTheme(page, "/archive/08-bandits-contextual-bandits-linucb", "light");
 
   const displayMath = page.locator(".markdown-body .katex-display");
@@ -157,5 +158,24 @@ test("long-form math and wide content stay locally contained on phone", async ({
     expect(["auto", "scroll"]).toContain(overflow);
   }
 
+  const inaccessibleScrollers = await page.evaluate(() => {
+    const selector = [
+      ".markdown-body .katex-display",
+      ".markdown-body :not(.katex-display) > .katex",
+      ".markdown-body pre",
+      ".markdown-body .table-scroll",
+    ].join(",");
+
+    return [...document.querySelectorAll<HTMLElement>(selector)]
+      .filter((element) => element.scrollWidth > element.clientWidth + 1 && element.tabIndex < 0)
+      .map((element) => ({
+        tag: element.tagName.toLowerCase(),
+        className: element.className,
+        clientWidth: element.clientWidth,
+        scrollWidth: element.scrollWidth,
+      }));
+  });
+
+  expect(inaccessibleScrollers).toEqual([]);
   await expectNoDocumentOverflow(page);
 });
