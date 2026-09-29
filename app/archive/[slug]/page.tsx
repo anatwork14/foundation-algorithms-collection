@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { ArrowLeft, ArrowRight, BookOpen, Clock3, Github, Network, ScrollText, Sigma } from "lucide-react";
 import { ChapterToc } from "@/components/chapter-toc";
+import { ScrollableResearchContent } from "@/components/scrollable-research-content";
 import { algorithmsForChapter } from "@/lib/algorithm-catalog";
 import { getAllDocuments, getDocument } from "@/lib/content";
 import { referencesForChapter } from "@/lib/references";
@@ -92,6 +93,7 @@ export default async function ResearchChapterPage({ params }: { params: Promise<
           >
             {doc.body}
           </ReactMarkdown>
+          <ScrollableResearchContent />
         </article>
 
         <aside className="detail-aside">
