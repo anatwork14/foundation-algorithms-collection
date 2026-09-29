@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Chromium for acceptance tests
+        run: npx playwright install --with-deps chromium
+
       - name: Check Markdown links
         run: npm run check:links
 
@@ -37,6 +40,17 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Browser acceptance
+        run: npm run test:acceptance
+
+      - name: Upload browser acceptance report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
 
       - name: Production route smoke test
         shell: bash
