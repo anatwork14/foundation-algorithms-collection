@@ -111,6 +111,50 @@ export const implementations: ImplementationRecord[] = [
     verifiedCommit: "b196b57aa615c84d62cbf6a59a8bfc294e6747dd",
     lastVerified: "2026-09-28",
   },
+  {
+    id: "pytorch-adamw",
+    name: "PyTorch AdamW",
+    repository: "https://github.com/pytorch/pytorch",
+    homepage: "https://pytorch.org/",
+    algorithmIds: ["adamw"],
+    language: "Python",
+    interfaces: ["Python API", "torch.optim.AdamW"],
+    license: "BSD-style (repository LICENSE; GitHub SPDX NOASSERTION)",
+    maturity: "Production-proven",
+    summary: "PyTorch exposes AdamW through torch.optim with decoupled weight decay enabled explicitly in the optimizer implementation.",
+    implementationNotes: [
+      "The AdamW constructor delegates to the shared Adam implementation with decoupled_weight_decay enabled.",
+      "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the pinned revision.",
+    ],
+    sourcePaths: [
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/c8532b3e7f0e3aec4bb518524c3ca041e17665aa/torch/optim/adamw.py" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "c8532b3e7f0e3aec4bb518524c3ca041e17665aa",
+    lastVerified: "2026-09-29",
+  },
+  {
+    id: "pytorch-multihead-attention",
+    name: "PyTorch MultiheadAttention",
+    repository: "https://github.com/pytorch/pytorch",
+    homepage: "https://pytorch.org/",
+    algorithmIds: ["transformer-attention"],
+    language: "Python",
+    interfaces: ["Python API", "torch.nn.MultiheadAttention"],
+    license: "BSD-style (repository LICENSE; GitHub SPDX NOASSERTION)",
+    maturity: "Production-proven",
+    summary: "PyTorch provides a MultiheadAttention module implementing the multi-head attention architecture used by Transformer-style models.",
+    implementationNotes: [
+      "The module exposes query, key, and value inputs with learned projections and multi-head attention behavior.",
+      "This record documents executable attention code; the Vaswani et al. reference remains the primary conceptual source in the archive.",
+    ],
+    sourcePaths: [
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c8532b3e7f0e3aec4bb518524c3ca041e17665aa/torch/nn/modules/activation.py" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "c8532b3e7f0e3aec4bb518524c3ca041e17665aa",
+    lastVerified: "2026-09-29",
+  },
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));
