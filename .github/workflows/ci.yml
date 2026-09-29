@@ -26,6 +26,9 @@ jobs:
       - name: Check source hygiene
         run: npm run check:source
 
+      - name: Check UI consistency
+        run: npm run check:ui
+
       - name: Test research utilities
         run: npm run test:research
 
