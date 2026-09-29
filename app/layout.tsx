@@ -16,11 +16,13 @@ import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
+import "./liquid-glass.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
 import { siteUrlFromEnvironment } from "@/lib/site-url";
+import { themeBootScript } from "@/lib/theme";
 
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -68,7 +70,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   assertResearchIntegrity(documents);
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body className={`${plexSans.variable} ${plexMono.variable}`}>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
