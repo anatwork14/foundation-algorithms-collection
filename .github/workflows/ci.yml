@@ -60,6 +60,8 @@ jobs:
 
           routes=(
             "/"
+            "/robots.txt"
+            "/sitemap.xml"
             "/archive"
             "/archive?q=contextual%20bandit"
             "/algorithms"
