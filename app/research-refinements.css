@@ -1,12 +1,41 @@
 /* Small structural refinements that depend on the entity/Atlas/Lab layer. */
 
+/* Long-form content is allowed to scroll inside its own technical regions, but
+   it must never expand the document itself. These rules also neutralize legacy
+   syntax colors so code uses the canonical theme foreground in both modes. */
+.detail-layout > *,
+.markdown-body {
+  min-width: 0;
+}
+
+.markdown-body {
+  max-width: 100%;
+}
+
+.markdown-body pre,
+.markdown-body .table-scroll,
+.markdown-body .katex-display {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.markdown-body pre {
+  color: var(--ink) !important;
+}
+
+.markdown-body pre code,
+.markdown-body pre code * {
+  color: inherit !important;
+}
+
 /* Preserve readable long-form math without allowing wide display equations to
    force the entire page wider than the viewport. */
 .markdown-body .katex-display {
-  max-width: 100%;
-  overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior-inline: contain;
   padding-bottom: 2px;
 }
 
