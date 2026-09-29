@@ -1,5 +1,15 @@
 /* Small structural refinements that depend on the entity/Atlas/Lab layer. */
 
+/* Preserve readable long-form math without allowing wide display equations to
+   force the entire page wider than the viewport. */
+.markdown-body .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  padding-bottom: 2px;
+}
+
 .toc-card nav a {
   position: relative;
   transition: color 140ms ease, background 140ms ease;
