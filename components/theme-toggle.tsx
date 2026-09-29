@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 
 function applyTheme(theme: Theme) {
@@ -16,16 +17,18 @@ function applyTheme(theme: Theme) {
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
+  const [target, setTarget] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const current = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
     setTheme(current);
+    setTarget(document.querySelector<HTMLElement>(".header-actions"));
   }, []);
 
   const nextTheme: Theme = theme === "dark" ? "light" : "dark";
   const label = nextTheme === "dark" ? "Switch to dark mode" : "Switch to light mode";
 
-  return (
+  const control = (
     <button
       type="button"
       className="icon-button theme-toggle"
@@ -42,4 +45,6 @@ export function ThemeToggle() {
       </span>
     </button>
   );
+
+  return target ? createPortal(control, target) : null;
 }
