@@ -2,10 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const THEME_STORAGE_KEY = "foundation-algorithms-theme";
-
-type Theme = "light" | "dark";
+import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 
 function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
@@ -42,19 +39,3 @@ export function ThemeToggle() {
     </button>
   );
 }
-
-export const themeBootScript = `
-(() => {
-  try {
-    const stored = localStorage.getItem("${THEME_STORAGE_KEY}");
-    const theme = stored === "light" || stored === "dark"
-      ? stored
-      : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-  } catch {
-    const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-  }
-})();`;
