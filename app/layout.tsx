@@ -17,6 +17,7 @@ import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
 import "./liquid-glass.css";
+import "./liquid-glass-research.css";
 import "./theme-dock.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
