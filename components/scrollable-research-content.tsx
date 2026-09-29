@@ -4,15 +4,10 @@ import { useEffect } from "react";
 
 const selectors = [
   ".markdown-body .katex-display",
+  ".markdown-body :not(.katex-display) > .katex",
   ".markdown-body pre",
   ".markdown-body .table-scroll",
 ].join(",");
-
-function labelFor(element: HTMLElement) {
-  if (element.classList.contains("katex-display")) return "Scrollable mathematical expression";
-  if (element.classList.contains("table-scroll")) return "Scrollable table";
-  return "Scrollable code example";
-}
 
 function syncElement(element: HTMLElement) {
   const overflows = element.scrollWidth > element.clientWidth + 1;
@@ -23,10 +18,6 @@ function syncElement(element: HTMLElement) {
       element.tabIndex = 0;
       element.dataset.scrollAccessibility = "managed";
     }
-    if (!element.hasAttribute("aria-label")) {
-      element.setAttribute("aria-label", labelFor(element));
-      element.dataset.scrollAccessibilityLabel = "managed";
-    }
     return;
   }
 
@@ -34,17 +25,15 @@ function syncElement(element: HTMLElement) {
     element.removeAttribute("tabindex");
     delete element.dataset.scrollAccessibility;
   }
-  if (element.dataset.scrollAccessibilityLabel === "managed") {
-    element.removeAttribute("aria-label");
-    delete element.dataset.scrollAccessibilityLabel;
-  }
 }
 
 /**
  * Long equations, tables, and code samples intentionally scroll locally rather
  * than widening the document. When one actually overflows, make that region a
  * keyboard stop as required by WCAG/Safari scroll-region behavior. Non-
- * overflowing regions stay out of the tab order.
+ * overflowing regions stay out of the tab order. We intentionally do not add
+ * ARIA naming to generated KaTeX spans because a focusable generic span already
+ * exposes its mathematical descendants and aria-label is prohibited there.
  */
 export function ScrollableResearchContent() {
   useEffect(() => {
@@ -75,9 +64,7 @@ export function ScrollableResearchContent() {
       resizeObserver.disconnect();
       for (const element of observed) {
         if (element.dataset.scrollAccessibility === "managed") element.removeAttribute("tabindex");
-        if (element.dataset.scrollAccessibilityLabel === "managed") element.removeAttribute("aria-label");
         delete element.dataset.scrollAccessibility;
-        delete element.dataset.scrollAccessibilityLabel;
       }
     };
   }, []);
