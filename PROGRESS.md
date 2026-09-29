@@ -144,6 +144,9 @@ Descriptive evidence profiles + structural/lexical discovery
 - [x] Shared Evidence sub-navigation including Claims and Replications.
 - [x] Command-palette modal focus containment and previous-focus restoration.
 - [x] Background scroll locked while modal dialogs are active.
+- [x] Generated branded Open Graph image.
+- [x] Twitter/X image route reuses the same branded social asset.
+- [x] Open Graph/Twitter metadata uses the deployed site origin rather than the GitHub repository URL.
 
 ## Open acceptance
 
@@ -156,7 +159,6 @@ Descriptive evidence profiles + structural/lexical discovery
 - [ ] Full keyboard-only walkthrough in a real browser.
 - [ ] VoiceOver/NVDA checks.
 - [ ] Table/math accessibility checks.
-- [ ] Social/share image.
 
 ---
 
@@ -361,6 +363,7 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] TypeScript typecheck.
 - [x] Next.js production build.
 - [x] Production-server route smoke tests.
+- [x] `robots.txt` and `sitemap.xml` included in production smoke coverage.
 - [x] Algorithm validation tests.
 - [x] Combination validation tests.
 - [x] Reference/citation validation tests.
@@ -374,6 +377,7 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] Archive structural-filter tests.
 - [x] Content-summary/passage-segmentation tests.
 - [x] Passage ranking/snippet tests.
+- [x] Deployment-origin metadata resolution tests.
 
 ## Open quality gates
 
@@ -391,6 +395,10 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] Repository builds as a production Next.js application.
 - [x] CI starts the production server and smoke-tests representative routes.
 - [x] Deployment/acceptance procedure documented in [`OPERATIONS.md`](./OPERATIONS.md).
+- [x] Metadata origin resolves from explicit configuration or Vercel production/preview environment.
+- [x] Generated Open Graph and Twitter/X social previews.
+- [x] Deployment-aware `robots.txt`.
+- [x] Deployment-aware sitemap covering static and curated detail routes.
 
 ## Blocked / open
 
@@ -430,7 +438,7 @@ Therefore the repository has intentionally **not** been attached to an unrelated
 
 # Recent implementation checkpoints
 
-## 2026-09-29 — Evidence integrity and discovery hardening
+## 2026-09-29 — Evidence integrity, discovery, and release hardening
 
 - immutable implementation commit pinning and UI provenance;
 - curated Claim model and six initial passage/reference-backed Claims;
@@ -445,7 +453,10 @@ Therefore the repository has intentionally **not** been attached to an unrelated
 - pinned PyTorch AdamW and MultiheadAttention implementations;
 - pinned Z3 SAT/SMT implementation;
 - global modal focus containment/return-focus behavior;
-- contribution, Algorithm-authoring, Atlas-authoring, and operations guides.
+- contribution, Algorithm-authoring, Atlas-authoring, and operations guides;
+- generated Open Graph/Twitter social preview;
+- environment-aware public metadata origin;
+- deployment-aware robots/sitemap metadata and smoke coverage.
 
 Earlier implementation detail remains preserved in Git history and the specification/design documents; this tracker intentionally reflects current state rather than duplicating every historical commit.
 
