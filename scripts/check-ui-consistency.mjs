@@ -62,6 +62,59 @@ for (const [label, needle] of requiredUiContracts) {
   if (!ui.includes(needle)) errors.push(`Canonical UI contract missing ${label}: ${needle}`);
 }
 
+function cssBlock(pattern, label) {
+  const match = ui.match(pattern);
+  if (!match) {
+    errors.push(`Unable to read ${label} theme block from research-ui.css`);
+    return "";
+  }
+  return match[1];
+}
+
+function hexVar(block, name, label) {
+  const match = block.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
+  if (!match) {
+    errors.push(`Unable to read --${name} from ${label} theme block`);
+    return null;
+  }
+  return match[1];
+}
+
+function relativeLuminance(hex) {
+  const channels = [1, 3, 5].map((offset) => Number.parseInt(hex.slice(offset, offset + 2), 16) / 255);
+  const linear = channels.map((channel) => channel <= 0.04045
+    ? channel / 12.92
+    : ((channel + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+
+function contrastRatio(foreground, background) {
+  const a = relativeLuminance(foreground);
+  const b = relativeLuminance(background);
+  const lighter = Math.max(a, b);
+  const darker = Math.min(a, b);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function requireAaTextContrast(foreground, backgrounds, label) {
+  if (!foreground || backgrounds.some((background) => !background)) return;
+  const minimum = Math.min(...backgrounds.map((background) => contrastRatio(foreground, background)));
+  if (minimum < 4.5) {
+    errors.push(`${label} contrast is ${minimum.toFixed(2)}:1; small metadata text requires at least 4.5:1`);
+  }
+}
+
+const lightTheme = cssBlock(/:root\s*\{([\s\S]*?)\n\}/, "light");
+const darkTheme = cssBlock(/html\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/, "dark");
+const lightMuted2 = hexVar(lightTheme, "muted-2", "light");
+const lightBg = hexVar(lightTheme, "bg", "light");
+const lightSurfaceStrong = hexVar(lightTheme, "surface-strong", "light");
+const darkMuted2 = hexVar(darkTheme, "muted-2", "dark");
+const darkBg = hexVar(darkTheme, "bg", "dark");
+const darkSurfaceStrong = hexVar(darkTheme, "surface-strong", "dark");
+requireAaTextContrast(lightMuted2, [lightBg, lightSurfaceStrong], "Light --muted-2");
+requireAaTextContrast(darkMuted2, [darkBg, darkSurfaceStrong], "Dark --muted-2");
+
 if (/--glass-|backdrop-filter:\s*blur\(2[0-9]px\)/.test(themeDock)) {
   errors.push("Theme control must use canonical neutral tokens, not the retired glass system");
 }
