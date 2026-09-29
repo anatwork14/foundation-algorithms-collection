@@ -16,6 +16,7 @@ import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
+import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={`${plexSans.variable} ${plexMono.variable}`}>
+        <DialogFocusManager />
         <SiteHeader documents={documents} />
         {children}
         <footer className="site-footer">
