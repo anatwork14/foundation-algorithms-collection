@@ -155,6 +155,29 @@ export const implementations: ImplementationRecord[] = [
     verifiedCommit: "c8532b3e7f0e3aec4bb518524c3ca041e17665aa",
     lastVerified: "2026-09-29",
   },
+  {
+    id: "z3-sat-smt",
+    name: "Z3 Theorem Prover",
+    repository: "https://github.com/Z3Prover/z3",
+    homepage: "https://microsoft.github.io/z3guide/",
+    algorithmIds: ["sat-smt-solving"],
+    language: "C++",
+    interfaces: ["C++ core", "C API", "Python", "SMT-LIB"],
+    license: "MIT",
+    maturity: "Production-proven",
+    summary: "Z3 is an SMT theorem prover with solver interfaces and theory reasoning used in verification, symbolic execution, synthesis, and constraint solving.",
+    implementationNotes: [
+      "The pinned solver layer exposes assertion management, satisfiability checking, models, unsat cores, and assumption-based queries.",
+      "Z3 supports multiple theories and APIs; this record is linked to the collection's broad SAT/SMT solving entity rather than claiming one internal solving strategy represents the entire system.",
+    ],
+    sourcePaths: [
+      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98/src/solver/solver.cpp" },
+      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98/src" },
+    ],
+    verifiedRef: "master",
+    verifiedCommit: "d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98",
+    lastVerified: "2026-09-29",
+  },
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));
