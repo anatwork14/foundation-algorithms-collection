@@ -16,12 +16,8 @@ import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
-import "./liquid-glass.css";
-import "./liquid-glass-research.css";
 import "./theme-dock.css";
-import "./agocode-typography.css";
-import "./minimal-research.css";
-import "./research-index.css";
+import "./research-ui.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -30,8 +26,9 @@ import { assertResearchIntegrity } from "@/lib/research-integrity";
 import { siteUrlFromEnvironment } from "@/lib/site-url";
 import { themeBootScript } from "@/lib/theme";
 
-// Match the typography roles used by the production AgoCode project:
-// Fraunces = editorial hierarchy, Source Sans 3 = reading/UI, JetBrains Mono = technical text.
+// One consistent typography contract across the research hub:
+// Fraunces = editorial hierarchy, Source Sans 3 = reading/UI,
+// JetBrains Mono = technical labels/code/identifiers.
 const editorial = Fraunces({
   subsets: ["latin"],
   variable: "--font-editorial",
@@ -93,7 +90,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
-        <div className="theme-toggle-dock">
+        <div className="theme-toggle-dock" aria-label="Display theme">
           <ThemeToggle />
         </div>
         {children}
