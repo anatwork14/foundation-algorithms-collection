@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Fraunces, JetBrains_Mono, Source_Sans_3 } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import "./system.css";
@@ -19,6 +19,7 @@ import "./claim-provenance.css";
 import "./liquid-glass.css";
 import "./liquid-glass-research.css";
 import "./theme-dock.css";
+import "./agocode-typography.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -27,16 +28,22 @@ import { assertResearchIntegrity } from "@/lib/research-integrity";
 import { siteUrlFromEnvironment } from "@/lib/site-url";
 import { themeBootScript } from "@/lib/theme";
 
-const plexSans = IBM_Plex_Sans({
+// Match the typography roles used by the production AgoCode project:
+// Fraunces = editorial hierarchy, Source Sans 3 = reading/UI, JetBrains Mono = technical text.
+const editorial = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-sans",
+  variable: "--font-editorial",
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
+const reading = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  variable: "--font-reading",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -73,11 +80,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   assertResearchIntegrity(documents);
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${editorial.variable} ${reading.variable} ${mono.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
-      <body className={`${plexSans.variable} ${plexMono.variable}`}>
+      <body>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
         <div className="theme-toggle-dock">
