@@ -19,6 +19,7 @@ import "./claim-provenance.css";
 import "./liquid-glass.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getAllDocuments } from "@/lib/content";
 import { assertResearchIntegrity } from "@/lib/research-integrity";
 import { siteUrlFromEnvironment } from "@/lib/site-url";
@@ -77,6 +78,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${plexSans.variable} ${plexMono.variable}`}>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
+        <div className="theme-toggle-dock">
+          <ThemeToggle />
+        </div>
         {children}
         <footer className="site-footer">
           <div className="shell footer-inner">
