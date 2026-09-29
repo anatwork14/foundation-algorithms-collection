@@ -314,16 +314,11 @@ samp,
   font-variant-ligatures: none;
 }
 
-/* KaTeX owns mathematical glyphs. Do not let the editorial or mono roles
- * leak into equations. */
-.katex,
-.katex * {
+/* KaTeX keeps complete ownership of its internal glyph families so math
+ * alphabets, symbols, AMS glyphs, and operators are not flattened by the
+ * product typography cascade. */
+.katex {
   font-family: KaTeX_Main, "Times New Roman", serif;
-}
-
-.katex .mathnormal,
-.katex .mathit {
-  font-family: KaTeX_Math, KaTeX_Main, serif;
 }
 
 /* ---------------------------------------------------------------------- */
