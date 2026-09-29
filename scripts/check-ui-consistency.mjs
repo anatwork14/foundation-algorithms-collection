@@ -16,6 +16,7 @@ const deprecatedVisualLayers = [
   "minimal-research.css",
   "agocode-typography.css",
   "research-index.css",
+  "interface-consistency.css",
 ];
 
 const errors = [];
