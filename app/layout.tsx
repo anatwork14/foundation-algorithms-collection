@@ -90,7 +90,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
-        <div className="theme-toggle-dock" aria-label="Display theme">
+        <div className="theme-toggle-dock" aria-label="Display theme" style={{ display: "contents" }}>
           <ThemeToggle />
         </div>
         {children}
