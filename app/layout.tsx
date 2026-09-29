@@ -35,16 +35,30 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const siteTitle = "Foundation Algorithms — Research Archive";
+const siteDescription =
+  "A living research archive of foundational algorithms across computer science, AI/ML, quantum computing, cybersecurity, and cross-field research.";
+
 export const metadata: Metadata = {
   title: {
-    default: "Foundation Algorithms — Research Archive",
+    default: siteTitle,
     template: "%s — Foundation Algorithms",
   },
-  description:
-    "A living research archive of foundational algorithms across computer science, AI/ML, quantum computing, cybersecurity, and cross-field research.",
+  description: siteDescription,
   metadataBase: new URL("https://github.com/anatwork14/foundation-algorithms-collection"),
   icons: {
     icon: "/foundation-algorithms-mark.svg",
+  },
+  openGraph: {
+    type: "website",
+    title: siteTitle,
+    description: siteDescription,
+    siteName: "Foundation Algorithms",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
