@@ -131,6 +131,10 @@ if (!layout.includes('className="theme-toggle-dock"') || !layout.includes('style
   errors.push("Theme toggle layout mount must remain nonvisual with display: contents");
 }
 
+if (/className="theme-toggle-dock"[^>]*aria-(?:label|labelledby)/.test(layout)) {
+  errors.push("The nonvisual theme-toggle mount must not expose ARIA naming without a semantic role");
+}
+
 if (audit.includes("should ultimately be placed inside the header action group") || audit.includes("should be moved into `.header-actions`")) {
   errors.push("UI_AUDIT.md still describes the resolved floating theme-control issue as unfinished");
 }
@@ -141,6 +145,18 @@ if (ui.includes(".evidence-hub-page")) {
 
 if (!/\.lab-page,\s*\n\.evidence-hub,\s*\n\.reference-page,/.test(ui)) {
   errors.push("Canonical desktop/mobile page-rhythm groups must include the real .evidence-hub root");
+}
+
+const renderedContrastContracts = [
+  ["inspiration-card foreground", ".inspiration-card { color: var(--ink) !important; }"],
+  ["inspiration-card muted copy", ".inspiration-card > p,"],
+  ["neutral Atlas motif", ".atlas-orbit .atlas-node {"],
+  ["neutral Atlas motif background", "background: var(--surface-strong) !important;"],
+  ["neutral Atlas motif text", "color: var(--ink) !important;"],
+];
+
+for (const [label, needle] of renderedContrastContracts) {
+  if (!ui.includes(needle)) errors.push(`Rendered contrast contract missing ${label}: ${needle}`);
 }
 
 const headerAccessibilityContracts = [
