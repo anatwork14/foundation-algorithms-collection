@@ -1,0 +1,34 @@
+.theme-toggle-dock {
+  position: fixed;
+  right: max(18px, calc((100vw - 1200px) / 2 + 18px));
+  bottom: 22px;
+  z-index: 72;
+  padding: 5px;
+  border: 1px solid var(--glass-border-outer);
+  border-radius: 18px;
+  background: linear-gradient(145deg, var(--glass-fill-strong), var(--glass-fill-soft));
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+.theme-toggle-dock .theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+
+@media (max-width: 720px) {
+  .theme-toggle-dock {
+    right: 14px;
+    bottom: 14px;
+    padding: 4px;
+    border-radius: 16px;
+  }
+
+  .theme-toggle-dock .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+}
