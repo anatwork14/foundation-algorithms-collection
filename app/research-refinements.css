@@ -4,23 +4,35 @@
    it must never expand the document itself. These rules also neutralize legacy
    syntax colors so code uses the canonical theme foreground in both modes. */
 .detail-layout > *,
-.markdown-body {
+.markdown-body,
+.detail-aside,
+.toc-card {
   min-width: 0;
+  max-width: 100%;
 }
 
 .markdown-body {
-  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .markdown-body pre,
 .markdown-body .table-scroll,
-.markdown-body .katex-display {
+.markdown-body .katex-display,
+.markdown-body :not(.katex-display) > .katex {
   max-width: 100%;
   min-width: 0;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Inline formulas are normally inline spans; promote them only enough to make
+   an unusually wide expression a local scroller rather than a page-width bug. */
+.markdown-body :not(.katex-display) > .katex {
+  display: inline-block;
+  overflow-y: hidden;
+  vertical-align: middle;
 }
 
 .markdown-body pre {
@@ -30,6 +42,12 @@
 .markdown-body pre code,
 .markdown-body pre code * {
   color: inherit !important;
+  overflow-wrap: normal;
+}
+
+.markdown-body a,
+.markdown-body :not(pre) > code {
+  overflow-wrap: anywhere;
 }
 
 /* Preserve readable long-form math without allowing wide display equations to
@@ -37,6 +55,11 @@
 .markdown-body .katex-display {
   overflow-y: hidden;
   padding-bottom: 2px;
+}
+
+.toc-card nav {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .toc-card nav a {
