@@ -31,6 +31,15 @@ test("does not invent a conflict when no opposing rule matches", () => {
   assert.deepEqual(result.tensions, []);
 });
 
+test("negative-polarity terms do not also satisfy the positive side", () => {
+  const result = analyzeAssumptionCompatibility(
+    ["The process is non-stationary and the objective is non-convex"],
+    ["Distribution drift is expected under a nonconvex objective"],
+  );
+
+  assert.deepEqual(result.tensions, []);
+});
+
 test("detects reversed-direction tensions symmetrically", () => {
   const result = analyzeAssumptionCompatibility(
     ["The system may contain malicious participants"],
