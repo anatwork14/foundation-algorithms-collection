@@ -5,6 +5,8 @@ import { claims } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { assertValidResearchCombinations } from "@/lib/combination-validation";
 import { getDocument, type DocSummary } from "@/lib/content";
+import { experimentHistory } from "@/lib/experiment-history";
+import { assertValidExperimentHistory } from "@/lib/experiment-history-validation";
 import { assertValidExperiments } from "@/lib/experiment-validation";
 import { experiments } from "@/lib/experiments";
 import { assertValidImplementations } from "@/lib/implementation-validation";
@@ -32,6 +34,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   assertValidReplications(replications, algorithms, references);
   assertValidImplementations(implementations, algorithms);
   assertValidExperiments(experiments, algorithms, combinations);
+  assertValidExperimentHistory(experimentHistory, experiments);
   assertValidSearchPassages(documents, records);
   assertValidClaims(claims, algorithms, references, records);
 
@@ -44,6 +47,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
     replications: replications.length,
     implementations: implementations.length,
     experiments: experiments.length,
+    experimentHistory: experimentHistory.length,
     claims: claims.length,
     passages: documents.reduce((sum, document) => sum + document.passages.length, 0),
   };
