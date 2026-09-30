@@ -1,0 +1,128 @@
+/* Lab-specific assumption-analysis structure. Global visual tokens resolve through research-ui.css. */
+
+.assumption-analysis {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+}
+
+.assumption-analysis-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.assumption-analysis-heading > div {
+  display: grid;
+  gap: 5px;
+}
+
+.assumption-analysis-heading span,
+.assumption-shared-concepts > span,
+.assumption-tension p span {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  font-style: normal;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.assumption-analysis-heading strong {
+  font-size: .9rem;
+  font-weight: 650;
+}
+
+.assumption-analysis-heading small {
+  max-width: 360px;
+  color: var(--muted);
+  font-size: var(--type-label);
+  line-height: 1.5;
+  text-align: right;
+}
+
+.assumption-shared-concepts {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.assumption-shared-concepts > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-2);
+}
+
+.assumption-shared-concepts em {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--type-label);
+  font-style: normal;
+}
+
+.assumption-tension-list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.assumption-tension {
+  padding: var(--space-3);
+  border-left: 2px solid var(--line-strong);
+  background: var(--surface-strong);
+}
+
+.assumption-tension > strong {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--type-meta);
+  font-weight: 650;
+}
+
+.assumption-tension > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.assumption-tension p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  line-height: 1.55;
+}
+
+.assumption-tension p span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.assumption-no-tension {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--type-meta);
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .assumption-analysis-heading {
+    display: grid;
+  }
+
+  .assumption-analysis-heading small {
+    max-width: none;
+    text-align: left;
+  }
+
+  .assumption-tension > div {
+    grid-template-columns: 1fr;
+  }
+}
