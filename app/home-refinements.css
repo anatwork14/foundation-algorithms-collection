@@ -1,0 +1,32 @@
+/* Homepage-only structural refinements. Visual tokens remain canonical in research-ui.css. */
+
+.inspiration-section .section-heading.inverse > svg {
+  color: var(--muted) !important;
+}
+
+.inspiration-section .inspiration-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: var(--space-3) !important;
+}
+
+.inspiration-section .inspiration-card,
+.inspiration-section .inspiration-1,
+.inspiration-section .inspiration-2,
+.inspiration-section .inspiration-3,
+.inspiration-section .inspiration-4,
+.inspiration-section .inspiration-5,
+.inspiration-section .inspiration-6 {
+  min-width: 0;
+  min-height: 220px;
+  grid-column: auto !important;
+}
+
+@media (max-width: 760px) {
+  .inspiration-section .inspiration-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .inspiration-section .inspiration-card {
+    min-height: 0;
+  }
+}
