@@ -32,6 +32,9 @@ jobs:
       - name: Check UI consistency
         run: npm run check:ui
 
+      - name: Verify experiment artifacts
+        run: npm run check:experiments
+
       - name: Test research utilities
         run: npm run test:research
 
