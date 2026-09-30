@@ -39,7 +39,8 @@ Each Algorithm entity receives a derived archive stage based on the evidence rec
 6. `Replicated`
    - at least one explicit `ReplicationRecord` exists for the Algorithm;
    - that record points to an independently authored Reference classified as `Replication / evaluation`;
-   - it also identifies one or more original References being independently evaluated.
+   - it also identifies one or more original References being independently evaluated;
+   - the independent-evaluation Reference carries an explicit verified citation edge to every original Reference named by the record.
 
 Stages are monotonic descriptions of **archive coverage**, not quality rankings. A later stage does not imply that every claim is better supported than every claim at an earlier stage.
 
@@ -92,7 +93,7 @@ The role is descriptive. It is not a source-quality grade.
 
 ## 5. Independent replication records
 
-Independent replication records live in `lib/replications.ts` and are separately inspectable at `/replications`.
+Independent replication records live in `lib/replications.ts`, are listed at `/replications`, and have dedicated inspectable detail routes at `/replications/[id]`.
 
 A `ReplicationRecord` must contain:
 
@@ -112,13 +113,26 @@ Validation rules:
 3. The independent source must link every Algorithm claimed by the replication record.
 4. Every original Reference must exist and link every claimed Algorithm.
 5. The independent source cannot also be listed as an original source.
-6. Duplicate original sources are rejected.
-7. Independence must be described rather than assumed from author names or repository differences.
-8. Do not create a replication record from this project's own experiment; that remains a project Experiment record.
-9. Do not infer replication merely because multiple implementations exist.
-10. Do not infer replication from a second paper that cites, extends, or compares a method without materially reproducing/evaluating it.
+6. The independent-evaluation Reference must explicitly cite every original Reference named by the replication record; those citation edges carry their own verification metadata.
+7. Duplicate original sources are rejected.
+8. Independence must be described rather than assumed from author names or repository differences.
+9. Do not create a replication record from this project's own experiment; that remains a project Experiment record.
+10. Do not infer replication merely because multiple implementations exist.
+11. Do not infer replication from a second paper that cites, extends, or compares a method without materially reproducing/evaluating it.
 
-The catalog may correctly contain zero replication records. Zero is preferable to fabricated or weakly inferred replication coverage.
+A zero-record catalog is valid whenever no source clears these rules. Zero is preferable to fabricated or weakly inferred replication coverage.
+
+### Current first curated independent evaluation
+
+The first curated record is:
+
+- `aumuller-2020-hnsw-evaluation`
+  - Algorithm: `hnsw`
+  - independent source: Aumüller, Bernhardsson, and Faithfull, *ANN-Benchmarks: A Benchmarking Tool for Approximate Nearest Neighbor Algorithms*;
+  - original source: Malkov and Yashunin, *Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs*;
+  - outcome: `Partially supports`.
+
+The outcome is deliberately conservative. ANN-Benchmarks independently evaluates HNSW in a common multi-algorithm benchmark and supports strong practical high-recall performance, while also documenting settings where graph-based methods can be tripped up. The record therefore does **not** claim that every statement, complexity claim, dataset result, or implementation detail in the original HNSW paper has been independently reproduced.
 
 ---
 
@@ -141,18 +155,22 @@ Rules:
 4. Prefer the paper/standard itself or an authoritative proceedings copy.
 5. Missing graph edges mean **not curated yet**, not **does not cite**.
 6. Build validation must reject broken, duplicate, or self-referential citation edges.
+7. A `ReplicationRecord` requires the independent-evaluation Reference to have an explicit citation edge to every original Reference claimed by that record.
 
 ---
 
 ## 7. Current seeded citation edges
 
-The initial graph intentionally contains only verified edges inside the existing curated source set:
+The graph intentionally contains only verified edges inside the curated source set. Examples include:
 
 - `zhou-2020-neuralucb` → `li-2010-contextual-bandit-news`
   - NeuralUCB explicitly cites Li et al. (2010) in its discussion of linear contextual bandits.
 
 - `gu-2023-mamba` → `vaswani-2017-attention`
   - Mamba explicitly cites Vaswani et al. (2017) when describing the Transformer as a predominant modern sequence architecture.
+
+- `aumuller-2020-ann-benchmarks` → `malkov-2018-hnsw`
+  - ANN-Benchmarks independently evaluates HNSW and links that evaluation to the original HNSW source.
 
 More edges should be added only as they are checked.
 
@@ -168,7 +186,8 @@ The UI must:
 - expose Reference evidence roles;
 - expose citation verification metadata on source pages;
 - expose independent replication outcome separately from the `Replicated` coverage stage;
-- show zero independent replication records explicitly when none are curated;
+- provide inspectable replication detail pages linking the independent source, original sources, and affected Algorithms;
+- show zero independent replication records explicitly whenever none are curated;
 - keep citation graphs sparse and focused rather than implying completeness;
 - preserve negative, mixed, failed, and inconclusive project experiment results;
 - preserve supporting, contradicting, partial, and inconclusive independent replication outcomes.
