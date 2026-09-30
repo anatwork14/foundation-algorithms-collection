@@ -28,7 +28,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
   return (
     <main className="experiment-detail-page">
       <div className="shell reference-breadcrumbs">
-        <Link href="/experiments"><ArrowLeft size={14} /> Experiments</Link>
+        <Link href="/experiments"><ArrowLeft size={14} aria-hidden="true" /> Experiments</Link>
         <span>/</span>
         <span>{experiment.status}</span>
       </div>
@@ -39,7 +39,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
           <h1>{experiment.title}</h1>
           <p>{experiment.objective}</p>
         </div>
-        <aside className="reference-detail-meta">
+        <aside className="reference-detail-meta" aria-label="Experiment metadata">
           <div><span>Algorithms</span><strong>{experiment.algorithmIds.length}</strong></div>
           <div><span>Baselines</span><strong>{experiment.baselines.length}</strong></div>
           <div><span>Metrics</span><strong>{experiment.metrics.length}</strong></div>
@@ -57,17 +57,17 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
 
           <section className="research-block">
             <div className="research-block-label">02 · Baselines</div>
-            <h2>What the proposed method must beat</h2>
+            <h2>What the proposed method is compared against</h2>
             <ul>{experiment.baselines.map((baseline) => <li key={baseline}>{baseline}</li>)}</ul>
           </section>
 
           <section className="research-block">
             <div className="research-block-label">03 · Data / benchmarks</div>
-            <h2>What will be measured on</h2>
+            <h2>What is measured</h2>
             <div className="experiment-dataset-list">
               {experiment.datasets.map((dataset) => (
                 <div key={dataset.name}>
-                  <Database size={15} />
+                  <Database size={15} aria-hidden="true" />
                   <div><strong>{dataset.name}</strong><p>{dataset.purpose}</p></div>
                   {dataset.url && <a href={dataset.url} target="_blank" rel="noreferrer">Source ↗</a>}
                 </div>
@@ -79,7 +79,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
             <div className="research-block-label">04 · Metrics</div>
             <h2>What counts as evidence</h2>
             <div className="experiment-metric-grid">
-              {experiment.metrics.map((metric) => <span key={metric}><Gauge size={14} /> {metric}</span>)}
+              {experiment.metrics.map((metric) => <span key={metric}><Gauge size={14} aria-hidden="true" /> {metric}</span>)}
             </div>
           </section>
 
@@ -96,8 +96,8 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
           </section>
 
           <section className="research-block">
-            <div className="research-block-label">07 · Success criteria</div>
-            <h2>Precommitted interpretation</h2>
+            <div className="research-block-label">07 · Interpretation criteria</div>
+            <h2>How this record should be interpreted</h2>
             <ul>{experiment.successCriteria.map((criterion) => <li key={criterion}>{criterion}</li>)}</ul>
           </section>
 
@@ -117,7 +117,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
                 )}
               </div>
             ) : (
-              <div className="experiment-no-result"><TriangleAlert size={17} /><p>This is a planned research record. No empirical result is claimed yet.</p></div>
+              <div className="experiment-no-result"><TriangleAlert size={17} aria-hidden="true" /><p>This is a planned research record. No empirical result is claimed yet.</p></div>
             )}
           </section>
         </article>
@@ -125,30 +125,30 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
         <aside className="reference-detail-side">
           {combination && (
             <div className="entity-side-card">
-              <div className="entity-side-title"><FlaskConical size={14} /> Parent hypothesis</div>
+              <div className="entity-side-title"><FlaskConical size={14} aria-hidden="true" /> Parent hypothesis</div>
               <Link href={`/lab#${combination.id}`} className="relation-link">
                 <span>{combination.status}</span>
                 <strong>{combination.title}</strong>
                 <small>{combination.hypothesis}</small>
-                <ArrowRight size={14} />
+                <ArrowRight size={14} aria-hidden="true" />
               </Link>
             </div>
           )}
 
           <div className="entity-side-card">
-            <div className="entity-side-title"><Beaker size={14} /> Algorithms under test</div>
+            <div className="entity-side-title"><Beaker size={14} aria-hidden="true" /> Algorithms under test</div>
             {linkedAlgorithms.map((algorithm) => algorithm && (
               <Link key={algorithm.id} href={`/algorithms/${algorithm.id}`} className="relation-link">
                 <span>{algorithm.fields[0]}</span>
                 <strong>{algorithm.name}</strong>
                 <small>{algorithm.families[0]}</small>
-                <ArrowRight size={14} />
+                <ArrowRight size={14} aria-hidden="true" />
               </Link>
             ))}
           </div>
 
           <div className="entity-side-card">
-            <div className="entity-side-title"><CheckCircle2 size={14} /> Artifacts</div>
+            <div className="entity-side-title"><CheckCircle2 size={14} aria-hidden="true" /> Artifacts</div>
             {experiment.artifacts.map((artifact) => artifact.url ? (
               <a key={artifact.label} href={artifact.url} target="_blank" rel="noreferrer" className="entity-reference-link">
                 <span>Available</span><strong>{artifact.label}</strong><small>Open artifact ↗</small>
