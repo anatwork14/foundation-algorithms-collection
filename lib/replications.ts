@@ -19,11 +19,23 @@ export type ReplicationRecord = {
 };
 
 /**
- * Intentionally empty until an independently authored replication/evaluation
- * source is directly verified and curated. Do not infer replication from a
- * second implementation or from this project's own experiments.
+ * Independent evaluation records remain distinct from this project's own
+ * experiments and from additional implementations. A record is only added
+ * when an independently authored evaluation source is directly verified.
  */
-export const replications: ReplicationRecord[] = [];
+export const replications: ReplicationRecord[] = [
+  {
+    id: "aumuller-2020-hnsw-evaluation",
+    title: "Independent ANN-Benchmarks evaluation of HNSW",
+    algorithmIds: ["hnsw"],
+    replicationReferenceId: "aumuller-2020-ann-benchmarks",
+    originalReferenceIds: ["malkov-2018-hnsw"],
+    outcome: "Partially supports",
+    summary: "ANN-Benchmarks evaluates HNSW independently within a standardized multi-algorithm benchmark. Its reported results support HNSW's strong practical high-recall performance relative to other ANN methods, while also documenting benchmark settings where graph-based approaches can be tripped up. This is therefore curated as partial support rather than a blanket reproduction of every claim in the original HNSW paper.",
+    independenceNote: "The evaluation is authored by Martin Aumüller, Erik Bernhardsson, and Alexander Faithfull, a different author group from HNSW authors Yu A. Malkov and D. A. Yashunin, and uses the independently developed ANN-Benchmarks framework across multiple algorithms and datasets.",
+    verifiedAt: "2026-09-30",
+  },
+];
 
 export function replicationsForAlgorithm(algorithmId: string) {
   return replications.filter((record) => record.algorithmIds.includes(algorithmId));
