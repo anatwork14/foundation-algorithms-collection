@@ -10,6 +10,7 @@ import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
 import { relationProvenance } from "@/lib/relation-provenance";
+import { getRelationProvenanceCoverage } from "@/lib/relation-provenance-coverage";
 import { replications } from "@/lib/replications";
 
 export const metadata: Metadata = {
@@ -37,12 +38,7 @@ export default function EvidencePage() {
   const stageCounts = new Map<EvidenceStage, number>(evidenceStages.map((stage) => [stage, 0]));
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
   const curatedCitationEdges = references.reduce((sum, reference) => sum + reference.citations.length, 0);
-  const typedAtlasEdges = algorithms.reduce((sum, algorithm) => sum + algorithm.relations.length, 0);
-  const sourceBackedAtlasEdges = relationProvenance.length;
-  const conceptualAtlasEdges = Math.max(0, typedAtlasEdges - sourceBackedAtlasEdges);
-  const algorithmsWithRelationProvenance = new Set(
-    relationProvenance.flatMap((record) => [record.sourceId, record.targetId]),
-  ).size;
+  const relationCoverage = getRelationProvenanceCoverage(algorithms, relationProvenance);
 
   return (
     <main className="evidence-hub shell">
@@ -149,10 +145,10 @@ export default function EvidencePage() {
           <Link href="/atlas?evidence=source-backed" className="reference-graph-link"><Network size={14} /> Inspect source-backed Atlas edges <ArrowRight size={13} /></Link>
         </div>
         <div className="evidence-relation-summary" aria-label="Atlas relation provenance coverage">
-          <div><strong>{typedAtlasEdges}</strong><span>typed Atlas edges</span></div>
-          <div><strong>{sourceBackedAtlasEdges}</strong><span>source-backed edges</span></div>
-          <div><strong>{conceptualAtlasEdges}</strong><span>conceptual edges</span></div>
-          <div><strong>{algorithmsWithRelationProvenance}</strong><span>algorithms touching sourced edges</span></div>
+          <div><strong>{relationCoverage.typedEdges}</strong><span>typed Atlas edges</span></div>
+          <div><strong>{relationCoverage.sourceBackedEdges}</strong><span>source-backed edges</span></div>
+          <div><strong>{relationCoverage.conceptualEdges}</strong><span>conceptual edges</span></div>
+          <div><strong>{relationCoverage.algorithmsWithSourceBackedEdges}</strong><span>algorithms touching sourced edges</span></div>
         </div>
       </section>
 
