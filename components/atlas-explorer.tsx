@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState, type KeyboardEvent } from "react";
-import { ArrowRight, Network, ScrollText, Search } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, Network, ScrollText, Search } from "lucide-react";
 import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
-import { getReference } from "@/lib/references";
+import { implementationsForAlgorithm } from "@/lib/implementations";
+import { getReference, referencesForAlgorithm } from "@/lib/references";
 import { getRelationProvenance, type RelationProvenanceRecord } from "@/lib/relation-provenance";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
@@ -90,6 +91,8 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
   const neighbors = [...outgoing.map((item) => item.target), ...incoming.map((item) => item.source)]
     .filter((algorithm, index, all) => all.findIndex((item) => item.id === algorithm.id) === index);
+  const referenceNeighbors = referencesForAlgorithm(selected.id);
+  const implementationNeighbors = implementationsForAlgorithm(selected.id);
 
   const visibleProvenance = [
     ...outgoing.map(({ relation, target }) => ({
@@ -203,6 +206,49 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                 <span>←</span><span>{relation.type.replaceAll("-", " ")}</span><strong>{source.name}</strong><p>{relation.note}</p>
               </Link>
             ))}
+          </div>
+
+          <div className="atlas-evidence-neighbors" role="region" aria-label={`Evidence neighbors for ${selected.name}`}>
+            <div className="atlas-evidence-heading">
+              <div>
+                <span className="research-block-label">Evidence neighbors</span>
+                <strong>Sources and executable implementations linked to the focused algorithm.</strong>
+              </div>
+            </div>
+            <div className="atlas-evidence-grid">
+              <section aria-labelledby="atlas-reference-neighbors">
+                <div className="atlas-evidence-column-heading">
+                  <BookOpen size={15} aria-hidden="true" />
+                  <strong id="atlas-reference-neighbors">References</strong>
+                  <span>{referenceNeighbors.length}</span>
+                </div>
+                <div className="atlas-evidence-list">
+                  {referenceNeighbors.map((reference) => (
+                    <Link key={reference.id} href={`/references/${reference.id}`}>
+                      <span>{reference.evidenceRole} · {reference.year}</span>
+                      <strong>{reference.title}</strong>
+                    </Link>
+                  ))}
+                  {!referenceNeighbors.length && <p>No curated Reference node is linked yet.</p>}
+                </div>
+              </section>
+              <section aria-labelledby="atlas-implementation-neighbors">
+                <div className="atlas-evidence-column-heading">
+                  <Code2 size={15} aria-hidden="true" />
+                  <strong id="atlas-implementation-neighbors">Implementations</strong>
+                  <span>{implementationNeighbors.length}</span>
+                </div>
+                <div className="atlas-evidence-list">
+                  {implementationNeighbors.map((implementation) => (
+                    <Link key={implementation.id} href={`/implementations/${implementation.id}`}>
+                      <span>{implementation.language} · {implementation.maturity}</span>
+                      <strong>{implementation.name}</strong>
+                    </Link>
+                  ))}
+                  {!implementationNeighbors.length && <p>No curated Implementation node is linked yet.</p>}
+                </div>
+              </section>
+            </div>
           </div>
 
           <div className="atlas-provenance" role="region" aria-label={`Curated relationship evidence for ${selected.name}`}>
