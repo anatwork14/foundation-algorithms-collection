@@ -2,7 +2,7 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
-  testMatch: ["acceptance.spec.ts", "visual-acceptance.spec.ts"],
+  testMatch: ["acceptance.spec.ts", "visual-acceptance.spec.ts", "reflow-acceptance.spec.ts"],
   timeout: 30_000,
   expect: { timeout: 5_000 },
   fullyParallel: false,
