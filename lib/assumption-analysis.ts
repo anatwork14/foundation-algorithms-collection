@@ -45,7 +45,11 @@ const tensions: TensionRule[] = [
   {
     id: "stationary-vs-drift",
     label: "Stationary assumptions vs. changing/drifting environment",
-    a: [/(?<!non-)(?<!non )\bstationary\b/i, /(?<!non-)(?<!non )stationary distribution/i, /(?<!non-)(?<!non )stationary reward/i],
+    a: [
+      /(?<!non)(?<!non-)(?<!non )\bstationary\b/i,
+      /(?<!non)(?<!non-)(?<!non )stationary distribution/i,
+      /(?<!non)(?<!non-)(?<!non )stationary reward/i,
+    ],
     b: [/non[- ]?stationary/i, /concept drift/i, /distribution drift/i, /changing distribution/i, /changing reward/i],
   },
   {
@@ -63,13 +67,22 @@ const tensions: TensionRule[] = [
   {
     id: "linear-vs-nonlinear",
     label: "Linear-model requirement vs. explicitly nonlinear structure",
-    a: [/approximately linear/i, /(?<!non-)(?<!non )\blinear reward\b/i, /(?<!non-)(?<!non )\blinear model\b/i, /linearity assumption/i],
+    a: [
+      /approximately linear/i,
+      /(?<!non)(?<!non-)(?<!non )\blinear reward\b/i,
+      /(?<!non)(?<!non-)(?<!non )\blinear model\b/i,
+      /linearity assumption/i,
+    ],
     b: [/non[- ]?linear/i, /strongly nonlinear/i],
   },
   {
     id: "convex-vs-nonconvex",
     label: "Convexity requirement vs. non-convex objective",
-    a: [/(?<!non-)(?<!non )\bconvex\b/i, /(?<!non-)(?<!non )convex objective/i, /(?<!non-)(?<!non )convex loss/i],
+    a: [
+      /(?<!non)(?<!non-)(?<!non )\bconvex\b/i,
+      /(?<!non)(?<!non-)(?<!non )convex objective/i,
+      /(?<!non)(?<!non-)(?<!non )convex loss/i,
+    ],
     b: [/non[- ]?convex/i, /nonconvex/i],
   },
   {
