@@ -9,7 +9,8 @@ import { getAllDocuments } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
-import { referencesForAlgorithm } from "@/lib/references";
+import { getReference, referencesForAlgorithm } from "@/lib/references";
+import { relationProvenanceForAlgorithm } from "@/lib/relation-provenance";
 import { replicationsForAlgorithm } from "@/lib/replications";
 import { getAlgorithmSourceSections } from "@/lib/source-provenance";
 import { fieldKey } from "@/lib/taxonomy";
@@ -47,6 +48,12 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
   const implementationRecords = implementationsForAlgorithm(algorithm.id);
   const experimentRecords = experimentsForAlgorithm(algorithm.id);
   const replicationRecords = replicationsForAlgorithm(algorithm.id);
+  const relationEvidenceRecords = relationProvenanceForAlgorithm(algorithm.id).map((record) => ({
+    record,
+    source: getAlgorithm(record.sourceId),
+    target: getAlgorithm(record.targetId),
+    references: record.referenceIds.map((referenceId) => getReference(referenceId)).filter((reference) => Boolean(reference)),
+  }));
   const evidenceProfile = getAlgorithmEvidenceProfile(algorithm.id);
 
   return (
@@ -73,6 +80,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
           <div><span>Evidence stage</span><strong>{evidenceProfile.stage}</strong></div>
           <div><span>Families</span><strong>{algorithm.families.join(" · ")}</strong></div>
           <div><span>Relations</span><strong>{algorithm.relations.length + inbound.length}</strong></div>
+          <div><span>Source-backed relations</span><strong>{relationEvidenceRecords.length}</strong></div>
           <div><span>Source sections</span><strong>{sourceSections.length}</strong></div>
           <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
           <div><span>References</span><strong>{primaryReferences.length}</strong></div>
@@ -177,6 +185,26 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
               </Link>
             ))}
           </div>
+
+          {relationEvidenceRecords.length > 0 && (
+            <div className="entity-side-card relation-evidence-card">
+              <div className="entity-side-title"><ScrollText size={14} /> Source-backed relations</div>
+              {relationEvidenceRecords.map(({ record, source, target, references }) => (
+                <div className="relation-evidence-record" key={`${record.sourceId}-${record.relationType}-${record.targetId}`}>
+                  <span>{record.relationType.replaceAll("-", " ")} · verified {record.verifiedAt}</span>
+                  <strong>{source?.name ?? record.sourceId} → {target?.name ?? record.targetId}</strong>
+                  <small>{record.evidenceNote}</small>
+                  <div className="relation-evidence-references">
+                    {references.map((reference) => reference && (
+                      <Link key={reference.id} href={`/references/${reference.id}`}>
+                        {reference.year} · {reference.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {sourceSections.length > 0 && (
             <div className="entity-side-card">
@@ -289,7 +317,7 @@ export default async function AlgorithmDetailPage({ params }: { params: Promise<
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} /> Provenance</div>
-            <p>Entity metadata indexes the Markdown corpus. Heading-level links resolve from the live TOC, curated Claims connect selected statements to unique passage records and sources, and independent replication remains a separate outcome-aware evidence layer.</p>
+            <p>Entity metadata indexes the Markdown corpus. Heading-level links resolve from the live TOC, curated Claims connect selected statements to unique passage records and sources, source-backed Atlas edges remain explicitly separated from structural-only relations, and independent replication remains a separate outcome-aware evidence layer.</p>
           </div>
         </aside>
       </div>
