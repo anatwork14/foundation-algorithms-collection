@@ -39,6 +39,31 @@ test("Atlas picker uses roving focus and arrow-key selection", async ({ page }) 
   await expect(buttons.first()).toHaveAttribute("aria-pressed", "true");
 });
 
+test("Atlas exposes curated source provenance separately from structural relationships", async ({ page }) => {
+  await open(page, "/atlas");
+
+  const provenance = page.getByRole("region", { name: "Curated relationship evidence for LinUCB" });
+  await expect(provenance).toBeVisible();
+  await expect(provenance).toContainText("source-backed visible edge");
+  await expect(provenance).toContainText("LinUCB → UCB1");
+  await expect(provenance.getByRole("link", { name: /Contextual-Bandit Approach to Personalized News/i })).toBeVisible();
+  await expect(provenance).toContainText("Verified 2026-09-30");
+});
+
+test("Algorithm cards expose relation-level provenance counts and sources", async ({ page }) => {
+  await open(page, "/algorithms/linucb");
+
+  const summary = page.locator(".algorithm-summary-panel");
+  const sourceBackedRow = summary.locator("div").filter({ hasText: "Source-backed relations" });
+  await expect(sourceBackedRow).toBeVisible();
+  expect(Number.parseInt((await sourceBackedRow.locator("strong").innerText()).trim(), 10)).toBeGreaterThan(0);
+
+  const relationEvidence = page.locator(".relation-evidence-card");
+  await expect(relationEvidence).toBeVisible();
+  await expect(relationEvidence).toContainText("LinUCB → UCB1");
+  await expect(relationEvidence.getByRole("link", { name: /2010 · A Contextual-Bandit Approach/i })).toBeVisible();
+});
+
 test("Lab pair explorer has logical keyboard order and announces analysis changes", async ({ page }) => {
   await open(page, "/lab");
 
