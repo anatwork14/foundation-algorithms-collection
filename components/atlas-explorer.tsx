@@ -4,26 +4,18 @@ import Link from "next/link";
 import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { ArrowRight, BookOpen, Code2, Network, ScrollText, Search } from "lucide-react";
 import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
+import {
+  atlasEvidenceParam,
+  atlasRelationTypes as relationTypes,
+  parseAtlasState,
+  updateAtlasSearch,
+  type RelationEvidenceFilter,
+} from "@/lib/atlas-state";
 import { implementationsForAlgorithm } from "@/lib/implementations";
 import { getReference, referencesForAlgorithm } from "@/lib/references";
 import { getRelationProvenance, type RelationProvenanceRecord } from "@/lib/relation-provenance";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
-const relationTypes: Array<RelationType | "All"> = [
-  "All",
-  "derived-from",
-  "generalizes",
-  "special-case-of",
-  "alternative-to",
-  "combines-with",
-  "depends-on",
-  "used-by",
-  "approximates",
-  "secures",
-  "accelerates",
-];
-
-type RelationEvidenceFilter = "All" | "Source-backed" | "Conceptual";
 type UrlHistoryMode = "push" | "replace";
 
 type VisibleRelationProvenance = {
@@ -37,12 +29,6 @@ function evidenceState(record: RelationProvenanceRecord | null) {
   return record ? "Source-backed" : "Conceptual";
 }
 
-function evidenceParam(value: RelationEvidenceFilter) {
-  if (value === "Source-backed") return "source-backed";
-  if (value === "Conceptual") return "conceptual";
-  return null;
-}
-
 export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] }) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("linucb");
@@ -52,31 +38,28 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
   const selected = algorithms.find((algorithm) => algorithm.id === selectedId) ?? algorithms[0];
   const byId = useMemo(() => new Map(algorithms.map((algorithm) => [algorithm.id, algorithm])), [algorithms]);
+  const researchFields = useMemo(() => fields.map((item) => item.name), []);
 
   useEffect(() => {
     const syncFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      const algorithmParam = params.get("algorithm");
-      const fieldParam = params.get("field");
-      const relationParam = params.get("relation");
-      const evidence = params.get("evidence");
-
-      setSelectedId(algorithmParam && byId.has(algorithmParam) ? algorithmParam : "linucb");
-      setField(fields.some((item) => item.name === fieldParam) ? fieldParam as ResearchField : "All");
-      setRelationType(relationTypes.includes(relationParam as RelationType) ? relationParam as RelationType : "All");
-      setRelationEvidence(evidence === "source-backed" ? "Source-backed" : evidence === "conceptual" ? "Conceptual" : "All");
+      const state = parseAtlasState(window.location.search, {
+        algorithmIds: byId.keys(),
+        fields: researchFields,
+      });
+      setSelectedId(state.algorithmId);
+      setField(state.field);
+      setRelationType(state.relationType);
+      setRelationEvidence(state.relationEvidence);
     };
 
     syncFromUrl();
     window.addEventListener("popstate", syncFromUrl);
     return () => window.removeEventListener("popstate", syncFromUrl);
-  }, [byId]);
+  }, [byId, researchFields]);
 
   function writeAtlasParam(name: string, value: string | null, mode: UrlHistoryMode) {
-    const url = new URL(window.location.href);
-    if (value) url.searchParams.set(name, value);
-    else url.searchParams.delete(name);
-    const next = `${url.pathname}${url.search}${url.hash}`;
+    const search = updateAtlasSearch(window.location.search, name, value);
+    const next = `${window.location.pathname}${search}${window.location.hash}`;
     const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
     if (next === current) return;
     if (mode === "push") window.history.pushState({}, "", next);
@@ -219,7 +202,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
               onChange={(event) => {
                 const next = event.target.value as RelationEvidenceFilter;
                 setRelationEvidence(next);
-                writeAtlasParam("evidence", evidenceParam(next), "replace");
+                writeAtlasParam("evidence", atlasEvidenceParam(next), "replace");
               }}
               aria-label="Filter Atlas by relation evidence"
             >
