@@ -132,11 +132,7 @@
 .evidence-flow-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  background: var(--line);
+  gap: 12px;
 }
 
 .evidence-flow-grid > div {
@@ -145,6 +141,8 @@
   align-content: start;
   gap: var(--space-3);
   padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
   background: var(--surface-strong);
 }
 
