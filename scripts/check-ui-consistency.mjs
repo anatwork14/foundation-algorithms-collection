@@ -186,6 +186,17 @@ if (!refinements.includes(".markdown-body .katex-display") || !refinements.inclu
   errors.push("Long display equations must remain horizontally scrollable inside the reading surface");
 }
 
+const tabletFieldIndexContracts = [
+  ["tablet-only field-index breakpoint", "@media (min-width: 761px) and (max-width: 980px)"],
+  ["single-column tablet field index", ".domain-section .domain-grid"],
+  ["field rows cannot span legacy tablet columns", "grid-column: auto !important"],
+  ["field row text column may shrink", "minmax(0, 1.4fr)"],
+];
+
+for (const [label, needle] of tabletFieldIndexContracts) {
+  if (!refinements.includes(needle)) errors.push(`Tablet research-index contract missing ${label}: ${needle}`);
+}
+
 if (errors.length) {
   console.error("UI consistency check failed:\n");
   for (const error of errors) console.error(`- ${error}`);
