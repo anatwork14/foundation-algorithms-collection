@@ -16,6 +16,7 @@ import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
+import "./accessibility.css";
 import "./theme-dock.css";
 import "./research-ui.css";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
@@ -88,12 +89,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         <DialogFocusManager />
         <SiteHeader documents={documents} />
         <div className="theme-toggle-dock" style={{ display: "contents" }}>
           <ThemeToggle />
         </div>
-        {children}
+        <div id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <footer className="site-footer">
           <div className="shell footer-inner">
             <div>
