@@ -96,6 +96,21 @@ test("Evidence sub-navigation exposes one clean label per destination", async ({
   expect(exposedIcons).toBe(0);
 });
 
+test("homepage Combination Lab preview keeps a uniform two-column rhythm on desktop", async ({ page }) => {
+  await page.setViewportSize(desktop);
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const cards = page.locator(".inspiration-section .inspiration-card");
+  await expect(cards).toHaveCount(6);
+  const widths = await cards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().width)));
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
+
+  const sparkleColor = await page.locator(".inspiration-section .section-heading > svg").evaluate((element) => getComputedStyle(element).color);
+  const mutedColor = await page.locator(".inspiration-section").evaluate((element) => getComputedStyle(element).getPropertyValue("--muted").trim());
+  expect(sparkleColor).not.toBe("rgb(143, 154, 255)");
+  expect(mutedColor).not.toBe("");
+});
+
 test("reduced-motion preference suppresses meaningful transition duration", async ({ page }) => {
   await page.setViewportSize(desktop);
   await page.emulateMedia({ reducedMotion: "reduce" });
