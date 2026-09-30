@@ -48,15 +48,39 @@ async function expectNoDocumentOverflow(page: Page) {
   const dimensions = await page.evaluate(() => {
     const root = document.documentElement;
     const body = document.body;
-    return {
-      clientWidth: root.clientWidth,
-      scrollWidth: Math.max(root.scrollWidth, body?.scrollWidth ?? 0),
-    };
+    const viewportWidth = root.clientWidth;
+    const scrollWidth = Math.max(root.scrollWidth, body?.scrollWidth ?? 0);
+    const offenders = [...document.querySelectorAll<HTMLElement>("body *")]
+      .filter((element) => element.getClientRects().length > 0)
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          tag: element.tagName.toLowerCase(),
+          id: element.id,
+          className: typeof element.className === "string" ? element.className : "",
+          text: (element.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 90),
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          clientWidth: element.clientWidth,
+          scrollWidth: element.scrollWidth,
+          position: style.position,
+          overflowX: style.overflowX,
+          overshoot: Math.max(0, Math.round(rect.right - viewportWidth), Math.round(-rect.left)),
+        };
+      })
+      .filter((entry) => entry.overshoot > 1)
+      .sort((a, b) => b.overshoot - a.overshoot)
+      .slice(0, 12);
+
+    return { clientWidth: viewportWidth, scrollWidth, offenders };
   });
 
   expect(
     dimensions.scrollWidth,
-    `Document width ${dimensions.scrollWidth}px exceeds viewport ${dimensions.clientWidth}px`,
+    `Document width ${dimensions.scrollWidth}px exceeds viewport ${dimensions.clientWidth}px.\n` +
+      `Overflow offenders:\n${JSON.stringify(dimensions.offenders, null, 2)}`,
   ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
 }
 
