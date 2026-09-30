@@ -62,3 +62,7 @@ export function getRelationProvenance(sourceId: string, relationType: RelationTy
 export function relationProvenanceForAlgorithm(algorithmId: string) {
   return relationProvenance.filter((record) => record.sourceId === algorithmId || record.targetId === algorithmId);
 }
+
+export function relationProvenanceForReference(referenceId: string) {
+  return relationProvenance.filter((record) => record.referenceIds.includes(referenceId));
+}
