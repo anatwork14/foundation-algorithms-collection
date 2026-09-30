@@ -45,7 +45,7 @@ const tensions: TensionRule[] = [
   {
     id: "stationary-vs-drift",
     label: "Stationary assumptions vs. changing/drifting environment",
-    a: [/\bstationary\b/i, /stationary distribution/i, /stationary reward/i],
+    a: [/(?<!non-)(?<!non )\bstationary\b/i, /(?<!non-)(?<!non )stationary distribution/i, /(?<!non-)(?<!non )stationary reward/i],
     b: [/non[- ]?stationary/i, /concept drift/i, /distribution drift/i, /changing distribution/i, /changing reward/i],
   },
   {
@@ -63,20 +63,20 @@ const tensions: TensionRule[] = [
   {
     id: "linear-vs-nonlinear",
     label: "Linear-model requirement vs. explicitly nonlinear structure",
-    a: [/approximately linear/i, /linear reward/i, /linear model/i, /linearity assumption/i],
+    a: [/approximately linear/i, /(?<!non-)(?<!non )\blinear reward\b/i, /(?<!non-)(?<!non )\blinear model\b/i, /linearity assumption/i],
     b: [/non[- ]?linear/i, /strongly nonlinear/i],
   },
   {
     id: "convex-vs-nonconvex",
     label: "Convexity requirement vs. non-convex objective",
-    a: [/\bconvex\b/i, /convex objective/i, /convex loss/i],
+    a: [/(?<!non-)(?<!non )\bconvex\b/i, /(?<!non-)(?<!non )convex objective/i, /(?<!non-)(?<!non )convex loss/i],
     b: [/non[- ]?convex/i, /nonconvex/i],
   },
   {
     id: "trusted-vs-adversarial",
     label: "Trusted-participant/environment assumptions vs. adversarial behavior",
-    a: [/trusted/i, /honest participant/i, /honest server/i],
-    b: [/untrusted/i, /adversarial/i, /malicious/i, /byzantine/i],
+    a: [/\btrusted\b/i, /honest participant/i, /honest server/i],
+    b: [/\buntrusted\b/i, /adversarial/i, /malicious/i, /byzantine/i],
   },
   {
     id: "plaintext-vs-private",
@@ -93,8 +93,8 @@ const tensions: TensionRule[] = [
   {
     id: "known-vs-unknown-model",
     label: "Known-model requirement vs. model-free/unknown dynamics",
-    a: [/known transition/i, /known model/i, /model is known/i],
-    b: [/unknown transition/i, /unknown model/i, /model[- ]free/i],
+    a: [/\bknown transition/i, /\bknown model/i, /model is known/i],
+    b: [/\bunknown transition/i, /\bunknown model/i, /model[- ]free/i],
   },
 ];
 
