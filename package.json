@@ -10,6 +10,7 @@
     "check:links": "node scripts/check-markdown-links.mjs",
     "check:source": "node scripts/check-source-hygiene.mjs",
     "check:ui": "node scripts/check-ui-consistency.mjs",
+    "check:experiments": "node scripts/check-experiment-artifacts.mjs",
     "test:research": "node --experimental-strip-types --test tests/*.test.mjs",
     "test:acceptance": "playwright test"
   },
