@@ -322,12 +322,34 @@
 }
 
 @media (max-width: 980px) {
+  /* The home Combination Lab uses a 12-column editorial layout on desktop.
+     Collapse it before tablet widths so spanning cards cannot contribute a
+     min-content width larger than the viewport. */
+  .inspiration-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inspiration-card,
+  .inspiration-1,
+  .inspiration-2,
+  .inspiration-3,
+  .inspiration-4,
+  .inspiration-5,
+  .inspiration-6 {
+    min-width: 0;
+    grid-column: auto;
+  }
+
   .combination-signals {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 760px) {
+  .inspiration-grid {
+    grid-template-columns: 1fr;
+  }
+
   .toc-card nav a.is-current::before,
   .toc-card nav a[aria-current="location"]::before {
     display: none;
