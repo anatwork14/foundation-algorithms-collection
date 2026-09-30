@@ -76,6 +76,8 @@ The five tall rounded field cards were replaced by an editorial research index:
 
 This is denser, easier to scan and more consistent with an archive/catalogue.
 
+A later Chromium tablet test exposed a legacy cascade regression at 820 px: the old two-column card rule still won in that band, creating 542 px-wide field items and a 1102 px document. The tablet band is now explicitly kept single-column until the dedicated phone layout takes over below 760 px. The exact regression is protected by both `check:ui` and Playwright containment tests.
+
 ### 3. Evidence summary had the wrong grid
 
 The Evidence page rendered five summary metrics into a four-column grid, leaving an orphaned fifth metric and inconsistent borders. It now uses:
@@ -86,7 +88,7 @@ The Evidence page rendered five summary metrics into a four-column grid, leaving
 
 Evidence destination cards were also shortened and no longer use artificial 340 px minimum heights.
 
-The Evidence root uses `.evidence-hub`; the canonical page-rhythm selectors must target that real class at both desktop and mobile breakpoints so it receives the same top spacing as Archive, Algorithms, Atlas, Lab and the registry routes.
+The Evidence root uses `.evidence-hub`; the canonical page-rhythm selectors target that real class at both desktop and mobile breakpoints so it receives the same top spacing as Archive, Algorithms, Atlas, Lab and the registry routes.
 
 ### 4. Registry controls drifted
 
@@ -128,7 +130,7 @@ Both issues are resolved. The control uses canonical neutral tokens, and `ThemeT
 
 ### 10. Future drift was unguarded
 
-Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI rejects reintroduction of deprecated theme files, incorrect CSS ordering, removal of canonical visual contracts, stale Evidence-root selectors, theme-control regressions and the accessibility/contrast contracts listed below.
+Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI rejects reintroduction of deprecated theme files, incorrect CSS ordering, removal of canonical visual contracts, stale Evidence-root selectors, theme-control regressions, the tablet Research-fields regression, and the accessibility/contrast contracts listed below.
 
 ### 11. Acceptance hardening exposed semantic and narrow-screen gaps
 
@@ -142,14 +144,31 @@ The source-level acceptance pass identified issues that were not visual-theme pr
 - long KaTeX display equations had no local horizontal-overflow containment;
 - the secondary muted token was too low-contrast for the small metadata text that consumes it.
 
-These are now resolved:
+These are resolved:
 
 - Atlas search has an explicit accessible name, picker buttons expose `aria-pressed`, and relationship areas are named regions;
 - mobile navigation exposes ownership and expanded state, current links expose page state, Search declares dialog-popup behavior, and Escape closes either transient header surface;
 - display equations scroll inside the reading surface instead of widening the page;
-- `.table-scroll` already provides local horizontal scrolling for wide tables;
-- `--muted-2` is now `#6d7076` in light mode and `#81848a` in dark mode. Against the common canvas/surface backgrounds, the worst-case ratios are approximately 4.63:1 and 4.55:1 respectively, clearing WCAG AA's 4.5:1 threshold for normal text;
+- `.table-scroll` provides local horizontal scrolling for wide tables;
+- `--muted-2` is `#6d7076` in light mode and `#81848a` in dark mode. Against common canvas/surface backgrounds, the worst-case ratios are approximately 4.63:1 and 4.55:1 respectively, clearing WCAG AA's 4.5:1 threshold for normal text;
 - `check:ui` computes the metadata-token contrast ratio from the CSS itself and fails if a future palette change drops below 4.5:1.
+
+### 12. Rendered browser acceptance is now a CI gate
+
+The application now has a Playwright/Chromium acceptance suite running against the production build. It covers:
+
+- all major product routes for desktop page-level horizontal containment;
+- homepage, LinUCB chapter, LinUCB Algorithm, Atlas and Evidence in light/dark at 1440×1000, 820×1180 and 390×844;
+- axe WCAG A/AA scans on representative routes in both themes;
+- command-palette keyboard operation and focus restoration;
+- mobile-navigation state/current-page/Escape behavior;
+- long equation/table/code containment and keyboard reachability on phone.
+
+The first full matrix deliberately found a real tablet regression in the Research-fields index. After the targeted cascade fix, all **58 functional/accessibility browser tests passed**.
+
+A separate visual-review spec captures 12 representative full-page screenshots covering the homepage across all three widths and both themes plus representative chapter, Atlas and Evidence states. CI retains the Playwright report and screenshot attachments for 14 days so rendered changes can be inspected even when tests pass.
+
+These screenshots are review artifacts rather than strict pixel-diff baselines. That is intentional while the visual system is still evolving.
 
 ## CI consistency contract
 
@@ -164,7 +183,10 @@ These are now resolved:
 - Search keeps dialog-popup semantics;
 - Atlas keeps explicit search, selected-entity and relationship-region semantics;
 - long display equations remain locally horizontally scrollable;
-- light and dark `--muted-2` tokens remain at or above 4.5:1 against the primary canvas and strong surface.
+- light and dark `--muted-2` tokens remain at or above 4.5:1 against the primary canvas and strong surface;
+- the tablet Research-fields editorial index remains single-column rather than regressing to the legacy two-column card layout.
+
+Playwright complements those source guards with rendered containment, responsive/theme, keyboard, axe and visual-artifact checks.
 
 ## Surface rules going forward
 
@@ -188,14 +210,16 @@ Use compact destination surfaces at the hub level and lists for references/imple
 
 Keep prose near 760 px, use generous vertical section spacing, real math rendering, locally scrollable wide tables/equations, restrained code blocks and a consistent TOC.
 
-## Known follow-up acceptance work
+## Remaining manual acceptance work
 
-The structural/design-system cleanup and the source-level accessibility hardening are implemented. Continue checking these items on actual rendered deployments whenever full browser/assistive-technology automation is available:
+The structural/design-system cleanup, source-level accessibility hardening, automated Chromium responsive/theme checks, and axe WCAG scans are implemented.
 
-- desktop/tablet/phone screenshots in both themes;
-- a complete keyboard-only traversal across every workspace, not just source-level semantic checks;
-- VoiceOver/NVDA-style verification of the command palette, Atlas relationships and Evidence provenance surfaces;
-- rendered contrast spot checks for semantic experiment-status colors and unusual mixed surfaces;
-- real-device overflow checks for unusually long tables, equations and code blocks.
+Still perform manual checks where browser automation cannot substitute for the real interaction environment:
 
-These are acceptance checks, not separate visual-system work. Any future fix should preserve the canonical hierarchy rather than add another override layer.
+- VoiceOver and/or NVDA announcements on command palette, Atlas and Evidence provenance surfaces;
+- mathematical expression reading with assistive technology;
+- physical-device touch ergonomics and OS/browser font rendering;
+- zoom/text-scaling behavior on representative mobile/tablet hardware;
+- aesthetic review of retained screenshots for major design changes.
+
+These are manual acceptance checks, not invitations to add another visual-system override layer. Any future fix should preserve the canonical hierarchy and add a deterministic regression test when possible.
