@@ -108,6 +108,53 @@
   line-height: 1.55;
 }
 
+.relation-evidence-card {
+  min-width: 0;
+}
+
+.relation-evidence-record {
+  display: grid;
+  gap: 6px;
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+
+.relation-evidence-record:first-of-type {
+  border-top: 0;
+}
+
+.relation-evidence-record > span {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  text-transform: capitalize;
+}
+
+.relation-evidence-record > strong {
+  font-size: .82rem;
+  line-height: 1.4;
+}
+
+.relation-evidence-record > small {
+  color: var(--muted);
+  font-size: var(--type-label);
+  line-height: 1.55;
+}
+
+.relation-evidence-references {
+  display: grid;
+  gap: 4px;
+}
+
+.relation-evidence-references a {
+  color: var(--ink);
+  font-size: var(--type-label);
+  line-height: 1.45;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 760px) {
   .atlas-provenance-row {
     grid-template-columns: 1fr;
