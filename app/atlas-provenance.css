@@ -1,11 +1,13 @@
 /* Atlas-specific provenance structure. Global visual tokens resolve through research-ui.css. */
 
+.atlas-evidence-neighbors,
 .atlas-provenance {
   margin-top: var(--space-6);
   padding-top: var(--space-6);
   border-top: 1px solid var(--line);
 }
 
+.atlas-evidence-heading,
 .atlas-provenance-heading {
   display: flex;
   align-items: flex-start;
@@ -14,11 +16,13 @@
   margin-bottom: var(--space-3);
 }
 
+.atlas-evidence-heading > div,
 .atlas-provenance-heading > div {
   display: grid;
   gap: 5px;
 }
 
+.atlas-evidence-heading strong,
 .atlas-provenance-heading > strong,
 .atlas-provenance-heading strong {
   font-size: .9rem;
@@ -27,6 +31,85 @@
 
 .atlas-provenance-heading > svg {
   color: var(--muted);
+}
+
+.atlas-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.atlas-evidence-grid > section {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface-strong);
+}
+
+.atlas-evidence-column-heading {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.atlas-evidence-column-heading svg,
+.atlas-evidence-column-heading span {
+  color: var(--muted-2);
+}
+
+.atlas-evidence-column-heading strong {
+  font-size: var(--type-meta);
+  font-weight: 650;
+}
+
+.atlas-evidence-column-heading span {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+}
+
+.atlas-evidence-list {
+  display: grid;
+}
+
+.atlas-evidence-list a {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.atlas-evidence-list a:first-child {
+  border-top: 0;
+}
+
+.atlas-evidence-list a:hover {
+  background: var(--surface);
+}
+
+.atlas-evidence-list a span {
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  overflow-wrap: anywhere;
+}
+
+.atlas-evidence-list a strong {
+  font-size: var(--type-meta);
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.atlas-evidence-list > p {
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--muted);
+  font-size: var(--type-meta);
+  line-height: 1.5;
 }
 
 .atlas-provenance-row {
@@ -156,8 +239,12 @@
 }
 
 @media (max-width: 760px) {
+  .atlas-evidence-grid,
   .atlas-provenance-row {
     grid-template-columns: 1fr;
+  }
+
+  .atlas-provenance-row {
     gap: var(--space-2);
   }
 
