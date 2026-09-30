@@ -38,3 +38,29 @@ test("Atlas makes source-backed and conceptual relation edges distinguishable", 
   expect(await relationTable.locator(".atlas-relation-kind small.is-conceptual").count()).toBeGreaterThan(0);
   await expect(relationTable.locator(".atlas-relation-kind small.is-source-backed")).toHaveCount(0);
 });
+
+test("Atlas URLs restore focused node and structural filters", async ({ page }) => {
+  const response = await page.goto("/atlas?algorithm=hnsw&relation=used-by&evidence=source-backed", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  const hnsw = page.getByRole("button", { name: /HNSW/i }).first();
+  const linucb = page.getByRole("button", { name: /LinUCB/i }).first();
+  const relationFilter = page.getByLabel("Filter Atlas by relationship type");
+  const evidenceFilter = page.getByLabel("Filter Atlas by relation evidence");
+
+  await expect(hnsw).toHaveAttribute("aria-pressed", "true");
+  await expect(relationFilter).toHaveValue("used-by");
+  await expect(evidenceFilter).toHaveValue("Source-backed");
+
+  await evidenceFilter.selectOption("Conceptual");
+  await expect(page).toHaveURL(/evidence=conceptual/);
+
+  await linucb.click();
+  await expect(linucb).toHaveAttribute("aria-pressed", "true");
+  await expect(page).not.toHaveURL(/algorithm=hnsw/);
+
+  await page.goBack();
+  await expect(hnsw).toHaveAttribute("aria-pressed", "true");
+  await expect(evidenceFilter).toHaveValue("Conceptual");
+  await expect(relationFilter).toHaveValue("used-by");
+});
