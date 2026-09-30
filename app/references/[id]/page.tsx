@@ -7,6 +7,7 @@ import { claimsForReference } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
 import { formatReferenceAuthors, getCitation, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
+import { relationProvenanceForReference } from "@/lib/relation-provenance";
 
 export function generateStaticParams() {
   return references.map((reference) => ({ id: reference.id }));
@@ -36,6 +37,11 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
     .map((slug) => documents.find((document) => document.slug === slug))
     .filter((item) => Boolean(item));
   const claimRecords = claimsForReference(reference.id);
+  const relationEvidenceRecords = relationProvenanceForReference(reference.id).map((record) => ({
+    record,
+    source: getAlgorithm(record.sourceId),
+    target: getAlgorithm(record.targetId),
+  }));
   const citedReferences = getCitedReferences(reference);
   const citingReferences = getCitingReferences(reference.id);
 
@@ -59,6 +65,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           <div><span>Evidence role</span><strong>{reference.evidenceRole}</strong></div>
           <div><span>Algorithms</span><strong>{reference.algorithmIds.length}</strong></div>
           <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
+          <div><span>Atlas edges supported</span><strong>{relationEvidenceRecords.length}</strong></div>
           <div><span>Lab records</span><strong>{reference.combinationIds.length}</strong></div>
           <div><span>Curated citations</span><strong>{citedReferences.length}</strong></div>
           <div><span>Curated citing sources</span><strong>{citingReferences.length}</strong></div>
@@ -161,6 +168,23 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                   <span>{claim.kind}</span>
                   <strong>{claim.statement}</strong>
                   <small>Unique passage + reference assertion</small>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {relationEvidenceRecords.length > 0 && (
+            <div className="entity-side-card relation-evidence-card">
+              <div className="entity-side-title"><Network size={14} /> Atlas relations using this source</div>
+              {relationEvidenceRecords.map(({ record, source, target }) => (
+                <Link
+                  key={`${record.sourceId}-${record.relationType}-${record.targetId}`}
+                  href={`/algorithms/${record.sourceId}`}
+                  className="entity-reference-link"
+                >
+                  <span>{record.relationType.replaceAll("-", " ")} · verified {record.verifiedAt}</span>
+                  <strong>{source?.name ?? record.sourceId} → {target?.name ?? record.targetId}</strong>
+                  <small>{record.evidenceNote}</small>
                 </Link>
               ))}
             </div>
