@@ -1,5 +1,65 @@
 /* Atlas-specific provenance structure. Global visual tokens resolve through research-ui.css. */
 
+.atlas-edge-coverage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.atlas-edge-coverage span {
+  color: var(--muted);
+  font-size: var(--type-meta);
+}
+
+.atlas-edge-coverage strong {
+  color: var(--ink);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  font-weight: 650;
+}
+
+.atlas-edge-evidence,
+.atlas-relation-kind small {
+  width: fit-content;
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.atlas-edge-evidence {
+  margin-top: 2px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.atlas-edge-evidence.is-source-backed,
+.atlas-relation-kind small.is-source-backed {
+  color: var(--ink);
+}
+
+.atlas-edge-evidence.is-conceptual,
+.atlas-relation-kind small.is-conceptual {
+  color: var(--muted-2);
+}
+
+.atlas-relation-kind {
+  display: grid;
+  gap: 3px;
+  align-content: center;
+}
+
+.atlas-relation-kind > span {
+  text-transform: capitalize;
+}
+
 .atlas-evidence-neighbors,
 .atlas-provenance {
   margin-top: var(--space-6);
@@ -239,6 +299,17 @@
 }
 
 @media (max-width: 760px) {
+  .atlas-edge-coverage {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .atlas-edge-coverage span {
+    display: grid;
+    gap: 2px;
+  }
+
   .atlas-evidence-grid,
   .atlas-provenance-row {
     grid-template-columns: 1fr;
