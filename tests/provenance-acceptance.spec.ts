@@ -109,3 +109,17 @@ test("first independent replication record is inspectable end to end", async ({ 
   );
   await expect(page.getByRole("link", { name: /HNSW/i }).first()).toHaveAttribute("href", "/algorithms/hnsw");
 });
+
+test("independent and original reference pages both link back to the replication record", async ({ page }) => {
+  await page.goto("/references/aumuller-2020-ann-benchmarks", { waitUntil: "domcontentloaded" });
+  const evaluationMeta = page.locator(".reference-detail-meta").locator("div").filter({ hasText: "Replication records" });
+  await expect(evaluationMeta.locator("strong")).toHaveText("1");
+  const evaluationBacklink = page.getByRole("link", { name: /Independent evaluation source · Partially supports/i });
+  await expect(evaluationBacklink).toHaveAttribute("href", "/replications/aumuller-2020-hnsw-evaluation");
+
+  await page.goto("/references/malkov-2018-hnsw", { waitUntil: "domcontentloaded" });
+  const originalMeta = page.locator(".reference-detail-meta").locator("div").filter({ hasText: "Replication records" });
+  await expect(originalMeta.locator("strong")).toHaveText("1");
+  const originalBacklink = page.getByRole("link", { name: /Original source evaluated · Partially supports/i });
+  await expect(originalBacklink).toHaveAttribute("href", "/replications/aumuller-2020-hnsw-evaluation");
+});
