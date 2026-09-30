@@ -1,0 +1,67 @@
+{
+  "experimentId": "hnsw-linucb-reranking-drift-pilot",
+  "pilot": "controlled sequential reranking simulator",
+  "generatedAt": "2026-09-30",
+  "configuration": {
+    "baseSeed": 20260930,
+    "runs": 30,
+    "historicalInteractions": 800,
+    "horizon": 4000,
+    "driftAt": 2000,
+    "actions": 4,
+    "contextDimensions": 2,
+    "linucbAlpha": 0.7,
+    "ridgeLambda": 1
+  },
+  "aggregate": {
+    "overallReward": {
+      "similarity": { "mean": 0.486367, "sd": 0.009264 },
+      "staticLinear": { "mean": 0.495183, "sd": 0.011134 },
+      "greedyOnline": { "mean": 0.532725, "sd": 0.017166 },
+      "linucb": { "mean": 0.547783, "sd": 0.019274 }
+    },
+    "preDriftReward": {
+      "similarity": { "mean": 0.55135, "sd": 0.011169 },
+      "staticLinear": { "mean": 0.643167, "sd": 0.011961 },
+      "greedyOnline": { "mean": 0.649883, "sd": 0.009125 },
+      "linucb": { "mean": 0.64965, "sd": 0.009715 }
+    },
+    "postDriftReward": {
+      "similarity": { "mean": 0.421383, "sd": 0.013132 },
+      "staticLinear": { "mean": 0.3472, "sd": 0.02857 },
+      "greedyOnline": { "mean": 0.415567, "sd": 0.036845 },
+      "linucb": { "mean": 0.445917, "sd": 0.039901 }
+    },
+    "first500PostDriftReward": {
+      "similarity": { "mean": 0.421933, "sd": 0.017652 },
+      "staticLinear": { "mean": 0.341467, "sd": 0.031166 },
+      "greedyOnline": { "mean": 0.337, "sd": 0.027851 },
+      "linucb": { "mean": 0.3466, "sd": 0.03073 }
+    },
+    "last500PostDriftReward": {
+      "similarity": { "mean": 0.4188, "sd": 0.023321 },
+      "staticLinear": { "mean": 0.3512, "sd": 0.036854 },
+      "greedyOnline": { "mean": 0.502467, "sd": 0.05281 },
+      "linucb": { "mean": 0.541533, "sd": 0.045657 }
+    },
+    "expectedRegretPerStep": {
+      "similarity": { "mean": 0.172003, "sd": 0.002039 },
+      "staticLinear": { "mean": 0.162051, "sd": 0.010632 },
+      "greedyOnline": { "mean": 0.125565, "sd": 0.01623 },
+      "linucb": { "mean": 0.109826, "sd": 0.017492 }
+    },
+    "selectionEntropy": {
+      "similarity": { "mean": 0, "sd": 0 },
+      "staticLinear": { "mean": 1.499354, "sd": 0.225859 },
+      "greedyOnline": { "mean": 1.73921, "sd": 0.140144 },
+      "linucb": { "mean": 1.807444, "sd": 0.096924 }
+    },
+    "linucbVsGreedyActionDifference": { "mean": 0.071867, "sd": 0.023495 }
+  },
+  "interpretation": {
+    "linucbRewardLiftVsGreedy": 0.015058,
+    "linucbPostDriftLiftVsGreedy": 0.03035,
+    "linucbLatePostDriftLiftVsGreedy": 0.039066,
+    "linucbRegretReductionVsGreedy": 0.015739
+  }
+}
