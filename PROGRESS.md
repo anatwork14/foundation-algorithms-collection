@@ -1,7 +1,7 @@
 # Foundation Algorithms Research Hub — Progress Tracker
 
 **Status:** Active  
-**Last updated:** 2026-09-30  
+**Last updated:** 2026-10-01  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
 **UI audit:** [`UI_AUDIT.md`](./UI_AUDIT.md)  
@@ -42,7 +42,7 @@ Unified Evidence hub
       ├── Claims → unique passages + explicit References
       ├── Primary references + verified citation graph
       ├── Commit-pinned implementation registry
-      ├── Experiment protocols/results
+      ├── Experiment protocols/results + append-only revision history
       ├── Independent replication/evaluation records
       └── Passage provenance
       ↓
@@ -66,8 +66,8 @@ Vercel production deployment
 | 2 — Design system | 🟡 Canonical system + automated/rendered browser acceptance implemented; manual AT/device review remains |
 | 3 — Algorithm indexing | 🟡 Strong curated system; breadth can expand |
 | 4 — Atlas | 🟡 Typed neighborhood graph, evidence neighbors, URL state, and explicit relation provenance implemented; breadth/history can expand |
-| 5 — Lab | 🟡 Structured hypotheses + arbitrary-pair rule-based assumption analysis implemented; persistence/results remain open |
-| 6 — Evidence layer | 🟡 Full record architecture + first independent evaluation implemented; breadth and real project empirical outcomes remain limited |
+| 5 — Lab | 🟡 Structured hypotheses + arbitrary-pair rule-based assumption analysis + first empirical result path implemented; persistence/broader outcomes remain open |
+| 6 — Evidence layer | 🟡 Full record architecture + first independent evaluation + first reproducible project result implemented; breadth remains limited |
 | 7 — Discovery | 🟡 Structural + deterministic multi-passage lexical discovery implemented; semantic retrieval intentionally deferred |
 | 8 — Production acceptance | 🟡 Dedicated Vercel production + automated Chromium acceptance green; manual screen-reader/physical-device review remains |
 
@@ -234,13 +234,14 @@ Vercel production deployment
 - [x] Assumption-analysis unit tests include polarity/reversed-direction/no-invented-conflict cases.
 - [x] Lab reflow covered at 200% text-only scaling.
 - [x] Homepage Lab preview uses uniform neutral research tiles.
+- [x] First reproducible project outcome attached to the retrieval + contextual-bandit research direction with explicit limitations.
+- [x] Append-only experiment revision/status history with validated protocol/status/artifact/result milestones.
 
 ## Open
 
 - [ ] Persist user-authored hypotheses/experiments.
-- [ ] Attach real empirical outcomes as experiments are actually run.
+- [ ] Continue attaching real empirical outcomes as experiments are actually run.
 - [ ] Rich dataset/benchmark artifact attachments.
-- [ ] Experiment revision/status history.
 
 ---
 
@@ -303,12 +304,17 @@ Vercel production deployment
 - [x] `/experiments` index/detail routes.
 - [x] Initial predeclared protocols for selected cross-field hypotheses.
 - [x] Experiment validator unit tests.
+- [x] First reproducible project result: controlled LinUCB reranking adaptation under preference drift, with committed deterministic simulator and aggregate result artifact.
+- [x] CI regenerates and structurally compares the deterministic result artifact before accepting it.
+- [x] First-class append-only experiment history registry with revision/date/kind/status/note/artifact metadata.
+- [x] History validation enforces contiguous revisions, nondecreasing dates, current status/date agreement, valid artifact labels, and result-event consistency.
+- [x] Experiment detail pages expose revision history and browser acceptance verifies the completed pilot timeline.
 
 ### Open
 
-- [ ] Run and attach the first real empirical result.
 - [ ] Add concrete benchmark/data artifacts as studies mature.
 - [ ] Persist user-authored experiment updates/results.
+- [ ] Broaden empirical coverage beyond the first controlled pilot.
 
 ## Independent replications / evaluations
 
@@ -364,7 +370,7 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] GitHub Actions on `main` and pull requests.
 - [x] Markdown local-link validation and deterministic external-URL/HTTPS policy.
 - [x] Application source-hygiene and canonical UI consistency checks.
-- [x] Research utility tests covering Algorithms, combinations, assumptions, references/citations, relation provenance, Claims, implementations, experiments, replications, evidence stages, Archive filters, passage ranking, content parsing, math/heading processing, theme, and deployment origin.
+- [x] Research utility tests covering Algorithms, combinations, assumptions, references/citations, relation provenance, Claims, implementations, experiments, experiment history, replications, evidence stages, Archive filters, passage ranking, content parsing, math/heading processing, theme, and deployment origin.
 - [x] TypeScript typecheck and Next.js production build.
 - [x] Production-server route smoke tests including dynamic Evidence detail routes.
 - [x] Playwright Chromium browser acceptance on the production build.
@@ -397,13 +403,23 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] `CONTRIBUTING.md` — repository-wide contribution contract.
 - [x] `ALGORITHM_AUTHORING.md` — Algorithm metadata guidance.
 - [x] `ATLAS_AUTHORING.md` — typed relationship/provenance guidance.
-- [x] `EVIDENCE_AUTHORING.md` — evidence authoring contract.
+- [x] `EVIDENCE_AUTHORING.md` — evidence authoring contract, including append-only experiment history.
 - [x] `EVIDENCE_PROFILE_POLICY.md` — evidence-stage/citation/replication policy.
 - [x] `OPERATIONS.md` — CI, deployment, browser, and release operations.
 
 ---
 
 # Recent implementation checkpoints
+
+## 2026-10-01 — first reproducible result and experiment history
+
+- accepted the first reproducible project Experiment result for controlled LinUCB reranking adaptation under preference drift;
+- preserved the result as `Mixed` with explicit synthetic-simulation, retrieval, real-user, counterfactual, and latency limitations;
+- committed the deterministic simulator and aggregate result artifact and made CI regenerate/compare them;
+- added first-class append-only experiment revision history with Protocol / Status / Artifact / Result events;
+- added validation for revision continuity, chronology, current-state agreement, artifact references, and result milestones;
+- exposed revision history on experiment detail pages and covered the completed pilot in Playwright acceptance;
+- documented the history authoring contract so future result changes append provenance instead of rewriting it.
 
 ## 2026-09-30 — first verified independent evaluation
 
@@ -455,7 +471,7 @@ Earlier implementation detail remains preserved in Git history and the specifica
 2. Perform physical-device phone/tablet checks for touch ergonomics, browser chrome, OS font rendering, pinch zoom, and browser-level text scaling.
 3. Continue conservative primary Reference, Claim, citation-edge, relation-provenance, and commit-pinned Implementation coverage through direct verification.
 4. Broaden independent evaluation/replication coverage only where independence and the original-source link can be directly verified.
-5. Run the first reproducible project Experiment and preserve the real outcome, including negative/mixed/inconclusive results.
+5. Expand reproducible project Experiments beyond the first controlled pilot and attach concrete benchmark/data artifacts where the study design supports them.
 6. Expand Algorithm/Atlas mechanism coverage where the research corpus supports a justified first-class entity or edge.
 7. Add semantic retrieval only after it can preserve inspectable provenance and outperform the deterministic structural/lexical baseline.
 8. Introduce strict pixel-diff visual baselines only if the reviewed visual system becomes stable enough that the maintenance cost is justified.
