@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { ArrowRight, BookOpen, Code2, Network, ScrollText, Search } from "lucide-react";
 import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
 import { implementationsForAlgorithm } from "@/lib/implementations";
@@ -24,6 +24,7 @@ const relationTypes: Array<RelationType | "All"> = [
 ];
 
 type RelationEvidenceFilter = "All" | "Source-backed" | "Conceptual";
+type UrlHistoryMode = "push" | "replace";
 
 type VisibleRelationProvenance = {
   source: AlgorithmEntity;
@@ -36,6 +37,12 @@ function evidenceState(record: RelationProvenanceRecord | null) {
   return record ? "Source-backed" : "Conceptual";
 }
 
+function evidenceParam(value: RelationEvidenceFilter) {
+  if (value === "Source-backed") return "source-backed";
+  if (value === "Conceptual") return "conceptual";
+  return null;
+}
+
 export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] }) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("linucb");
@@ -45,6 +52,42 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
   const selected = algorithms.find((algorithm) => algorithm.id === selectedId) ?? algorithms[0];
   const byId = useMemo(() => new Map(algorithms.map((algorithm) => [algorithm.id, algorithm])), [algorithms]);
+
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const algorithmParam = params.get("algorithm");
+      const fieldParam = params.get("field");
+      const relationParam = params.get("relation");
+      const evidence = params.get("evidence");
+
+      setSelectedId(algorithmParam && byId.has(algorithmParam) ? algorithmParam : "linucb");
+      setField(fields.some((item) => item.name === fieldParam) ? fieldParam as ResearchField : "All");
+      setRelationType(relationTypes.includes(relationParam as RelationType) ? relationParam as RelationType : "All");
+      setRelationEvidence(evidence === "source-backed" ? "Source-backed" : evidence === "conceptual" ? "Conceptual" : "All");
+    };
+
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, [byId]);
+
+  function writeAtlasParam(name: string, value: string | null, mode: UrlHistoryMode) {
+    const url = new URL(window.location.href);
+    if (value) url.searchParams.set(name, value);
+    else url.searchParams.delete(name);
+    const next = `${url.pathname}${url.search}${url.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (next === current) return;
+    if (mode === "push") window.history.pushState({}, "", next);
+    else window.history.replaceState({}, "", next);
+  }
+
+  function selectAlgorithm(id: string, mode: UrlHistoryMode = "push") {
+    setSelectedId(id);
+    writeAtlasParam("algorithm", id === "linucb" ? null : id, mode);
+  }
+
   const needle = query.trim().toLowerCase();
   const matches = algorithms.filter((algorithm) => {
     const fieldMatch = field === "All" || algorithm.fields.includes(field);
@@ -71,7 +114,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
     event.preventDefault();
     const next = matches[nextIndex];
-    setSelectedId(next.id);
+    selectAlgorithm(next.id, "replace");
     requestAnimationFrame(() => {
       document.getElementById(`atlas-picker-${next.id}`)?.focus();
     });
@@ -148,14 +191,38 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
             />
           </label>
           <div className="atlas-filter-row">
-            <select value={field} onChange={(event) => setField(event.target.value as ResearchField | "All")} aria-label="Filter Atlas by field">
+            <select
+              value={field}
+              onChange={(event) => {
+                const next = event.target.value as ResearchField | "All";
+                setField(next);
+                writeAtlasParam("field", next === "All" ? null : next, "replace");
+              }}
+              aria-label="Filter Atlas by field"
+            >
               <option value="All">All fields</option>
               {fields.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}
             </select>
-            <select value={relationType} onChange={(event) => setRelationType(event.target.value as RelationType | "All")} aria-label="Filter Atlas by relationship type">
+            <select
+              value={relationType}
+              onChange={(event) => {
+                const next = event.target.value as RelationType | "All";
+                setRelationType(next);
+                writeAtlasParam("relation", next === "All" ? null : next, "replace");
+              }}
+              aria-label="Filter Atlas by relationship type"
+            >
               {relationTypes.map((item) => <option key={item} value={item}>{item === "All" ? "All relations" : item.replaceAll("-", " ")}</option>)}
             </select>
-            <select value={relationEvidence} onChange={(event) => setRelationEvidence(event.target.value as RelationEvidenceFilter)} aria-label="Filter Atlas by relation evidence">
+            <select
+              value={relationEvidence}
+              onChange={(event) => {
+                const next = event.target.value as RelationEvidenceFilter;
+                setRelationEvidence(next);
+                writeAtlasParam("evidence", evidenceParam(next), "replace");
+              }}
+              aria-label="Filter Atlas by relation evidence"
+            >
               <option value="All">All evidence states</option>
               <option value="Source-backed">Source-backed only</option>
               <option value="Conceptual">Conceptual only</option>
@@ -167,7 +234,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                 id={`atlas-picker-${algorithm.id}`}
                 key={algorithm.id}
                 className={algorithm.id === selected.id ? "is-active" : ""}
-                onClick={() => setSelectedId(algorithm.id)}
+                onClick={() => selectAlgorithm(algorithm.id)}
                 onKeyDown={(event) => movePickerFocus(event, index)}
                 aria-pressed={algorithm.id === selected.id}
                 tabIndex={algorithm.id === activePickerId ? 0 : -1}
@@ -214,7 +281,7 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                     : null;
                 const state = evidenceState(record);
                 return (
-                  <button key={neighbor.id} className="atlas-neighbor" onClick={() => setSelectedId(neighbor.id)}>
+                  <button key={neighbor.id} className="atlas-neighbor" onClick={() => selectAlgorithm(neighbor.id)}>
                     <span className={`entity-field-dot field-dot-${fieldKey(neighbor.fields[0])}`} aria-hidden="true" />
                     <small>{direction === "out" ? relation?.type.replaceAll("-", " ") : `referenced by · ${relation?.type.replaceAll("-", " ")}`}</small>
                     <strong>{neighbor.name}</strong>
