@@ -155,20 +155,37 @@ These are resolved:
 
 ### 12. Rendered browser acceptance is now a CI gate
 
-The application now has a Playwright/Chromium acceptance suite running against the production build. It covers:
+The application has a Playwright/Chromium acceptance suite running against the production build. The current suite executes **100 browser tests** and covers:
 
-- all major product routes for desktop page-level horizontal containment;
-- homepage, LinUCB chapter, LinUCB Algorithm, Atlas and Evidence in light/dark at 1440×1000, 820×1180 and 390×844;
+- every major product route for desktop page-level horizontal containment;
+- homepage, LinUCB chapter, LinUCB Algorithm, Atlas and Evidence in light/dark at 1440×1000, 820×1180, 390×844 and 320×900;
 - axe WCAG A/AA scans on representative routes in both themes;
 - command-palette keyboard operation and focus restoration;
 - mobile-navigation state/current-page/Escape behavior;
-- long equation/table/code containment and keyboard reachability on phone.
+- long equation/table/code containment and keyboard reachability on phone;
+- 200% text-only reflow on Home, Archive, chapter reading, Algorithm detail, Atlas, Lab and Evidence;
+- a minimum 24 px target guard for visible phone controls;
+- a keyboard-visible skip-to-main-content path;
+- reduced-motion behavior;
+- clean Evidence sub-navigation naming;
+- explicit regression tests for the homepage Combination Lab layout and Evidence flow grid.
 
-The first full matrix deliberately found a real tablet regression in the Research-fields index. After the targeted cascade fix, all **58 functional/accessibility browser tests passed**.
+The first expanded target-size pass found a real defect: the homepage search **wrapper** was comfortably sized, but the actual input hit target was only 22 px high on phone. The input now stretches through the search row, and the acceptance rule remains intact rather than being weakened.
 
-A separate visual-review spec captures 12 representative full-page screenshots covering the homepage across all three widths and both themes plus representative chapter, Atlas and Evidence states. CI retains the Playwright report and screenshot attachments for 14 days so rendered changes can be inspected even when tests pass.
+The current full suite passes all **100/100 tests**.
 
-These screenshots are review artifacts rather than strict pixel-diff baselines. That is intentional while the visual system is still evolving.
+### 13. Retained screenshot review found two real visual inconsistencies
+
+The visual-review suite now captures **18 full-page artifacts**: Home across desktop/tablet/phone in both themes, plus representative light-desktop/dark-phone views for chapter reading, Algorithms, Atlas, Lab, Evidence and References.
+
+Reviewing those rendered artifacts exposed two issues that source checks did not:
+
+1. **Homepage Combination Lab preview** — desktop still used an old asymmetric bento layout and a blue decorative sparkle while the rest of the product had moved to a quiet editorial rhythm. It now uses a uniform two-column layout on desktop, one column on phone, neutral accent treatment, and a rendered equal-width regression check.
+2. **Evidence discipline flow** — seven real evidence steps were placed into a four-column grid whose one-pixel gap/background treatment visually painted an empty eighth cell. The flow now renders seven individually bordered surfaces with real gaps and a transparent container. A browser test verifies seven steps and prevents the phantom-cell background from returning.
+
+The newly retained Algorithms, Lab and References screenshots were also reviewed. Their typography, spacing, neutral surfaces, control geometry and information density are consistent with the Archive/Atlas/Evidence system; no corrective redesign was needed.
+
+These screenshots remain review artifacts rather than strict pixel-diff baselines. That is intentional while the content density and research surfaces are still evolving.
 
 ## CI consistency contract
 
@@ -186,7 +203,7 @@ These screenshots are review artifacts rather than strict pixel-diff baselines. 
 - light and dark `--muted-2` tokens remain at or above 4.5:1 against the primary canvas and strong surface;
 - the tablet Research-fields editorial index remains single-column rather than regressing to the legacy two-column card layout.
 
-Playwright complements those source guards with rendered containment, responsive/theme, keyboard, axe and visual-artifact checks.
+Playwright complements those source guards with rendered containment, responsive/theme, keyboard, reflow, target-size, reduced-motion, axe and visual-artifact checks.
 
 ## Surface rules going forward
 
@@ -212,14 +229,14 @@ Keep prose near 760 px, use generous vertical section spacing, real math renderi
 
 ## Remaining manual acceptance work
 
-The structural/design-system cleanup, source-level accessibility hardening, automated Chromium responsive/theme checks, and axe WCAG scans are implemented.
+The structural/design-system cleanup, source-level accessibility hardening, automated Chromium responsive/theme/reflow/target checks, screenshot review, and axe WCAG scans are implemented.
 
 Still perform manual checks where browser automation cannot substitute for the real interaction environment:
 
 - VoiceOver and/or NVDA announcements on command palette, Atlas and Evidence provenance surfaces;
 - mathematical expression reading with assistive technology;
 - physical-device touch ergonomics and OS/browser font rendering;
-- zoom/text-scaling behavior on representative mobile/tablet hardware;
-- aesthetic review of retained screenshots for major design changes.
+- physical-device pinch zoom and browser-level text scaling;
+- favicon-scale review in real browser/device chrome.
 
 These are manual acceptance checks, not invitations to add another visual-system override layer. Any future fix should preserve the canonical hierarchy and add a deterministic regression test when possible.
