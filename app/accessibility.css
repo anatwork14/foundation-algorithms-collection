@@ -26,6 +26,12 @@
   min-width: 0;
 }
 
+/* The visible search row is large, but the input itself must also remain a usable pointer target. */
+.hero-search-wrap input {
+  align-self: stretch;
+  min-height: 24px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skip-link {
     transition-duration: .001ms;
