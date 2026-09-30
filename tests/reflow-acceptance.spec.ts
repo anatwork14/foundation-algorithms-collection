@@ -96,6 +96,16 @@ test("Evidence sub-navigation exposes one clean label per destination", async ({
   expect(exposedIcons).toBe(0);
 });
 
+test("Evidence flow renders seven real steps without a phantom grid cell", async ({ page }) => {
+  await page.setViewportSize(desktop);
+  await page.goto("/evidence", { waitUntil: "domcontentloaded" });
+
+  const flow = page.locator(".evidence-flow-grid");
+  await expect(flow.locator(":scope > div")).toHaveCount(7);
+  const background = await flow.evaluate((element) => getComputedStyle(element).backgroundColor);
+  expect(background).toBe("rgba(0, 0, 0, 0)");
+});
+
 test("homepage Combination Lab preview keeps a uniform two-column rhythm on desktop", async ({ page }) => {
   await page.setViewportSize(desktop);
   await page.goto("/", { waitUntil: "domcontentloaded" });
