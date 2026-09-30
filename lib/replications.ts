@@ -37,6 +37,12 @@ export const replications: ReplicationRecord[] = [
   },
 ];
 
+const byId = new Map(replications.map((record) => [record.id, record]));
+
+export function getReplication(id: string) {
+  return byId.get(id) ?? null;
+}
+
 export function replicationsForAlgorithm(algorithmId: string) {
   return replications.filter((record) => record.algorithmIds.includes(algorithmId));
 }
