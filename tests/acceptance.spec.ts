@@ -5,7 +5,8 @@ const THEME_STORAGE_KEY = "foundation-algorithms-theme";
 const desktop = { name: "desktop", width: 1440, height: 1000 } as const;
 const tablet = { name: "tablet", width: 820, height: 1180 } as const;
 const phone = { name: "phone", width: 390, height: 844 } as const;
-const responsiveViewports = [desktop, tablet, phone];
+const narrow = { name: "narrow", width: 320, height: 900 } as const;
+const responsiveViewports = [desktop, tablet, phone, narrow];
 
 const primaryRoutes = [
   "/",
@@ -145,6 +146,23 @@ test("command palette is keyboard-operable and restores focus", async ({ page })
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
+});
+
+test("theme toggle persists the explicit choice across navigation", async ({ page }) => {
+  await page.setViewportSize({ width: desktop.width, height: desktop.height });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.evaluate((key) => localStorage.setItem(key, "light"), THEME_STORAGE_KEY);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  const toggle = page.getByRole("button", { name: "Switch to dark mode" });
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  expect(await page.evaluate((key) => localStorage.getItem(key), THEME_STORAGE_KEY)).toBe("dark");
+
+  await page.goto("/archive", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.getByRole("button", { name: "Switch to light mode" })).toBeVisible();
 });
 
 test("mobile navigation exposes state, current page, and Escape behavior", async ({ page }) => {
