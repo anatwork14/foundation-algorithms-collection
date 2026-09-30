@@ -81,13 +81,18 @@ test("Algorithm cards expose relation-level provenance counts and sources", asyn
   await expect(relationEvidence.getByRole("link", { name: /2010 · A Contextual-Bandit Approach/i })).toBeVisible();
 });
 
-test("Lab pair explorer has logical keyboard order and announces analysis changes", async ({ page }) => {
+test("Lab pair explorer has logical keyboard order, assumption signals, and live announcements", async ({ page }) => {
   await open(page, "/lab");
 
   const builder = page.getByRole("region", { name: "Algorithm combination builder" });
   const left = builder.getByLabel("Algorithm A");
   const right = builder.getByLabel("Algorithm B");
   const announcement = builder.locator(".visually-hidden[aria-live='polite']");
+  const assumptionAnalysis = builder.getByRole("region", { name: /Rule-based assumption analysis/i });
+
+  await expect(assumptionAnalysis).toBeVisible();
+  await expect(assumptionAnalysis).toContainText("Transparent rule-based signals");
+  await expect(assumptionAnalysis).toContainText("not proof of compatibility or incompatibility");
 
   await left.focus();
   await expect(left).toBeFocused();
@@ -106,6 +111,7 @@ test("Lab pair explorer has logical keyboard order and announces analysis change
 
   await right.selectOption(alternate);
   await expect(announcement).toContainText("Combination analysis updated");
+  await expect(builder.getByRole("region", { name: /Rule-based assumption analysis/i })).toBeVisible();
 });
 
 test("Evidence sub-navigation is keyboard sequential and preserves current-page semantics", async ({ page }) => {
