@@ -20,7 +20,7 @@ export function EvidenceNav({ current }: { current: EvidenceSection }) {
         const Icon = item.icon;
         return (
           <Link key={item.id} href={item.href} className={item.id === current ? "is-active" : ""} aria-current={item.id === current ? "page" : undefined}>
-            <Icon size={13} /> {item.label}
+            <Icon size={13} aria-hidden="true" /> {item.label}
           </Link>
         );
       })}
