@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 import { ArrowRight, Network, Search } from "lucide-react";
 import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
@@ -38,6 +38,27 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
       algorithm.tags.some((tag) => tag.includes(needle));
     return fieldMatch && queryMatch;
   });
+  const activePickerId = matches.some((algorithm) => algorithm.id === selected.id)
+    ? selected.id
+    : matches[0]?.id;
+
+  function movePickerFocus(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    if (!matches.length) return;
+
+    let nextIndex: number | null = null;
+    if (event.key === "ArrowDown") nextIndex = (index + 1) % matches.length;
+    if (event.key === "ArrowUp") nextIndex = (index - 1 + matches.length) % matches.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = matches.length - 1;
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const next = matches[nextIndex];
+    setSelectedId(next.id);
+    requestAnimationFrame(() => {
+      document.getElementById(`atlas-picker-${next.id}`)?.focus();
+    });
+  }
 
   const outgoingAll = selected.relations
     .map((relation) => ({ relation, target: byId.get(relation.target) }))
@@ -89,13 +110,16 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
               {relationTypes.map((item) => <option key={item} value={item}>{item === "All" ? "All relations" : item.replaceAll("-", " ")}</option>)}
             </select>
           </div>
-          <div className="atlas-picker-list" aria-label="Atlas algorithms">
-            {matches.map((algorithm) => (
+          <div className="atlas-picker-list" role="group" aria-label="Atlas algorithms">
+            {matches.map((algorithm, index) => (
               <button
+                id={`atlas-picker-${algorithm.id}`}
                 key={algorithm.id}
                 className={algorithm.id === selected.id ? "is-active" : ""}
                 onClick={() => setSelectedId(algorithm.id)}
+                onKeyDown={(event) => movePickerFocus(event, index)}
                 aria-pressed={algorithm.id === selected.id}
+                tabIndex={algorithm.id === activePickerId ? 0 : -1}
               >
                 <span className={`entity-field-dot field-dot-${fieldKey(algorithm.fields[0])}`} aria-hidden="true" />
                 <span><strong>{algorithm.name}</strong><small>{algorithm.families[0]}</small></span>
