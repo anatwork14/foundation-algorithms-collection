@@ -92,6 +92,7 @@ jobs:
             "/passages"
             "/claims"
             "/replications"
+            "/replications/aumuller-2020-hnsw-evaluation"
             "/references"
             "/references/graph"
             "/references/li-2010-contextual-bandit-news"
