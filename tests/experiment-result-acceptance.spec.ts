@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("completed reranking pilot exposes result, limitations, and reproducible artifacts", async ({ page }) => {
+test("completed reranking pilot exposes result, limitations, reproducible artifacts, and revision history", async ({ page }) => {
   const response = await page.goto("/experiments/hnsw-linucb-reranking-drift-pilot", { waitUntil: "domcontentloaded" });
   expect(response?.ok()).toBeTruthy();
 
@@ -20,4 +20,16 @@ test("completed reranking pilot exposes result, limitations, and reproducible ar
   const result = page.getByRole("link", { name: /Recorded aggregate result/i });
   await expect(harness).toHaveAttribute("href", /experiments\/hnsw-linucb-reranking-simulation\.mjs$/);
   await expect(result).toHaveAttribute("href", /experiments\/results\/hnsw-linucb-reranking-drift-pilot\.json$/);
+
+  await expect(page.getByRole("heading", { name: "How this experiment record changed over time" })).toBeVisible();
+  const history = page.getByRole("list", { name: "Experiment revision history" });
+  await expect(history.locator("li")).toHaveCount(3);
+  await expect(history.getByText("r1", { exact: true })).toBeVisible();
+  await expect(history.getByText("r2", { exact: true })).toBeVisible();
+  await expect(history.getByText("r3", { exact: true })).toBeVisible();
+  await expect(history.getByText("Protocol", { exact: true })).toBeVisible();
+  await expect(history.getByText("Artifact", { exact: true })).toBeVisible();
+  await expect(history.getByText("Result", { exact: true })).toBeVisible();
+  await expect(history.getByText("Deterministic simulation harness", { exact: true })).toBeVisible();
+  await expect(history.getByText("Recorded aggregate result", { exact: true })).toBeVisible();
 });
