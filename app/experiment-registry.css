@@ -90,6 +90,90 @@ html[data-theme="dark"] .status-failed { color: #d1a09b; }
 .lab-experiment-links small,
 .algorithm-experiment-link small { color: var(--muted); font-size: var(--type-label); }
 
+.experiment-history-intro {
+  max-width: 720px;
+  margin: 0 0 var(--space-5);
+  color: var(--muted);
+  line-height: 1.65;
+}
+.experiment-history {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.experiment-history::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 13px;
+  width: 1px;
+  background: var(--line);
+}
+.experiment-history > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: 0 0 var(--space-5);
+}
+.experiment-history > li:last-child { padding-bottom: 0; }
+.experiment-history-marker {
+  position: relative;
+  z-index: 1;
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface-strong);
+  color: var(--muted);
+}
+.experiment-history-content {
+  min-width: 0;
+  padding: 1px 0 0;
+}
+.experiment-history-content > strong {
+  display: block;
+  margin-top: 7px;
+  font-size: .94rem;
+  line-height: 1.35;
+}
+.experiment-history-content > p {
+  max-width: 720px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  line-height: 1.6;
+}
+.experiment-history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.experiment-history-meta .experiment-status { padding: 2px 6px; }
+.experiment-history-artifacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+.experiment-history-artifacts span {
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--type-label);
+}
+
 @media (max-width: 980px) {
   .experiment-detail-hero,
   .experiment-detail-layout { grid-template-columns: 1fr; }
@@ -104,4 +188,5 @@ html[data-theme="dark"] .status-failed { color: #d1a09b; }
   .experiment-result-metrics { grid-template-columns: 1fr; }
   .experiment-dataset-list > div { grid-template-columns: 22px minmax(0, 1fr); }
   .experiment-dataset-list a { grid-column: 2; }
+  .experiment-history-meta { gap: 5px; }
 }
