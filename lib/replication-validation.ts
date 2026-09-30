@@ -53,6 +53,9 @@ export function validateReplications(
           errors.push(`${record.id}: original reference ${referenceId} does not link algorithm ${algorithmId}`);
         }
       }
+      if (replicationReference && !replicationReference.citations.some((citation) => citation.targetId === referenceId)) {
+        errors.push(`${record.id}: replication source ${record.replicationReferenceId} must explicitly cite original reference ${referenceId}`);
+      }
     }
 
     if (!record.summary.trim()) errors.push(`${record.id}: summary is required`);
