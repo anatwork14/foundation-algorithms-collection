@@ -4,9 +4,25 @@ import { validateReplications } from "../lib/replication-validation.ts";
 
 const algorithms = [{ id: "algorithm-a" }];
 const references = [
-  { id: "original-a", evidenceRole: "Primary method", algorithmIds: ["algorithm-a"] },
-  { id: "replication-a", evidenceRole: "Replication / evaluation", algorithmIds: ["algorithm-a"] },
-  { id: "wrong-role", evidenceRole: "Primary extension", algorithmIds: ["algorithm-a"] },
+  { id: "original-a", evidenceRole: "Primary method", algorithmIds: ["algorithm-a"], citations: [] },
+  {
+    id: "replication-a",
+    evidenceRole: "Replication / evaluation",
+    algorithmIds: ["algorithm-a"],
+    citations: [{ targetId: "original-a" }],
+  },
+  {
+    id: "replication-no-citation",
+    evidenceRole: "Replication / evaluation",
+    algorithmIds: ["algorithm-a"],
+    citations: [],
+  },
+  {
+    id: "wrong-role",
+    evidenceRole: "Primary extension",
+    algorithmIds: ["algorithm-a"],
+    citations: [{ targetId: "original-a" }],
+  },
 ];
 
 function record(overrides = {}) {
@@ -31,6 +47,14 @@ test("a complete independent replication record validates", () => {
 test("replication source must be explicitly classified as replication/evaluation", () => {
   const errors = validateReplications([record({ replicationReferenceId: "wrong-role" })], algorithms, references);
   assert.ok(errors.some((error) => error.includes("must use evidence role Replication / evaluation")));
+});
+
+test("replication source must explicitly cite every original source", () => {
+  const errors = validateReplications([
+    record({ replicationReferenceId: "replication-no-citation" }),
+  ], algorithms, references);
+
+  assert.ok(errors.some((error) => error.includes("must explicitly cite original reference original-a")));
 });
 
 test("replication source cannot also be the original source", () => {
