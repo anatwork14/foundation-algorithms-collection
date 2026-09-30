@@ -1,0 +1,33 @@
+/* Structural accessibility helpers. The canonical visual tokens resolve in research-ui.css. */
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 10px;
+  z-index: 200;
+  padding: 9px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-button);
+  background: var(--surface-strong);
+  color: var(--ink);
+  font-family: var(--font-reading), ui-sans-serif, system-ui, sans-serif;
+  font-size: .875rem;
+  font-weight: 650;
+  box-shadow: var(--shadow-popover);
+  transform: translateY(calc(-100% - 20px));
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+#main-content {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition-duration: .001ms;
+  }
+}
