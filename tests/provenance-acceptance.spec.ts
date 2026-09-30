@@ -89,3 +89,23 @@ test("Evidence exposes Atlas provenance as coverage rather than a score", async 
   expect(sourced).toBeGreaterThan(0);
   expect(sourced + conceptual).toBe(total);
 });
+
+test("first independent replication record is inspectable end to end", async ({ page }) => {
+  const response = await page.goto("/replications/aumuller-2020-hnsw-evaluation", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  await expect(page.getByRole("heading", { name: "Independent ANN-Benchmarks evaluation of HNSW" })).toBeVisible();
+  await expect(page.getByText("Partially supports", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Why this counts as independent evaluation" })).toBeVisible();
+  await expect(page.getByText(/different author group from HNSW authors/i)).toBeVisible();
+
+  await expect(page.getByRole("link", { name: /Inspect curated source record/i })).toHaveAttribute(
+    "href",
+    "/references/aumuller-2020-ann-benchmarks",
+  );
+  await expect(page.getByRole("link", { name: /Efficient and Robust Approximate Nearest Neighbor Search/i })).toHaveAttribute(
+    "href",
+    "/references/malkov-2018-hnsw",
+  );
+  await expect(page.getByRole("link", { name: /HNSW/i }).first()).toHaveAttribute("href", "/algorithms/hnsw");
+});
