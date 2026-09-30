@@ -6,7 +6,7 @@ Read [`ALGORITHM_AUTHORING.md`](./ALGORITHM_AUTHORING.md), [`CONTRIBUTING.md`](.
 
 ## Graph model
 
-Atlas edges currently originate from each Algorithm entity's `relations` array:
+Atlas edges originate from each Algorithm entity's `relations` array:
 
 ```ts
 {
@@ -17,6 +17,21 @@ Atlas edges currently originate from each Algorithm entity's `relations` array:
 ```
 
 The UI derives incoming edges automatically. Do not duplicate an inverse edge merely so both Algorithms can display one another.
+
+Relation-level source evidence is intentionally separate from the Algorithm record. When a real curated Reference supports a specific typed edge, add a record to `lib/relation-provenance.ts`:
+
+```ts
+{
+  sourceId: "source-algorithm-id",
+  targetId: "target-algorithm-id",
+  relationType: "derived-from",
+  referenceIds: ["curated-reference-id"],
+  evidenceNote: "What the cited source actually establishes about this edge.",
+  verifiedAt: "2026-09-30"
+}
+```
+
+This separation keeps structural graph metadata and evidence metadata distinct. A relation may exist without provenance, but it must not be presented as source-backed until a provenance record is added.
 
 ## What an Atlas edge means
 
@@ -30,7 +45,7 @@ It does **not** mean:
 - a proposed combination has been experimentally validated;
 - the relation is complete or exhaustive.
 
-Paper citation provenance belongs in the Reference graph. Empirical support belongs in Experiments/Replications. Combination hypotheses belong in Lab records.
+Paper citation provenance belongs in the Reference graph. Empirical support belongs in Experiments/Replications. Combination hypotheses belong in Lab records. Relation provenance only answers the narrower question: “Which curated source explicitly supports this particular graph edge?”
 
 ## Controlled relation types
 
@@ -112,18 +127,51 @@ Good notes identify the interface or mechanism:
 
 Avoid notes such as “These are related” or “Useful together.”
 
+## Relation provenance discipline
+
+`lib/relation-provenance.ts` is a curated registry, not an automatic bibliography join.
+
+Add a provenance record only when all of the following are true:
+
+- the exact `sourceId —relationType→ targetId` edge already exists;
+- one or more curated Reference records directly support the represented relationship;
+- the `evidenceNote` states what those sources establish without overstating them;
+- the verification date reflects an actual review of the source/edge mapping.
+
+Validation rejects:
+
+- provenance for nonexistent Algorithm endpoints;
+- provenance whose type/target does not match a real source relation;
+- duplicate provenance keys;
+- missing or duplicate Reference IDs;
+- unknown References;
+- References linked to neither endpoint;
+- empty evidence notes;
+- malformed verification dates.
+
+Do **not** create provenance simply because:
+
+- one paper cites another;
+- two methods appear in the same survey;
+- two Algorithms are benchmarked in the same table;
+- a combination seems plausible;
+- the relation note sounds obvious.
+
+A source-backed edge should be stronger than a conceptual edge, but it is still not a truth score or empirical ranking.
+
 ## Evidence discipline
 
-The Algorithm relation graph is currently conceptual/structural. It is not a citation or evidence graph.
+The relation graph is structural first. Source provenance is an optional additional layer.
 
 Therefore:
 
 - do not add `derived-from` solely because one paper cites another;
 - do not add `alternative-to` solely because two methods are benchmarked together;
 - do not add `combines-with` because a model suggests an interesting hybrid;
-- do not encode an empirical result into the edge note.
+- do not encode an empirical result into the edge note;
+- do not attach a Reference that only mentions one endpoint incidentally.
 
-If a relationship needs source-level proof in the future, add explicit relation-provenance metadata rather than overloading the current edge.
+Use the Reference citation graph for source-to-source citation relationships. Use Experiments/Replications for empirical outcomes. Use Lab for speculative or testable combinations.
 
 ## Cross-field relations
 
@@ -144,6 +192,8 @@ Avoid “AI × Quantum” style edges without a mechanism-level interface.
 Validation rejects duplicate relations from one source to the same target/type and self-relations.
 
 Do not add symmetric `combines-with` edges to both entities unless each direction communicates materially different information and the duplication is intentional. The UI already shows inbound and outbound relationships.
+
+Relation provenance is keyed to the directed edge. If two directions are genuinely distinct and both are represented, each direction needs its own provenance record.
 
 ## When to create a Lab combination instead
 
@@ -171,8 +221,10 @@ Before adding an edge:
 - [ ] The edge does not smuggle in an unverified citation or empirical result.
 - [ ] A Lab record is used instead if the main content is a speculative combination hypothesis.
 - [ ] The inverse edge is not duplicated unnecessarily.
+- [ ] If provenance is added, every Reference directly supports the edge and the evidence note is conservative.
 - [ ] `npm run test:research` passes.
 - [ ] `npm run typecheck` passes.
 - [ ] `npm run build` passes.
+- [ ] Browser acceptance passes if the Atlas UI changed.
 
 The Atlas should remain sparse enough that every visible edge is interpretable. More edges are useful only when they add structure rather than noise.
