@@ -255,6 +255,27 @@ Never populate a result because an outcome seems likely, because another paper r
 
 Only attach results produced by the specific recorded experiment or a clearly identified imported independent evaluation.
 
+### Append-only revision history
+
+Experiment revision/status history lives in `lib/experiment-history.ts` and is shown on experiment detail pages.
+
+History exists to preserve how a research record changed instead of silently rewriting the current snapshot. Use one event per meaningful protocol, status, artifact, or result milestone.
+
+Rules:
+
+1. Revisions start at `1` and remain contiguous for each experiment.
+2. Dates use `YYYY-MM-DD` and may repeat within a day, but must not move backward by revision.
+3. Every event records the experiment status at that revision.
+4. The final history status must equal the current `ExperimentRecord.status`.
+5. The final history date must equal `ExperimentRecord.lastUpdated`.
+6. `artifactLabels` may reference only artifact labels that actually exist on the experiment record.
+7. A result-bearing experiment must have at least one `Result` event.
+8. A `Result` event requires a terminal experiment status (`Completed`, `Inconclusive`, or `Failed`).
+9. Do not edit an old event merely to make current data look cleaner. Add a later revision that explains the correction or new artifact/result.
+10. History is provenance, not a changelog of cosmetic copy edits; record changes that matter to interpretation, reproducibility, status, or evidence.
+
+The current controlled drift pilot demonstrates the intended pattern: protocol registration → deterministic artifact execution → accepted reproducible result.
+
 ---
 
 ## 7. Independent replication / evaluation records
@@ -314,9 +335,10 @@ Current build-time validators cover:
 - Passage IDs, source-line ranges, and live TOC anchors;
 - Implementation links, immutable commit pins, and repository metadata;
 - Experiment links to Algorithms/combinations and required protocol/result fields;
+- Experiment-history revision continuity, chronology, current-status/date agreement, artifact references, and result-event consistency;
 - Replication source role, Algorithm overlap, original-source separation, explicit original-source citation edges, independence note, and verification date.
 
-The research utility suite additionally exercises passage search, Claim resolution, evidence-stage derivation, Markdown processing, citation validation, relation provenance, assumption analysis, entity graph validation, immutable implementation pins, experiments, and independent replications.
+The research utility suite additionally exercises passage search, Claim resolution, evidence-stage derivation, Markdown processing, citation validation, relation provenance, assumption analysis, entity graph validation, immutable implementation pins, experiments, experiment history, and independent replications.
 
 A production build is therefore also a structural research-data validation pass.
 
@@ -387,6 +409,7 @@ Check:
 - [ ] Are uncertainty and limitations preserved?
 - [ ] Is the wording descriptive rather than promotional?
 - [ ] For an experiment, were success criteria defined before the result?
+- [ ] If an experiment changed materially, did I append a validated history revision rather than overwrite provenance?
 - [ ] Are negative/inconclusive outcomes retained?
 - [ ] Does `npm run test:research` pass?
 - [ ] Does `npm run typecheck` pass?
