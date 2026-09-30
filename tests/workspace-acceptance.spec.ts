@@ -53,7 +53,7 @@ test("Atlas exposes reference and implementation nodes around the focused algori
   await expect(hnswEvidence).toBeVisible();
   await expect(hnswEvidence.getByRole("link", { name: /Efficient and Robust Approximate Nearest Neighbor Search/i })).toBeVisible();
   await expect(hnswEvidence.getByRole("link", { name: /Faiss HNSW/i })).toBeVisible();
-  await expect(hnswEvidence.getByRole("link", { name: /^hnswlib/i })).toBeVisible();
+  await expect(hnswEvidence.locator("a", { hasText: "hnswlib" })).toBeVisible();
 });
 
 test("Atlas exposes curated source provenance separately from structural relationships", async ({ page }) => {
