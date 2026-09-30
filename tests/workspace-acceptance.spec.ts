@@ -39,6 +39,23 @@ test("Atlas picker uses roving focus and arrow-key selection", async ({ page }) 
   await expect(buttons.first()).toHaveAttribute("aria-pressed", "true");
 });
 
+test("Atlas exposes reference and implementation nodes around the focused algorithm", async ({ page }) => {
+  await open(page, "/atlas");
+
+  const linucbEvidence = page.getByRole("region", { name: "Evidence neighbors for LinUCB" });
+  await expect(linucbEvidence).toBeVisible();
+  await expect(linucbEvidence.getByRole("link", { name: /Contextual-Bandit Approach to Personalized News/i })).toBeVisible();
+
+  const picker = page.getByRole("group", { name: "Atlas algorithms" });
+  await picker.getByRole("button", { name: /HNSW/i }).click();
+
+  const hnswEvidence = page.getByRole("region", { name: "Evidence neighbors for HNSW" });
+  await expect(hnswEvidence).toBeVisible();
+  await expect(hnswEvidence.getByRole("link", { name: /Efficient and Robust Approximate Nearest Neighbor Search/i })).toBeVisible();
+  await expect(hnswEvidence.getByRole("link", { name: /Faiss HNSW/i })).toBeVisible();
+  await expect(hnswEvidence.getByRole("link", { name: /^hnswlib/i })).toBeVisible();
+});
+
 test("Atlas exposes curated source provenance separately from structural relationships", async ({ page }) => {
   await open(page, "/atlas");
 
