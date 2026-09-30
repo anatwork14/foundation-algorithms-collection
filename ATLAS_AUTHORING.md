@@ -33,6 +33,43 @@ Relation-level source evidence is intentionally separate from the Algorithm reco
 
 This separation keeps structural graph metadata and evidence metadata distinct. A relation may exist without provenance, but it must not be presented as source-backed until a provenance record is added.
 
+## Atlas evidence states
+
+Every visible typed relation is presented in one of two explicit states:
+
+- **Source-backed** — a valid `RelationProvenanceRecord` exists for the exact directed `sourceId —relationType→ targetId` edge.
+- **Conceptual** — the relation is curated structural archive metadata but no relation-level source has yet been attached.
+
+These states describe provenance coverage only. They are **not** confidence scores, scientific-quality ratings, truth labels, or empirical rankings.
+
+The Atlas exposes the state in three places:
+
+1. each neighboring relation item;
+2. the accessible textual relationship table;
+3. the visible-edge coverage summary.
+
+Researchers can filter the focused neighborhood to all edges, source-backed edges only, or conceptual edges only. Do not introduce a third implicit state in feature CSS or UI copy; any richer provenance taxonomy must first be represented in the data model and validation layer.
+
+## Shareable Atlas views
+
+The Atlas is a research workspace, so a focused view must be linkable and recoverable through browser history. The current URL contract is:
+
+```text
+/atlas?algorithm=<id>&field=<field>&relation=<relation-type>&evidence=<source-backed|conceptual>
+```
+
+Rules:
+
+- `algorithm` is omitted for the default `linucb` focus;
+- `field` is omitted for `All`;
+- `relation` is omitted for `All`;
+- `evidence` is omitted for `All`, and otherwise uses the stable lowercase values `source-backed` or `conceptual`;
+- focused-node changes create history entries so Back/Forward traverses research focus;
+- filter changes replace the current history entry so exploratory filtering does not create a noisy browser-history stack;
+- `popstate` restores the focused node and structural filters.
+
+If new Atlas filters are introduced, they should follow the same contract: stable human-readable URL values, conservative defaults omitted from the query string, and explicit browser acceptance for direct-link hydration and Back/Forward restoration.
+
 ## What an Atlas edge means
 
 An edge means there is a useful mechanism-level relationship between two curated Algorithms.
@@ -222,9 +259,12 @@ Before adding an edge:
 - [ ] A Lab record is used instead if the main content is a speculative combination hypothesis.
 - [ ] The inverse edge is not duplicated unnecessarily.
 - [ ] If provenance is added, every Reference directly supports the edge and the evidence note is conservative.
+- [ ] The Atlas still exposes the edge’s provenance state accurately after filtering.
+- [ ] Direct Atlas URLs restore the intended node and filters.
+- [ ] Browser Back/Forward restores focused-node state where focus traversal creates history.
 - [ ] `npm run test:research` passes.
 - [ ] `npm run typecheck` passes.
 - [ ] `npm run build` passes.
-- [ ] Browser acceptance passes if the Atlas UI changed.
+- [ ] `npm run test:acceptance` passes if Atlas UI or URL behavior changed.
 
 The Atlas should remain sparse enough that every visible edge is interpretable. More edges are useful only when they add structure rather than noise.
