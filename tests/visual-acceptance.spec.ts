@@ -27,10 +27,16 @@ const scenarios: VisualScenario[] = [
   { name: "home-dark-phone", route: "/", theme: "dark", viewport: "phone" },
   { name: "chapter-light-desktop", route: "/archive/08-bandits-contextual-bandits-linucb", theme: "light", viewport: "desktop" },
   { name: "chapter-dark-phone", route: "/archive/08-bandits-contextual-bandits-linucb", theme: "dark", viewport: "phone" },
+  { name: "algorithms-light-desktop", route: "/algorithms", theme: "light", viewport: "desktop" },
+  { name: "algorithms-dark-phone", route: "/algorithms", theme: "dark", viewport: "phone" },
   { name: "atlas-light-desktop", route: "/atlas", theme: "light", viewport: "desktop" },
   { name: "atlas-dark-phone", route: "/atlas", theme: "dark", viewport: "phone" },
+  { name: "lab-light-desktop", route: "/lab", theme: "light", viewport: "desktop" },
+  { name: "lab-dark-phone", route: "/lab", theme: "dark", viewport: "phone" },
   { name: "evidence-light-desktop", route: "/evidence", theme: "light", viewport: "desktop" },
   { name: "evidence-dark-phone", route: "/evidence", theme: "dark", viewport: "phone" },
+  { name: "references-light-desktop", route: "/references", theme: "light", viewport: "desktop" },
+  { name: "references-dark-phone", route: "/references", theme: "dark", viewport: "phone" },
 ];
 
 async function openScenario(page: Page, scenario: VisualScenario) {
