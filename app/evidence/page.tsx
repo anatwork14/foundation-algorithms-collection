@@ -9,6 +9,7 @@ import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
+import { relationProvenance } from "@/lib/relation-provenance";
 import { replications } from "@/lib/replications";
 
 export const metadata: Metadata = {
@@ -36,6 +37,12 @@ export default function EvidencePage() {
   const stageCounts = new Map<EvidenceStage, number>(evidenceStages.map((stage) => [stage, 0]));
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
   const curatedCitationEdges = references.reduce((sum, reference) => sum + reference.citations.length, 0);
+  const typedAtlasEdges = algorithms.reduce((sum, algorithm) => sum + algorithm.relations.length, 0);
+  const sourceBackedAtlasEdges = relationProvenance.length;
+  const conceptualAtlasEdges = Math.max(0, typedAtlasEdges - sourceBackedAtlasEdges);
+  const algorithmsWithRelationProvenance = new Set(
+    relationProvenance.flatMap((record) => [record.sourceId, record.targetId]),
+  ).size;
 
   return (
     <main className="evidence-hub shell">
@@ -115,7 +122,7 @@ export default function EvidencePage() {
           <div className="evidence-hub-icon"><FlaskConical size={19} /></div>
           <span className="research-block-label">Project empirical knowledge</span>
           <h2>Experiments</h2>
-          <p>Reproducible plans and results preserving baselines, datasets, metrics, environment controls, success criteria, and negative findings.</p>
+          <p>Reproducible plans and results preserving baselines, datasets/benchmarks, metrics, environment controls, success criteria, and negative findings.</p>
           <div className="evidence-card-stats"><span>{experiments.length} records</span><span>{algorithmsWithExperiments} algorithms under study</span></div>
           <strong>Browse experiments <ArrowRight size={14} /></strong>
         </Link>
@@ -128,6 +135,25 @@ export default function EvidencePage() {
           <div className="evidence-card-stats"><span>{replications.length} records</span><span>{algorithmsWithReplications} algorithms independently evaluated</span></div>
           <strong>Inspect replications <ArrowRight size={14} /></strong>
         </Link>
+      </section>
+
+      <section className="evidence-flow atlas-provenance-summary" aria-labelledby="atlas-provenance-heading">
+        <div className="section-heading">
+          <div>
+            <span className="section-kicker">Atlas provenance</span>
+            <h2 id="atlas-provenance-heading">Keep structural relations distinct from sourced relations.</h2>
+            <p>
+              Atlas edges can be useful conceptual structure before a relation-level source is curated. These counts describe provenance coverage only; they are not confidence, quality, or truth scores.
+            </p>
+          </div>
+          <Link href="/atlas?evidence=source-backed" className="reference-graph-link"><Network size={14} /> Inspect source-backed Atlas edges <ArrowRight size={13} /></Link>
+        </div>
+        <div className="evidence-relation-summary" aria-label="Atlas relation provenance coverage">
+          <div><strong>{typedAtlasEdges}</strong><span>typed Atlas edges</span></div>
+          <div><strong>{sourceBackedAtlasEdges}</strong><span>source-backed edges</span></div>
+          <div><strong>{conceptualAtlasEdges}</strong><span>conceptual edges</span></div>
+          <div><strong>{algorithmsWithRelationProvenance}</strong><span>algorithms touching sourced edges</span></div>
+        </div>
       </section>
 
       <section className="evidence-flow">
