@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState, type KeyboardEvent } from "react";
-import { ArrowRight, Network, Search } from "lucide-react";
+import { ArrowRight, Network, ScrollText, Search } from "lucide-react";
 import type { AlgorithmEntity, RelationType } from "@/lib/algorithms";
+import { getReference } from "@/lib/references";
+import { getRelationProvenance, type RelationProvenanceRecord } from "@/lib/relation-provenance";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
 const relationTypes: Array<RelationType | "All"> = [
@@ -19,6 +21,13 @@ const relationTypes: Array<RelationType | "All"> = [
   "secures",
   "accelerates",
 ];
+
+type VisibleRelationProvenance = {
+  source: AlgorithmEntity;
+  target: AlgorithmEntity;
+  relation: AlgorithmEntity["relations"][number];
+  record: RelationProvenanceRecord;
+};
 
 export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] }) {
   const [query, setQuery] = useState("");
@@ -81,6 +90,21 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
   const neighbors = [...outgoing.map((item) => item.target), ...incoming.map((item) => item.source)]
     .filter((algorithm, index, all) => all.findIndex((item) => item.id === algorithm.id) === index);
+
+  const visibleProvenance = [
+    ...outgoing.map(({ relation, target }) => ({
+      source: selected,
+      target,
+      relation,
+      record: getRelationProvenance(selected.id, relation.type, target.id),
+    })),
+    ...incoming.map(({ relation, source }) => ({
+      source,
+      target: selected,
+      relation,
+      record: getRelationProvenance(source.id, relation.type, selected.id),
+    })),
+  ].filter((item): item is VisibleRelationProvenance => Boolean(item.record));
 
   return (
     <main className="atlas-page shell">
@@ -179,6 +203,41 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                 <span>←</span><span>{relation.type.replaceAll("-", " ")}</span><strong>{source.name}</strong><p>{relation.note}</p>
               </Link>
             ))}
+          </div>
+
+          <div className="atlas-provenance" role="region" aria-label={`Curated relationship evidence for ${selected.name}`}>
+            <div className="atlas-provenance-heading">
+              <div>
+                <span className="research-block-label">Relation provenance</span>
+                <strong>{visibleProvenance.length} source-backed visible edge{visibleProvenance.length === 1 ? "" : "s"}</strong>
+              </div>
+              <ScrollText size={18} aria-hidden="true" />
+            </div>
+
+            {visibleProvenance.length ? visibleProvenance.map(({ source, target, relation, record }) => (
+              <div className="atlas-provenance-row" key={`${source.id}-${relation.type}-${target.id}`}>
+                <div className="atlas-provenance-edge">
+                  <span>{source.name} → {target.name}</span>
+                  <strong>{relation.type.replaceAll("-", " ")}</strong>
+                </div>
+                <p>{record.evidenceNote}</p>
+                <div className="atlas-provenance-references">
+                  {record.referenceIds.map((referenceId) => {
+                    const reference = getReference(referenceId);
+                    if (!reference) return null;
+                    return (
+                      <Link key={reference.id} href={`/references/${reference.id}`}>
+                        <span>{reference.year}</span>
+                        <strong>{reference.title}</strong>
+                      </Link>
+                    );
+                  })}
+                </div>
+                <small>Verified {record.verifiedAt}</small>
+              </div>
+            )) : (
+              <p className="atlas-provenance-empty">No relation-level source has been curated for the currently visible edges. The relationship notes remain conceptual archive metadata until a source is explicitly attached.</p>
+            )}
           </div>
         </section>
       </div>
