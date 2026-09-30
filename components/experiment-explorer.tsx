@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, FlaskConical, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { historyForExperiment } from "@/lib/experiment-history";
 import type { ExperimentRecord, ExperimentStatus } from "@/lib/experiments";
 import { experimentSearchText } from "@/lib/experiments";
 
@@ -27,7 +28,7 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
       <header className="experiment-hero">
         <span className="eyebrow"><FlaskConical size={13} /> Experiment registry</span>
         <h1>Turn research hypotheses into reproducible study plans.</h1>
-        <p>Experiment records preserve baselines, datasets, metrics, environment controls, procedures, success criteria, artifacts, and eventual outcomes—even when the result is negative or inconclusive.</p>
+        <p>Experiment records preserve baselines, datasets, metrics, environment controls, procedures, success criteria, artifacts, revision history, and eventual outcomes—even when the result is negative or inconclusive.</p>
         <EvidenceNav current="experiments" />
       </header>
 
@@ -44,23 +45,28 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
       <div className="experiment-result-count">{results.length} experiment records</div>
 
       <section className="experiment-list" aria-live="polite">
-        {results.map((record) => (
-          <Link key={record.id} href={`/experiments/${record.id}`} className="experiment-row">
-            <div className={`experiment-status status-${record.status.toLowerCase()}`}>{record.status}</div>
-            <div>
-              <div className="experiment-overline">{record.algorithmIds.join(" × ")}</div>
-              <h2>{record.title}</h2>
-              <p>{record.objective}</p>
-              <div className="experiment-tags">
-                {record.metrics.slice(0, 3).map((metric) => <span key={metric}>{metric}</span>)}
+        {results.map((record) => {
+          const history = historyForExperiment(record.id);
+          const latest = history.at(-1);
+          return (
+            <Link key={record.id} href={`/experiments/${record.id}`} className="experiment-row">
+              <div className={`experiment-status status-${record.status.toLowerCase()}`}>{record.status}</div>
+              <div>
+                <div className="experiment-overline">{record.algorithmIds.join(" × ")}</div>
+                <h2>{record.title}</h2>
+                <p>{record.objective}</p>
+                <div className="experiment-tags">
+                  {record.metrics.slice(0, 3).map((metric) => <span key={metric}>{metric}</span>)}
+                </div>
               </div>
-            </div>
-            <div className="experiment-row-meta">
-              <span>Updated {record.lastUpdated}</span>
-              <ArrowRight size={15} />
-            </div>
-          </Link>
-        ))}
+              <div className="experiment-row-meta">
+                <span>r{latest?.revision ?? 0} · {history.length} revision{history.length === 1 ? "" : "s"}</span>
+                <span>Updated {record.lastUpdated}</span>
+                <ArrowRight size={15} aria-hidden="true" />
+              </div>
+            </Link>
+          );
+        })}
         {!results.length && (
           <div className="reference-empty">
             <Search size={20} />
