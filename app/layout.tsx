@@ -14,6 +14,7 @@ import "./evidence-hub.css";
 import "./archive-discovery.css";
 import "./citation-graph.css";
 import "./atlas-provenance.css";
+import "./lab-assumption-analysis.css";
 import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
