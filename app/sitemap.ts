@@ -4,6 +4,7 @@ import { getAllDocuments } from "@/lib/content";
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
+import { replications } from "@/lib/replications";
 import { siteUrlFromEnvironment } from "@/lib/site-url";
 
 function absoluteUrl(base: string, path: string) {
@@ -35,5 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...references.map((reference) => ({ url: absoluteUrl(base, `/references/${reference.id}`) })),
     ...implementations.map((implementation) => ({ url: absoluteUrl(base, `/implementations/${implementation.id}`) })),
     ...experiments.map((experiment) => ({ url: absoluteUrl(base, `/experiments/${experiment.id}`) })),
+    ...replications.map((replication) => ({ url: absoluteUrl(base, `/replications/${replication.id}`) })),
   ];
 }
