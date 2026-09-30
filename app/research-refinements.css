@@ -345,6 +345,22 @@
   }
 }
 
+/* globals.css still carries the pre-index 2-column card treatment at tablet
+   widths. Keep the canonical editorial field index single-column until the
+   dedicated phone layout takes over below 760px. */
+@media (min-width: 761px) and (max-width: 980px) {
+  .domain-section .domain-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .domain-section .domain-card,
+  .domain-section .domain-card:last-child {
+    min-width: 0;
+    grid-column: auto !important;
+    grid-template-columns: 40px minmax(130px, .75fr) minmax(0, 1.4fr) 82px !important;
+  }
+}
+
 @media (max-width: 760px) {
   .inspiration-grid {
     grid-template-columns: 1fr;
