@@ -15,3 +15,26 @@ test("Reference details expose the Atlas edges they support", async ({ page }) =
   await expect(relationCard).toContainText("derived from");
   await expect(relationCard.getByRole("link", { name: /LinUCB → UCB1/i })).toHaveAttribute("href", "/algorithms/linucb");
 });
+
+test("Atlas makes source-backed and conceptual relation edges distinguishable", async ({ page }) => {
+  const response = await page.goto("/atlas", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  const evidenceFilter = page.getByLabel("Filter Atlas by relation evidence");
+  const coverage = page.locator(".atlas-edge-coverage");
+  const relationTable = page.locator(".atlas-relation-table");
+
+  await expect(evidenceFilter).toBeVisible();
+  await expect(coverage).toContainText("source-backed");
+  await expect(coverage).toContainText("conceptual");
+
+  await evidenceFilter.selectOption("Source-backed");
+  await expect(coverage).toContainText("0 conceptual");
+  expect(await relationTable.locator(".atlas-relation-kind small.is-source-backed").count()).toBeGreaterThan(0);
+  await expect(relationTable.locator(".atlas-relation-kind small.is-conceptual")).toHaveCount(0);
+
+  await evidenceFilter.selectOption("Conceptual");
+  await expect(coverage).toContainText("0 source-backed");
+  expect(await relationTable.locator(".atlas-relation-kind small.is-conceptual").count()).toBeGreaterThan(0);
+  await expect(relationTable.locator(".atlas-relation-kind small.is-source-backed")).toHaveCount(0);
+});
