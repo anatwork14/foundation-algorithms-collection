@@ -24,6 +24,10 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
     return { sharedFields, sharedFamilies, directRelations: [...leftToRight, ...rightToLeft], known };
   }, [combinations, left, right]);
 
+  const announcement = left.id === right.id
+    ? `${left.name} is selected twice. Choose two different algorithms to inspect a combination.`
+    : `Combination analysis updated for ${left.name} and ${right.name}. ${analysis.known.length} structured Lab ${analysis.known.length === 1 ? "record" : "records"} found.`;
+
   return (
     <section className="combination-builder" aria-label="Algorithm combination builder">
       <div className="combination-builder-heading">
@@ -31,7 +35,7 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
           <span className="research-block-label">Pair explorer</span>
           <h2>What happens if these mechanisms meet?</h2>
         </div>
-        <GitMerge size={22} />
+        <GitMerge size={22} aria-hidden="true" />
       </div>
 
       <div className="combination-selectors">
@@ -41,7 +45,7 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
             {algorithms.map((algorithm) => <option key={algorithm.id} value={algorithm.id}>{algorithm.name}</option>)}
           </select>
         </label>
-        <span className="combination-times">×</span>
+        <span className="combination-times" aria-hidden="true">×</span>
         <label>
           <span>Algorithm B</span>
           <select value={rightId} onChange={(event) => setRightId(event.target.value)}>
@@ -50,8 +54,10 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
         </label>
       </div>
 
+      <p className="visually-hidden" aria-live="polite" aria-atomic="true">{announcement}</p>
+
       {left.id === right.id ? (
-        <div className="combination-builder-empty"><TriangleAlert size={16} /> Choose two different algorithms to inspect a combination.</div>
+        <div className="combination-builder-empty"><TriangleAlert size={16} aria-hidden="true" /> Choose two different algorithms to inspect a combination.</div>
       ) : (
         <div className="combination-analysis">
           <div className="combination-pair-summary">
@@ -59,13 +65,13 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
               <span>{left.families[0]}</span>
               <strong>{left.name}</strong>
               <p>{left.summary}</p>
-              <Link href={`/algorithms/${left.id}`}>Open card <ArrowRight size={12} /></Link>
+              <Link href={`/algorithms/${left.id}`}>Open card <ArrowRight size={12} aria-hidden="true" /></Link>
             </div>
             <div>
               <span>{right.families[0]}</span>
               <strong>{right.name}</strong>
               <p>{right.summary}</p>
-              <Link href={`/algorithms/${right.id}`}>Open card <ArrowRight size={12} /></Link>
+              <Link href={`/algorithms/${right.id}`}>Open card <ArrowRight size={12} aria-hidden="true" /></Link>
             </div>
           </div>
 
@@ -95,7 +101,7 @@ export function CombinationBuilder({ algorithms, combinations }: { algorithms: A
                   <span>{combination.status}</span>
                   <strong>{combination.title}</strong>
                   <p>{combination.hypothesis}</p>
-                  <ArrowRight size={14} />
+                  <ArrowRight size={14} aria-hidden="true" />
                 </a>
               ))}
             </div>
