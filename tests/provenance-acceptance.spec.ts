@@ -64,3 +64,28 @@ test("Atlas URLs restore focused node and structural filters", async ({ page }) 
   await expect(evidenceFilter).toHaveValue("Conceptual");
   await expect(relationFilter).toHaveValue("used-by");
 });
+
+test("Evidence exposes Atlas provenance as coverage rather than a score", async ({ page }) => {
+  const response = await page.goto("/evidence", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  const section = page.getByRole("region", { name: "Atlas relation provenance coverage" });
+  await expect(section).toBeVisible();
+  await expect(section).toContainText("typed Atlas edges");
+  await expect(section).toContainText("source-backed edges");
+  await expect(section).toContainText("conceptual edges");
+  await expect(page.getByText(/not confidence, quality, or truth scores/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Inspect source-backed Atlas edges/i })).toHaveAttribute("href", "/atlas?evidence=source-backed");
+
+  const metrics = await section.locator("div").evaluateAll((rows) => rows.map((row) => {
+    const value = Number.parseInt(row.querySelector("strong")?.textContent ?? "0", 10);
+    const label = row.querySelector("span")?.textContent?.trim() ?? "";
+    return { value, label };
+  }));
+  const total = metrics.find((metric) => metric.label === "typed Atlas edges")?.value ?? 0;
+  const sourced = metrics.find((metric) => metric.label === "source-backed edges")?.value ?? 0;
+  const conceptual = metrics.find((metric) => metric.label === "conceptual edges")?.value ?? 0;
+  expect(total).toBeGreaterThan(0);
+  expect(sourced).toBeGreaterThan(0);
+  expect(sourced + conceptual).toBe(total);
+});
