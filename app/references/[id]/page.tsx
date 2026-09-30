@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, ScrollText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, ExternalLink, FlaskConical, Network, RefreshCcw, ScrollText, ShieldCheck } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
 import { claimsForReference } from "@/lib/claims";
 import { combinations } from "@/lib/combination-catalog";
 import { getAllDocuments } from "@/lib/content";
 import { formatReferenceAuthors, getCitation, getCitedReferences, getCitingReferences, getReference, references } from "@/lib/references";
 import { relationProvenanceForReference } from "@/lib/relation-provenance";
+import { replicationsForReference } from "@/lib/replications";
 
 export function generateStaticParams() {
   return references.map((reference) => ({ id: reference.id }));
@@ -37,6 +38,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
     .map((slug) => documents.find((document) => document.slug === slug))
     .filter((item) => Boolean(item));
   const claimRecords = claimsForReference(reference.id);
+  const replicationRecords = replicationsForReference(reference.id);
   const relationEvidenceRecords = relationProvenanceForReference(reference.id).map((record) => ({
     record,
     source: getAlgorithm(record.sourceId),
@@ -48,7 +50,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
   return (
     <main className="reference-detail-page">
       <div className="shell reference-breadcrumbs">
-        <Link href="/references"><ArrowLeft size={14} /> References</Link>
+        <Link href="/references"><ArrowLeft size={14} aria-hidden="true" /> References</Link>
         <span>/</span>
         <span>{reference.year}</span>
       </div>
@@ -65,6 +67,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           <div><span>Evidence role</span><strong>{reference.evidenceRole}</strong></div>
           <div><span>Algorithms</span><strong>{reference.algorithmIds.length}</strong></div>
           <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
+          <div><span>Replication records</span><strong>{replicationRecords.length}</strong></div>
           <div><span>Atlas edges supported</span><strong>{relationEvidenceRecords.length}</strong></div>
           <div><span>Lab records</span><strong>{reference.combinationIds.length}</strong></div>
           <div><span>Curated citations</span><strong>{citedReferences.length}</strong></div>
@@ -86,7 +89,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
             <h2>Follow the evidence</h2>
             <div className="reference-source-box">
               <a href={reference.url} target="_blank" rel="noreferrer">
-                <ExternalLink size={15} /> Open primary source
+                <ExternalLink size={15} aria-hidden="true" /> Open primary source
               </a>
               {reference.doi && <code>DOI {reference.doi}</code>}
             </div>
@@ -107,7 +110,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                         <span>Cites · {cited.year}</span>
                         <strong>{cited.title}</strong>
                         <small>{cited.evidenceRole}</small>
-                        <ArrowRight size={13} />
+                        <ArrowRight size={13} aria-hidden="true" />
                       </Link>
                       <p>{citation.note}</p>
                       <a href={citation.verificationUrl} target="_blank" rel="noreferrer">Verification source · checked {citation.verifiedAt} ↗</a>
@@ -123,7 +126,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                         <span>Cited by · {citing.year}</span>
                         <strong>{citing.title}</strong>
                         <small>{citing.evidenceRole}</small>
-                        <ArrowRight size={13} />
+                        <ArrowRight size={13} aria-hidden="true" />
                       </Link>
                       <p>{citation.note}</p>
                       <a href={citation.verificationUrl} target="_blank" rel="noreferrer">Verification source · checked {citation.verifiedAt} ↗</a>
@@ -131,7 +134,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                   );
                 })}
               </div>
-              <Link href="/references/graph" className="reference-graph-link"><Network size={14} /> Explore focused citation graph <ArrowRight size={13} /></Link>
+              <Link href="/references/graph" className="reference-graph-link"><Network size={14} aria-hidden="true" /> Explore focused citation graph <ArrowRight size={13} aria-hidden="true" /></Link>
             </section>
           )}
 
@@ -141,18 +144,18 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
             <div className="reference-connection-grid">
               {linkedAlgorithms.map((algorithm) => algorithm && (
                 <Link key={algorithm.id} href={`/algorithms/${algorithm.id}`}>
-                  <span><Network size={13} /> Algorithm</span>
+                  <span><Network size={13} aria-hidden="true" /> Algorithm</span>
                   <strong>{algorithm.name}</strong>
                   <p>{algorithm.summary}</p>
-                  <ArrowRight size={14} />
+                  <ArrowRight size={14} aria-hidden="true" />
                 </Link>
               ))}
               {linkedCombinations.map((combination) => combination && (
                 <Link key={combination.id} href={`/lab#${combination.id}`}>
-                  <span><FlaskConical size={13} /> Lab hypothesis</span>
+                  <span><FlaskConical size={13} aria-hidden="true" /> Lab hypothesis</span>
                   <strong>{combination.title}</strong>
                   <p>{combination.hypothesis}</p>
-                  <ArrowRight size={14} />
+                  <ArrowRight size={14} aria-hidden="true" />
                 </Link>
               ))}
             </div>
@@ -162,7 +165,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
         <aside className="reference-detail-side">
           {claimRecords.length > 0 && (
             <div className="entity-side-card">
-              <div className="entity-side-title"><ShieldCheck size={14} /> Curated claims using this source</div>
+              <div className="entity-side-title"><ShieldCheck size={14} aria-hidden="true" /> Curated claims using this source</div>
               {claimRecords.map((claim) => (
                 <Link key={claim.id} href={`/claims#${claim.id}`} className="entity-reference-link">
                   <span>{claim.kind}</span>
@@ -173,9 +176,25 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
             </div>
           )}
 
+          {replicationRecords.length > 0 && (
+            <div className="entity-side-card">
+              <div className="entity-side-title"><RefreshCcw size={14} aria-hidden="true" /> Independent evaluation records</div>
+              {replicationRecords.map((record) => {
+                const role = record.replicationReferenceId === reference.id ? "Independent evaluation source" : "Original source evaluated";
+                return (
+                  <Link key={record.id} href={`/replications/${record.id}`} className="entity-reference-link">
+                    <span>{role} · {record.outcome}</span>
+                    <strong>{record.title}</strong>
+                    <small>Verified {record.verifiedAt}</small>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
           {relationEvidenceRecords.length > 0 && (
             <div className="entity-side-card relation-evidence-card">
-              <div className="entity-side-title"><Network size={14} /> Atlas relations using this source</div>
+              <div className="entity-side-title"><Network size={14} aria-hidden="true" /> Atlas relations using this source</div>
               {relationEvidenceRecords.map(({ record, source, target }) => (
                 <Link
                   key={`${record.sourceId}-${record.relationType}-${record.targetId}`}
@@ -191,7 +210,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           )}
 
           <div className="entity-side-card">
-            <div className="entity-side-title"><BookOpen size={14} /> Source chapters</div>
+            <div className="entity-side-title"><BookOpen size={14} aria-hidden="true" /> Source chapters</div>
             {linkedChapters.map((chapter) => chapter && (
               <Link key={chapter.slug} href={`/archive/${chapter.slug}`} className="source-chapter-link">
                 <span>{chapter.number}</span>
@@ -202,7 +221,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           </div>
 
           <div className="entity-side-card entity-tags-card">
-            <div className="entity-side-title"><ScrollText size={14} /> Evidence tags</div>
+            <div className="entity-side-title"><ScrollText size={14} aria-hidden="true" /> Evidence tags</div>
             <div className="entity-tags">{reference.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
           </div>
         </aside>
