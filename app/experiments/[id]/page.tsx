@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Beaker, CheckCircle2, Database, FlaskConical, Gauge, TriangleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, Beaker, CheckCircle2, Clock3, Database, FlaskConical, Gauge, TriangleAlert } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
 import { combinations } from "@/lib/combination-catalog";
+import { historyForExperiment } from "@/lib/experiment-history";
 import { experiments, getExperiment } from "@/lib/experiments";
 
 export function generateStaticParams() {
@@ -24,6 +25,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
 
   const combination = combinations.find((item) => item.id === experiment.combinationId) ?? null;
   const linkedAlgorithms = experiment.algorithmIds.map(getAlgorithm).filter((item) => Boolean(item));
+  const history = historyForExperiment(experiment.id);
 
   return (
     <main className="experiment-detail-page">
@@ -43,6 +45,7 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
           <div><span>Algorithms</span><strong>{experiment.algorithmIds.length}</strong></div>
           <div><span>Baselines</span><strong>{experiment.baselines.length}</strong></div>
           <div><span>Metrics</span><strong>{experiment.metrics.length}</strong></div>
+          <div><span>Revisions</span><strong>{history.length}</strong></div>
           <div><span>Updated</span><strong>{experiment.lastUpdated}</strong></div>
         </aside>
       </header>
@@ -119,6 +122,34 @@ export default async function ExperimentDetailPage({ params }: { params: Promise
             ) : (
               <div className="experiment-no-result"><TriangleAlert size={17} aria-hidden="true" /><p>This is a planned research record. No empirical result is claimed yet.</p></div>
             )}
+          </section>
+
+          <section className="research-block">
+            <div className="research-block-label">09 · Revision history</div>
+            <h2>How this experiment record changed over time</h2>
+            <p className="experiment-history-intro">History is append-only research provenance: revisions preserve protocol, status, artifact, and result milestones instead of replacing earlier states.</p>
+            <ol className="experiment-history" aria-label="Experiment revision history">
+              {history.map((entry) => (
+                <li key={entry.revision}>
+                  <div className="experiment-history-marker" aria-hidden="true"><Clock3 size={13} /></div>
+                  <div className="experiment-history-content">
+                    <div className="experiment-history-meta">
+                      <span>r{entry.revision}</span>
+                      <time dateTime={entry.date}>{entry.date}</time>
+                      <span>{entry.kind}</span>
+                      <span className={`experiment-status status-${entry.status.toLowerCase()}`}>{entry.status}</span>
+                    </div>
+                    <strong>{entry.title}</strong>
+                    <p>{entry.note}</p>
+                    {entry.artifactLabels?.length ? (
+                      <div className="experiment-history-artifacts" aria-label="Artifacts referenced by this revision">
+                        {entry.artifactLabels.map((label) => <span key={label}>{label}</span>)}
+                      </div>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ol>
           </section>
         </article>
 
