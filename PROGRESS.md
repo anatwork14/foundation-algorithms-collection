@@ -1,9 +1,10 @@
 # Foundation Algorithms Research Hub — Progress Tracker
 
 **Status:** Active  
-**Last updated:** 2026-09-29  
+**Last updated:** 2026-09-30  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
+**UI audit:** [`UI_AUDIT.md`](./UI_AUDIT.md)  
 **Contribution guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)  
 **Algorithm authoring:** [`ALGORITHM_AUTHORING.md`](./ALGORITHM_AUTHORING.md)  
 **Atlas authoring:** [`ATLAS_AUTHORING.md`](./ATLAS_AUTHORING.md)  
@@ -11,7 +12,7 @@
 **Evidence profile policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)  
 **Operations:** [`OPERATIONS.md`](./OPERATIONS.md)
 
-A checked item means the implementation exists in the repository. Build success, research-evidence quality, visual acceptance, accessibility acceptance, and production acceptance are tracked independently.
+A checked item means the implementation or acceptance gate exists in the repository. Build success, research-evidence quality, automated browser acceptance, manual assistive-technology acceptance, and production acceptance remain distinct.
 
 ---
 
@@ -41,6 +42,10 @@ Unified Evidence hub
       └── Passage provenance
       ↓
 Descriptive evidence profiles + structural/lexical discovery
+      ↓
+Automated Chromium responsive/theme/a11y acceptance
+      ↓
+Vercel production deployment
 ```
 
 ---
@@ -51,13 +56,13 @@ Descriptive evidence profiles + structural/lexical discovery
 |---|---|
 | 0 — Research corpus | ✅ Established |
 | 1 — Archive foundation | ✅ Established |
-| 2 — Design system | 🟡 Implemented; real-browser/accessibility acceptance open |
+| 2 — Design system | 🟡 Canonical system + automated browser acceptance implemented; manual AT/device review remains |
 | 3 — Algorithm indexing | 🟡 Strong curated first system; breadth can expand |
 | 4 — Atlas | 🟡 Working typed-neighborhood graph; edge provenance remains open |
 | 5 — Lab | 🟡 Structured hypotheses/protocol links implemented; persistence/results open |
 | 6 — Evidence layer | 🟡 Full record architecture implemented; breadth and real empirical outcomes remain limited |
 | 7 — Discovery | 🟡 Structural + deterministic multi-passage lexical discovery implemented; semantic retrieval intentionally deferred |
-| 8 — Production acceptance | 🔴 Dedicated preview/production deployment and real-browser acceptance still open |
+| 8 — Production acceptance | 🟡 Dedicated Vercel production + automated Chromium acceptance green; manual screen-reader/physical-device review remains |
 
 ---
 
@@ -121,11 +126,13 @@ Descriptive evidence profiles + structural/lexical discovery
 - [x] Chapter → curated Reference links.
 - [x] Algorithm → heading-level chapter provenance.
 - [x] Passage-level provenance with stable IDs and source lines.
+- [x] Automated phone containment check for long math/tables/code.
+- [x] Wide technical scrollers remain keyboard reachable.
 
 ## Open reader acceptance
 
-- [ ] Real-browser review for extreme equations/tables.
-- [ ] Math accessibility review.
+- [ ] Manual assistive-technology review of mathematical expression reading.
+- [ ] Physical-device stress review for unusually long technical content and text scaling.
 
 ---
 
@@ -133,32 +140,43 @@ Descriptive evidence profiles + structural/lexical discovery
 
 ## Implemented
 
-- [x] IBM Plex Sans + IBM Plex Mono via `next/font`.
-- [x] Explicit typography, spacing, radius, color, focus, and reading-width tokens.
-- [x] Warm-neutral light/dark palettes and restrained field colors.
+- [x] **Fraunces** for editorial hierarchy via `next/font`.
+- [x] **Source Sans 3** for UI/body/reading via `next/font`.
+- [x] **JetBrains Mono** for code/technical metadata via `next/font`.
+- [x] KaTeX preserves its own mathematical glyph fonts.
+- [x] Explicit typography, spacing, radius, color, focus, shell, control-height, and reading-width tokens.
+- [x] Neutral warm-light / neutral-dark palettes.
+- [x] Research fields neutralized by default; color reserved primarily for semantic state.
 - [x] Canonical color and monochrome SVG marks.
 - [x] SVG mark used in product chrome/favicon.
+- [x] One canonical global visual/theme authority: `app/research-ui.css`.
+- [x] Deprecated glass/minimal/index visual override layers removed.
+- [x] Editorial Research-fields index replaces oversized category cards.
+- [x] Research-fields index remains single-column through the tablet band.
+- [x] Shared 42px control system and canonical radii across major surfaces.
 - [x] Visible `:focus-visible` styling.
 - [x] Reduced-motion behavior.
 - [x] Primary navigation: Archive / Algorithms / Atlas / Lab / Evidence.
 - [x] Shared Evidence sub-navigation including Claims and Replications.
 - [x] Command-palette modal focus containment and previous-focus restoration.
 - [x] Background scroll locked while modal dialogs are active.
+- [x] Mobile navigation expanded/current-page semantics.
+- [x] Atlas explicit accessible names/selected state/named relationship regions.
+- [x] Metadata contrast protected at ≥4.5:1 by `check:ui` in both themes.
+- [x] Automated axe WCAG A/AA scans on representative routes in both themes.
+- [x] Automated desktop/tablet/phone light/dark containment matrix.
+- [x] Representative full-page screenshot artifacts generated in CI.
 - [x] Generated branded Open Graph image.
 - [x] Twitter/X image route reuses the same branded social asset.
 - [x] Open Graph/Twitter metadata uses the deployed site origin rather than the GitHub repository URL.
 
-## Open acceptance
+## Manual acceptance still open
 
-- [ ] Remove obsolete legacy CSS only after rendered browser review.
-- [ ] Browser font/weight audit.
-- [ ] Favicon-scale visual verification.
-- [ ] Light/dark visual acceptance.
-- [ ] Phone/tablet/desktop visual acceptance.
-- [ ] Formal WCAG contrast audit.
-- [ ] Full keyboard-only walkthrough in a real browser.
-- [ ] VoiceOver/NVDA checks.
-- [ ] Table/math accessibility checks.
+- [ ] VoiceOver/NVDA checks on representative routes.
+- [ ] Screen-reader review of KaTeX/math behavior.
+- [ ] Physical-device touch/zoom/text-scaling checks.
+- [ ] Manual aesthetic review of retained browser snapshots for major design changes.
+- [ ] Favicon-scale visual review on physical browser/device chrome.
 
 ---
 
@@ -197,7 +215,8 @@ Descriptive evidence profiles + structural/lexical discovery
 - [x] Progressive traversal by selecting neighbors.
 - [x] Search, field filtering, and relation-type filtering.
 - [x] Accessible textual relationship table.
-- [x] Mobile layout.
+- [x] Explicit accessible search naming, selected entity state, and named relationship regions.
+- [x] Responsive phone/tablet/desktop containment covered in Chromium.
 - [x] Cross-field foundation chains for learned search, neural bandits, embedding retrieval, formal solving, coding/QEC, lattices/PQC/FHE, MPC/FHE/ZK, and related mechanisms.
 - [x] Dedicated Atlas relationship authoring guide.
 
@@ -208,6 +227,7 @@ Descriptive evidence profiles + structural/lexical discovery
 - [ ] Implementation nodes inside Atlas itself.
 - [ ] Explicit evidence/provenance metadata on Algorithm relation edges.
 - [ ] Historical/evolution relationships.
+- [ ] Manual screen-reader traversal review.
 
 ---
 
@@ -243,6 +263,7 @@ Descriptive evidence profiles + structural/lexical discovery
 - [x] Shared Evidence navigation.
 - [x] Archive-stage coverage distribution without numeric truth/quality scoring.
 - [x] Global command search spans Algorithms, Claims, References, Implementations, Experiments, Replications, and chapters.
+- [x] Evidence representative route covered by automated axe and responsive/theme acceptance.
 
 ## References
 
@@ -359,6 +380,7 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] Markdown local-link validation.
 - [x] Deterministic external-URL/HTTPS policy without third-party network dependency.
 - [x] Dependency-free application source-hygiene check.
+- [x] Canonical UI consistency/source-regression check.
 - [x] Research utility test suite.
 - [x] TypeScript typecheck.
 - [x] Next.js production build.
@@ -378,13 +400,21 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] Content-summary/passage-segmentation tests.
 - [x] Passage ranking/snippet tests.
 - [x] Deployment-origin metadata resolution tests.
+- [x] Playwright Chromium browser acceptance on production build.
+- [x] Desktop/tablet/phone × light/dark representative containment matrix.
+- [x] Automated axe WCAG A/AA scans.
+- [x] Keyboard interaction tests for search and mobile navigation.
+- [x] Technical overflow/keyboard-reachability acceptance for long-form content.
+- [x] Exact overflow-offender diagnostics on failure.
+- [x] Representative full-page screenshot artifacts.
+- [x] Playwright HTML report + `test-results` retained for 14 days on every CI run.
 
 ## Open quality gates
 
 - [ ] Full ESLint rule set if/when added deliberately and pinned.
-- [ ] Automated accessibility testing in addition to manual acceptance.
-- [ ] Screenshot/visual regression testing after a stable browser/deployment harness exists.
-- [ ] Real-browser acceptance matrix.
+- [ ] Manual VoiceOver/NVDA acceptance.
+- [ ] Physical-device acceptance.
+- [ ] Strict pixel-diff visual baselines only if/when the UI becomes stable enough to justify them.
 
 ---
 
@@ -392,6 +422,9 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 
 ## Implemented
 
+- [x] Dedicated Vercel project connected to this repository.
+- [x] Production Vercel deployment pipeline from `main`.
+- [x] Public production alias: `https://foundation-algorithms-collection.vercel.app`.
 - [x] Repository builds as a production Next.js application.
 - [x] CI starts the production server and smoke-tests representative routes.
 - [x] Deployment/acceptance procedure documented in [`OPERATIONS.md`](./OPERATIONS.md).
@@ -399,25 +432,21 @@ Semantic retrieval should not be added merely to make search appear sophisticate
 - [x] Generated Open Graph and Twitter/X social previews.
 - [x] Deployment-aware `robots.txt`.
 - [x] Deployment-aware sitemap covering static and curated detail routes.
+- [x] Automated real-Chromium desktop/tablet/phone acceptance.
+- [x] Automated real-Chromium light/dark acceptance.
+- [x] Automated command-palette and mobile-navigation keyboard acceptance.
+- [x] Automated axe representative-route WCAG scan.
+- [x] Vercel deployment/runtime status inspectable through project tooling.
 
-## Blocked / open
+## Manual acceptance still open
 
-- [ ] Dedicated Vercel project connected to this repository.
-- [ ] Preview deployment reviewed.
-- [ ] Production deployment reviewed.
-- [ ] Public production URL documented.
-- [ ] Deployment status linked from README.
-- [ ] Real-browser phone/tablet/desktop acceptance.
-- [ ] Real-browser light/dark acceptance.
-- [ ] Full keyboard walkthrough.
-- [ ] Formal contrast audit.
-- [ ] Screen-reader review.
+- [ ] VoiceOver/NVDA walkthrough.
+- [ ] Math screen-reader behavior.
+- [ ] Physical-device touch ergonomics/browser chrome/OS font rendering.
+- [ ] Physical-device zoom/text scaling.
+- [ ] Manual review of visual screenshot artifacts for major design releases.
 
-### Current environment limitation
-
-The connected Vercel account is readable, but no dedicated Vercel project currently exists for `anatwork14/foundation-algorithms-collection`. Existing projects belong to other applications. The connected Vercel tool surface does not expose project creation, and the browser-automation CLI described by the installed workflow is not available in this execution environment.
-
-Therefore the repository has intentionally **not** been attached to an unrelated project, and preview/production/browser acceptance remains open rather than inferred from CI.
+Automated Playwright browser acceptance is now a required engineering gate. It should not be described as equivalent to manual assistive-technology or physical-device acceptance.
 
 ---
 
@@ -427,6 +456,7 @@ Therefore the repository has intentionally **not** been attached to an unrelated
 - [x] `DESIGN.md` — product/UI rationale.
 - [x] `DEVELOPMENT_SPEC.md` — product/technical specification.
 - [x] `PROGRESS.md` — current implementation tracker.
+- [x] `UI_AUDIT.md` — canonical UI consistency and acceptance audit.
 - [x] `CONTRIBUTING.md` — repository-wide contribution contract.
 - [x] `ALGORITHM_AUTHORING.md` — Algorithm metadata guidance.
 - [x] `ATLAS_AUTHORING.md` — typed relationship guidance.
@@ -437,6 +467,22 @@ Therefore the repository has intentionally **not** been attached to an unrelated
 ---
 
 # Recent implementation checkpoints
+
+## 2026-09-30 — UI consistency and browser acceptance
+
+- canonical research UI consolidated around neutral surfaces and a single final visual layer;
+- Fraunces / Source Sans 3 / JetBrains Mono role system standardized across routes;
+- oversized Research-field cards replaced by editorial index rows;
+- header/theme/Atlas accessibility semantics hardened;
+- small metadata contrast raised and guarded at WCAG AA ratio;
+- long math/table/code overflow contained locally;
+- Playwright + Chromium + axe browser acceptance added to CI;
+- real tablet regression found by the new suite: legacy Research-fields two-column grid widened the homepage to 1102px at 820px viewport;
+- exact overflow offender diagnostics added;
+- tablet Research-fields index corrected to single-column and guarded statically;
+- **58 functional/accessibility Chromium tests pass** after the fix;
+- 12 representative full-page visual snapshots added to the acceptance suite;
+- CI browser artifacts retained for 14 days.
 
 ## 2026-09-29 — Evidence integrity, discovery, and release hardening
 
@@ -464,13 +510,14 @@ Earlier implementation detail remains preserved in Git history and the specifica
 
 # Immediate next work
 
-1. Obtain a dedicated preview deployment for this repository, then perform real-browser phone/tablet/desktop and light/dark acceptance.
-2. Perform keyboard, contrast, VoiceOver/NVDA, table, and math accessibility acceptance against the deployed build.
-3. Continue conservative primary Reference, Claim, citation-edge, and commit-pinned Implementation coverage through direct verification.
-4. Add relation-edge provenance if Atlas relationships need to support source-level claims.
-5. Run the first reproducible project Experiment and preserve the real outcome, including negative/mixed/inconclusive results.
-6. Curate independent replication records only when genuinely independent evaluation sources are directly verified.
-7. Add semantic retrieval only after it can preserve inspectable provenance and outperform the deterministic structural/lexical baseline.
+1. Complete manual VoiceOver/NVDA and math screen-reader acceptance on representative routes.
+2. Perform physical-device phone/tablet checks for touch ergonomics, browser chrome, zoom and text scaling.
+3. Review retained visual screenshot artifacts for major design changes and only introduce pixel-diff baselines once the UI is stable enough.
+4. Continue conservative primary Reference, Claim, citation-edge, and commit-pinned Implementation coverage through direct verification.
+5. Add relation-edge provenance if Atlas relationships need to support source-level claims.
+6. Run the first reproducible project Experiment and preserve the real outcome, including negative/mixed/inconclusive results.
+7. Curate independent replication records only when genuinely independent evaluation sources are directly verified.
+8. Add semantic retrieval only after it can preserve inspectable provenance and outperform the deterministic structural/lexical baseline.
 
 ---
 
@@ -478,6 +525,6 @@ Earlier implementation detail remains preserved in Git history and the specifica
 
 Update this tracker whenever a meaningful feature, acceptance gate, or blocker changes.
 
-- `[x]` — implementation exists in the repository.
+- `[x]` — implementation or acceptance gate exists and has passed its defined check.
 - `[ ]` — not complete or not yet accepted.
-- Build success does **not** imply visual, accessibility, evidence-quality, or production acceptance.
+- Build success does **not** imply research-evidence quality or manual assistive-technology/device acceptance.
