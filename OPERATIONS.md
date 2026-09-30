@@ -33,7 +33,26 @@ This performs dependency-free static checks over application code for committed 
 
 It is intentionally narrower than a full ESLint/accessibility analyzer and should not be presented as one.
 
-### 3. Research utility tests
+### 3. Canonical UI contract
+
+```bash
+npm run check:ui
+```
+
+This protects the shared visual/accessibility system at source level, including:
+
+- canonical typography/theme/control contracts;
+- the final `research-ui.css` cascade position;
+- removal of deprecated visual layers;
+- theme-control integration;
+- header and Atlas accessibility semantics;
+- long-equation containment;
+- AA-capable metadata contrast tokens;
+- the single-column tablet Research-fields index that prevents the legacy two-column card layout from returning.
+
+This check catches deterministic source drift, but it is not a rendered-browser test.
+
+### 4. Research utility tests
 
 ```bash
 npm run test:research
@@ -55,7 +74,7 @@ The Node test suite covers deterministic research/data behavior including:
 
 Tests should stay deterministic and should not depend on live third-party network calls.
 
-### 4. TypeScript
+### 5. TypeScript
 
 ```bash
 npm run typecheck
@@ -63,7 +82,7 @@ npm run typecheck
 
 Strict typechecking protects schema and UI integration but does not validate research semantics.
 
-### 5. Production build
+### 6. Production build
 
 ```bash
 npm run build
@@ -73,11 +92,32 @@ The Next.js build exercises static route generation and the project-wide researc
 
 A build failure caused by research validation should be fixed in the data or validator logic; do not disable validation to force a build through.
 
-### 6. Production route smoke test
+### 7. Chromium browser acceptance
+
+```bash
+npm run test:acceptance
+```
+
+Playwright starts the production Next.js server and runs Chromium against the built application. The acceptance suite currently checks:
+
+- representative routes at desktop, tablet, and phone widths;
+- both explicit light and dark themes;
+- page-level horizontal overflow;
+- long equation/table/code containment;
+- command-palette keyboard operation and focus restoration;
+- mobile navigation state/current-page/Escape behavior;
+- automated axe WCAG A/AA checks on representative routes;
+- representative full-page visual-review snapshots.
+
+The viewport matrix intentionally includes the 820px tablet band because a legacy two-column Research-fields rule previously produced a 1102px document width there. That regression is now covered by both browser acceptance and the source-level UI contract.
+
+Automated Chromium acceptance is a release gate, but it does **not** replace physical-device testing or real screen-reader testing.
+
+### 8. Production route smoke test
 
 CI launches the production Next.js server and requests representative index/detail/provenance routes.
 
-This proves those server routes answer successfully in the CI environment. It is not a visual, browser-interaction, or accessibility test.
+This proves those server routes answer successfully in the CI environment. It complements, rather than replaces, the browser suite.
 
 ## GitHub Actions
 
@@ -87,21 +127,26 @@ A healthy checkpoint requires the single `web` job to pass all of:
 
 ```text
 Install dependencies
+Install Chromium
 Check Markdown links
 Check source hygiene
+Check UI consistency
 Test research utilities
 Typecheck
 Build
+Browser acceptance
 Production route smoke test
 ```
 
-When diagnosing a failure, inspect the first failed step rather than assuming a later build problem.
+The browser step produces an HTML Playwright report and representative visual snapshots. CI retains `playwright-report/` and `test-results/` as a `browser-acceptance` artifact for 14 days on both successful and failed runs so rendered evidence can be reviewed after the job completes.
+
+When diagnosing a failure, inspect the first failed step rather than assuming a later build problem. Browser overflow failures report the largest DOM elements extending outside the viewport, which makes layout regressions directly actionable.
 
 ## Dependency installation
 
-CI currently uses `npm install` with the committed package metadata.
+CI currently uses `npm install` with the committed lockfile/package metadata and provisions Chromium through Playwright.
 
-If dependency reproducibility becomes a release blocker, migrate deliberately to a lockfile-enforced install policy and validate the change in CI. Do not switch installation commands casually during unrelated feature work.
+If dependency reproducibility becomes a release blocker, migrate deliberately to a stricter lockfile-enforced install policy and validate the change in CI. Do not switch installation commands casually during unrelated feature work.
 
 ## Upstream evidence verification
 
@@ -121,118 +166,111 @@ This makes the archive reproducible without making builds dependent on GitHub av
 
 ## Vercel deployment model
 
-The intended hosting target is Vercel because the application is a standard Next.js project.
+The repository has its own Vercel project:
 
-A repository must have its own Vercel project. Do not deploy this code into an unrelated existing project merely to obtain a preview URL.
+- project: `foundation-algorithms-collection`;
+- framework: Next.js;
+- production alias: `https://foundation-algorithms-collection.vercel.app`.
 
-Once a dedicated project exists, the recommended flow is:
+Pushes to `main` create production deployments through the repository integration. GitHub Actions remains an independent validation gate; a Vercel `READY` deployment is not by itself evidence that research, interaction, or accessibility acceptance passed.
+
+The practical flow is now:
 
 ```text
 main / pull request
       ↓
-GitHub Actions validation
+GitHub Actions static + research validation
       ↓
-Vercel preview deployment
+production Next.js build
       ↓
-real-browser acceptance
+Chromium responsive/theme/a11y acceptance
       ↓
-production promotion/deployment
+Vercel deployment
       ↓
-production smoke + visual/accessibility acceptance
+runtime-error check + manual AT/device review when required
 ```
-
-## Vercel project setup
-
-When creating the dedicated project:
-
-- connect `anatwork14/foundation-algorithms-collection` as the Git repository;
-- use the repository root as the project root;
-- keep the detected Next.js framework settings unless a documented need requires an override;
-- do not add environment variables unless the application actually requires them;
-- enable preview deployments for review branches/pull requests;
-- document the resulting production URL in the repository.
 
 No Vercel project ID, token, or secret belongs in Git.
 
-## Preview acceptance
+## Browser acceptance matrix
 
-A preview deployment should be reviewed in a real browser before marking visual or accessibility tasks complete.
+Automated Chromium acceptance covers:
 
-Minimum matrix:
-
-- phone viewport;
-- tablet viewport;
-- desktop viewport;
+- desktop: 1440 × 1000;
+- tablet: 820 × 1180;
+- phone: 390 × 844;
 - light theme;
 - dark theme;
-- keyboard-only navigation;
-- command palette open/search/close/focus return;
-- long equations and wide tables;
-- Algorithm, Atlas, Lab, Evidence, Claims, Replications, and chapter-reader routes.
+- homepage, long-form chapter, Algorithm detail, Atlas, and Evidence as representative responsive routes;
+- all major index/workspace routes for desktop page-level overflow;
+- keyboard-driven command palette and mobile navigation;
+- long equations, wide tables, and technical scrollers;
+- axe WCAG A/AA checks on representative routes.
 
-Record acceptance separately from build status.
+Representative full-page screenshots are attached to the retained CI artifact for:
+
+- homepage in light/dark at desktop/tablet/phone;
+- LinUCB chapter at desktop light and phone dark;
+- Atlas at desktop light and phone dark;
+- Evidence at desktop light and phone dark.
+
+These snapshots are review evidence, not pixel-diff baselines. If the visual language stabilizes enough to justify strict screenshot regression testing, add baselines deliberately rather than treating normal text rendering differences as failures.
 
 ## Accessibility acceptance
 
-Source-level accessibility precautions are necessary but insufficient.
+Source-level precautions and automated axe scans are necessary but insufficient.
 
-Before production acceptance, verify:
+Automated coverage now verifies visible browser structure, keyboard interactions, focus return, responsive containment, and common WCAG A/AA rule violations. Before declaring accessibility fully accepted, still perform representative manual checks for:
 
-- logical heading hierarchy;
-- visible focus indicators;
-- keyboard reachability of all controls;
-- modal focus trapping and return focus;
-- no keyboard traps outside intentional modal containment;
-- sensible accessible names for icon-only controls;
-- contrast in light and dark themes;
-- reduced-motion behavior;
-- table navigation/semantics;
-- KaTeX/math screen-reader behavior;
-- VoiceOver and/or NVDA behavior on representative routes.
-
-Automated tooling can assist but does not replace the manual walkthrough.
+- VoiceOver and/or NVDA announcements;
+- mathematical expression reading behavior;
+- complex Atlas relationship navigation with assistive technology;
+- table semantics with a screen reader;
+- physical-device zoom/text scaling where relevant;
+- any interaction whose meaning depends on timing or spatial context.
 
 ## Visual acceptance
 
-Check rendered behavior rather than only source CSS:
+Rendered behavior is now exercised continuously in Chromium and representative screenshots are retained from CI. Review those artifacts for:
 
-- canonical SVG logo at header and favicon scale;
-- typography loading and fallback behavior;
-- evidence badges and stage labels in both themes;
+- canonical SVG logo at header scale;
+- Fraunces / Source Sans 3 / JetBrains Mono role consistency;
+- light/dark surface balance;
 - long research titles;
 - empty states;
-- dense relation/evidence cards;
+- dense relationship/evidence surfaces;
 - search snippets;
-- horizontal overflow for code, equations, and tables;
+- responsive Research-fields editorial index;
+- horizontal containment for code, equations, and tables;
 - mobile navigation and Evidence sub-navigation.
 
-Do not remove legacy CSS merely because it looks unused in source; confirm rendered pages before cleanup.
+Physical-device visual review remains useful for OS font rendering, touch ergonomics, browser chrome, and viewport behavior that headless Chromium cannot model perfectly.
 
 ## Production deployment
 
-Production promotion should happen only after:
+A production checkpoint should require:
 
-- GitHub Actions is green on the intended revision;
-- preview build succeeds;
-- critical browser routes are reviewed;
-- blocking accessibility regressions are resolved;
-- the production URL/domain is known.
+- GitHub Actions green on the intended revision;
+- Chromium acceptance green;
+- Vercel deployment `READY`;
+- no blocking runtime errors;
+- unresolved manual AT/device limitations documented rather than silently treated as passed.
 
 After deployment:
 
-1. request core routes from the public production URL;
-2. verify static assets and fonts;
-3. inspect runtime/build logs for unexpected errors;
-4. repeat key keyboard interactions;
-5. record the production URL and accepted revision in project documentation.
+1. confirm the production alias resolves to the intended revision;
+2. inspect Vercel runtime errors/logs when relevant;
+3. use retained browser artifacts for rendered review;
+4. repeat manual screen-reader/physical-device checks for major interaction or design changes;
+5. record accepted revision and remaining limitations in project documentation.
 
 ## Rollback
 
 If a production release regresses:
 
 - prefer promoting/rolling back to the last accepted deployment rather than patching unvalidated code directly in production;
-- reproduce the regression on a preview branch;
-- add a regression test when the failure is deterministic and testable;
+- reproduce the regression in the Playwright acceptance matrix when possible;
+- add a deterministic regression assertion before fixing the source;
 - keep research-data corrections auditable in Git history.
 
 ## Release evidence
@@ -242,16 +280,10 @@ A release checkpoint should record at minimum:
 ```text
 Git commit
 GitHub Actions run
-Preview deployment URL
-Production deployment URL
-Browser acceptance date
-Known open limitations
+Vercel deployment/revision
+Browser acceptance result
+Visual artifact availability
+Known manual AT/device limitations
 ```
 
-Do not describe a release as “fully accepted” if deployment, browser, screen-reader, contrast, or research-evidence review remains open.
-
-## Current deployment limitation
-
-At the time this guide was added, the connected Vercel account had no dedicated project for this repository. Existing Vercel projects belonged to other applications, so this repository was intentionally **not** attached to an unrelated project.
-
-Until a dedicated project exists, CI build and production-server smoke tests are valid engineering checkpoints, but preview/production and real-browser acceptance remain open.
+Do not describe a release as “fully accessibility accepted” if VoiceOver/NVDA or required physical-device review remains open. Automated browser and axe success are strong engineering evidence, but they are not substitutes for assistive-technology evaluation.
