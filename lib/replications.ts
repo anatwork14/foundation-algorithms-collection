@@ -47,6 +47,12 @@ export function replicationsForAlgorithm(algorithmId: string) {
   return replications.filter((record) => record.algorithmIds.includes(algorithmId));
 }
 
+export function replicationsForReference(referenceId: string) {
+  return replications.filter(
+    (record) => record.replicationReferenceId === referenceId || record.originalReferenceIds.includes(referenceId),
+  );
+}
+
 export function replicationSearchText(record: ReplicationRecord, references: ReferenceEntity[]) {
   const referenceTitles = [record.replicationReferenceId, ...record.originalReferenceIds]
     .map((id) => references.find((reference) => reference.id === id)?.title ?? id);
