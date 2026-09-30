@@ -15,7 +15,7 @@ export default function ReplicationsPage() {
   return (
     <main className="evidence-hub shell">
       <header className="evidence-hub-hero">
-        <span className="eyebrow"><RefreshCcw size={13} /> Independent replication</span>
+        <span className="eyebrow"><RefreshCcw size={13} aria-hidden="true" /> Independent replication</span>
         <h1>Replication is an evidence layer, not a badge.</h1>
         <p>
           This surface records independently authored replication or evaluation evidence only after direct source verification. A record may support, contradict, partially support, or leave the original finding inconclusive.
@@ -39,7 +39,7 @@ export default function ReplicationsPage() {
                 <div className="implementation-language">REP</div>
                 <div>
                   <div className="implementation-overline">{record.outcome} · verified {record.verifiedAt}</div>
-                  <h2>{record.title}</h2>
+                  <h2><Link href={`/replications/${record.id}`}>{record.title}</Link></h2>
                   <p>{record.summary}</p>
                   <p>{record.independenceNote}</p>
                   <div className="implementation-tags">
@@ -47,8 +47,8 @@ export default function ReplicationsPage() {
                   </div>
                 </div>
                 <div className="implementation-row-meta">
-                  {source && <Link href={`/references/${source.id}`}>Independent source <ArrowRight size={13} /></Link>}
-                  <Link href="/references">Original sources <ArrowRight size={13} /></Link>
+                  <Link href={`/replications/${record.id}`}>Inspect record <ArrowRight size={13} aria-hidden="true" /></Link>
+                  {source && <Link href={`/references/${source.id}`}>Independent source <ArrowRight size={13} aria-hidden="true" /></Link>}
                 </div>
               </article>
             );
@@ -56,9 +56,9 @@ export default function ReplicationsPage() {
         </section>
       ) : (
         <section className="reference-empty" aria-live="polite">
-          <Search size={22} />
+          <Search size={22} aria-hidden="true" />
           <strong>No independent replication record is curated yet.</strong>
-          <span>The archive intentionally shows zero rather than inferring replication from a second implementation, a related paper, or this project's own experiment.</span>
+          <span>The archive intentionally shows zero rather than inferring replication from a second implementation, a related paper, or this project&apos;s own experiment.</span>
         </section>
       )}
     </main>
