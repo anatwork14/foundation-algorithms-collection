@@ -102,6 +102,7 @@ jobs:
             "/implementations"
             "/implementations/faiss-hnsw"
             "/experiments"
+            "/experiments/hnsw-linucb-reranking-drift-pilot"
           )
 
           for route in "${routes[@]}"; do
