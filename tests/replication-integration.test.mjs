@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { deriveEvidenceStage } from "../lib/evidence-stage.ts";
 import { references } from "../lib/references.ts";
-import { replications, replicationsForAlgorithm } from "../lib/replications.ts";
+import { replications, replicationsForAlgorithm, replicationsForReference } from "../lib/replications.ts";
 import { validateReplications } from "../lib/replication-validation.ts";
 
 const replicationAlgorithmIds = [...new Set(replications.flatMap((record) => record.algorithmIds))];
@@ -26,11 +26,20 @@ test("HNSW has the independently authored ANN-Benchmarks evaluation", () => {
   assert.ok(evaluation);
   assert.equal(evaluation.evidenceRole, "Replication / evaluation");
   assert.ok(evaluation.algorithmIds.includes("hnsw"));
+  assert.ok(evaluation.citations.some((citation) => citation.targetId === "malkov-2018-hnsw"));
 
   const original = references.find((reference) => reference.id === "malkov-2018-hnsw");
   assert.ok(original);
   assert.equal(original.evidenceRole, "Primary method");
   assert.ok(original.algorithmIds.includes("hnsw"));
+});
+
+test("both independent and original references resolve back to the same replication record", () => {
+  const fromEvaluation = replicationsForReference("aumuller-2020-ann-benchmarks");
+  const fromOriginal = replicationsForReference("malkov-2018-hnsw");
+
+  assert.deepEqual(fromEvaluation.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
+  assert.deepEqual(fromOriginal.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
 });
 
 test("an explicit independent evaluation advances descriptive coverage to Replicated", () => {
