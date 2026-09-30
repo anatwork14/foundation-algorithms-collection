@@ -1,6 +1,6 @@
 import type { AlgorithmEntity } from "@/lib/algorithms";
 import type { ReferenceEntity } from "@/lib/references";
-import { relationProvenanceKey, type RelationProvenanceRecord } from "@/lib/relation-provenance";
+import { relationProvenanceKey, type RelationProvenanceRecord } from "./relation-provenance.ts";
 
 export function validateRelationProvenance(
   records: RelationProvenanceRecord[],
