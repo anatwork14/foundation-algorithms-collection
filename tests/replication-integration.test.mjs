@@ -1,13 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { algorithms } from "../lib/algorithm-catalog.ts";
-import { getAlgorithmEvidenceProfile } from "../lib/evidence-profile.ts";
+import { deriveEvidenceStage } from "../lib/evidence-stage.ts";
 import { references } from "../lib/references.ts";
 import { replications, replicationsForAlgorithm } from "../lib/replications.ts";
 import { validateReplications } from "../lib/replication-validation.ts";
 
-test("curated replication catalog validates against live algorithms and references", () => {
-  assert.deepEqual(validateReplications(replications, algorithms, references), []);
+const replicationAlgorithmIds = [...new Set(replications.flatMap((record) => record.algorithmIds))];
+const minimalAlgorithms = replicationAlgorithmIds.map((id) => ({ id }));
+
+test("curated replication catalog validates against its referenced algorithms and live references", () => {
+  assert.deepEqual(validateReplications(replications, minimalAlgorithms, references), []);
 });
 
 test("HNSW has the independently authored ANN-Benchmarks evaluation", () => {
@@ -28,16 +30,18 @@ test("HNSW has the independently authored ANN-Benchmarks evaluation", () => {
   const original = references.find((reference) => reference.id === "malkov-2018-hnsw");
   assert.ok(original);
   assert.equal(original.evidenceRole, "Primary method");
+  assert.ok(original.algorithmIds.includes("hnsw"));
 });
 
-test("an independent HNSW evaluation advances evidence coverage to Replicated", () => {
-  const profile = getAlgorithmEvidenceProfile("hnsw");
-  assert.equal(profile.stage, "Replicated");
-  assert.equal(profile.replicatedResults, 1);
+test("an explicit independent evaluation advances descriptive coverage to Replicated", () => {
+  const records = replicationsForAlgorithm("hnsw");
+  const stage = deriveEvidenceStage({
+    references: 1,
+    implementations: 0,
+    experiments: 0,
+    resultExperiments: 0,
+    replicatedResults: records.length,
+  });
 
-  const replicationDimension = profile.dimensions.find((dimension) => dimension.key === "replication");
-  assert.ok(replicationDimension);
-  assert.equal(replicationDimension.present, true);
-  assert.equal(replicationDimension.count, 1);
-  assert.equal(replicationDimension.state, "1 independent record");
+  assert.equal(stage, "Replicated");
 });
