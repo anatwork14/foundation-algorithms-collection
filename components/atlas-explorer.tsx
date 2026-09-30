@@ -23,6 +23,8 @@ const relationTypes: Array<RelationType | "All"> = [
   "accelerates",
 ];
 
+type RelationEvidenceFilter = "All" | "Source-backed" | "Conceptual";
+
 type VisibleRelationProvenance = {
   source: AlgorithmEntity;
   target: AlgorithmEntity;
@@ -30,11 +32,16 @@ type VisibleRelationProvenance = {
   record: RelationProvenanceRecord;
 };
 
+function evidenceState(record: RelationProvenanceRecord | null) {
+  return record ? "Source-backed" : "Conceptual";
+}
+
 export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] }) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("linucb");
   const [field, setField] = useState<ResearchField | "All">("All");
   const [relationType, setRelationType] = useState<RelationType | "All">("All");
+  const [relationEvidence, setRelationEvidence] = useState<RelationEvidenceFilter>("All");
 
   const selected = algorithms.find((algorithm) => algorithm.id === selectedId) ?? algorithms[0];
   const byId = useMemo(() => new Map(algorithms.map((algorithm) => [algorithm.id, algorithm])), [algorithms]);
@@ -80,14 +87,22 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
       .map((relation) => ({ relation, source: algorithm })),
   );
 
-  const outgoing = outgoingAll.filter(({ relation, target }) =>
-    (relationType === "All" || relation.type === relationType) &&
-    (field === "All" || target.fields.includes(field)),
-  );
-  const incoming = incomingAll.filter(({ relation, source }) =>
-    (relationType === "All" || relation.type === relationType) &&
-    (field === "All" || source.fields.includes(field)),
-  );
+  const outgoing = outgoingAll.filter(({ relation, target }) => {
+    const record = getRelationProvenance(selected.id, relation.type, target.id);
+    return (
+      (relationType === "All" || relation.type === relationType) &&
+      (field === "All" || target.fields.includes(field)) &&
+      (relationEvidence === "All" || evidenceState(record) === relationEvidence)
+    );
+  });
+  const incoming = incomingAll.filter(({ relation, source }) => {
+    const record = getRelationProvenance(source.id, relation.type, selected.id);
+    return (
+      (relationType === "All" || relation.type === relationType) &&
+      (field === "All" || source.fields.includes(field)) &&
+      (relationEvidence === "All" || evidenceState(record) === relationEvidence)
+    );
+  });
 
   const neighbors = [...outgoing.map((item) => item.target), ...incoming.map((item) => item.source)]
     .filter((algorithm, index, all) => all.findIndex((item) => item.id === algorithm.id) === index);
@@ -108,6 +123,10 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
       record: getRelationProvenance(source.id, relation.type, selected.id),
     })),
   ].filter((item): item is VisibleRelationProvenance => Boolean(item.record));
+
+  const visibleRelationCount = outgoing.length + incoming.length;
+  const visibleSourceBackedCount = visibleProvenance.length;
+  const visibleConceptualCount = visibleRelationCount - visibleSourceBackedCount;
 
   return (
     <main className="atlas-page shell">
@@ -135,6 +154,11 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
             </select>
             <select value={relationType} onChange={(event) => setRelationType(event.target.value as RelationType | "All")} aria-label="Filter Atlas by relationship type">
               {relationTypes.map((item) => <option key={item} value={item}>{item === "All" ? "All relations" : item.replaceAll("-", " ")}</option>)}
+            </select>
+            <select value={relationEvidence} onChange={(event) => setRelationEvidence(event.target.value as RelationEvidenceFilter)} aria-label="Filter Atlas by relation evidence">
+              <option value="All">All evidence states</option>
+              <option value="Source-backed">Source-backed only</option>
+              <option value="Conceptual">Conceptual only</option>
             </select>
           </div>
           <div className="atlas-picker-list" role="group" aria-label="Atlas algorithms">
@@ -165,6 +189,12 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
             <Link href={`/algorithms/${selected.id}`} className="atlas-open-link">Open research card <ArrowRight size={14} aria-hidden="true" /></Link>
           </div>
 
+          <div className="atlas-edge-coverage" aria-label={`Visible relation evidence coverage for ${selected.name}`}>
+            <span><strong>{visibleRelationCount}</strong> visible edges</span>
+            <span><strong>{visibleSourceBackedCount}</strong> source-backed</span>
+            <span><strong>{visibleConceptualCount}</strong> conceptual</span>
+          </div>
+
           <div className="atlas-neighborhood" role="region" aria-label={`Relationships around ${selected.name}`}>
             <div className="atlas-core-node">
               <span>{selected.fields[0]}</span>
@@ -177,18 +207,25 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
                 const incomingRelation = incoming.find((item) => item.source.id === neighbor.id)?.relation;
                 const relation = outgoingRelation ?? incomingRelation;
                 const direction = outgoingRelation ? "out" : "in";
+                const record = outgoingRelation
+                  ? getRelationProvenance(selected.id, outgoingRelation.type, neighbor.id)
+                  : incomingRelation
+                    ? getRelationProvenance(neighbor.id, incomingRelation.type, selected.id)
+                    : null;
+                const state = evidenceState(record);
                 return (
                   <button key={neighbor.id} className="atlas-neighbor" onClick={() => setSelectedId(neighbor.id)}>
                     <span className={`entity-field-dot field-dot-${fieldKey(neighbor.fields[0])}`} aria-hidden="true" />
                     <small>{direction === "out" ? relation?.type.replaceAll("-", " ") : `referenced by · ${relation?.type.replaceAll("-", " ")}`}</small>
                     <strong>{neighbor.name}</strong>
+                    <span className={`atlas-edge-evidence ${record ? "is-source-backed" : "is-conceptual"}`}>{state}</span>
                     <p>{relation?.note}</p>
                   </button>
                 );
               })}
               {!neighbors.length && (
                 <div className="atlas-no-relations">
-                  No curated relationships match the current field/relation filters.
+                  No curated relationships match the current field, relation, and evidence filters.
                 </div>
               )}
             </div>
@@ -196,16 +233,26 @@ export function AtlasExplorer({ algorithms }: { algorithms: AlgorithmEntity[] })
 
           <div className="atlas-relation-table" role="region" aria-label={`Relationship details for ${selected.name}`}>
             <div className="atlas-table-head"><span>Direction</span><span>Relation</span><span>Algorithm</span><span>Research meaning</span></div>
-            {outgoing.map(({ relation, target }) => (
-              <Link key={`out-${relation.type}-${target.id}`} href={`/algorithms/${target.id}`} className="atlas-table-row">
-                <span>→</span><span>{relation.type.replaceAll("-", " ")}</span><strong>{target.name}</strong><p>{relation.note}</p>
-              </Link>
-            ))}
-            {incoming.map(({ relation, source }) => (
-              <Link key={`in-${relation.type}-${source.id}`} href={`/algorithms/${source.id}`} className="atlas-table-row">
-                <span>←</span><span>{relation.type.replaceAll("-", " ")}</span><strong>{source.name}</strong><p>{relation.note}</p>
-              </Link>
-            ))}
+            {outgoing.map(({ relation, target }) => {
+              const record = getRelationProvenance(selected.id, relation.type, target.id);
+              return (
+                <Link key={`out-${relation.type}-${target.id}`} href={`/algorithms/${target.id}`} className="atlas-table-row">
+                  <span>→</span>
+                  <span className="atlas-relation-kind"><span>{relation.type.replaceAll("-", " ")}</span><small className={record ? "is-source-backed" : "is-conceptual"}>{evidenceState(record)}</small></span>
+                  <strong>{target.name}</strong><p>{relation.note}</p>
+                </Link>
+              );
+            })}
+            {incoming.map(({ relation, source }) => {
+              const record = getRelationProvenance(source.id, relation.type, selected.id);
+              return (
+                <Link key={`in-${relation.type}-${source.id}`} href={`/algorithms/${source.id}`} className="atlas-table-row">
+                  <span>←</span>
+                  <span className="atlas-relation-kind"><span>{relation.type.replaceAll("-", " ")}</span><small className={record ? "is-source-backed" : "is-conceptual"}>{evidenceState(record)}</small></span>
+                  <strong>{source.name}</strong><p>{relation.note}</p>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="atlas-evidence-neighbors" role="region" aria-label={`Evidence neighbors for ${selected.name}`}>
