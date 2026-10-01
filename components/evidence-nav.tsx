@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { BookOpen, Code2, FlaskConical, GitBranch, RefreshCcw, Search, ShieldCheck } from "lucide-react";
+import { BookOpen, CircleDashed, Code2, FlaskConical, GitBranch, RefreshCcw, Search, ShieldCheck } from "lucide-react";
 
-type EvidenceSection = "overview" | "references" | "implementations" | "experiments" | "passages" | "claims" | "replications";
+type EvidenceSection = "overview" | "gaps" | "references" | "implementations" | "experiments" | "passages" | "claims" | "replications";
 
 const items: Array<{ id: EvidenceSection; href: string; label: string; icon: typeof GitBranch }> = [
   { id: "overview", href: "/evidence", label: "Overview", icon: GitBranch },
+  { id: "gaps", href: "/evidence/gaps", label: "Gaps", icon: CircleDashed },
   { id: "references", href: "/references", label: "References", icon: BookOpen },
   { id: "implementations", href: "/implementations", label: "Implementations", icon: Code2 },
   { id: "experiments", href: "/experiments", label: "Experiments", icon: FlaskConical },
