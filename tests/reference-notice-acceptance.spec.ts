@@ -27,7 +27,7 @@ test("reference notice filter isolates verified errata sources", async ({ page }
 
   await page.getByRole("combobox", { name: "Filter references by source notice" }).selectOption("Errata");
 
-  await expect(page.locator(".reference-result-count")).toHaveText("1 references");
+  await expect(page.locator(".reference-result-count")).toHaveText("1 reference");
   await expect(page.getByRole("heading", { name: /FIPS 203/ })).toBeVisible();
   await expect(page.locator(".reference-row")).toHaveCount(1);
 });
