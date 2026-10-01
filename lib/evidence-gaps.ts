@@ -1,5 +1,10 @@
 import { algorithms } from "@/lib/algorithm-catalog";
 import { claimsForAlgorithm } from "@/lib/claims";
+import {
+  deriveEvidenceGapKeys,
+  suggestedEvidenceGapTask,
+  type EvidenceGapKey,
+} from "@/lib/evidence-gap-state";
 import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-profile";
 import { experimentsForAlgorithm } from "@/lib/experiments";
 import { implementationsForAlgorithm } from "@/lib/implementations";
@@ -7,13 +12,7 @@ import { referencesForAlgorithm } from "@/lib/references";
 import { replicationsForAlgorithm } from "@/lib/replications";
 import type { ResearchField } from "@/lib/taxonomy";
 
-export type EvidenceGapKey =
-  | "primary-source"
-  | "curated-claim"
-  | "implementation"
-  | "experiment"
-  | "result"
-  | "independent-evaluation";
+export type { EvidenceGapKey } from "@/lib/evidence-gap-state";
 
 export type EvidenceGap = {
   key: EvidenceGapKey;
@@ -61,29 +60,15 @@ export function getAlgorithmEvidenceGaps(algorithmId: string): AlgorithmEvidence
   const experiments = experimentsForAlgorithm(algorithmId);
   const resultExperiments = experiments.filter((experiment) => Boolean(experiment.result));
   const replications = replicationsForAlgorithm(algorithmId);
-  const gaps: EvidenceGap[] = [];
-
-  if (primarySourceCount(algorithmId) === 0) gaps.push({ key: "primary-source", label: gapLabels["primary-source"] });
-  if (claims.length === 0) gaps.push({ key: "curated-claim", label: gapLabels["curated-claim"] });
-  if (implementations.length === 0) gaps.push({ key: "implementation", label: gapLabels.implementation });
-  if (experiments.length === 0) gaps.push({ key: "experiment", label: gapLabels.experiment });
-  if (experiments.length > 0 && resultExperiments.length === 0) gaps.push({ key: "result", label: gapLabels.result });
-  if (replications.length === 0) gaps.push({ key: "independent-evaluation", label: gapLabels["independent-evaluation"] });
-
-  const suggestedTask =
-    gaps.some((gap) => gap.key === "primary-source")
-      ? "Curate a primary paper or normative standard before adding stronger archive assertions."
-      : gaps.some((gap) => gap.key === "curated-claim")
-        ? "Ground one useful archive statement in a unique Markdown passage and an explicit source."
-        : gaps.some((gap) => gap.key === "implementation")
-          ? "Verify an inspectable implementation at an immutable upstream revision, when implementation evidence is useful."
-          : gaps.some((gap) => gap.key === "experiment")
-            ? "Design a reproducible project experiment if empirical evaluation would answer a meaningful research question."
-            : gaps.some((gap) => gap.key === "result")
-              ? "Run or record the existing experiment protocol while preserving limitations and negative findings."
-              : gaps.some((gap) => gap.key === "independent-evaluation")
-                ? "Look for an independently authored evaluation or replication that explicitly covers this algorithm."
-                : null;
+  const gapKeys = deriveEvidenceGapKeys({
+    primarySources: primarySourceCount(algorithmId),
+    claims: claims.length,
+    implementations: implementations.length,
+    experiments: experiments.length,
+    resultExperiments: resultExperiments.length,
+    independentEvaluations: replications.length,
+  });
+  const gaps = gapKeys.map((key) => ({ key, label: gapLabels[key] }));
 
   return {
     algorithmId,
@@ -92,7 +77,7 @@ export function getAlgorithmEvidenceGaps(algorithmId: string): AlgorithmEvidence
     family: algorithm.families[0],
     stage: profile.stage,
     gaps,
-    suggestedTask,
+    suggestedTask: suggestedEvidenceGapTask(gapKeys),
   };
 }
 
