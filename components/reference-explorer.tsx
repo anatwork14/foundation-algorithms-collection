@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Network, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { ResearchPageHeader } from "@/components/research-page-header";
 import type { ReferenceEntity, ReferenceEvidenceRole, ReferenceKind, ReferenceNoticeKind } from "@/lib/references";
 import { referenceSearchText } from "@/lib/references";
 
@@ -51,17 +52,19 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
 
   return (
     <main className="reference-page shell">
-      <header className="reference-hero">
-        <span className="eyebrow"><span className="live-dot" /> Evidence layer</span>
-        <h1>Primary sources should be as navigable as algorithms.</h1>
-        <p>Papers, standards, and books become first-class records linked back to the mechanisms and research hypotheses they support.</p>
+      <ResearchPageHeader
+        className="reference-hero"
+        eyebrow={<><span className="live-dot" aria-hidden="true" /> Evidence layer</>}
+        title="Primary sources should be as navigable as algorithms."
+        description="Papers, standards, and books become first-class records linked back to the mechanisms and research hypotheses they support."
+      >
         <EvidenceNav current="references" />
-        <Link href="/references/graph" className="reference-graph-link"><Network size={14} /> Explore citation graph <ArrowRight size={13} /></Link>
-      </header>
+        <Link href="/references/graph" className="reference-graph-link"><Network size={14} aria-hidden="true" /> Explore citation graph <ArrowRight size={13} aria-hidden="true" /></Link>
+      </ResearchPageHeader>
 
       <section className="reference-controls" aria-label="Reference filters">
         <label>
-          <Search size={17} />
+          <Search size={17} aria-hidden="true" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search papers, authors, standards, algorithms, errata…" />
         </label>
         <div className="reference-filter-selects">
@@ -103,15 +106,15 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
               <div className="reference-tags">{reference.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </div>
             <div className="reference-actions">
-              <Link href={`/references/${reference.id}`}>Evidence record <ArrowRight size={13} /></Link>
-              <a href={reference.url} target="_blank" rel="noreferrer">Primary source <ArrowUpRight size={13} /></a>
+              <Link href={`/references/${reference.id}`}>Evidence record <ArrowRight size={13} aria-hidden="true" /></Link>
+              <a href={reference.url} target="_blank" rel="noreferrer">Primary source <ArrowUpRight size={13} aria-hidden="true" /></a>
               <span>{reference.algorithmIds.length} algorithms · {reference.combinationIds.length} Lab records · {reference.citations.length} verified citations</span>
             </div>
           </article>
         ))}
         {!results.length && (
           <div className="reference-empty">
-            <Search size={20} />
+            <Search size={20} aria-hidden="true" />
             <strong>No matching reference.</strong>
             <span>Try an author, algorithm, standard, evidence role, notice type, or broader keyword.</span>
           </div>
