@@ -32,7 +32,8 @@
 }
 .reference-controls label:focus-within { border-color: var(--line-strong); box-shadow: 0 0 0 3px var(--accent-soft); }
 .reference-controls input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: var(--type-ui); }
-.reference-controls select { min-height: var(--control-h); padding: 0 34px 0 12px; border: 1px solid var(--line); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--ink); font-size: var(--type-meta); }
+.reference-filter-selects { display: flex; gap: var(--space-2); min-width: 0; }
+.reference-controls select { min-height: var(--control-h); min-width: 0; padding: 0 34px 0 12px; border: 1px solid var(--line); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--ink); font-size: var(--type-meta); }
 .reference-result-count { padding: var(--space-5) var(--space-2) var(--space-3); color: var(--muted-2); font-family: var(--font-mono), ui-monospace, monospace; font-size: var(--type-label); }
 
 .reference-list { border-top: 1px solid var(--line); }
@@ -54,6 +55,7 @@
 .reference-main .reference-authors { margin-top: 0; color: var(--muted-2); font-size: var(--type-meta); }
 .reference-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: var(--space-3); }
 .reference-tags span { padding: 3px 7px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted-2); font-size: var(--type-label); }
+.reference-notice-row span { border-style: dashed; color: var(--ink); }
 .reference-actions { display: grid; align-content: start; gap: 7px; }
 .reference-actions a { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: var(--type-meta); line-height: 1.4; }
 .reference-actions a:first-child { color: var(--ink); font-weight: 650; }
@@ -102,9 +104,14 @@
 
 @media (max-width: 760px) {
   .reference-controls { position: static; grid-template-columns: 1fr; }
+  .reference-filter-selects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .reference-row { grid-template-columns: 50px 1fr; gap: var(--space-3); }
   .reference-actions { grid-column: 2; }
   .reference-detail-hero { padding-top: var(--space-6); padding-bottom: var(--space-7); }
   .reference-connection-grid,
   .reference-detail-side { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .reference-filter-selects { grid-template-columns: 1fr; }
 }
