@@ -19,6 +19,7 @@ function reference(overrides = {}) {
     combinationIds: [],
     chapterSlugs: ["chapter-a"],
     citations: [],
+    notices: [],
     summary: "A source used for validation tests.",
     significance: "It gives the validator a complete valid record.",
     tags: ["test"],
@@ -28,6 +29,21 @@ function reference(overrides = {}) {
 
 test("a complete reference record validates", () => {
   assert.deepEqual(validateReferences([reference()], algorithms, combinations, chapters), []);
+});
+
+test("reference notices require controlled kind and inspectable verification metadata", () => {
+  const errors = validateReferences([
+    reference({
+      notices: [
+        { kind: "Unknown", note: "", url: "http://example.org/notice", verifiedAt: "2026/10/01" },
+      ],
+    }),
+  ], algorithms, combinations, chapters);
+
+  assert.ok(errors.some((error) => error.includes("invalid reference notice kind")));
+  assert.ok(errors.some((error) => error.includes("notice requires a note")));
+  assert.ok(errors.some((error) => error.includes("notice requires an HTTPS verification URL")));
+  assert.ok(errors.some((error) => error.includes("notice verifiedAt must use YYYY-MM-DD")));
 });
 
 test("citation edges reject self references and malformed verification metadata", () => {
