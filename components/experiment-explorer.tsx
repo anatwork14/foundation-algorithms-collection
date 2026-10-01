@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, FlaskConical, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { ResearchPageHeader } from "@/components/research-page-header";
 import { historyForExperiment } from "@/lib/experiment-history";
 import type { ExperimentRecord, ExperimentStatus } from "@/lib/experiments";
 import { experimentSearchText } from "@/lib/experiments";
@@ -25,16 +26,18 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
 
   return (
     <main className="experiment-page shell">
-      <header className="experiment-hero">
-        <span className="eyebrow"><FlaskConical size={13} /> Experiment registry</span>
-        <h1>Turn research hypotheses into reproducible study plans.</h1>
-        <p>Experiment records preserve baselines, datasets, metrics, environment controls, procedures, success criteria, artifacts, revision history, and eventual outcomes—even when the result is negative or inconclusive.</p>
+      <ResearchPageHeader
+        className="experiment-hero"
+        eyebrow={<><FlaskConical size={13} aria-hidden="true" /> Experiment registry</>}
+        title="Turn research hypotheses into reproducible study plans."
+        description="Experiment records preserve baselines, datasets, metrics, environment controls, procedures, success criteria, artifacts, revision history, and eventual outcomes—even when the result is negative or inconclusive."
+      >
         <EvidenceNav current="experiments" />
-      </header>
+      </ResearchPageHeader>
 
       <section className="experiment-controls" aria-label="Experiment filters">
         <label>
-          <Search size={17} />
+          <Search size={17} aria-hidden="true" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search fuzzing, reranking, QEC, baselines, metrics…" />
         </label>
         <select value={status} onChange={(event) => setStatus(event.target.value as ExperimentStatus | "All")} aria-label="Filter experiments by status">
@@ -69,7 +72,7 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
         })}
         {!results.length && (
           <div className="reference-empty">
-            <Search size={20} />
+            <Search size={20} aria-hidden="true" />
             <strong>No matching experiment.</strong>
             <span>Try a metric, algorithm, baseline, status, or broader research term.</span>
           </div>
