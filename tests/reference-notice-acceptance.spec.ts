@@ -18,7 +18,7 @@ test("reference search finds sources through verified notice text", async ({ pag
   await search.fill("errata");
 
   await expect(page.getByRole("heading", { name: /FIPS 203/ })).toBeVisible();
-  await expect(page.getByLabel("Source notices").getByText("Errata", { exact: true })).toBeVisible();
+  await expect(page.locator('[aria-label="Source notices"]').getByText("Errata", { exact: true })).toBeVisible();
 });
 
 test("FIPS 203 exposes inspectable version and errata provenance", async ({ page }) => {
