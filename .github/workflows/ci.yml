@@ -99,6 +99,7 @@ jobs:
             "/atlas"
             "/lab"
             "/evidence"
+            "/evidence/gaps"
             "/passages"
             "/claims"
             "/replications"
