@@ -18,18 +18,21 @@ test("completed reranking pilot exposes result, limitations, reproducible artifa
 
   const harness = page.getByRole("link", { name: /Deterministic simulation harness/i });
   const result = page.getByRole("link", { name: /Recorded aggregate result/i });
+  const manifest = page.getByRole("link", { name: /Verified run manifest/i });
   await expect(harness).toHaveAttribute("href", /experiments\/hnsw-linucb-reranking-simulation\.mjs$/);
   await expect(result).toHaveAttribute("href", /experiments\/results\/hnsw-linucb-reranking-drift-pilot\.json$/);
+  await expect(manifest).toHaveAttribute("href", /experiments\/manifests\/hnsw-linucb-reranking-drift-pilot\.json$/);
 
   await expect(page.getByRole("heading", { name: "How this experiment record changed over time" })).toBeVisible();
   const history = page.getByRole("list", { name: "Experiment revision history" });
-  await expect(history.locator("li")).toHaveCount(3);
+  await expect(history.locator("li")).toHaveCount(4);
   await expect(history.getByText("r1", { exact: true })).toBeVisible();
   await expect(history.getByText("r2", { exact: true })).toBeVisible();
   await expect(history.getByText("r3", { exact: true })).toBeVisible();
+  await expect(history.getByText("r4", { exact: true })).toBeVisible();
   await expect(history.getByText("Protocol", { exact: true })).toBeVisible();
-  await expect(history.getByText("Artifact", { exact: true })).toBeVisible();
   await expect(history.getByText("Result", { exact: true })).toBeVisible();
   await expect(history.getByText("Deterministic simulation harness", { exact: true })).toBeVisible();
   await expect(history.getByText("Recorded aggregate result", { exact: true })).toBeVisible();
+  await expect(history.getByText("Verified run manifest", { exact: true })).toBeVisible();
 });
