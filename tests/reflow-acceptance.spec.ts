@@ -96,6 +96,33 @@ test("Evidence sub-navigation exposes one clean label per destination", async ({
   expect(exposedIcons).toBe(0);
 });
 
+test("Evidence destinations stay an editorial index rather than a dashboard-card grid", async ({ page }) => {
+  await page.setViewportSize(desktop);
+  await page.goto("/evidence", { waitUntil: "domcontentloaded" });
+
+  const grid = page.locator(".evidence-hub-grid");
+  const rows = grid.locator(":scope > .evidence-hub-card");
+  await expect(rows).toHaveCount(6);
+
+  const layout = await rows.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return {
+      x: Math.round(rect.x),
+      y: Math.round(rect.y),
+      width: Math.round(rect.width),
+      radius: Number.parseFloat(style.borderRadius) || 0,
+      background: style.backgroundColor,
+    };
+  }));
+
+  expect(new Set(layout.map((row) => row.x)).size).toBe(1);
+  expect(Math.max(...layout.map((row) => row.width)) - Math.min(...layout.map((row) => row.width))).toBeLessThanOrEqual(1);
+  expect(layout.every((row, index) => index === 0 || row.y > layout[index - 1].y)).toBeTruthy();
+  expect(layout.every((row) => row.radius === 0)).toBeTruthy();
+  expect(layout.every((row) => row.background === "rgba(0, 0, 0, 0)")).toBeTruthy();
+});
+
 test("Evidence flow renders seven real steps without a phantom grid cell", async ({ page }) => {
   await page.setViewportSize(desktop);
   await page.goto("/evidence", { waitUntil: "domcontentloaded" });
