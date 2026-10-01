@@ -1,5 +1,13 @@
 /* Small structural refinements that depend on the entity/Atlas/Lab layer. */
 
+/* Editorial text links stay visually light while preserving a usable touch target. */
+.text-link {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
 /* Long-form content is allowed to scroll inside its own technical regions, but
    it must never expand the document itself. These rules also neutralize legacy
    syntax colors so code uses the canonical theme foreground in both modes. */
