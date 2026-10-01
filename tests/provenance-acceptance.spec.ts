@@ -115,7 +115,7 @@ test("implementation detail preserves immutable verification snapshots", async (
 
   const currentRef = (await meta.locator("div").filter({ hasText: "Verified ref" }).locator("strong").innerText()).trim();
   const currentCommit = (await meta.locator("div").filter({ hasText: "Verified commit" }).locator("strong").innerText()).trim();
-  const currentDate = (await meta.locator("div").filter({ hasText: /^Verified$/ }).locator("strong").innerText()).trim();
+  const currentDate = (await meta.locator("div").filter({ hasText: "Verified" }).last().locator("strong").innerText()).trim();
   const latest = entries.last();
 
   await expect(latest.getByText(`r${revisionCount}`, { exact: true })).toBeVisible();
