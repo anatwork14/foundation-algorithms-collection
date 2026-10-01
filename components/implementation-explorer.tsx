@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, Code2, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { ResearchPageHeader } from "@/components/research-page-header";
 import type { ImplementationMaturity, ImplementationRecord } from "@/lib/implementations";
 import { implementationSearchText } from "@/lib/implementations";
 
@@ -29,16 +30,18 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
 
   return (
     <main className="implementation-page shell">
-      <header className="implementation-hero">
-        <span className="eyebrow"><Code2 size={13} /> Implementation registry</span>
-        <h1>Move from theory to inspectable code.</h1>
-        <p>Curated repositories connect algorithm entities to immutable source snapshots, interfaces, license metadata, and exact verification revisions.</p>
+      <ResearchPageHeader
+        className="implementation-hero"
+        eyebrow={<><Code2 size={13} aria-hidden="true" /> Implementation registry</>}
+        title="Move from theory to inspectable code."
+        description="Curated repositories connect algorithm entities to immutable source snapshots, interfaces, license metadata, and exact verification revisions."
+      >
         <EvidenceNav current="implementations" />
-      </header>
+      </ResearchPageHeader>
 
       <section className="implementation-controls" aria-label="Implementation filters">
         <label>
-          <Search size={17} />
+          <Search size={17} aria-hidden="true" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search HNSW, Qiskit, ML-KEM, C++, Python…" />
         </label>
         <select value={maturity} onChange={(event) => setMaturity(event.target.value as ImplementationMaturity | "All")} aria-label="Filter implementations by maturity">
@@ -64,13 +67,13 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
             <div className="implementation-row-meta">
               <span>{record.verifiedRef} · <code>{record.verifiedCommit.slice(0, 12)}</code></span>
               <span>Verified {record.lastVerified}</span>
-              <ArrowRight size={15} />
+              <ArrowRight size={15} aria-hidden="true" />
             </div>
           </Link>
         ))}
         {!results.length && (
           <div className="reference-empty">
-            <Search size={20} />
+            <Search size={20} aria-hidden="true" />
             <strong>No matching implementation.</strong>
             <span>Try a language, framework, repository, algorithm, or broader term.</span>
           </div>
