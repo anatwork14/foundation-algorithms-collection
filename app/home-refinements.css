@@ -4,9 +4,12 @@
   color: var(--muted) !important;
 }
 
+/* Research combinations read as an editorial two-column index, not a card wall. */
 .inspiration-section .inspiration-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: var(--space-3) !important;
+  column-gap: var(--space-7) !important;
+  row-gap: 0 !important;
+  border-top: 1px solid var(--line);
 }
 
 .inspiration-section .inspiration-card,
@@ -17,16 +20,58 @@
 .inspiration-section .inspiration-5,
 .inspiration-section .inspiration-6 {
   min-width: 0;
-  min-height: 220px;
+  min-height: 0;
   grid-column: auto !important;
+  padding: 24px 2px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.inspiration-section .inspiration-card:hover {
+  border-color: var(--line) !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+.inspiration-section .inspiration-card h3 {
+  margin-top: 10px;
+  font-size: 1.08rem;
+  line-height: 1.32;
+}
+
+.inspiration-section .inspiration-card p {
+  max-width: 620px;
+  margin-top: 9px;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.inspiration-section .inspiration-footer {
+  margin-top: 18px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.inspiration-section .inspiration-footer svg {
+  transition: transform 140ms ease;
+}
+
+.inspiration-section .inspiration-card:hover .inspiration-footer svg {
+  transform: translateX(2px);
 }
 
 @media (max-width: 760px) {
   .inspiration-section .inspiration-grid {
     grid-template-columns: minmax(0, 1fr) !important;
+    column-gap: 0 !important;
   }
 
   .inspiration-section .inspiration-card {
     min-height: 0;
+    padding-block: 20px !important;
   }
 }
