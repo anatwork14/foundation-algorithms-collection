@@ -45,7 +45,7 @@ test("coarse-pointer phone can navigate, switch theme, and search without hover"
   const input = dialog.getByRole("textbox", { name: "Search research" });
   await input.fill("LinUCB");
 
-  const result = dialog.locator('.palette-result').filter({ hasText: "LinUCB" }).first();
+  const result = dialog.locator(".palette-result").filter({ hasText: "LinUCB" }).first();
   await expect(result).toBeVisible();
   await result.tap();
   await expect(page).toHaveURL(/\/algorithms\/linucb$/);
@@ -53,7 +53,7 @@ test("coarse-pointer phone can navigate, switch theme, and search without hover"
   await context.close();
 });
 
-test("editorial research rows expose their actions directly to touch", async ({ browser }) => {
+test("editorial research rows expose direct touch navigation", async ({ browser }) => {
   const context = await browser.newContext(phone);
   const page = await context.newPage();
 
@@ -62,6 +62,12 @@ test("editorial research rows expose their actions directly to touch", async ({ 
   await expect(references).toBeVisible();
   await references.tap();
   await expect(page).toHaveURL(/\/references$/);
+
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const foundations = page.locator('a.domain-card[href="/archive?field=Foundations"]');
+  await expect(foundations).toBeVisible();
+  await foundations.tap();
+  await expect(page).toHaveURL(/\/archive\?field=Foundations$/);
 
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const firstCombination = page.locator("a.inspiration-card").first();
