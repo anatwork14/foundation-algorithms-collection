@@ -46,7 +46,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
       <section className="reference-controls" aria-label="Reference filters">
         <label>
           <Search size={17} />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search papers, authors, standards, algorithms…" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search papers, authors, standards, algorithms, errata…" />
         </label>
         <select value={kind} onChange={(event) => setKind(event.target.value as ReferenceKind | "All")} aria-label="Filter references by type">
           {kinds.map((item) => <option key={item} value={item}>{item === "All" ? "All reference types" : item}</option>)}
@@ -63,10 +63,18 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
           <article key={reference.id} className="reference-row">
             <div className="reference-year">{reference.year}</div>
             <div className="reference-main">
-              <div className="reference-overline">{reference.evidenceRole} · {reference.kind}{reference.venue ? ` · ${reference.venue}` : ""}</div>
+              <div className="reference-overline">
+                {reference.evidenceRole} · {reference.kind}{reference.venue ? ` · ${reference.venue}` : ""}
+                {reference.notices.length > 0 ? ` · ${reference.notices.length} source notice${reference.notices.length === 1 ? "" : "s"}` : ""}
+              </div>
               <h2><Link href={`/references/${reference.id}`}>{reference.title}</Link></h2>
               <p className="reference-authors">{reference.authors.join(", ")}</p>
               <p>{reference.summary}</p>
+              {reference.notices.length > 0 && (
+                <div className="reference-notice-row" aria-label="Source notices">
+                  {reference.notices.map((notice) => <span key={`${notice.kind}-${notice.verifiedAt}`}>{notice.kind}</span>)}
+                </div>
+              )}
               <div className="reference-tags">{reference.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             </div>
             <div className="reference-actions">
@@ -80,7 +88,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
           <div className="reference-empty">
             <Search size={20} />
             <strong>No matching reference.</strong>
-            <span>Try an author, algorithm, standard, evidence role, venue, or broader keyword.</span>
+            <span>Try an author, algorithm, standard, evidence role, venue, notice type, or broader keyword.</span>
           </div>
         )}
       </section>
