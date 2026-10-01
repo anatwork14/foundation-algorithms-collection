@@ -81,7 +81,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
         </div>
       </section>
 
-      <div className="reference-result-count">{results.length} references</div>
+      <div className="reference-result-count">{results.length} {results.length === 1 ? "reference" : "references"}</div>
 
       <section className="reference-list" aria-live="polite">
         {results.map((reference) => (
