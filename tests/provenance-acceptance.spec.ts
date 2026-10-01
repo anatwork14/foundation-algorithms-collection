@@ -96,16 +96,32 @@ test("implementation detail preserves immutable verification snapshots", async (
 
   await expect(page.getByRole("heading", { name: "Faiss HNSW" })).toBeVisible();
   const meta = page.locator(".reference-detail-meta");
-  await expect(meta.locator("div").filter({ hasText: "Verification revisions" }).locator("strong")).toHaveText("1");
+  const revisionCount = Number.parseInt(
+    (await meta.locator("div").filter({ hasText: "Verification revisions" }).locator("strong").innerText()).trim(),
+    10,
+  );
 
   const history = page.getByRole("list", { name: "Implementation verification history" });
-  await expect(history.locator("li")).toHaveCount(1);
-  await expect(history.getByText("r1", { exact: true })).toBeVisible();
-  await expect(history.getByText("2026-09-28", { exact: true })).toBeVisible();
-  await expect(history.getByText("main", { exact: true })).toBeVisible();
-  await expect(history.getByText("fdb9535c15b1", { exact: true })).toBeVisible();
-  await expect(history.getByRole("link", { name: /IndexHNSW interface/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
-  await expect(history.getByRole("link", { name: /HNSW implementation/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
+  const entries = history.locator("li");
+  await expect(entries).toHaveCount(revisionCount);
+  expect(revisionCount).toBeGreaterThanOrEqual(2);
+
+  const first = entries.first();
+  await expect(first.getByText("r1", { exact: true })).toBeVisible();
+  await expect(first.getByText("2026-09-28", { exact: true })).toBeVisible();
+  await expect(first.getByText("fdb9535c15b1", { exact: true })).toBeVisible();
+  await expect(first.getByRole("link", { name: /IndexHNSW interface/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
+  await expect(first.getByRole("link", { name: /HNSW implementation/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
+
+  const currentRef = (await meta.locator("div").filter({ hasText: "Verified ref" }).locator("strong").innerText()).trim();
+  const currentCommit = (await meta.locator("div").filter({ hasText: "Verified commit" }).locator("strong").innerText()).trim();
+  const currentDate = (await meta.locator("div").filter({ hasText: /^Verified$/ }).locator("strong").innerText()).trim();
+  const latest = entries.last();
+
+  await expect(latest.getByText(`r${revisionCount}`, { exact: true })).toBeVisible();
+  await expect(latest.getByText(currentRef, { exact: true })).toBeVisible();
+  await expect(latest.getByText(currentCommit, { exact: true })).toBeVisible();
+  await expect(latest.getByText(currentDate, { exact: true })).toBeVisible();
 });
 
 test("first independent replication record is inspectable end to end", async ({ page }) => {
