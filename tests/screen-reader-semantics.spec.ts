@@ -82,6 +82,40 @@ test("command-palette result changes are announced through a polite live region"
   await expect(status).toContainText(/result.*LinUCB/i);
 });
 
+test("command palette supports arrow and boundary navigation without replacing Tab order", async ({ page }) => {
+  await open(page, "/");
+
+  await page.getByRole("button", { name: "Search research" }).click();
+  const dialog = page.getByRole("dialog", { name: "Search the research hub" });
+  const input = dialog.getByRole("textbox", { name: "Search research" });
+  const results = dialog.locator(".palette-result");
+
+  await input.fill("algorithm");
+  await expect.poll(async () => results.count()).toBeGreaterThan(1);
+  await expect(input).toBeFocused();
+
+  await page.keyboard.press("ArrowDown");
+  await expect(results.first()).toBeFocused();
+
+  await page.keyboard.press("ArrowDown");
+  await expect(results.nth(1)).toBeFocused();
+
+  await page.keyboard.press("End");
+  await expect(results.last()).toBeFocused();
+
+  await page.keyboard.press("Home");
+  await expect(results.first()).toBeFocused();
+
+  await page.keyboard.press("ArrowUp");
+  await expect(input).toBeFocused();
+
+  await page.keyboard.press("ArrowUp");
+  await expect(results.last()).toBeFocused();
+
+  await page.keyboard.press("ArrowDown");
+  await expect(input).toBeFocused();
+});
+
 test("KaTeX formulas expose MathML while visual glyph markup stays hidden from assistive technology", async ({ page }) => {
   await open(page, "/archive/08-bandits-contextual-bandits-linucb");
 
