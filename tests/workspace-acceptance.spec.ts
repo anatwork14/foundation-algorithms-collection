@@ -119,10 +119,13 @@ test("Evidence sub-navigation is keyboard sequential and preserves current-page 
 
   const nav = page.getByRole("navigation", { name: "Evidence sections" });
   const overview = nav.getByRole("link", { name: "Overview", exact: true });
+  const gaps = nav.getByRole("link", { name: "Gaps", exact: true });
   const references = nav.getByRole("link", { name: "References", exact: true });
 
   await expect(overview).toHaveAttribute("aria-current", "page");
   await overview.focus();
+  await page.keyboard.press("Tab");
+  await expect(gaps).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(references).toBeFocused();
   await page.keyboard.press("Enter");
