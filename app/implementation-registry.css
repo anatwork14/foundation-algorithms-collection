@@ -209,6 +209,117 @@
   color: var(--ink);
 }
 
+.implementation-verification-intro {
+  max-width: 720px;
+  margin: 0 0 var(--space-5);
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.implementation-verification-history {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.implementation-verification-history::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 17px;
+  width: 1px;
+  background: var(--line);
+}
+
+.implementation-verification-history > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+}
+
+.implementation-verification-history > li:last-child {
+  padding-bottom: 0;
+}
+
+.implementation-verification-marker {
+  position: relative;
+  z-index: 1;
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  font-weight: 650;
+}
+
+.implementation-verification-content {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.implementation-verification-content > p {
+  max-width: 720px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  line-height: 1.6;
+}
+
+.implementation-verification-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--type-label);
+  letter-spacing: .035em;
+}
+
+.implementation-verification-meta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+}
+
+.implementation-verification-meta code {
+  font-size: inherit;
+}
+
+.implementation-verification-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-3);
+}
+
+.implementation-verification-sources a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--type-label);
+}
+
+.implementation-verification-sources a:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: var(--surface);
+}
+
 .algorithm-implementation-link {
   display: grid;
   gap: 4px;
@@ -259,5 +370,9 @@
   .implementation-detail-hero {
     padding-top: var(--space-6);
     padding-bottom: var(--space-7);
+  }
+
+  .implementation-verification-meta {
+    gap: 5px;
   }
 }
