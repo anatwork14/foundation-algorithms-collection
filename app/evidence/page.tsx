@@ -133,7 +133,7 @@ export default function EvidencePage() {
         </Link>
       </section>
 
-      <section className="evidence-flow atlas-provenance-summary" aria-labelledby="atlas-provenance-heading">
+      <section className="evidence-flow atlas-provenance-summary" aria-label="Atlas relation provenance coverage">
         <div className="section-heading">
           <div>
             <span className="section-kicker">Atlas provenance</span>
@@ -144,7 +144,7 @@ export default function EvidencePage() {
           </div>
           <Link href="/atlas?evidence=source-backed" className="reference-graph-link"><Network size={14} /> Inspect source-backed Atlas edges <ArrowRight size={13} /></Link>
         </div>
-        <div className="evidence-relation-summary" aria-label="Atlas relation provenance coverage">
+        <div className="evidence-relation-summary">
           <div><strong>{relationCoverage.typedEdges}</strong><span>typed Atlas edges</span></div>
           <div><strong>{relationCoverage.sourceBackedEdges}</strong><span>source-backed edges</span></div>
           <div><strong>{relationCoverage.conceptualEdges}</strong><span>conceptual edges</span></div>
