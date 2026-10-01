@@ -82,6 +82,7 @@ Required discipline:
 6. Write `significance` as why the source matters to this archive—not as a claim that it proves everything linked to it.
 7. Assign the controlled `evidenceRole` describing why the source is present.
 8. Add source-to-source citation edges only after direct verification.
+9. Record authoritative version/correction lifecycle notices when they materially change how a reader should interpret or implement the source.
 
 ### Reference evidence roles
 
@@ -94,6 +95,44 @@ Use one of:
 - `Replication / evaluation` — materially reproduces, benchmarks, or independently evaluates an existing method.
 
 The role is descriptive, not a quality grade.
+
+### Source lifecycle notices
+
+Every Reference has a `notices` array. Use it only for directly verified publisher/standards/proceedings information that affects source identity or interpretation.
+
+Controlled notice kinds are:
+
+- `Version` — identifies a materially relevant release/version lineage;
+- `Errata` — records an authoritative errata/potential-update notice;
+- `Correction` — records an explicit published correction;
+- `Superseded` — the authoritative source says another version/source supersedes this one;
+- `Withdrawn` — the authoritative publisher or standards body has withdrawn the source;
+- `Retraction` — the authoritative publisher has formally retracted the source.
+
+Notice shape:
+
+```ts
+{
+  kind: "Errata",
+  note: "What the authoritative notice says and why a reader should inspect it.",
+  url: "https://authoritative-source/...",
+  verifiedAt: "2026-10-01"
+}
+```
+
+Rules:
+
+1. Verify lifecycle notices against an authoritative publisher, proceedings, standards body, or official source page.
+2. Never infer `Superseded`, `Withdrawn`, or `Retraction` from age, a newer paper, an informal comment, or model memory.
+3. `Errata` or `Correction` does **not** mean the whole source is invalid. Describe the scope conservatively and link the authoritative notice.
+4. `Version` records lineage/provenance; it is not a quality grade.
+5. Use the source's wording when deciding between `Errata`, `Correction`, `Withdrawn`, and `Retraction`; do not escalate the label.
+6. Keep `verifiedAt` as the date this archive directly checked the authoritative notice.
+7. Re-check notices when materially updating a Reference or a Claim that depends on the affected part of the source.
+8. `notices: []` means **no lifecycle notice is currently curated**. It does not prove that the source has never been corrected or updated.
+9. Search/index UI may expose notice text, but notices remain provenance metadata rather than an evidence score.
+
+The first live example is NIST FIPS 203, where the archive records the final publication lineage and NIST's directly published potential-update/errata notice without treating that notice as a withdrawal of the standard.
 
 ### Citation edges
 
@@ -135,6 +174,7 @@ Example Reference shape:
   combinationIds: ["..."],
   chapterSlugs: ["..."],
   citations: [],
+  notices: [],
   summary: "...",
   significance: "...",
   tags: ["..."]
@@ -166,6 +206,7 @@ Rules:
 4. Prefer primary method papers or normative standards for mechanism/standard claims.
 5. The Claim statement should be no stronger than both the Markdown passage and linked source support.
 6. Changing Markdown can intentionally break Claim validation; repair the selector only after reviewing whether the claim still maps to the intended passage.
+7. If a linked Reference gains a material correction/withdrawal/retraction notice, re-review the Claim instead of assuming the old interpretation remains valid.
 
 Generated passage IDs and source-line ranges are provenance coordinates. They do not replace the Claim's human-curated source interpretation.
 
@@ -329,6 +370,7 @@ Current build-time validators cover:
 - Algorithm identifiers and relation targets;
 - Combination component IDs and required fields;
 - Reference roles and links to Algorithms, combinations, and chapters;
+- Reference lifecycle notice kinds, required notes, authoritative HTTPS URLs, and verification dates;
 - Reference citation targets, duplicate/self edges, verification URL/note/date;
 - first-class Atlas relation provenance and its overlap with real typed edges and curated References;
 - Claim IDs, Algorithm/Reference/chapter links, and unique passage resolution;
@@ -338,11 +380,11 @@ Current build-time validators cover:
 - Experiment-history revision continuity, chronology, current-status/date agreement, artifact references, and result-event consistency;
 - Replication source role, Algorithm overlap, original-source separation, explicit original-source citation edges, independence note, and verification date.
 
-The research utility suite additionally exercises passage search, Claim resolution, evidence-stage derivation, Markdown processing, citation validation, relation provenance, assumption analysis, entity graph validation, immutable implementation pins, experiments, experiment history, and independent replications.
+The research utility suite additionally exercises passage search, Claim resolution, evidence-stage derivation, Markdown processing, citation/notice validation, relation provenance, assumption analysis, entity graph validation, immutable implementation pins, experiments, experiment history, and independent replications.
 
 A production build is therefore also a structural research-data validation pass.
 
-Validation does **not** prove scientific correctness. Human review remains required for source relevance, mathematical correctness, implementation interpretation, benchmark design, statistical validity, causal claims, independence, and conclusion strength.
+Validation does **not** prove scientific correctness. Human review remains required for source relevance, mathematical correctness, lifecycle-notice scope, implementation interpretation, benchmark design, statistical validity, causal claims, independence, and conclusion strength.
 
 ---
 
@@ -391,6 +433,8 @@ The UI calls the derived position an **evidence stage**. It is an archive-covera
 
 Do not visually or textually present lower rungs as if they were higher rungs, and do not interpret a later stage as automatically positive evidence.
 
+Reference lifecycle notices remain orthogonal to this ladder. A source can be highly important and still have an erratum; a retraction/withdrawal notice must not be hidden by a high evidence-stage label.
+
 ---
 
 ## 12. Before committing a new evidence record
@@ -401,6 +445,8 @@ Check:
 - [ ] Are all IDs stable and linked to real entities?
 - [ ] Is the source/repository URL directly verified?
 - [ ] Does every Reference have the correct evidence role?
+- [ ] Did I check whether a material authoritative version/errata/correction/supersession/withdrawal/retraction notice should be recorded?
+- [ ] If adding a lifecycle notice, is its label no stronger than the authoritative source wording and are URL/date directly verified?
 - [ ] If adding a citation edge, did I record a verification URL, note, and checked date?
 - [ ] If adding a Claim, does its selector resolve to exactly one passage and do all References directly support its scope?
 - [ ] If adding an Implementation, are all source links pinned to its full verified commit SHA?
@@ -416,4 +462,4 @@ Check:
 - [ ] Does `npm run build` pass?
 - [ ] Does `npm run test:acceptance` pass for user-visible Evidence changes?
 
-The purpose of the Evidence layer is not to make the collection look certain. It is to make the **degree, source, type, and independence of evidence inspectable**.
+The purpose of the Evidence layer is not to make the collection look certain. It is to make the **degree, source, type, lifecycle, and independence of evidence inspectable**.
