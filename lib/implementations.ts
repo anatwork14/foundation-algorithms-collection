@@ -101,15 +101,15 @@ export const implementations: ImplementationRecord[] = [
     maturity: "Research/prototyping",
     summary: "liboqs provides ML-KEM implementations for experimenting with and integrating post-quantum key encapsulation.",
     implementationNotes: [
-      "The repository includes ML-KEM-512, ML-KEM-768, and ML-KEM-1024 implementation paths.",
+      "The verified ML-KEM source tree still includes ML-KEM-512, ML-KEM-768, and ML-KEM-1024 implementation families, including multiple optimized backends.",
       "Use the normative FIPS 203 record in References for specification authority; this record is about executable implementation study.",
     ],
     sourcePaths: [
-      { label: "ML-KEM sources", url: "https://github.com/open-quantum-safe/liboqs/tree/b196b57aa615c84d62cbf6a59a8bfc294e6747dd/src/kem/ml_kem" },
+      { label: "ML-KEM sources", url: "https://github.com/open-quantum-safe/liboqs/tree/e6b9e783747536f34700aab4bd10718c2fecab3f/src/kem/ml_kem" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "b196b57aa615c84d62cbf6a59a8bfc294e6747dd",
-    lastVerified: "2026-09-28",
+    verifiedCommit: "e6b9e783747536f34700aab4bd10718c2fecab3f",
+    lastVerified: "2026-10-01",
   },
   {
     id: "pytorch-adamw",
@@ -167,16 +167,16 @@ export const implementations: ImplementationRecord[] = [
     maturity: "Production-proven",
     summary: "Z3 is an SMT theorem prover with solver interfaces and theory reasoning used in verification, symbolic execution, synthesis, and constraint solving.",
     implementationNotes: [
-      "The pinned solver layer exposes assertion management, satisfiability checking, models, unsat cores, and assumption-based queries.",
+      "The verified solver layer still exposes the abstract solver interface used for assertions, satisfiability checks, models, unsat cores, and assumption-based queries.",
       "Z3 supports multiple theories and APIs; this record is linked to the collection's broad SAT/SMT solving entity rather than claiming one internal solving strategy represents the entire system.",
     ],
     sourcePaths: [
-      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98/src/solver/solver.cpp" },
-      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98/src" },
+      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/36828e144e0802a1e936031b6efa2dbe89fde9a5/src/solver/solver.cpp" },
+      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/36828e144e0802a1e936031b6efa2dbe89fde9a5/src" },
     ],
     verifiedRef: "master",
-    verifiedCommit: "d799f787d6fc9c16eb4a3ebbe63e6593e9b23a98",
-    lastVerified: "2026-09-29",
+    verifiedCommit: "36828e144e0802a1e936031b6efa2dbe89fde9a5",
+    lastVerified: "2026-10-01",
   },
 ];
 
