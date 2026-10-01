@@ -30,6 +30,32 @@ A new pin requires direct human/research review of:
 
 Only after that review should the registry be updated to a new exact commit.
 
+## Verification-history rule
+
+Every current implementation pin must also be the latest entry in `lib/implementation-verification-history.ts`.
+
+The verification history is append-only provenance. Each revision stores:
+
+- implementation ID;
+- sequential revision number;
+- verification date;
+- inspected branch/ref;
+- full verified commit SHA;
+- the exact source-path URLs inspected at that commit;
+- a concise note describing what was verified.
+
+Build-time validation requires the live `ImplementationRecord` to match the latest verification revision exactly for ref, commit, date, and source paths.
+
+When a re-review accepts a newer upstream snapshot:
+
+1. keep every older verification revision unchanged;
+2. append the next sequential verification revision with the new exact pin and source paths;
+3. update the current `ImplementationRecord` to match that new latest revision;
+4. update `lastVerified` to the new review date;
+5. run the research and browser acceptance suites.
+
+This means the product can show the current inspected state while preserving the complete sequence of earlier inspected snapshots without relying only on Git history.
+
 ## Automation
 
 `npm run report:freshness`:
@@ -53,8 +79,9 @@ When a record is reported as **Upstream moved**:
 2. inspect only relevant implementation paths first;
 3. decide whether the existing evidence snapshot remains sufficient;
 4. if a new snapshot is useful, verify it explicitly;
-5. update the record with a new exact commit and verification date;
-6. keep Git history as the audit trail for the prior pin.
+5. append a new verification-history revision;
+6. update the live record to the newly verified exact commit/source paths/date;
+7. let validation confirm that the live record and latest verification revision agree.
 
 Do not interpret frequent upstream movement as lower quality. Active projects naturally move more often than stable ones.
 
