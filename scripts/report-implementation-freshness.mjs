@@ -89,3 +89,24 @@ for (const record of records) {
   if (record.reason) console.log(`  ↳ ${record.reason}`);
 }
 console.log(`Freshness report written to ${path.relative(root, outputPath)}: ${JSON.stringify(counts)}`);
+
+const summaryPath = process.env.GITHUB_STEP_SUMMARY?.trim();
+if (summaryPath) {
+  const rows = records.map((record) => {
+    const upstream = record.upstreamCommit ? `\`${record.upstreamCommit.slice(0, 12)}\`` : "—";
+    return `| ${record.id} | ${record.verifiedRef} | \`${record.verifiedCommit.slice(0, 12)}\` | ${upstream} | ${record.state} |`;
+  });
+  const summary = [
+    "## Implementation freshness",
+    "",
+    "> Informational only. Immutable verified commits remain the evidence snapshot; branch movement only signals that a new review is available.",
+    "",
+    `**${counts.Current} current · ${counts["Upstream moved"]} upstream moved · ${counts.Unavailable} unavailable**`,
+    "",
+    "| Implementation | Verified ref | Pinned commit | Upstream ref | State |",
+    "|---|---|---|---|---|",
+    ...rows,
+    "",
+  ].join("\n");
+  fs.appendFileSync(summaryPath, summary);
+}
