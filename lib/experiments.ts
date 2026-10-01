@@ -175,7 +175,7 @@ export const experiments: ExperimentRecord[] = [
       "Change the ground-truth per-action linear reward parameters abruptly at step 2,000",
       "Update only the greedy-online and LinUCB policies from their selected rewards",
       "Repeat for 30 deterministic seeds and aggregate means plus sample standard deviations",
-      "Re-run the committed simulator in CI and structurally compare its output against the committed result artifact",
+      "Re-run the committed simulator in CI and structurally compare its output against the committed result artifact and run manifest",
     ],
     successCriteria: [
       "Exploratory pilot only: no post-hoc result is treated as a preregistered confirmatory threshold",
@@ -190,6 +190,10 @@ export const experiments: ExperimentRecord[] = [
       {
         label: "Recorded aggregate result",
         url: "https://github.com/anatwork14/foundation-algorithms-collection/blob/main/experiments/results/hnsw-linucb-reranking-drift-pilot.json",
+      },
+      {
+        label: "Verified run manifest",
+        url: "https://github.com/anatwork14/foundation-algorithms-collection/blob/main/experiments/manifests/hnsw-linucb-reranking-drift-pilot.json",
       },
     ],
     result: {
@@ -215,7 +219,7 @@ export const experiments: ExperimentRecord[] = [
         "CPU/service latency was intentionally excluded because CI/runtime timing would not be a stable production-latency benchmark.",
       ],
     },
-    lastUpdated: "2026-09-30",
+    lastUpdated: "2026-10-01",
   },
   {
     id: "learned-qec-prior-ablation",
