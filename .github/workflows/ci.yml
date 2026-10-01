@@ -47,6 +47,13 @@ jobs:
       - name: Browser acceptance
         run: npm run test:acceptance
 
+      - name: Report implementation freshness
+        if: always()
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npm run report:freshness
+
       - name: Upload browser acceptance artifacts
         if: always()
         uses: actions/upload-artifact@v4
