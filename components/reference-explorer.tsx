@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Network, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
-import type { ReferenceEntity, ReferenceEvidenceRole, ReferenceKind } from "@/lib/references";
+import type { ReferenceEntity, ReferenceEvidenceRole, ReferenceKind, ReferenceNoticeKind } from "@/lib/references";
 import { referenceSearchText } from "@/lib/references";
 
 const kinds: Array<ReferenceKind | "All"> = ["All", "Paper", "Standard", "Book"];
@@ -16,22 +16,38 @@ const roles: Array<ReferenceEvidenceRole | "All"> = [
   "Survey / synthesis",
   "Replication / evaluation",
 ];
+const noticeKinds: Array<ReferenceNoticeKind | "All" | "Any"> = [
+  "All",
+  "Any",
+  "Version",
+  "Errata",
+  "Correction",
+  "Superseded",
+  "Withdrawn",
+  "Retraction",
+];
 
 export function ReferenceExplorer({ references }: { references: ReferenceEntity[] }) {
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<ReferenceKind | "All">("All");
   const [role, setRole] = useState<ReferenceEvidenceRole | "All">("All");
+  const [noticeKind, setNoticeKind] = useState<ReferenceNoticeKind | "All" | "Any">("All");
 
   const results = useMemo(() => {
     const needle = query.trim().toLowerCase();
     return references
-      .filter((reference) => (
-        (kind === "All" || reference.kind === kind)
-        && (role === "All" || reference.evidenceRole === role)
-        && (!needle || referenceSearchText(reference).includes(needle))
-      ))
+      .filter((reference) => {
+        const noticeMatch = noticeKind === "All"
+          || (noticeKind === "Any" ? reference.notices.length > 0 : reference.notices.some((notice) => notice.kind === noticeKind));
+        return (
+          (kind === "All" || reference.kind === kind)
+          && (role === "All" || reference.evidenceRole === role)
+          && noticeMatch
+          && (!needle || referenceSearchText(reference).includes(needle))
+        );
+      })
       .sort((a, b) => b.year - a.year || a.title.localeCompare(b.title));
-  }, [kind, query, references, role]);
+  }, [kind, noticeKind, query, references, role]);
 
   return (
     <main className="reference-page shell">
@@ -54,6 +70,13 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
           </select>
           <select value={role} onChange={(event) => setRole(event.target.value as ReferenceEvidenceRole | "All")} aria-label="Filter references by evidence role">
             {roles.map((item) => <option key={item} value={item}>{item === "All" ? "All evidence roles" : item}</option>)}
+          </select>
+          <select value={noticeKind} onChange={(event) => setNoticeKind(event.target.value as ReferenceNoticeKind | "All" | "Any")} aria-label="Filter references by source notice">
+            {noticeKinds.map((item) => (
+              <option key={item} value={item}>
+                {item === "All" ? "All source notices" : item === "Any" ? "Has source notice" : item}
+              </option>
+            ))}
           </select>
         </div>
       </section>
@@ -90,7 +113,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
           <div className="reference-empty">
             <Search size={20} />
             <strong>No matching reference.</strong>
-            <span>Try an author, algorithm, standard, evidence role, venue, notice type, or broader keyword.</span>
+            <span>Try an author, algorithm, standard, evidence role, notice type, or broader keyword.</span>
           </div>
         )}
       </section>
