@@ -38,6 +38,16 @@
   min-width: 0;
 }
 
+/*
+ * Technical content becomes tabindex=0 only when it actually overflows.
+ * Keep those generated keyboard stops visibly focusable even though they are
+ * generic/preformatted elements rather than links, buttons, or form controls.
+ */
+:where([tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--accent-strong) !important;
+  outline-offset: 3px;
+}
+
 /* The visible search row is large, but the input itself must also remain a usable pointer target. */
 .hero-search-wrap input {
   align-self: stretch;
