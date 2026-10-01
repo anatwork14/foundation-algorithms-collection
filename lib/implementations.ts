@@ -35,15 +35,15 @@ export const implementations: ImplementationRecord[] = [
     summary: "Faiss includes an HNSW index implementation inside a broader dense-vector similarity-search library.",
     implementationNotes: [
       "Useful for studying HNSW as part of a larger ANN system with multiple index families.",
-      "The implementation separates the HNSW link structure from the storage index abstraction.",
+      "The verified revision still exposes HNSW as a link structure over a storage-index abstraction; current sources also include newer specialized HNSW variants without changing this core registry role.",
     ],
     sourcePaths: [
-      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/fdb9535c15b1b2990fd28f76f0641e65b95162f8/faiss/IndexHNSW.h" },
-      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/fdb9535c15b1b2990fd28f76f0641e65b95162f8/faiss/IndexHNSW.cpp" },
+      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/88a28bcd80aa4469bd15520c510186c98f51d985/faiss/IndexHNSW.h" },
+      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/88a28bcd80aa4469bd15520c510186c98f51d985/faiss/IndexHNSW.cpp" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "fdb9535c15b1b2990fd28f76f0641e65b95162f8",
-    lastVerified: "2026-09-28",
+    verifiedCommit: "88a28bcd80aa4469bd15520c510186c98f51d985",
+    lastVerified: "2026-10-01",
   },
   {
     id: "hnswlib",
