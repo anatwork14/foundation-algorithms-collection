@@ -86,6 +86,13 @@
 .reference-source-box { display: grid; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface-strong); }
 .reference-source-box a { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--ink); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
 .reference-source-box code { width: fit-content; max-width: 100%; overflow-wrap: anywhere; color: var(--muted); font-size: var(--type-meta); }
+.reference-source-notices { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+.reference-source-notices article { display: grid; gap: var(--space-2); padding: var(--space-4); border: 1px dashed var(--line-strong); border-radius: var(--radius-panel); background: var(--surface); }
+.reference-source-notices article > div { display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline; }
+.reference-source-notices article > div span { color: var(--ink); font-family: var(--font-mono), ui-monospace, monospace; font-size: var(--type-label); font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.reference-source-notices article > div strong { color: var(--muted-2); font-size: var(--type-label); font-weight: 600; }
+.reference-source-notices p { margin: 0; color: var(--muted); font-size: var(--type-meta); line-height: 1.58; }
+.reference-source-notices a { width: fit-content; display: inline-flex; align-items: center; gap: 5px; color: var(--ink); font-size: var(--type-meta); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
 .reference-connection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
 .reference-connection-grid > a { position: relative; display: grid; align-content: start; gap: var(--space-2); min-height: 150px; padding: var(--space-4) 42px var(--space-4) var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface-strong); }
 .reference-connection-grid > a > span { display: inline-flex; align-items: center; gap: 5px; color: var(--muted-2); font-size: var(--type-label); font-weight: 650; letter-spacing: .05em; text-transform: uppercase; }
@@ -110,6 +117,7 @@
   .reference-detail-hero { padding-top: var(--space-6); padding-bottom: var(--space-7); }
   .reference-connection-grid,
   .reference-detail-side { grid-template-columns: 1fr; }
+  .reference-source-notices article > div { align-items: flex-start; flex-direction: column; gap: 4px; }
 }
 
 @media (max-width: 520px) {
