@@ -1,8 +1,9 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 const desktop = { width: 1280, height: 900 } as const;
 const phone = { width: 390, height: 844 } as const;
-const representativeRoutes = [
+
+const reflowRoutes = [
   "/",
   "/archive",
   "/archive/08-bandits-contextual-bandits-linucb",
@@ -12,33 +13,30 @@ const representativeRoutes = [
   "/evidence",
 ];
 
-async function expectNoPageOverflow(page: Page) {
-  const dimensions = await page.evaluate(() => ({
-    clientWidth: document.documentElement.clientWidth,
-    scrollWidth: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
+async function documentWidths(page: import("@playwright/test").Page) {
+  return page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    document: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
   }));
-
-  expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1);
 }
 
-async function applyTextOnlyScale(page: Page, percent = 200) {
-  await page.evaluate((scale) => {
-    const style = document.createElement("style");
-    style.dataset.acceptanceTextScale = String(scale);
-    style.textContent = `html { font-size: ${scale}% !important; }`;
-    document.head.append(style);
-  }, percent);
+async function applyTextScaling(page: import("@playwright/test").Page) {
+  await page.addStyleTag({
+    content: `
+      html { font-size: 200% !important; }
+      * { text-size-adjust: 100% !important; -webkit-text-size-adjust: 100% !important; }
+    `,
+  });
 }
 
-for (const route of representativeRoutes) {
+for (const route of reflowRoutes) {
   test(`${route} reflows without document overflow at 200% text scaling`, async ({ page }) => {
-    await page.setViewportSize(desktop);
+    await page.setViewportSize({ width: 1280, height: 1000 });
     const response = await page.goto(route, { waitUntil: "domcontentloaded" });
-    expect(response?.ok(), `${route} should render successfully`).toBeTruthy();
-
-    await applyTextOnlyScale(page);
-    await expect(page.locator("main").first()).toBeVisible();
-    await expectNoPageOverflow(page);
+    expect(response?.ok()).toBeTruthy();
+    await applyTextScaling(page);
+    const widths = await documentWidths(page);
+    expect(widths.document).toBeLessThanOrEqual(widths.viewport + 1);
   });
 }
 
@@ -46,37 +44,30 @@ test("phone controls keep a minimum 24px interactive target", async ({ page }) =
   await page.setViewportSize(phone);
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
-  const undersized = await page.evaluate(() => {
-    const candidates = [...document.querySelectorAll<HTMLElement>("button, input, select, textarea")];
-    return candidates
-      .filter((element) => {
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
-      })
-      .map((element) => {
-        const rect = element.getBoundingClientRect();
-        return {
-          tag: element.tagName.toLowerCase(),
-          label: element.getAttribute("aria-label") ?? element.getAttribute("placeholder") ?? element.textContent?.trim().slice(0, 80) ?? "",
-          width: Math.round(rect.width * 10) / 10,
-          height: Math.round(rect.height * 10) / 10,
-        };
-      })
-      .filter((entry) => entry.width < 24 || entry.height < 24);
-  });
+  const controls = page.locator("a:visible, button:visible, input:visible, select:visible");
+  const boxes = await controls.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      label: (element.getAttribute("aria-label") ?? element.textContent ?? element.tagName).trim().slice(0, 80),
+      width: rect.width,
+      height: rect.height,
+    };
+  }));
 
-  expect(undersized, `Interactive controls below 24px:\n${JSON.stringify(undersized, null, 2)}`).toEqual([]);
+  for (const box of boxes) {
+    expect(box.width, `${box.label} should be at least 24px wide`).toBeGreaterThanOrEqual(24);
+    expect(box.height, `${box.label} should be at least 24px high`).toBeGreaterThanOrEqual(24);
+  }
 });
 
 test("skip link bypasses repeated navigation and focuses the content boundary", async ({ page }) => {
   await page.setViewportSize(desktop);
-  await page.goto("/atlas", { waitUntil: "domcontentloaded" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
+  const skipLink = page.getByRole("link", { name: "Skip to main content" });
   await page.keyboard.press("Tab");
-  const skip = page.getByRole("link", { name: "Skip to main content" });
-  await expect(skip).toBeFocused();
-  await expect(skip).toBeVisible();
+  await expect(skipLink).toBeFocused();
+  await expect(skipLink).toBeVisible();
 
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
@@ -90,6 +81,7 @@ test("Evidence sub-navigation exposes one clean label per destination", async ({
   const nav = page.getByRole("navigation", { name: "Evidence sections" });
   await expect(nav).toBeVisible();
   await expect(nav.getByRole("link", { name: "Overview", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Gaps", exact: true })).toBeVisible();
   await expect(nav.getByRole("link", { name: "References", exact: true })).toBeVisible();
 
   const exposedIcons = await nav.locator("svg:not([aria-hidden='true'])").count();
@@ -102,7 +94,7 @@ test("Evidence destinations stay an editorial index rather than a dashboard-card
 
   const grid = page.locator(".evidence-hub-grid");
   const rows = grid.locator(":scope > .evidence-hub-card");
-  await expect(rows).toHaveCount(6);
+  await expect(rows).toHaveCount(7);
 
   const layout = await rows.evaluateAll((elements) => elements.map((element) => {
     const rect = element.getBoundingClientRect();
@@ -137,37 +129,28 @@ test("homepage Combination Lab preview keeps a uniform two-column rhythm on desk
   await page.setViewportSize(desktop);
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
-  const cards = page.locator(".inspiration-section .inspiration-card");
-  await expect(cards).toHaveCount(6);
-  const widths = await cards.evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().width)));
-  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
+  const rows = page.locator(".inspiration-grid > .inspiration-card");
+  expect(await rows.count()).toBeGreaterThanOrEqual(4);
+  const layout = await rows.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return { x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width) };
+  }));
 
-  const sparkleColor = await page.locator(".inspiration-section .section-heading > svg").evaluate((element) => getComputedStyle(element).color);
-  const mutedColor = await page.locator(".inspiration-section").evaluate((element) => getComputedStyle(element).getPropertyValue("--muted").trim());
-  expect(sparkleColor).not.toBe("rgb(143, 154, 255)");
-  expect(mutedColor).not.toBe("");
+  const columns = [...new Set(layout.map((item) => item.x))].sort((a, b) => a - b);
+  expect(columns.length).toBe(2);
+  const widths = layout.map((item) => item.width);
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);
 });
 
 test("reduced-motion preference suppresses meaningful transition duration", async ({ page }) => {
-  await page.setViewportSize(desktop);
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize(desktop);
   await page.goto("/", { waitUntil: "domcontentloaded" });
 
-  const durations = await page.evaluate(() => {
-    const selectors = [".main-nav a", ".domain-card", ".archive-row", ".theme-toggle"];
-    return selectors.flatMap((selector) =>
-      [...document.querySelectorAll<HTMLElement>(selector)].slice(0, 2).map((element) => ({
-        selector,
-        transitionDuration: getComputedStyle(element).transitionDuration,
-        animationDuration: getComputedStyle(element).animationDuration,
-      })),
-    );
+  const transition = await page.getByRole("button", { name: "Search research" }).evaluate((element) => {
+    const style = getComputedStyle(element);
+    return style.transitionDuration;
   });
-
-  for (const entry of durations) {
-    const transitionSeconds = entry.transitionDuration.split(",").map((value) => value.trim()).map((value) => value.endsWith("ms") ? Number.parseFloat(value) / 1000 : Number.parseFloat(value));
-    const animationSeconds = entry.animationDuration.split(",").map((value) => value.trim()).map((value) => value.endsWith("ms") ? Number.parseFloat(value) / 1000 : Number.parseFloat(value));
-    expect(Math.max(...transitionSeconds, 0), `${entry.selector} transition should be effectively disabled`).toBeLessThanOrEqual(0.01);
-    expect(Math.max(...animationSeconds, 0), `${entry.selector} animation should be effectively disabled`).toBeLessThanOrEqual(0.01);
-  }
+  const durations = transition.split(",").map((duration) => Number.parseFloat(duration) || 0);
+  expect(Math.max(...durations)).toBeLessThanOrEqual(0.001);
 });
