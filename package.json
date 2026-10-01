@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "check:links": "node scripts/check-markdown-links.mjs",
     "check:source": "node scripts/check-source-hygiene.mjs",
-    "check:ui": "node scripts/check-ui-consistency.mjs",
+    "check:ui": "node scripts/check-ui-consistency.mjs && node scripts/check-shared-ui-structure.mjs",
     "check:experiments": "node scripts/check-experiment-artifacts.mjs",
     "report:freshness": "node --experimental-strip-types scripts/report-implementation-freshness.mjs",
     "test:research": "node --experimental-strip-types --test tests/*.test.mjs",
