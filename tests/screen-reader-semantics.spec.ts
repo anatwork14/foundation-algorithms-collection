@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const desktop = { width: 1280, height: 900 } as const;
+const phone = { width: 320, height: 900 } as const;
 
 const semanticRoutes = [
   "/",
@@ -106,6 +107,32 @@ test("KaTeX formulas expose MathML while visual glyph markup stays hidden from a
   expect(malformed).toEqual([]);
 });
 
+test("overflowing technical content gets a visible keyboard focus indicator", async ({ page }) => {
+  await page.setViewportSize(phone);
+  const response = await page.goto("/archive/08-bandits-contextual-bandits-linucb", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  const managed = page.locator('.markdown-body [data-scroll-accessibility="managed"]');
+  await expect.poll(async () => managed.count()).toBeGreaterThan(0);
+
+  const target = managed.first();
+  await target.focus();
+  await expect(target).toBeFocused();
+
+  const focusStyle = await target.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      outlineStyle: style.outlineStyle,
+      outlineWidth: Number.parseFloat(style.outlineWidth) || 0,
+      outlineColor: style.outlineColor,
+    };
+  });
+
+  expect(focusStyle.outlineStyle).not.toBe("none");
+  expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
+  expect(focusStyle.outlineColor).not.toBe("transparent");
+});
+
 test("complex research workspaces expose stable named regions for assistive navigation", async ({ page }) => {
   await open(page, "/atlas");
   await expect(page.getByRole("region", { name: "Relationships around LinUCB" })).toBeVisible();
@@ -115,4 +142,4 @@ test("complex research workspaces expose stable named regions for assistive navi
   await open(page, "/lab");
   await expect(page.getByRole("region", { name: "Algorithm combination builder" })).toBeVisible();
   await expect(page.getByRole("region", { name: /Rule-based assumption analysis/i })).toBeVisible();
-} );
+});
