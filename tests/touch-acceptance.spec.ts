@@ -24,9 +24,11 @@ test("coarse-pointer phone can navigate, switch theme, and search without hover"
   expect(pointer.coarse).toBeTruthy();
   expect(pointer.hover).toBeFalsy();
 
-  const menu = page.getByRole("button", { name: "Open navigation" });
+  const menu = page.locator('button[aria-controls="primary-navigation"]');
+  await expect(menu).toHaveAccessibleName("Open navigation");
   await menu.tap();
   await expect(menu).toHaveAttribute("aria-expanded", "true");
+  await expect(menu).toHaveAccessibleName("Close navigation");
 
   const primary = page.getByRole("navigation", { name: "Primary navigation" });
   await expect(primary).toBeVisible();
