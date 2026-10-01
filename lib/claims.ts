@@ -77,6 +77,26 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["gu-2023-mamba"],
     note: "The claim describes selectivity as a mechanism. It does not assert universal superiority over attention or other sequence architectures.",
   },
+  {
+    id: "qsvt-singular-value-polynomial-transform",
+    kind: "Mechanism",
+    statement: "QSVT applies a suitably bounded polynomial transformation to the singular values of a block-encoded matrix, turning polynomial approximation into a reusable quantum operator-transformation pattern.",
+    algorithmIds: ["qsvt"],
+    chapterSlug: "22-quantum-simulation-qsp-qsvt-linear-algebra",
+    passageContains: "QSVT generalizes QSP to block-encoded matrices and transforms singular values",
+    referenceIds: ["gilyen-2018-qsvt"],
+    note: "This claim is limited to QSVT's core transformation mechanism; end-to-end algorithmic advantage still depends on block-encoding access, normalization, precision, and readout costs.",
+  },
+  {
+    id: "conformal-finite-sample-marginal-coverage",
+    kind: "Guarantee",
+    statement: "Conformal prediction constructs prediction sets with finite-sample marginal coverage under exchangeability, while conditional coverage and robustness under shift require additional assumptions or methods.",
+    algorithmIds: ["conformal-prediction"],
+    chapterSlug: "14-uncertainty-causal-active-continual-meta-learning",
+    passageContains: "Conformal methods create prediction sets with finite-sample marginal coverage under exchangeability",
+    referenceIds: ["romano-2019-cqr"],
+    note: "The archive states the standard marginal-coverage guarantee conservatively and keeps the chapter's documented distribution-shift and conditional-coverage limitations attached to the concept.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
