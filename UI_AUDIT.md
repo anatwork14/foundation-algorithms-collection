@@ -1,242 +1,238 @@
 # Foundation Algorithms — UI/UX Consistency Audit
 
-Status: active implementation audit  
-Scope: homepage, global shell, Archive, Algorithms, Atlas, Lab, Evidence, References, Implementations, Experiments, Claims, Passages, long-form chapter reading, light/dark mode, responsive behavior.
+**Status:** canonical UI implemented; automated browser acceptance green  
+**Last reviewed:** 2026-10-01  
+**Validated code head:** `64e518e8b05a4f2d7ff5800f42d05f62def13dc6`  
+**GitHub Actions run:** `36808420678` — 132/132 Playwright acceptance tests passed
 
-## Why the interface felt inconsistent
+This document is the visual and interaction contract for the research hub. It exists to prevent the interface from drifting back into multiple competing design systems.
 
-The main problem was architectural rather than a single bad component. The application had accumulated multiple generations of global visual CSS: early base styles, a design-system layer, feature styles, liquid-glass layers, typography overrides, a minimal-theme override, and a field-index override. Different routes therefore depended on cascade order instead of a single visual contract.
+---
 
-That produced visible inconsistencies in:
+## Product character
 
-- heading scale and font roles;
-- border radii and surface elevation;
-- search/filter control heights;
-- card/list density;
-- sticky toolbar treatment;
-- use of color by research field;
-- tablet/mobile breakpoints;
-- light/dark surfaces;
-- registry pages that implemented nearly identical controls differently;
-- pages with fixed-height cards despite very different content lengths.
+Foundation Algorithms should feel like a **serious research publication and working research instrument**, not a colorful SaaS dashboard.
 
-## Canonical direction
+The hierarchy should come primarily from:
 
-The product should feel like a serious research instrument, not a collection of SaaS dashboards.
+1. typography;
+2. whitespace and rhythm;
+3. alignment;
+4. separators;
+5. information density;
+6. interaction state.
 
-The canonical hierarchy is:
+Color, elevation, glass effects, gradients, and decorative cards are not the primary hierarchy tools.
 
-- **Fraunces** — editorial hierarchy only: hero, page and major section headings;
-- **Source Sans 3** — UI, navigation, reading, controls, lists and normal content;
-- **JetBrains Mono** — identifiers, labels, code, counters and technical metadata;
-- **KaTeX fonts** — mathematical glyphs.
+---
 
-Visual hierarchy comes primarily from typography, spacing, alignment and separators. Research fields are taxonomy, not decoration, so their default UI treatment is neutral. Color is reserved primarily for semantic state such as experiment status.
+## Canonical typography
 
-## Canonical visual contract
+The entire product uses one three-role type system:
 
-`app/research-ui.css` is the only global visual/theme authority. Feature CSS may describe specialized structure, but the final typography, color, surface, spacing, control, focus and responsive language resolves through this file.
+- **Fraunces** — editorial hierarchy only: hero titles, page titles, and major section headings;
+- **Source Sans 3** — navigation, controls, lists, prose, labels that are meant to be read, and general UI;
+- **JetBrains Mono** — code, identifiers, counters, technical labels, provenance metadata, and keyboard hints;
+- **KaTeX fonts** — mathematical notation.
 
-Current core values:
+Do not reintroduce generic serif/sans stacks as first-choice fonts on individual routes. Route CSS may specialize size/spacing but not invent a fourth typography role.
 
-- neutral warm-light / neutral-dark canvas;
-- 42 px standard control height;
-- 68 px desktop header;
-- 7–12 px interface radii;
-- 760 px long-form reading width;
-- 1180 px main shell;
-- common responsive boundaries at 980 px, 760 px and 520 px;
-- visible keyboard focus;
+---
+
+## Canonical visual system
+
+`app/research-ui.css` is the single global visual/theme authority. Feature styles may define specialized layout and structure, but the final color, typography, surface, control, focus, and interaction language resolves through the canonical tokens.
+
+Core principles:
+
+- neutral warm-light canvas;
+- neutral dark canvas;
+- explicit persisted light/dark mode;
+- research-field identity is neutral by default;
+- semantic color is reserved for actual status/state;
+- 42px standard control geometry;
+- restrained 7–12px interface radii where bounded surfaces are justified;
+- 760px long-form reading width;
+- 1180px main shell;
+- common 980px / 760px / 520px responsive boundaries;
+- visible `:focus-visible` treatment;
 - reduced-motion support;
-- AA-capable small metadata contrast in both themes;
-- no decorative global shadows or glass blur.
+- small metadata contrast protected at WCAG AA levels;
+- no decorative global glass, glow, gradient, or shadow system.
 
-No new global visual override layer should be introduced after `research-ui.css`. Route/feature styles should solve specialized structure; they must not establish a separate color, typography, surface, control, or interaction system.
+Deprecated global visual layers must not return. CI guards this contract through `npm run check:ui`.
 
-## Concrete issues found and fixed
+---
 
-### 1. Conflicting visual systems
+## Surface grammar
 
-Removed obsolete global layers:
+Different research tasks can have different structures, but every surface must use the same visual grammar.
 
-- `liquid-glass.css`
-- `liquid-glass-research.css`
-- `minimal-research.css`
-- `agocode-typography.css`
-- `research-index.css`
-- unused duplicate `interface-consistency.css`
+### Home
 
-The root layout now loads feature/structural CSS and ends with one canonical `research-ui.css` visual layer.
+The homepage is an editorial gateway:
 
-### 2. Research field cards were inappropriate
+- Research fields use one aligned index rather than five oversized cards.
+- Archive preview uses text-first rows.
+- Combination Lab preview uses a restrained two-column editorial index rather than a six-card wall.
+- Search is prominent without turning the page into a marketing hero.
 
-The five tall rounded field cards were replaced by an editorial research index:
+### Archive and Algorithms
 
-`number → field → description → chapter count → action`
+Use list/table-like rows for text-heavy comparison:
 
-This is denser, easier to scan and more consistent with an archive/catalogue.
-
-A later Chromium tablet test exposed a legacy cascade regression at 820 px: the old two-column card rule still won in that band, creating 542 px-wide field items and a 1102 px document. The tablet band is now explicitly kept single-column until the dedicated phone layout takes over below 760 px. The exact regression is protected by both `check:ui` and Playwright containment tests.
-
-### 3. Evidence summary had the wrong grid
-
-The Evidence page rendered five summary metrics into a four-column grid, leaving an orphaned fifth metric and inconsistent borders. It now uses:
-
-- five columns on wide screens;
-- three columns on tablet;
-- one column on mobile.
-
-Evidence destination cards were also shortened and no longer use artificial 340 px minimum heights.
-
-The Evidence root uses `.evidence-hub`; the canonical page-rhythm selectors target that real class at both desktop and mobile breakpoints so it receives the same top spacing as Archive, Algorithms, Atlas, Lab and the registry routes.
-
-### 4. Registry controls drifted
-
-References, Implementations and Experiments independently recreated nearly identical filter toolbars. They now share the same:
-
-- 42 px control height;
-- 8 px input radius;
-- neutral toolbar surface;
-- focus treatment;
-- row density;
-- metadata hierarchy;
-- 980/760 responsive behavior.
-
-The old Reference `backdrop-filter: blur(14px)` was removed.
-
-### 5. Atlas / Algorithm controls retained old glass behavior
-
-Entity controls retained blur from an earlier visual direction. Blur is now removed and Atlas filters use the same control height/radius as the rest of the product.
-
-Atlas remains a focused relationship workspace rather than being forced into the Archive list pattern, because its task is traversal rather than browsing.
-
-### 6. Lab controls used a separate geometry
-
-Combination selects were 44 px while most product controls were 42 px, and known-combination panels carried field-tinted backgrounds. They now use the shared control system and neutral research surfaces.
-
-### 7. Claims / Passages had their own design generation
-
-Both provenance routes still used blurred sticky bars and one-off breakpoints (`720px` and `780px`). They now use the common 760 px mobile boundary and the same registry toolbar language.
-
-### 8. Experiment status and field color were conflated
-
-Research-field color is now neutral by default. Experiment status retains restrained semantic color because planned/running/completed/failed is actual state information.
-
-### 9. Theme control referenced retired tokens and lived outside the header action system
-
-The theme control previously referenced old `--glass-*` variables after the glass system was retired and was visually mounted as a floating utility outside the header.
-
-Both issues are resolved. The control uses canonical neutral tokens, and `ThemeToggle` portals its interactive button into `.header-actions`. The root layout keeps only a nonvisual `display: contents` mount so theme initialization remains independent from the header implementation while the actual control shares the same DOM/action group, geometry, hover/focus behavior and responsive treatment as Search and GitHub.
-
-### 10. Future drift was unguarded
-
-Added `scripts/check-ui-consistency.mjs` and `npm run check:ui`. CI rejects reintroduction of deprecated theme files, incorrect CSS ordering, removal of canonical visual contracts, stale Evidence-root selectors, theme-control regressions, the tablet Research-fields regression, and the accessibility/contrast contracts listed below.
-
-### 11. Acceptance hardening exposed semantic and narrow-screen gaps
-
-The source-level acceptance pass identified issues that were not visual-theme problems but still affected usability:
-
-- the Atlas search input relied on placeholder text rather than an explicit accessible name;
-- the active Atlas entity was indicated visually but not exposed as selected to assistive technology;
-- complex Atlas relationship areas were not named regions;
-- the mobile menu toggle did not expose `aria-expanded` / `aria-controls`, and current navigation links lacked `aria-current`;
-- Escape closed Search but not an open mobile menu;
-- long KaTeX display equations had no local horizontal-overflow containment;
-- the secondary muted token was too low-contrast for the small metadata text that consumes it.
-
-These are resolved:
-
-- Atlas search has an explicit accessible name, picker buttons expose `aria-pressed`, and relationship areas are named regions;
-- mobile navigation exposes ownership and expanded state, current links expose page state, Search declares dialog-popup behavior, and Escape closes either transient header surface;
-- display equations scroll inside the reading surface instead of widening the page;
-- `.table-scroll` provides local horizontal scrolling for wide tables;
-- `--muted-2` is `#6d7076` in light mode and `#81848a` in dark mode. Against common canvas/surface backgrounds, the worst-case ratios are approximately 4.63:1 and 4.55:1 respectively, clearing WCAG AA's 4.5:1 threshold for normal text;
-- `check:ui` computes the metadata-token contrast ratio from the CSS itself and fails if a future palette change drops below 4.5:1.
-
-### 12. Rendered browser acceptance is now a CI gate
-
-The application has a Playwright/Chromium acceptance suite running against the production build. The current suite executes **100 browser tests** and covers:
-
-- every major product route for desktop page-level horizontal containment;
-- homepage, LinUCB chapter, LinUCB Algorithm, Atlas and Evidence in light/dark at 1440×1000, 820×1180, 390×844 and 320×900;
-- axe WCAG A/AA scans on representative routes in both themes;
-- command-palette keyboard operation and focus restoration;
-- mobile-navigation state/current-page/Escape behavior;
-- long equation/table/code containment and keyboard reachability on phone;
-- 200% text-only reflow on Home, Archive, chapter reading, Algorithm detail, Atlas, Lab and Evidence;
-- a minimum 24 px target guard for visible phone controls;
-- a keyboard-visible skip-to-main-content path;
-- reduced-motion behavior;
-- clean Evidence sub-navigation naming;
-- explicit regression tests for the homepage Combination Lab layout and Evidence flow grid.
-
-The first expanded target-size pass found a real defect: the homepage search **wrapper** was comfortably sized, but the actual input hit target was only 22 px high on phone. The input now stretches through the search row, and the acceptance rule remains intact rather than being weakened.
-
-The current full suite passes all **100/100 tests**.
-
-### 13. Retained screenshot review found two real visual inconsistencies
-
-The visual-review suite now captures **18 full-page artifacts**: Home across desktop/tablet/phone in both themes, plus representative light-desktop/dark-phone views for chapter reading, Algorithms, Atlas, Lab, Evidence and References.
-
-Reviewing those rendered artifacts exposed two issues that source checks did not:
-
-1. **Homepage Combination Lab preview** — desktop still used an old asymmetric bento layout and a blue decorative sparkle while the rest of the product had moved to a quiet editorial rhythm. It now uses a uniform two-column layout on desktop, one column on phone, neutral accent treatment, and a rendered equal-width regression check.
-2. **Evidence discipline flow** — seven real evidence steps were placed into a four-column grid whose one-pixel gap/background treatment visually painted an empty eighth cell. The flow now renders seven individually bordered surfaces with real gaps and a transparent container. A browser test verifies seven steps and prevents the phantom-cell background from returning.
-
-The newly retained Algorithms, Lab and References screenshots were also reviewed. Their typography, spacing, neutral surfaces, control geometry and information density are consistent with the Archive/Atlas/Evidence system; no corrective redesign was needed.
-
-These screenshots remain review artifacts rather than strict pixel-diff baselines. That is intentional while the content density and research surfaces are still evolving.
-
-## CI consistency contract
-
-`npm run check:ui` currently protects all of the following:
-
-- deprecated visual layers cannot return;
-- `research-ui.css` remains the final app CSS import;
-- required typography, theme, control, shell and breakpoint contracts remain present;
-- the theme control remains portal-mounted into `.header-actions` while its layout mount stays nonvisual;
-- the real `.evidence-hub` root remains part of shared page rhythm;
-- mobile navigation keeps expanded/current-page semantics;
-- Search keeps dialog-popup semantics;
-- Atlas keeps explicit search, selected-entity and relationship-region semantics;
-- long display equations remain locally horizontally scrollable;
-- light and dark `--muted-2` tokens remain at or above 4.5:1 against the primary canvas and strong surface;
-- the tablet Research-fields editorial index remains single-column rather than regressing to the legacy two-column card layout.
-
-Playwright complements those source guards with rendered containment, responsive/theme, keyboard, reflow, target-size, reduced-motion, axe and visual-artifact checks.
-
-## Surface rules going forward
-
-### Archive / Algorithms / registries
-
-Use list/table-like rows when users are comparing many text-heavy records. Do not turn every record into a tall card.
-
-### Atlas
-
-Use a two-pane research workspace: picker/filter region + focused relationship content. Neighbor items may use compact bounded surfaces because they represent discrete graph relationships.
-
-### Lab
-
-Use structured research records. Panels are allowed where they separate compatibility, tensions, metrics or experiment planning, but the interface should remain neutral and information-dense.
+- thin separators;
+- aligned metadata;
+- subtle hover state;
+- no boxed card wall;
+- filters/search use the shared control system.
 
 ### Evidence
 
-Use compact destination surfaces at the hub level and lists for references/implementations/experiments. Evidence stage is descriptive coverage, never a quality score.
+Evidence previously read like a dashboard. The accepted layout now uses:
 
-### Long-form research
+- a compact coverage strip;
+- six Evidence destinations as full-width editorial index rows;
+- one seven-step Evidence-discipline sequence as index rows;
+- no rounded dashboard-card grid for these navigation concepts.
 
-Keep prose near 760 px, use generous vertical section spacing, real math rendering, locally scrollable wide tables/equations, restrained code blocks and a consistent TOC.
+The destination row hierarchy is:
 
-## Remaining manual acceptance work
+`icon → evidence type/title → description → coverage metadata → action`
 
-The structural/design-system cleanup, source-level accessibility hardening, automated Chromium responsive/theme/reflow/target checks, screenshot review, and axe WCAG scans are implemented.
+### Atlas
 
-Still perform manual checks where browser automation cannot substitute for the real interaction environment:
+Atlas is a workspace, so compact bounded nodes are allowed when they represent discrete graph relationships. It should remain:
 
-- VoiceOver and/or NVDA announcements on command palette, Atlas and Evidence provenance surfaces;
-- mathematical expression reading with assistive technology;
-- physical-device touch ergonomics and OS/browser font rendering;
+- picker/filter pane;
+- focused Algorithm content;
+- evidence neighbors;
+- named relationship regions;
+- accessible textual relationship table.
+
+Do not force Atlas into the Archive row pattern simply for visual sameness.
+
+### Lab
+
+Lab may use bounded panels where a panel represents a real research object or analysis unit, such as:
+
+- pair compatibility;
+- assumption tensions;
+- expected benefits/risks;
+- experiment planning;
+- known records.
+
+The homepage Lab preview, however, remains editorial/list-like because it is navigation rather than analysis.
+
+### Registries
+
+References, Implementations, Experiments, Claims, Passages, and Replications use the same control and list language where their task is browsing many records.
+
+### Long-form chapters
+
+- prose stays near 760px;
+- section spacing is generous;
+- KaTeX renders real math;
+- code is restrained;
+- wide tables/equations/code scroll locally rather than widening the page;
+- the TOC remains consistent and active-section aware.
+
+---
+
+## Accessibility and interaction contract
+
+Implemented and browser-guarded:
+
+- skip-to-main-content path;
+- visible keyboard focus;
+- modal focus trapping and focus restoration;
+- mobile navigation `aria-expanded`, `aria-controls`, current-page semantics, and Escape handling;
+- Search dialog semantics and polite live result announcements;
+- native Tab order preserved in command search;
+- ArrowUp / ArrowDown / Home / End accelerate command-palette result traversal;
+- no positive tabindex ordering;
+- one coherent `main` landmark and H1 entry point on representative routes;
+- explicit regions have accessible names;
+- Atlas selection and relationship regions expose usable semantics;
+- overflowing technical content becomes keyboard reachable only when needed and receives a visible focus indicator;
+- KaTeX output is checked for MathML and a non-empty TeX annotation while visual HTML remains hidden from assistive technology;
+- reduced-motion preference suppresses meaningful animations/transitions.
+
+Automated checks do **not** replace manual VoiceOver/NVDA evaluation. In particular, MathML presence does not prove that a real screen reader will pronounce every expression usefully.
+
+---
+
+## Automated acceptance state
+
+Validated on commit:
+
+`64e518e8b05a4f2d7ff5800f42d05f62def13dc6`
+
+GitHub Actions run:
+
+`36808420678`
+
+The acceptance run completed with **132/132 Playwright tests passing**.
+
+Coverage includes:
+
+- production route rendering;
+- light/dark themes;
+- desktop, tablet, phone, and narrow viewports;
+- page-level horizontal containment;
+- 200% text-only reflow;
+- phone minimum interactive target checks;
+- Axe WCAG A/AA scans in both themes;
+- keyboard Search/navigation/workspace flows;
+- skip-link behavior;
+- Atlas/Lab/Evidence focus visibility;
+- Evidence editorial-index regression checks;
+- KaTeX/MathML structure;
+- technical-overflow focus visibility;
+- reduced-motion behavior;
+- retained visual screenshots for representative pages.
+
+Fresh rendered screenshots were manually reviewed after the Evidence and homepage Combination Lab flattening. The current visual direction is accepted at the source/browser-artifact level.
+
+---
+
+## Current production/deployment state
+
+The dedicated Vercel project and public production alias already exist:
+
+`https://foundation-algorithms-collection.vercel.app`
+
+The exact current UI head has a green GitHub production build, route smoke test, and browser acceptance suite. Vercel rejected deployment of that exact commit because the account hit a **build-rate limit** (`upgradeToPro=build-rate-limit`). This is an external account-capacity condition, not an application build failure.
+
+Until the rate limit clears, the public alias continues serving the most recent successful Vercel production deployment.
+
+---
+
+## Manual acceptance still required
+
+These remain intentionally open:
+
+- VoiceOver walkthrough on representative routes;
+- NVDA walkthrough on representative routes;
+- real screen-reader review of mathematical pronunciation and verbosity;
+- physical phone/tablet touch ergonomics;
+- browser chrome and OS font-rendering review;
 - physical-device pinch zoom and browser-level text scaling;
 - favicon-scale review in real browser/device chrome.
 
-These are manual acceptance checks, not invitations to add another visual-system override layer. Any future fix should preserve the canonical hierarchy and add a deterministic regression test when possible.
+These are manual/device acceptance gates, not reasons to create a new visual system.
+
+---
+
+## Maintenance rules
+
+1. Do not add another global visual override layer after `research-ui.css`.
+2. Prefer editorial rows/lists for text-heavy navigation and comparison.
+3. Use bounded cards/panels only when the boundary represents a genuine discrete object or workspace concept.
+4. Do not use field color decoratively; reserve stronger color for semantic state.
+5. Preserve the Fraunces / Source Sans 3 / JetBrains Mono role separation.
+6. Keep technical overflow local rather than allowing document-level horizontal scrolling.
+7. Add browser regression checks when fixing a reproducible visual/accessibility bug.
+8. Do not equate Axe/DOM semantics with completed VoiceOver/NVDA acceptance.
+9. Review retained screenshots after significant layout changes before declaring visual acceptance.
+10. Update this audit and `PROGRESS.md` whenever the accepted UI contract or a meaningful blocker changes.
