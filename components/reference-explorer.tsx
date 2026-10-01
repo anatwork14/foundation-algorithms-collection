@@ -48,12 +48,14 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
           <Search size={17} />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search papers, authors, standards, algorithms, errata…" />
         </label>
-        <select value={kind} onChange={(event) => setKind(event.target.value as ReferenceKind | "All")} aria-label="Filter references by type">
-          {kinds.map((item) => <option key={item} value={item}>{item === "All" ? "All reference types" : item}</option>)}
-        </select>
-        <select value={role} onChange={(event) => setRole(event.target.value as ReferenceEvidenceRole | "All")} aria-label="Filter references by evidence role">
-          {roles.map((item) => <option key={item} value={item}>{item === "All" ? "All evidence roles" : item}</option>)}
-        </select>
+        <div className="reference-filter-selects">
+          <select value={kind} onChange={(event) => setKind(event.target.value as ReferenceKind | "All")} aria-label="Filter references by type">
+            {kinds.map((item) => <option key={item} value={item}>{item === "All" ? "All reference types" : item}</option>)}
+          </select>
+          <select value={role} onChange={(event) => setRole(event.target.value as ReferenceEvidenceRole | "All")} aria-label="Filter references by evidence role">
+            {roles.map((item) => <option key={item} value={item}>{item === "All" ? "All evidence roles" : item}</option>)}
+          </select>
+        </div>
       </section>
 
       <div className="reference-result-count">{results.length} references</div>
@@ -71,7 +73,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
               <p className="reference-authors">{reference.authors.join(", ")}</p>
               <p>{reference.summary}</p>
               {reference.notices.length > 0 && (
-                <div className="reference-notice-row" aria-label="Source notices">
+                <div className="reference-tags reference-notice-row" aria-label="Source notices">
                   {reference.notices.map((notice) => <span key={`${notice.kind}-${notice.verifiedAt}`}>{notice.kind}</span>)}
                 </div>
               )}
