@@ -90,6 +90,24 @@ test("Evidence exposes Atlas provenance as coverage rather than a score", async 
   expect(sourced + conceptual).toBe(total);
 });
 
+test("implementation detail preserves immutable verification snapshots", async ({ page }) => {
+  const response = await page.goto("/implementations/faiss-hnsw", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+
+  await expect(page.getByRole("heading", { name: "Faiss HNSW" })).toBeVisible();
+  const meta = page.locator(".reference-detail-meta");
+  await expect(meta.locator("div").filter({ hasText: "Verification revisions" }).locator("strong")).toHaveText("1");
+
+  const history = page.getByRole("list", { name: "Implementation verification history" });
+  await expect(history.locator("li")).toHaveCount(1);
+  await expect(history.getByText("r1", { exact: true })).toBeVisible();
+  await expect(history.getByText("2026-09-28", { exact: true })).toBeVisible();
+  await expect(history.getByText("main", { exact: true })).toBeVisible();
+  await expect(history.getByText("fdb9535c15b1", { exact: true })).toBeVisible();
+  await expect(history.getByRole("link", { name: /IndexHNSW interface/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
+  await expect(history.getByRole("link", { name: /HNSW implementation/i })).toHaveAttribute("href", /fdb9535c15b1b2990fd28f76f0641e65b95162f8/);
+});
+
 test("first independent replication record is inspectable end to end", async ({ page }) => {
   const response = await page.goto("/replications/aumuller-2020-hnsw-evaluation", { waitUntil: "domcontentloaded" });
   expect(response?.ok()).toBeTruthy();
