@@ -21,6 +21,17 @@ test("reference search finds sources through verified notice text", async ({ pag
   await expect(page.locator('[aria-label="Source notices"]').getByText("Errata", { exact: true })).toBeVisible();
 });
 
+test("reference notice filter isolates verified errata sources", async ({ page }) => {
+  await useTheme(page, "light");
+  await page.goto("/references", { waitUntil: "domcontentloaded" });
+
+  await page.getByRole("combobox", { name: "Filter references by source notice" }).selectOption("Errata");
+
+  await expect(page.locator(".reference-result-count")).toHaveText("1 references");
+  await expect(page.getByRole("heading", { name: /FIPS 203/ })).toBeVisible();
+  await expect(page.locator(".reference-row")).toHaveCount(1);
+});
+
 test("FIPS 203 exposes inspectable version and errata provenance", async ({ page }) => {
   await useTheme(page, "dark");
   await page.goto("/references/nist-2024-fips203", { waitUntil: "domcontentloaded" });
