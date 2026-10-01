@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/atlas",
     "/lab",
     "/evidence",
+    "/evidence/gaps",
     "/claims",
     "/passages",
     "/references",
