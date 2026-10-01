@@ -34,7 +34,9 @@ test("coarse-pointer phone can navigate, switch theme, and search without hover"
   await expect(primary).toBeVisible();
   await primary.getByRole("link", { name: "Evidence" }).tap();
   await expect(page).toHaveURL(/\/evidence$/);
-  await expect(primary.getByRole("link", { name: "Evidence" })).toHaveAttribute("aria-current", "page");
+  await expect(page.locator('#primary-navigation a[href="/evidence"]')).toHaveAttribute("aria-current", "page");
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
+  await expect(menu).toHaveAccessibleName("Open navigation");
 
   const dark = page.getByRole("button", { name: "Switch to dark mode" });
   await dark.tap();
