@@ -62,6 +62,16 @@ export const experimentHistory: ExperimentHistoryEntry[] = [
     artifactLabels: ["Recorded aggregate result"],
   },
   {
+    experimentId: "hnsw-linucb-reranking-drift-pilot",
+    revision: 4,
+    date: "2026-10-01",
+    kind: "Artifact",
+    status: "Completed",
+    title: "Inspectable run manifest attached",
+    note: "A machine-readable manifest now records the deterministic seed range, horizon and drift point, candidate/model dimensions, policy parameters, reward regimes, and interpretation boundaries. CI verifies the manifest against both the simulator constants and recorded aggregate result.",
+    artifactLabels: ["Verified run manifest"],
+  },
+  {
     experimentId: "learned-qec-prior-ablation",
     revision: 1,
     date: "2026-09-28",
