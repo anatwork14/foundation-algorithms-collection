@@ -79,15 +79,15 @@ export const implementations: ImplementationRecord[] = [
     summary: "Qiskit's circuit library includes a Quantum Phase Estimation circuit implementation and associated tests.",
     implementationNotes: [
       "Useful for connecting the abstract QPE circuit to an executable SDK representation.",
-      "The circuit-library implementation exposes QPE composition while the surrounding SDK handles transpilation and execution concerns.",
+      "At the verified revision, the functional phase_estimation circuit is the forward-looking API while the PhaseEstimation class remains present but deprecated for Qiskit 3.0 removal.",
     ],
     sourcePaths: [
-      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133/qiskit/circuit/library/phase_estimation.py" },
-      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133/test/python/circuit/library/test_phase_estimation.py" },
+      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/649763bbb0c7b7967d46aea5c6971bc4e5d1311a/qiskit/circuit/library/phase_estimation.py" },
+      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/649763bbb0c7b7967d46aea5c6971bc4e5d1311a/test/python/circuit/library/test_phase_estimation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "8d4d380cd1dc50cc1b6b2e5cb8d31390d037d133",
-    lastVerified: "2026-09-28",
+    verifiedCommit: "649763bbb0c7b7967d46aea5c6971bc4e5d1311a",
+    lastVerified: "2026-10-01",
   },
   {
     id: "liboqs-ml-kem",
@@ -124,13 +124,13 @@ export const implementations: ImplementationRecord[] = [
     summary: "PyTorch exposes AdamW through torch.optim with decoupled weight decay enabled explicitly in the optimizer implementation.",
     implementationNotes: [
       "The AdamW constructor delegates to the shared Adam implementation with decoupled_weight_decay enabled.",
-      "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the pinned revision.",
+      "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the verified revision.",
     ],
     sourcePaths: [
-      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/optim/adamw.py" },
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff/torch/optim/adamw.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    verifiedCommit: "1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff",
     lastVerified: "2026-10-01",
   },
   {
@@ -146,13 +146,13 @@ export const implementations: ImplementationRecord[] = [
     summary: "PyTorch provides a MultiheadAttention module implementing the multi-head attention architecture used by Transformer-style models.",
     implementationNotes: [
       "The module exposes query, key, and value inputs with learned projections and multi-head attention behavior.",
-      "This record documents executable attention code; the Vaswani et al. reference remains the primary conceptual source in the archive.",
+      "At the verified revision, PyTorch still describes this module as an implementation of the original Attention Is All You Need architecture; the Vaswani et al. reference remains the primary conceptual source in the archive.",
     ],
     sourcePaths: [
-      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/nn/modules/activation.py" },
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff/torch/nn/modules/activation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    verifiedCommit: "1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff",
     lastVerified: "2026-10-01",
   },
   {
