@@ -55,72 +55,102 @@
   letter-spacing: .05em;
 }
 
-.evidence-hub-grid {
+/* Evidence destinations are an editorial index, not a dashboard-card grid. */
+.evidence-hub .evidence-hub-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 0 !important;
+  border-top: 1px solid var(--line-strong);
 }
 
-.evidence-hub-card {
+.evidence-hub .evidence-hub-card {
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto auto;
-  align-items: start;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  background: var(--surface-strong);
+  grid-template-columns: 36px minmax(150px, .55fr) minmax(260px, 1.45fr) minmax(130px, .55fr) auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: var(--space-4);
+  row-gap: 4px;
+  padding: 18px 6px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transition: background 140ms ease;
 }
 
-.evidence-hub-card:hover {
-  border-color: var(--line-strong);
-  background: var(--surface);
+.evidence-hub .evidence-hub-card:hover {
+  border-color: var(--line) !important;
+  background: color-mix(in srgb, var(--ink) 2.5%, transparent) !important;
 }
 
 .evidence-hub-icon {
-  width: 32px;
-  height: 32px;
+  grid-column: 1;
+  grid-row: 1 / 3;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
-  margin-bottom: 18px;
+  margin: 0;
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--muted);
 }
 
-.evidence-hub-card h2 {
-  margin: 5px 0 9px;
-  font-family: var(--font-reading), ui-sans-serif, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 680;
-  letter-spacing: -.02em;
+.evidence-hub-card > .research-block-label {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
 }
 
-.evidence-hub-card > p {
+.evidence-hub .evidence-hub-card h2 {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin: 0;
+  font-family: var(--font-reading), ui-sans-serif, sans-serif;
+  font-size: 1.03rem;
+  font-weight: 680;
+  letter-spacing: -.018em;
+}
+
+.evidence-hub .evidence-hub-card > p {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  max-width: 650px;
   margin: 0;
   color: var(--muted);
-  font-size: .86rem;
-  line-height: 1.58;
+  font-size: .82rem;
+  line-height: 1.55;
 }
 
-.evidence-card-stats {
+.evidence-hub .evidence-card-stats {
+  grid-column: 4;
+  grid-row: 1 / 3;
   width: 100%;
   display: grid;
   gap: 4px;
-  margin: 18px 0 14px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
+  margin: 0;
+  padding: 0;
+  border: 0;
   color: var(--muted-2);
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: var(--type-label, .69rem);
+  line-height: 1.42;
 }
 
-.evidence-hub-card > strong {
+.evidence-hub .evidence-hub-card > strong {
+  grid-column: 5;
+  grid-row: 1 / 3;
+  justify-self: end;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   color: var(--ink);
   font-size: var(--type-meta, .78rem);
   font-weight: 650;
+  white-space: nowrap;
 }
 
 .evidence-flow {
@@ -129,38 +159,47 @@
   border-top: 1px solid var(--line-strong);
 }
 
-.evidence-flow-grid {
+/* The evidence discipline is a seven-step reading sequence, not seven cards. */
+.evidence-hub .evidence-flow-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 0 !important;
+  border-top: 1px solid var(--line-strong);
 }
 
 .evidence-flow-grid > div {
-  min-height: 190px;
+  min-height: 0;
   display: grid;
-  align-content: start;
+  grid-template-columns: 44px 26px 150px minmax(0, 1fr);
+  align-items: start;
   gap: var(--space-3);
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  background: var(--surface-strong);
+  padding: 16px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .evidence-flow-grid > div > span {
+  grid-column: 1;
   color: var(--muted-2);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: var(--type-label, .69rem);
 }
 
 .evidence-flow-grid svg {
+  grid-column: 2;
   color: var(--muted);
 }
 
 .evidence-flow-grid strong {
-  font-size: .95rem;
+  grid-column: 3;
+  font-size: .9rem;
+  font-weight: 680;
 }
 
 .evidence-flow-grid p {
+  grid-column: 4;
   margin: 0;
   color: var(--muted);
   font-size: var(--type-meta, .78rem);
@@ -223,12 +262,16 @@
     border-bottom: 1px solid var(--line);
   }
 
-  .evidence-hub-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .evidence-hub .evidence-hub-card {
+    grid-template-columns: 32px minmax(130px, .5fr) minmax(220px, 1.2fr) minmax(115px, .5fr);
+    column-gap: var(--space-3);
   }
 
-  .evidence-flow-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .evidence-hub .evidence-hub-card > strong {
+    grid-column: 2 / 5;
+    grid-row: 3;
+    justify-self: start;
+    margin-top: 5px;
   }
 
   .evidence-relation-summary {
@@ -267,8 +310,64 @@
     border-bottom: 0;
   }
 
-  .evidence-hub-grid,
-  .evidence-flow-grid {
-    grid-template-columns: 1fr;
+  .evidence-hub .evidence-hub-card {
+    grid-template-columns: 32px minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+    column-gap: var(--space-3);
+    padding: 18px 2px !important;
+  }
+
+  .evidence-hub-card > .research-block-label {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .evidence-hub .evidence-hub-card h2 {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .evidence-hub .evidence-hub-card > p {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 6px;
+  }
+
+  .evidence-hub .evidence-card-stats {
+    grid-column: 2;
+    grid-row: 4;
+    margin-top: 9px;
+  }
+
+  .evidence-hub .evidence-hub-card > strong {
+    grid-column: 2;
+    grid-row: 5;
+    margin-top: 9px;
+  }
+
+  .evidence-flow-grid > div {
+    grid-template-columns: 32px 24px minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px 2px;
+  }
+
+  .evidence-flow-grid > div > span {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .evidence-flow-grid svg {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .evidence-flow-grid strong {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .evidence-flow-grid p {
+    grid-column: 2 / 4;
+    grid-row: 2;
   }
 }
