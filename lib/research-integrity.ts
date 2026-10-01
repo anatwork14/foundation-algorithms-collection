@@ -10,6 +10,8 @@ import { assertValidExperimentHistory } from "@/lib/experiment-history-validatio
 import { assertValidExperiments } from "@/lib/experiment-validation";
 import { experiments } from "@/lib/experiments";
 import { assertValidImplementations } from "@/lib/implementation-validation";
+import { implementationVerificationHistory } from "@/lib/implementation-verification-history";
+import { assertValidImplementationVerificationHistory } from "@/lib/implementation-verification-validation";
 import { implementations } from "@/lib/implementations";
 import { assertValidReferences } from "@/lib/reference-validation";
 import { references } from "@/lib/references";
@@ -33,6 +35,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   assertValidRelationProvenance(relationProvenance, algorithms, references);
   assertValidReplications(replications, algorithms, references);
   assertValidImplementations(implementations, algorithms);
+  assertValidImplementationVerificationHistory(implementationVerificationHistory, implementations);
   assertValidExperiments(experiments, algorithms, combinations);
   assertValidExperimentHistory(experimentHistory, experiments);
   assertValidSearchPassages(documents, records);
@@ -46,6 +49,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
     relationProvenance: relationProvenance.length,
     replications: replications.length,
     implementations: implementations.length,
+    implementationVerificationHistory: implementationVerificationHistory.length,
     experiments: experiments.length,
     experimentHistory: experimentHistory.length,
     claims: claims.length,
