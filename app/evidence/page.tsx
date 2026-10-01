@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Code2, FlaskConical, GitBranch, Network, RefreshCcw, ScrollText, Search, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, CircleDashed, Code2, FlaskConical, GitBranch, Network, RefreshCcw, ScrollText, Search, ShieldCheck } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
 import { algorithms } from "@/lib/algorithm-catalog";
 import { claims } from "@/lib/claims";
 import { getAllDocuments } from "@/lib/content";
+import { getEvidenceGapCatalog } from "@/lib/evidence-gaps";
 import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-profile";
 import { experiments } from "@/lib/experiments";
 import { implementations } from "@/lib/implementations";
@@ -39,6 +40,8 @@ export default function EvidencePage() {
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
   const curatedCitationEdges = references.reduce((sum, reference) => sum + reference.citations.length, 0);
   const relationCoverage = getRelationProvenanceCoverage(algorithms, relationProvenance);
+  const gapCatalog = getEvidenceGapCatalog();
+  const algorithmsWithGaps = gapCatalog.filter((item) => item.gaps.length > 0).length;
 
   return (
     <main className="evidence-hub shell">
@@ -78,6 +81,15 @@ export default function EvidencePage() {
       </section>
 
       <section className="evidence-hub-grid">
+        <Link href="/evidence/gaps" className="evidence-hub-card">
+          <div className="evidence-hub-icon"><CircleDashed size={19} /></div>
+          <span className="research-block-label">Research planning</span>
+          <h2>Evidence Gaps</h2>
+          <p>Inspect which archive layers are not yet recorded for each indexed algorithm without interpreting missing coverage as weak research.</p>
+          <div className="evidence-card-stats"><span>{algorithmsWithGaps} algorithms with gaps</span><span>{gapCatalog.length} indexed algorithms</span></div>
+          <strong>Inspect coverage gaps <ArrowRight size={14} /></strong>
+        </Link>
+
         <Link href="/passages" className="evidence-hub-card">
           <div className="evidence-hub-icon"><Search size={19} /></div>
           <span className="research-block-label">Source units</span>
