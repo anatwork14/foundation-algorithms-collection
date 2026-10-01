@@ -6,6 +6,21 @@ export type ReferenceEvidenceRole =
   | "Survey / synthesis"
   | "Replication / evaluation";
 
+export type ReferenceNoticeKind =
+  | "Version"
+  | "Errata"
+  | "Correction"
+  | "Superseded"
+  | "Withdrawn"
+  | "Retraction";
+
+export type ReferenceNotice = {
+  kind: ReferenceNoticeKind;
+  note: string;
+  url: string;
+  verifiedAt: string;
+};
+
 export type ReferenceCitation = {
   targetId: string;
   note: string;
@@ -27,6 +42,7 @@ export type ReferenceEntity = {
   combinationIds: string[];
   chapterSlugs: string[];
   citations: ReferenceCitation[];
+  notices: ReferenceNotice[];
   summary: string;
   significance: string;
   tags: string[];
@@ -47,6 +63,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: ["linucb-adaptive-fuzzing", "retrieval-bandit-routing"],
     chapterSlugs: ["08-bandits-contextual-bandits-linucb"],
     citations: [],
+    notices: [],
     summary: "Introduces the contextual-bandit formulation and LinUCB-style algorithm for personalized news recommendation, together with offline replay evaluation on logged randomized traffic.",
     significance: "Primary source for LinUCB in the collection and an important bridge between contextual-bandit theory and large-scale online recommendation.",
     tags: ["contextual-bandit", "linucb", "offline-evaluation"],
@@ -64,6 +81,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: ["verifiable-agent-planning", "private-verifiable-ai"],
     chapterSlugs: ["11-neural-architectures-attention-ssm-moe-gnn", "13-ai-reasoning-alignment-agents"],
     citations: [],
+    notices: [],
     summary: "Introduces the Transformer architecture based on attention mechanisms without recurrent or convolutional sequence layers.",
     significance: "Foundational source for modern Transformer attention and many representation, generative, retrieval, and agent systems built on top of it.",
     tags: ["transformer", "attention", "sequence-modeling"],
@@ -82,6 +100,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: ["retrieval-bandit-routing"],
     chapterSlugs: ["06-representation-similarity-compression-parsing", "09-combination-research-map"],
     citations: [],
+    notices: [],
     summary: "Presents the hierarchical navigable small-world graph index for approximate nearest-neighbor search with controllable hierarchy and high-recall practical performance.",
     significance: "Primary source for one of the most widely used graph-based ANN indexing mechanisms in modern vector retrieval systems.",
     tags: ["ann", "hnsw", "vector-search"],
@@ -107,6 +126,7 @@ export const references: ReferenceEntity[] = [
         verifiedAt: "2026-09-30",
       },
     ],
+    notices: [],
     summary: "Introduces a reproducible benchmarking framework for in-memory approximate nearest-neighbor algorithms and evaluates multiple implementations and datasets, including HNSW.",
     significance: "Provides an independently authored evaluation of HNSW within a common benchmark framework, useful for checking whether the method's strong high-recall practical behavior generalizes beyond its original paper and implementation context.",
     tags: ["ann", "benchmark", "hnsw", "independent-evaluation", "reproducibility"],
@@ -124,6 +144,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: [],
     chapterSlugs: ["10-ai-optimization-learning-theory"],
     citations: [],
+    notices: [],
     summary: "Shows that L2 regularization and weight decay are not equivalent for adaptive optimizers such as Adam and proposes decoupling weight decay from the gradient update.",
     significance: "Primary source for AdamW, now a standard optimizer choice across Transformer and large-model training pipelines.",
     tags: ["optimization", "adamw", "regularization"],
@@ -148,6 +169,7 @@ export const references: ReferenceEntity[] = [
         verifiedAt: "2026-09-28",
       },
     ],
+    notices: [],
     summary: "Introduces NeuralUCB, using a neural network representation and confidence construction for UCB-style exploration in nonlinear contextual bandits.",
     significance: "Important research bridge from linear contextual bandits toward nonlinear learned representations while retaining an explicit exploration mechanism.",
     tags: ["neuralucb", "contextual-bandit", "uncertainty"],
@@ -164,6 +186,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: [],
     chapterSlugs: ["22-quantum-simulation-qsp-qsvt-linear-algebra"],
     citations: [],
+    notices: [],
     summary: "Develops singular-value transformation of block-encoded operators and shows how the framework unifies and improves a wide range of quantum matrix algorithms.",
     significance: "Core source for QSVT as a reusable polynomial-transformation framework rather than a single isolated quantum algorithm.",
     tags: ["qsvt", "quantum-linear-algebra", "block-encoding"],
@@ -181,6 +204,7 @@ export const references: ReferenceEntity[] = [
     combinationIds: ["private-adaptive-learning"],
     chapterSlugs: ["14-uncertainty-causal-active-continual-meta-learning"],
     citations: [],
+    notices: [],
     summary: "Combines conformal calibration with quantile regression to produce adaptive prediction intervals with finite-sample marginal coverage under the standard conformal assumptions.",
     significance: "A practical modern conformal method that makes uncertainty intervals adaptive to heteroscedasticity while preserving finite-sample coverage guarantees.",
     tags: ["conformal", "uncertainty", "calibration"],
@@ -204,6 +228,7 @@ export const references: ReferenceEntity[] = [
         verifiedAt: "2026-09-28",
       },
     ],
+    notices: [],
     summary: "Introduces input-dependent selective state-space updates and a hardware-aware parallel recurrent algorithm for linear-scaling sequence modeling.",
     significance: "A major modern reference for selective state-space models as an alternative/complement to dense attention on long sequences.",
     tags: ["ssm", "mamba", "sequence-modeling"],
@@ -222,6 +247,20 @@ export const references: ReferenceEntity[] = [
     combinationIds: [],
     chapterSlugs: ["31-post-quantum-cryptography"],
     citations: [],
+    notices: [
+      {
+        kind: "Version",
+        note: "NIST's document history identifies the 2024-08-13 publication as the final FIPS 203 release, following the 2023 initial public draft.",
+        url: "https://csrc.nist.gov/pubs/fips/203/final",
+        verifiedAt: "2026-10-01",
+      },
+      {
+        kind: "Errata",
+        note: "NIST's planning note dated 2025-11-17 says an issue has been identified and will be corrected in a future update/revision; implementers should review the potential-updates spreadsheet.",
+        url: "https://csrc.nist.gov/files/pubs/fips/203/final/docs/fips-203-potential-updates.xlsx",
+        verifiedAt: "2026-10-01",
+      },
+    ],
     summary: "The final NIST standard specifying ML-KEM key generation, encapsulation, decapsulation, and the ML-KEM-512/768/1024 parameter sets.",
     significance: "Normative implementation source for standardized ML-KEM and a critical reference for post-quantum migration work.",
     tags: ["ml-kem", "pqc", "standard"],
@@ -280,6 +319,7 @@ export function referenceSearchText(reference: ReferenceEntity) {
     reference.doi ?? "",
     reference.summary,
     reference.significance,
+    ...reference.notices.flatMap((notice) => [notice.kind, notice.note]),
     ...reference.tags,
   ].join(" ").toLowerCase();
 }
