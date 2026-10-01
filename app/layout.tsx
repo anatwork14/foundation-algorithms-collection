@@ -11,6 +11,7 @@ import "./research-evidence-links.css";
 import "./implementation-registry.css";
 import "./experiment-registry.css";
 import "./evidence-hub.css";
+import "./evidence-gaps.css";
 import "./archive-discovery.css";
 import "./citation-graph.css";
 import "./atlas-provenance.css";
