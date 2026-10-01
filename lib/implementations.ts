@@ -127,11 +127,11 @@ export const implementations: ImplementationRecord[] = [
       "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the pinned revision.",
     ],
     sourcePaths: [
-      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/c8532b3e7f0e3aec4bb518524c3ca041e17665aa/torch/optim/adamw.py" },
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/optim/adamw.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "c8532b3e7f0e3aec4bb518524c3ca041e17665aa",
-    lastVerified: "2026-09-29",
+    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    lastVerified: "2026-10-01",
   },
   {
     id: "pytorch-multihead-attention",
@@ -149,11 +149,11 @@ export const implementations: ImplementationRecord[] = [
       "This record documents executable attention code; the Vaswani et al. reference remains the primary conceptual source in the archive.",
     ],
     sourcePaths: [
-      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c8532b3e7f0e3aec4bb518524c3ca041e17665aa/torch/nn/modules/activation.py" },
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/nn/modules/activation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "c8532b3e7f0e3aec4bb518524c3ca041e17665aa",
-    lastVerified: "2026-09-29",
+    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    lastVerified: "2026-10-01",
   },
   {
     id: "z3-sat-smt",
