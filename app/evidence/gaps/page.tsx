@@ -64,7 +64,7 @@ export default function EvidenceGapsPage() {
 
         <div className="evidence-gap-list">
           {withGaps.map((item) => (
-            <article key={item.algorithmId} className="evidence-gap-row">
+            <article key={item.algorithmId} id={item.algorithmId} className="evidence-gap-row">
               <div className="evidence-gap-identity">
                 <span className="research-block-label">{item.field} · {item.family}</span>
                 <h3><Link href={`/algorithms/${item.algorithmId}`}>{item.name}</Link></h3>
