@@ -65,6 +65,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
         <aside className="reference-detail-meta">
           <div><span>Year</span><strong>{reference.year}</strong></div>
           <div><span>Evidence role</span><strong>{reference.evidenceRole}</strong></div>
+          <div><span>Source notices</span><strong>{reference.notices.length}</strong></div>
           <div><span>Algorithms</span><strong>{reference.algorithmIds.length}</strong></div>
           <div><span>Curated claims</span><strong>{claimRecords.length}</strong></div>
           <div><span>Replication records</span><strong>{replicationRecords.length}</strong></div>
@@ -93,6 +94,20 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
               </a>
               {reference.doi && <code>DOI {reference.doi}</code>}
             </div>
+            {reference.notices.length > 0 && (
+              <div className="reference-source-notices" aria-label="Verified source notices">
+                {reference.notices.map((notice) => (
+                  <article key={`${notice.kind}-${notice.verifiedAt}`}>
+                    <div>
+                      <span>{notice.kind}</span>
+                      <strong>Verified {notice.verifiedAt}</strong>
+                    </div>
+                    <p>{notice.note}</p>
+                    <a href={notice.url} target="_blank" rel="noreferrer">Inspect authoritative notice <ExternalLink size={13} aria-hidden="true" /></a>
+                  </article>
+                ))}
+              </div>
+            )}
           </section>
 
           {(citedReferences.length > 0 || citingReferences.length > 0) && (
