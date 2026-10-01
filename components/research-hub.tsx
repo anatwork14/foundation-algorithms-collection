@@ -48,21 +48,23 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
             </p>
 
             <div className="hero-search-wrap">
-              <Search size={20} />
+              <Search size={20} aria-hidden="true" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Try “LinUCB”, “quantum decoding”, “symbolic execution”…"
                 aria-label="Search the research collection"
               />
-              <span className="search-count">{filtered.length}</span>
+              <span className="search-count" aria-live="polite">{filtered.length}</span>
             </div>
 
             <div className="quick-filters" aria-label="Research field filters">
               {filterOptions.map((option) => (
                 <button
                   key={option}
+                  type="button"
                   className={field === option ? "is-active" : ""}
+                  aria-pressed={field === option}
                   onClick={() => setField(option)}
                 >
                   {option}
@@ -101,23 +103,24 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
             <span className="section-kicker">Research fields</span>
             <h2>Five lenses on the same computational universe.</h2>
           </div>
-          <Link href="/archive" className="text-link">Browse everything <ArrowRight size={15} /></Link>
+          <Link href="/archive" className="text-link">Browse everything <ArrowRight size={15} aria-hidden="true" /></Link>
         </div>
 
         <div className="domain-grid">
           {fields.map((item, index) => {
             const count = documents.filter((doc) => doc.field === item.name).length;
             return (
-              <button
+              <Link
                 key={item.name}
+                href={`/archive?field=${encodeURIComponent(item.name)}`}
                 className={`domain-card field-${fieldKey(item.name)} ${field === item.name ? "is-selected" : ""}`}
-                onClick={() => setField(item.name)}
+                aria-label={`Explore ${item.name}: ${count} chapters`}
               >
                 <div className="domain-card-top"><span>0{index + 1}</span><span>{count} chapters</span></div>
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <span className="domain-arrow">Explore →</span>
-              </button>
+              </Link>
             );
           })}
         </div>
@@ -129,7 +132,7 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
             <span className="section-kicker">The archive</span>
             <h2>{query || field !== "All" ? `${filtered.length} matching chapters` : "A library built from first principles."}</h2>
           </div>
-          <div className="archive-meta"><BookOpen size={16} /> Markdown remains the source of truth</div>
+          <div className="archive-meta"><BookOpen size={16} aria-hidden="true" /> Markdown remains the source of truth</div>
         </div>
 
         {filtered.length ? (
@@ -157,16 +160,16 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
           </div>
         ) : (
           <div className="empty-state">
-            <Search size={24} />
+            <Search size={24} aria-hidden="true" />
             <h3>No chapter matches yet.</h3>
             <p>Try a broader concept or switch research fields.</p>
-            <button onClick={() => { setQuery(""); setField("All"); }}>Reset search</button>
+            <button type="button" onClick={() => { setQuery(""); setField("All"); }}>Reset search</button>
           </div>
         )}
 
         {filtered.length > 8 && (
           <div className="section-cta">
-            <Link href={`/archive${query ? `?q=${encodeURIComponent(query)}` : ""}`} className="primary-button">Open full archive <ArrowRight size={16} /></Link>
+            <Link href={`/archive${query ? `?q=${encodeURIComponent(query)}` : ""}`} className="primary-button">Open full archive <ArrowRight size={16} aria-hidden="true" /></Link>
           </div>
         )}
       </section>
@@ -178,18 +181,18 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
               <span className="section-kicker">Combination lab</span>
               <h2>The collection becomes more valuable when the boundaries disappear.</h2>
             </div>
-            <Sparkles size={28} />
+            <Sparkles size={28} aria-hidden="true" />
           </div>
 
           <div className="inspiration-grid">
             {inspirationThreads.map((thread, index) => (
               <Link href={thread.href} key={thread.title} className={`inspiration-card inspiration-${index + 1}`}>
-                <div className="inspiration-kicker"><FlaskConical size={14} /> {thread.kicker}</div>
+                <div className="inspiration-kicker"><FlaskConical size={14} aria-hidden="true" /> {thread.kicker}</div>
                 <h3>{thread.title}</h3>
                 <p>{thread.description}</p>
                 <div className="inspiration-footer">
                   <span>{thread.fields.join(" × ")}</span>
-                  <ArrowRight size={17} />
+                  <ArrowRight size={17} aria-hidden="true" />
                 </div>
               </Link>
             ))}
@@ -205,9 +208,9 @@ export function ResearchHub({ documents }: { documents: DocSummary[] }) {
             <p>The site is intentionally designed around research behavior rather than endless content consumption.</p>
           </div>
           <div className="principle-list">
-            <div><span><BookOpen size={17} /></span><strong>Read from motivation</strong><p>Start with the problem an algorithm exists to solve before implementation details.</p></div>
-            <div><span><Boxes size={17} /></span><strong>Trace reusable mechanisms</strong><p>Notice shared patterns such as confidence bounds, message passing, search, and approximation.</p></div>
-            <div><span><FlaskConical size={17} /></span><strong>Turn combinations into experiments</strong><p>Define interfaces, hypotheses, baselines, failure modes, and measurable outcomes.</p></div>
+            <div><span><BookOpen size={17} aria-hidden="true" /></span><strong>Read from motivation</strong><p>Start with the problem an algorithm exists to solve before implementation details.</p></div>
+            <div><span><Boxes size={17} aria-hidden="true" /></span><strong>Trace reusable mechanisms</strong><p>Notice shared patterns such as confidence bounds, message passing, search, and approximation.</p></div>
+            <div><span><FlaskConical size={17} aria-hidden="true" /></span><strong>Turn combinations into experiments</strong><p>Define interfaces, hypotheses, baselines, failure modes, and measurable outcomes.</p></div>
           </div>
         </div>
       </section>
