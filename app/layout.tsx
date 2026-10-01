@@ -22,6 +22,7 @@ import "./claim-provenance.css";
 import "./accessibility.css";
 import "./theme-dock.css";
 import "./research-ui.css";
+import { CommandPaletteKeyboardManager } from "@/components/command-palette-keyboard-manager";
 import { DialogFocusManager } from "@/components/dialog-focus-manager";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <DialogFocusManager />
+        <CommandPaletteKeyboardManager />
         <SiteHeader documents={documents} />
         <div className="theme-toggle-dock" style={{ display: "contents" }}>
           <ThemeToggle />
