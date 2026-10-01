@@ -27,7 +27,14 @@ function arrayConstant(name) {
   const valueStart = start + prefix.length;
   const end = simulatorSource.indexOf(";\n", valueStart);
   assert.notEqual(end, -1, `Could not resolve end of simulator array ${name}`);
-  return JSON.parse(simulatorSource.slice(valueStart, end));
+
+  // The simulator uses normal JavaScript array literals with trailing commas.
+  // Normalise only trailing commas before closing brackets so the literal can
+  // be compared structurally as JSON without evaluating source code.
+  const jsonCompatible = simulatorSource
+    .slice(valueStart, end)
+    .replace(/,\s*]/g, "]");
+  return JSON.parse(jsonCompatible);
 }
 
 assert.deepEqual(
