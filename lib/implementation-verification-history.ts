@@ -69,6 +69,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Initial PyTorch AdamW snapshot where decoupled weight decay was directly inspected in the pinned optimizer implementation.",
   },
   {
+    implementationId: "pytorch-adamw",
+    revision: 2,
+    verifiedAt: "2026-10-01",
+    verifiedRef: "main",
+    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    sourcePaths: [
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/optim/adamw.py" },
+    ],
+    note: "Freshness re-review after main advanced by 146 commits. The targeted AdamW file and repository LICENSE were unchanged in the compare set; direct inspection at the new head still shows decoupled_weight_decay=True in the AdamW implementation.",
+  },
+  {
     implementationId: "pytorch-multihead-attention",
     revision: 1,
     verifiedAt: "2026-09-29",
@@ -78,6 +89,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
       { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c8532b3e7f0e3aec4bb518524c3ca041e17665aa/torch/nn/modules/activation.py" },
     ],
     note: "Initial PyTorch MultiheadAttention snapshot linked to the archive's Transformer-attention concept record.",
+  },
+  {
+    implementationId: "pytorch-multihead-attention",
+    revision: 2,
+    verifiedAt: "2026-10-01",
+    verifiedRef: "main",
+    verifiedCommit: "38cca96300da024842405ecefa081e4761254922",
+    sourcePaths: [
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/38cca96300da024842405ecefa081e4761254922/torch/nn/modules/activation.py" },
+    ],
+    note: "Freshness re-review after main advanced by 146 commits. The targeted MultiheadAttention file and repository LICENSE were unchanged in the compare set; direct inspection at the new head still identifies the module as the original multi-head attention architecture and exposes its query/key/value projection structure.",
   },
   {
     implementationId: "z3-sat-smt",
