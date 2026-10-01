@@ -1,0 +1,56 @@
+{
+  "experimentId": "hnsw-linucb-reranking-drift-pilot",
+  "manifestVersion": 1,
+  "studyType": "controlled sequential reranking simulation",
+  "purpose": "Evaluate online linear-bandit adaptation to an abrupt reward-model shift on identical synthetic candidate sets without claiming real HNSW retrieval or user evidence.",
+  "seedPlan": {
+    "baseSeed": 20260930,
+    "runs": 30,
+    "lastSeed": 20260959
+  },
+  "timeline": {
+    "historicalInteractions": 800,
+    "evaluationHorizon": 4000,
+    "driftAt": 2000,
+    "firstPostDriftWindow": 500,
+    "lastPostDriftWindow": 500
+  },
+  "candidateSpace": {
+    "actions": 4,
+    "contextFeatures": 2,
+    "modelDimensionsIncludingIntercept": 3
+  },
+  "policyParameters": {
+    "ridgeLambda": 1,
+    "linucbAlpha": 0.7,
+    "policies": [
+      "similarity",
+      "staticLinear",
+      "greedyOnline",
+      "linucb"
+    ]
+  },
+  "rewardModel": {
+    "distribution": "Bernoulli with probabilities from a clipped linear contextual model",
+    "probabilityClip": [0.05, 0.95],
+    "preDriftTheta": [
+      [0.55, 0.25, -0.05],
+      [0.5, -0.15, 0.25],
+      [0.47, 0.15, 0.12],
+      [0.42, -0.05, -0.12]
+    ],
+    "postDriftTheta": [
+      [0.42, -0.2, 0.05],
+      [0.45, 0.2, -0.18],
+      [0.58, -0.1, 0.25],
+      [0.52, 0.18, 0.05]
+    ],
+    "commonRandomNumbers": true
+  },
+  "interpretationBoundary": [
+    "The simulator does not execute an HNSW index.",
+    "Candidate recall and retrieval latency are not measured.",
+    "Synthetic rewards do not establish real-user effectiveness.",
+    "This manifest defines an exploratory pilot rather than a preregistered confirmatory study."
+  ]
+}
