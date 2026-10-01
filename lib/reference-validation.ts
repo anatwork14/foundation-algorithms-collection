@@ -1,6 +1,6 @@
 import type { AlgorithmEntity } from "@/lib/algorithms";
 import type { ResearchCombination } from "@/lib/combinations";
-import type { ReferenceEntity, ReferenceEvidenceRole } from "@/lib/references";
+import type { ReferenceEntity, ReferenceEvidenceRole, ReferenceNoticeKind } from "@/lib/references";
 
 const evidenceRoles = new Set<ReferenceEvidenceRole>([
   "Primary method",
@@ -8,6 +8,15 @@ const evidenceRoles = new Set<ReferenceEvidenceRole>([
   "Normative standard",
   "Survey / synthesis",
   "Replication / evaluation",
+]);
+
+const noticeKinds = new Set<ReferenceNoticeKind>([
+  "Version",
+  "Errata",
+  "Correction",
+  "Superseded",
+  "Withdrawn",
+  "Retraction",
 ]);
 
 export function validateReferences(
@@ -36,9 +45,17 @@ export function validateReferences(
     for (const id of reference.combinationIds) if (!combinationIds.has(id)) errors.push(`${reference.id}: unknown combination ${id}`);
     if (!reference.chapterSlugs.length) errors.push(`${reference.id}: at least one source chapter is required`);
     for (const slug of reference.chapterSlugs) if (!chapterIds.has(slug)) errors.push(`${reference.id}: unknown source chapter ${slug}`);
+    if (!Array.isArray(reference.notices)) errors.push(`${reference.id}: notices must be an array`);
     if (!reference.summary.trim()) errors.push(`${reference.id}: summary is required`);
     if (!reference.significance.trim()) errors.push(`${reference.id}: significance is required`);
     if (!reference.tags.length) errors.push(`${reference.id}: at least one tag is required`);
+
+    for (const notice of reference.notices ?? []) {
+      if (!noticeKinds.has(notice.kind)) errors.push(`${reference.id}: invalid reference notice kind ${notice.kind}`);
+      if (!notice.note.trim()) errors.push(`${reference.id}: ${notice.kind} notice requires a note`);
+      if (!/^https:\/\//.test(notice.url)) errors.push(`${reference.id}: ${notice.kind} notice requires an HTTPS verification URL`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(notice.verifiedAt)) errors.push(`${reference.id}: ${notice.kind} notice verifiedAt must use YYYY-MM-DD`);
+    }
 
     const targets = reference.citations.map((citation) => citation.targetId);
     const uniqueCitations = new Set(targets);
