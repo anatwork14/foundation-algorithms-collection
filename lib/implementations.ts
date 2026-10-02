@@ -127,10 +127,10 @@ export const implementations: ImplementationRecord[] = [
       "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the verified revision.",
     ],
     sourcePaths: [
-      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/optim/adamw.py" },
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/optim/adamw.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
     lastVerified: "2026-10-02",
   },
   {
@@ -149,10 +149,10 @@ export const implementations: ImplementationRecord[] = [
       "At the verified revision, PyTorch still describes this module as an implementation of the original Attention Is All You Need architecture; the Vaswani et al. reference remains the primary conceptual source in the archive.",
     ],
     sourcePaths: [
-      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/nn/modules/activation.py" },
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/nn/modules/activation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
     lastVerified: "2026-10-02",
   },
   {
