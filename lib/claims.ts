@@ -103,7 +103,7 @@ export const claims: ClaimRecord[] = [
     statement: "NeuralUCB combines neural reward prediction with an upper-confidence exploration signal constructed from neural gradient or tangent-feature geometry.",
     algorithmIds: ["neural-ucb"],
     chapterSlug: "08-bandits-contextual-bandits-linucb",
-    passageContains: "NeuralUCB uses a neural network for reward representation/prediction and constructs UCB-style uncertainty from neural gradient/tangent features",
+    passageContains: "NeuralUCB uses a neural network for reward representation",
     referenceIds: ["zhou-2020-neuralucb"],
     note: "This record is limited to the defining NeuralUCB prediction-plus-uncertainty mechanism. It does not imply that practical deep-network uncertainty is automatically calibrated or that NeuralUCB universally improves on linear contextual bandits.",
   },
