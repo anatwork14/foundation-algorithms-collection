@@ -1,4 +1,4 @@
-import type { ImplementationVerificationEntry } from "@/lib/implementation-verification-history";
+import type { ImplementationVerificationEntry } from "./implementation-verification-history.ts";
 
 /** Append-only verification entries for foundational-algorithm implementations
  * added after the historical implementation registry was established. */
