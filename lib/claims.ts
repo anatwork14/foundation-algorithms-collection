@@ -97,6 +97,16 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["romano-2019-cqr"],
     note: "The archive states the standard marginal-coverage guarantee conservatively and keeps the chapter's documented distribution-shift and conditional-coverage limitations attached to the concept.",
   },
+  {
+    id: "neuralucb-neural-gradient-uncertainty",
+    kind: "Mechanism",
+    statement: "NeuralUCB combines neural reward prediction with an upper-confidence exploration signal constructed from neural gradient or tangent-feature geometry.",
+    algorithmIds: ["neural-ucb"],
+    chapterSlug: "08-bandits-contextual-bandits-linucb",
+    passageContains: "NeuralUCB uses a neural network for reward representation/prediction and constructs UCB-style uncertainty from neural gradient/tangent features",
+    referenceIds: ["zhou-2020-neuralucb"],
+    note: "This record is limited to the defining NeuralUCB prediction-plus-uncertainty mechanism. It does not imply that practical deep-network uncertainty is automatically calibrated or that NeuralUCB universally improves on linear contextual bandits.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
