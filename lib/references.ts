@@ -1,5 +1,5 @@
-import { privacyReferenceAdditions } from "@/lib/reference-privacy-additions";
-import { references as coreReferences, type ReferenceEntity } from "@/lib/references-core";
+import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
+import { references as coreReferences, type ReferenceEntity } from "./references-core.ts";
 
 export type {
   ReferenceKind,
@@ -8,7 +8,7 @@ export type {
   ReferenceNotice,
   ReferenceCitation,
   ReferenceEntity,
-} from "@/lib/references-core";
+} from "./references-core.ts";
 
 export const references: ReferenceEntity[] = [...coreReferences, ...privacyReferenceAdditions];
 
