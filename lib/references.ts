@@ -1,4 +1,3 @@
-import { foundationsReferenceAdditions } from "@/lib/reference-foundations-additions";
 import { privacyReferenceAdditions } from "@/lib/reference-privacy-additions";
 import { references as coreReferences, type ReferenceEntity } from "@/lib/references-core";
 
@@ -11,11 +10,7 @@ export type {
   ReferenceEntity,
 } from "@/lib/references-core";
 
-export const references: ReferenceEntity[] = [
-  ...coreReferences,
-  ...foundationsReferenceAdditions,
-  ...privacyReferenceAdditions,
-];
+export const references: ReferenceEntity[] = [...coreReferences, ...privacyReferenceAdditions];
 
 const byId = new Map(references.map((reference) => [reference.id, reference]));
 
