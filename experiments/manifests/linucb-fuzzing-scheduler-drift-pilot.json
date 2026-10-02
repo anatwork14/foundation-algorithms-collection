@@ -1,0 +1,56 @@
+{
+  "experimentId": "linucb-fuzzing-scheduler-drift-pilot",
+  "manifestVersion": 1,
+  "studyType": "controlled contextual mutation-scheduler simulation",
+  "purpose": "Test whether a stationary LinUCB scheduler benefits from contextual mutation-family structure and how it behaves after an abrupt reward-model shift, without claiming evidence from a real fuzzer or target binary.",
+  "seedPlan": {
+    "baseSeed": 20261002,
+    "runs": 40,
+    "lastSeed": 20261041
+  },
+  "timeline": {
+    "evaluationHorizon": 4000,
+    "driftAt": 2000,
+    "firstPostDriftWindow": 500,
+    "lastPostDriftWindow": 500
+  },
+  "actionSpace": {
+    "actions": 4,
+    "interpretation": "synthetic mutation families",
+    "contextDimensionsIncludingIntercept": 3
+  },
+  "policyParameters": {
+    "ridgeLambda": 1,
+    "linucbAlpha": 0.65,
+    "policies": [
+      "uniform",
+      "ucb1",
+      "thompson",
+      "greedyLinear",
+      "linucb"
+    ]
+  },
+  "rewardModel": {
+    "distribution": "Bernoulli with probabilities from a logistic contextual model",
+    "preDriftTheta": [
+      [0.10, 1.05, -0.35],
+      [-0.05, -0.55, 1.10],
+      [0.00, 0.55, 0.60],
+      [-0.15, -0.15, -0.70]
+    ],
+    "postDriftTheta": [
+      [-0.10, -0.70, 0.95],
+      [0.10, 0.95, -0.45],
+      [-0.05, -0.30, -0.75],
+      [0.00, 0.45, 0.75]
+    ],
+    "commonRandomNumbers": true
+  },
+  "interpretationBoundary": [
+    "The simulator does not execute AFL++, libFuzzer, or any target binary.",
+    "Synthetic Bernoulli rewards are only a proxy for useful mutation outcomes such as coverage novelty or reproducible faults.",
+    "The LinUCB implementation is stationary and has no forgetting/change-point mechanism, so abrupt-drift behavior is intentionally stress-tested rather than hidden.",
+    "CPU scheduler overhead, executions per second, real coverage, and fault discovery are not measured.",
+    "This manifest defines an exploratory pilot rather than a preregistered confirmatory study."
+  ]
+}
