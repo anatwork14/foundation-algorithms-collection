@@ -1,7 +1,7 @@
 # Foundation Algorithms Research Hub — Progress Tracker
 
 **Status:** Active  
-**Last updated:** 2026-10-01  
+**Last updated:** 2026-10-02  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
 **UI audit:** [`UI_AUDIT.md`](./UI_AUDIT.md)  
@@ -12,7 +12,7 @@
 **Evidence policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)  
 **Operations:** [`OPERATIONS.md`](./OPERATIONS.md)
 
-A checked item means that the implementation or acceptance gate exists in the repository. Automated browser acceptance, evidence quality, manual assistive-technology acceptance, and physical-device acceptance are deliberately tracked as separate things.
+This file intentionally tracks the **current state**, not a full changelog. A checked item means the implementation or automated acceptance gate exists in the repository. Manual assistive-technology and physical-device acceptance remain separate from automated browser acceptance.
 
 ---
 
@@ -23,34 +23,30 @@ Markdown research corpus
         ↓
 Archive + long-form reader
         ↓
-Deterministic passage provenance
+Complete deterministic passage provenance
         ↓
 Curated Algorithm entities
         ↓
 Typed Atlas relationship graph
-        ├── conceptual vs source-backed edges
-        ├── relation provenance
-        └── reference / implementation neighbors
         ↓
 Combination Lab
-        ├── curated research hypotheses
-        ├── rule-based assumption analysis
-        └── experiment plans/results
         ↓
-Evidence layer
-        ├── Evidence Gaps planning view
-        ├── Claims
-        ├── References + citation graph + lifecycle notices
-        ├── Commit-pinned implementations + verification history
-        ├── Experiments + revision history
-        ├── Independent replications/evaluations
-        └── Passages
+Evidence
+  ├── Claims
+  ├── References + citation graph
+  ├── Commit-pinned Implementations + append-only verification history
+  ├── Experiments + append-only history
+  ├── Independent Replications/Evaluations
+  ├── Evidence Gaps
+  └── Passages
         ↓
-Structural + lexical discovery
+Structural + ranked lexical discovery
         ↓
-Chromium responsive/theme/a11y/reflow acceptance
+101 research/unit tests
         ↓
-Retained screenshot review
+143 Chromium UI/accessibility/reflow tests
+        ↓
+Production build + route smoke
         ↓
 Vercel production
 ```
@@ -63,13 +59,13 @@ Vercel production
 |---|---|
 | 0 — Research corpus | ✅ Established |
 | 1 — Archive foundation | ✅ Established |
-| 2 — Design system & accessibility | 🟡 Canonical system + 143-test browser acceptance; manual AT/device review remains |
+| 2 — Design system & accessibility | 🟡 Canonical system + automated browser acceptance; manual AT/device review remains |
 | 3 — Algorithm indexing | 🟡 Strong curated system; breadth can expand |
-| 4 — Atlas | 🟡 Typed/evidence-aware graph implemented; breadth/history can expand |
+| 4 — Atlas | 🟡 Typed/evidence-aware graph implemented; provenance density can expand |
 | 5 — Lab | 🟡 Structured hypotheses + assumption analysis + first empirical result path implemented |
-| 6 — Evidence layer | 🟡 Full record architecture + Evidence Gaps + first independent evaluation + first reproducible project result implemented |
-| 7 — Discovery | 🟡 Structural + deterministic multi-passage lexical discovery implemented; semantic retrieval deferred |
-| 8 — Production acceptance | 🟡 GitHub build/browser/smoke acceptance green; exact latest production deployment still pending |
+| 6 — Evidence | 🟡 Full record architecture + curated evidence; breadth can expand |
+| 7 — Discovery | 🟡 Structural + deterministic ranked lexical retrieval implemented; semantic retrieval deferred |
+| 8 — Production acceptance | ✅ Current implementation checkpoint is CI-green and deployed |
 
 ---
 
@@ -77,20 +73,20 @@ Vercel production
 
 ## Implemented
 
-- [x] General foundations chapters.
+- [x] Foundations chapters.
 - [x] AI / ML chapters.
 - [x] Quantum computing chapters.
 - [x] Cybersecurity / cryptography chapters.
 - [x] Cross-field combination map and emerging-algorithms watchlist.
 - [x] Motivation / Contribution / Implementation framing.
-- [x] Markdown remains the canonical long-form source.
+- [x] Markdown remains the canonical long-form research source.
 
 ## Open
 
 - [ ] Standardize primary-reference formatting across every chapter.
 - [ ] Add proof/proof-sketch coverage where useful.
 - [ ] Expand benchmark/dataset recommendations by family.
-- [ ] Continue replacing provenance-sensitive broad prose with curated Claim records.
+- [ ] Continue converting provenance-sensitive prose into curated Claim records.
 
 ---
 
@@ -100,21 +96,20 @@ Vercel production
 
 - [x] Next.js App Router + TypeScript.
 - [x] Markdown-derived metadata, headings, word count, reading time, and search text.
-- [x] GitHub-compatible heading slugs including duplicate headings.
-- [x] Render-time math normalization outside fenced code.
+- [x] GitHub-compatible heading slugs including duplicates.
+- [x] GFM + KaTeX + tables + code + TOC + related/previous/next navigation.
 - [x] Deterministic passages with stable IDs and exact Markdown source-line ranges.
-- [x] `/archive` with URL-backed query, field, family, Algorithm, evidence, evidence-stage, and sort state.
+- [x] **Complete passage indexing across long chapters**; the former first-100-passage cap is removed.
+- [x] Live-catalog regression test proving every curated Claim resolves to exactly one real passage.
 - [x] Ranked multi-passage lexical matching with cropped snippets and heading anchors.
-- [x] `/archive/[slug]` with GFM, KaTeX, tables, code, links, TOC, related chapters, and previous/next navigation.
+- [x] URL-backed Archive query/field/family/Algorithm/evidence/stage/sort state.
 - [x] Chapter ↔ Algorithm / Reference provenance links.
-- [x] Local scrolling for long math, wide tables, and code.
-- [x] Overflowing technical regions become keyboard reachable only when needed and show a visible focus indicator.
-- [x] 200% text-only reflow and narrow-screen containment automated.
-- [x] KaTeX rendering is automatically checked for MathML + TeX annotation while visual glyph markup remains `aria-hidden`.
+- [x] Local scrolling and keyboard reachability for long math, wide tables, and code.
+- [x] 200% text-only reflow and narrow-screen containment automation.
 
-## Open reader acceptance
+## Open manual reader acceptance
 
-- [ ] Manual VoiceOver/NVDA pronunciation review for mathematics.
+- [ ] VoiceOver/NVDA pronunciation review for mathematics.
 - [ ] Physical-device stress review for unusually long technical content and browser zoom/text scaling.
 
 ---
@@ -123,40 +118,32 @@ Vercel production
 
 ## Implemented
 
-- [x] **Fraunces** — editorial hierarchy.
-- [x] **Source Sans 3** — UI/body/reading.
-- [x] **JetBrains Mono** — technical metadata/code.
-- [x] KaTeX keeps mathematical fonts.
-- [x] Neutral warm-light / neutral-dark theme with explicit persisted light/dark control.
-- [x] Typography, spacing, radius, control-height, shell, reading-width, focus, and contrast tokens.
-- [x] Research-field color neutralized by default; semantic color reserved for actual state.
+- [x] Fraunces editorial hierarchy.
+- [x] Source Sans 3 UI/body/reading.
+- [x] JetBrains Mono technical metadata/code.
+- [x] KaTeX mathematical fonts.
+- [x] Neutral warm-light / neutral-dark persisted theme.
 - [x] Canonical SVG logo + monochrome mark.
 - [x] `app/research-ui.css` is the single global visual authority.
-- [x] Deprecated glass/minimal/index visual layers removed.
-- [x] Research fields use an editorial index instead of oversized cards.
-- [x] Evidence destinations and Evidence-discipline steps use editorial index rows instead of dashboard cards.
-- [x] Homepage Combination Lab preview is a restrained two-column editorial list instead of a card wall.
-- [x] Shared control geometry and neutral surface hierarchy across Archive, Algorithms, Atlas, Lab, Evidence, and registries.
-- [x] Visible keyboard focus, skip-to-content, reduced-motion support, modal focus containment/return focus.
-- [x] Mobile navigation exposes expanded/current-page state and Escape behavior.
-- [x] Command palette supports native Tab order plus ArrowUp/ArrowDown/Home/End acceleration.
-- [x] Search-result updates are announced through a polite live region.
-- [x] Atlas picker/relationship regions expose accessible selection and region names.
-- [x] Small metadata tokens are CI-protected at ≥4.5:1 in both themes.
-- [x] Axe WCAG A/AA scans on representative routes in light and dark mode.
-- [x] Desktop/tablet/phone/narrow responsive containment matrix.
+- [x] Deprecated glass/minimal/index override layers removed.
+- [x] Editorial research indexes replace oversized dashboard-card walls where comparison/scanning is the task.
+- [x] Shared geometry, surfaces, spacing, focus, and responsive behavior across major routes.
+- [x] Skip link, visible focus, reduced motion, modal focus containment/return, accessible mobile nav.
+- [x] Command palette keyboard acceleration and live result announcements.
+- [x] Atlas selection/region semantics and keyboard traversal.
+- [x] CI-enforced metadata contrast ≥ 4.5:1 in both themes.
+- [x] Axe WCAG A/AA representative scans.
+- [x] Desktop/tablet/phone/narrow responsive matrix in light and dark.
 - [x] 200% text-only reflow checks.
-- [x] Phone minimum 24px visible-control target check.
-- [x] Screen-reader structural checks: one main/H1 entry point, named explicit regions, no positive tabindex ordering.
-- [x] Retained full-page screenshots reviewed after the editorial-index cleanup.
+- [x] Coarse-pointer/touch acceptance and minimum visible target checks.
+- [x] Retained screenshot artifacts for visual review.
 
-## Manual acceptance still open
+## Open manual acceptance
 
 - [ ] VoiceOver/NVDA walkthrough on representative routes.
 - [ ] Real screen-reader evaluation of mathematical pronunciation/verbosity.
 - [ ] Physical-device phone/tablet touch ergonomics and browser chrome.
-- [ ] Physical-device OS font rendering and favicon-scale review.
-- [ ] Pinch zoom and browser-level text scaling on physical devices.
+- [ ] Physical-device OS font rendering, favicon-scale review, pinch zoom, and text scaling.
 
 ---
 
@@ -164,14 +151,13 @@ Vercel production
 
 ## Implemented
 
-- [x] `AlgorithmEntity` schema and curated catalogs.
-- [x] IDs, aliases, fields, families, assumptions, complexity, maturity, guidance, failure modes, tags, and open questions.
+- [x] Curated `AlgorithmEntity` schema/catalogs.
+- [x] IDs, aliases, fields, families, assumptions, complexity, maturity, guidance, failure modes, tags, open questions.
 - [x] Duplicate/alias/relation/chapter validation.
-- [x] Searchable `/algorithms` and detailed `/algorithms/[id]` routes.
+- [x] Searchable `/algorithms` + detail routes.
 - [x] Incoming/outgoing typed relationships and source-section links.
 - [x] Reference, Claim, Implementation, Experiment, Replication, and Lab backlinks.
 - [x] Multidimensional evidence profile separated from conceptual maturity.
-- [x] Independent-replication count shown explicitly, including zero.
 
 ## Open
 
@@ -184,15 +170,14 @@ Vercel production
 
 ## Implemented
 
-- [x] Typed relation graph with self/duplicate/target validation.
-- [x] Focused-neighborhood `/atlas` explorer.
-- [x] Search, field, relation-type, and relation-evidence filters.
-- [x] URL-restorable focus/filter state.
-- [x] Reference and commit-pinned Implementation evidence neighbors.
-- [x] First-class relation-provenance records with References, notes, and verification dates.
-- [x] Source-backed and conceptual edges remain visibly distinct.
-- [x] Accessible relationship table, named regions, selected-state semantics, roving keyboard picker.
-- [x] Browser acceptance covers URL state, provenance filters, evidence neighbors, keyboard focus, and reflow.
+- [x] Typed relationship graph with validation.
+- [x] Focused-neighborhood Atlas explorer.
+- [x] Search + field + relation-type + evidence filters.
+- [x] URL-restorable Atlas state.
+- [x] Reference and commit-pinned Implementation neighbors.
+- [x] First-class relation-provenance records.
+- [x] Conceptual vs source-backed edges remain distinct.
+- [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
 
@@ -207,16 +192,13 @@ Vercel production
 
 ## Implemented
 
-- [x] `ResearchCombination` schema and validation.
-- [x] `/lab` route and arbitrary Algorithm pair explorer.
-- [x] Shared fields/families and direct Atlas relations.
-- [x] Structured hypotheses with compatibility, tensions, benefits, risks, metrics, experiment plan, and status.
-- [x] Rule-based assumption compatibility/conflict analysis with exact triggering assumption text and explicit non-proof caveat.
-- [x] Lab → Reference / Experiment links.
-- [x] Keyboard/reflow acceptance.
-- [x] First reproducible project outcome attached to retrieval + contextual-bandit research direction with limitations.
+- [x] Structured `ResearchCombination` records.
+- [x] Arbitrary Algorithm pair explorer.
+- [x] Rule-based assumption compatibility/tension analysis with explicit non-proof caveat.
+- [x] Structured hypotheses, benefits, risks, metrics, experiment plans, status.
+- [x] Reference / Experiment links.
+- [x] First reproducible project result for HNSW + LinUCB reranking under drift.
 - [x] Append-only experiment revision history.
-- [x] Homepage preview now uses the same quiet editorial research language as the rest of the product.
 
 ## Open
 
@@ -226,37 +208,40 @@ Vercel production
 
 ---
 
-# Phase 6 — Evidence layer
+# Phase 6 — Evidence
 
 ## Implemented
 
-- [x] Unified `/evidence` overview and shared Evidence navigation.
-- [x] `/evidence/gaps` planning surface that reports absent archive layers without ranking Algorithm quality.
-- [x] Evidence Gaps covers primary sources, curated Claims, inspectable code, experiment protocols/results, and independent evaluation.
-- [x] Editorial Evidence destination index + evidence-discipline sequence.
-- [x] References, Implementations, Experiments, Passages, Claims, and Replications as separate record surfaces.
-- [x] `ReferenceEntity` with controlled evidence roles and verified citation edges.
-- [x] Controlled reference lifecycle notices for Version, Errata, Correction, Superseded, Withdrawn, and Retraction states.
-- [x] Verified FIPS 203 final-version + authoritative errata provenance.
-- [x] `/references/graph` citation explorer.
-- [x] `ClaimRecord` → one uniquely resolved passage + explicit supporting References.
-- [x] Eight curated passage-backed Claims, including QSVT transformation mechanics and conformal finite-sample marginal coverage.
-- [x] Commit-pinned `ImplementationRecord` registry with source paths, licenses, interfaces, maturity, and verification history.
-- [x] `ExperimentRecord` model with protocol, status, baselines, datasets, metrics, environment, results, limitations, and append-only history.
-- [x] First deterministic/reproducible project result for LinUCB reranking under drift; CI regenerates and compares the artifact.
-- [x] `ReplicationRecord` model requiring independent source, original-source citations, Algorithm overlap, independence note, and verification date.
-- [x] First directly verified independent record: ANN-Benchmarks evaluation of HNSW (`Partially supports`).
-- [x] Evidence-stage profile remains descriptive coverage, never a truth score.
-- [x] Global command search spans Algorithms, Claims, References, Implementations, Experiments, Replications, and chapters.
-- [x] Evidence Gaps receives dedicated light/dark, desktop/phone, containment, keyboard-order, and axe acceptance coverage.
+- [x] Unified Evidence overview/navigation + Evidence Gaps.
+- [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
+- [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
+- [x] Claim → exactly one passage → explicit Reference provenance contract.
+- [x] **Nine curated passage-backed Claims**, now including NeuralUCB's neural-gradient/tangent-feature uncertainty mechanism.
+- [x] Live Claim-catalog test validates every Claim against the real Markdown corpus before build.
+- [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
+- [x] Oct 2 direct re-verification advanced Faiss HNSW, Qiskit QPE, PyTorch AdamW, PyTorch MultiheadAttention, and Z3 to inspected immutable snapshots.
+- [x] Experiment model with protocol/result/limitations/artifacts + append-only history.
+- [x] Deterministic 30-seed LinUCB reranking pilot artifact regenerated and compared in CI.
+- [x] Independent Replication/Evaluation record model + first HNSW evaluation.
+- [x] Evidence stage remains descriptive coverage, never a truth score.
+
+## Current implementation freshness
+
+The Oct 2 CI freshness report on implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1` reports:
+
+- **Current (5):** Faiss HNSW, hnswlib, Qiskit QPE, liboqs ML-KEM, Z3 SAT/SMT.
+- **Upstream moved (2):** PyTorch AdamW and PyTorch MultiheadAttention.
+- **Unavailable (0).**
+
+The two PyTorch records were directly inspected and advanced to `c4a196f8671e…` on 2026-10-02, but PyTorch `main` moved again to `ce42d0881032…` before the CI freshness step. Per policy, the archive **does not auto-advance** them; another direct inspection is required before a new history revision.
 
 ## Open
 
 - [ ] Broader primary-reference and curated Claim coverage.
-- [ ] Broader verified citation/relation-provenance coverage.
+- [ ] Broader citation/relation-provenance coverage.
 - [ ] Broader commit-pinned implementation coverage.
+- [ ] Re-review the newer PyTorch head before advancing those two pins again.
 - [ ] Broader independent replication/evaluation coverage.
-- [ ] Add more lifecycle notices only where directly verified and relevant.
 - [ ] Broaden empirical project experiments beyond the first controlled pilot.
 
 ---
@@ -266,13 +251,13 @@ Vercel production
 ## Implemented
 
 - [x] Archive structural filtering by field, family, Algorithm, evidence availability, and evidence stage.
-- [x] Conceptual maturity kept separate from evidence stage.
+- [x] Conceptual maturity remains separate from evidence stage.
 - [x] Shareable URL-backed Archive state.
 - [x] Deterministic ranked multi-passage lexical matching.
-- [x] Multiple passage matches remain inspectable while navigation selects the highest-ranked source unit.
+- [x] Complete long-chapter passage corpus remains searchable/inspectable; no arbitrary 100-passage truncation.
 - [x] Dedicated `/passages` provenance search.
-- [x] Global command search exposes evidence/entity types and chapter passage context.
-- [x] Evidence Gaps adds deterministic coverage discovery for research-curation planning.
+- [x] Global command search across entity/evidence/chapter types.
+- [x] Evidence Gaps deterministic curation-planning view.
 
 ## Deferred intentionally
 
@@ -280,7 +265,7 @@ Vercel production
 - [ ] Related-Algorithm suggestions beyond curated graph structure.
 - [ ] Saved research trails/boards.
 
-Semantic retrieval should only be added when it preserves inspectable provenance and demonstrably improves on the deterministic structural/lexical baseline.
+Semantic retrieval should only be added when it preserves inspectable provenance and demonstrably improves over the deterministic structural/lexical baseline.
 
 ---
 
@@ -289,32 +274,18 @@ Semantic retrieval should only be added when it preserves inspectable provenance
 ## Implemented
 
 - [x] GitHub Actions on `main` and pull requests.
-- [x] Markdown-link/URL policy, source hygiene, UI consistency, experiment artifact verification, research tests, TypeScript, and Next.js production build.
-- [x] Production route smoke tests including dynamic Evidence detail routes and `/evidence/gaps`.
-- [x] Playwright automatically discovers every acceptance spec.
-- [x] Browser checkpoint: **143/143 passed** on commit `622560a62c076692733d42d69556a31f4b8e628c`.
+- [x] Markdown-link/URL policy, source hygiene, UI consistency, experiment artifact verification, research tests, TypeScript, production build.
+- [x] **101/101 research/unit tests passed** on implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1`.
+- [x] **143/143 Chromium browser acceptance tests passed** on the same checkpoint.
 - [x] Light/dark × desktop/tablet/phone/narrow containment.
 - [x] Axe WCAG A/AA representative scans.
-- [x] Keyboard interaction for Search, mobile nav, Atlas, Lab, Evidence, Evidence Gaps, skip link, and technical overflow scrollers.
-- [x] Screen-reader structural semantics and KaTeX MathML structure automated.
-- [x] 200% text-only reflow, reduced-motion, minimum-target, and page-overflow checks.
-- [x] Retained visual artifacts; Home and Evidence screenshots manually reviewed after editorial-index refactor.
-- [x] Dedicated Vercel project and public production alias exist.
+- [x] Keyboard, touch, reflow, screen-reader-structure, KaTeX-MathML, overflow, provenance, Lab, Atlas, Evidence and visual-artifact acceptance.
+- [x] Production route smoke tests passed.
+- [x] Non-blocking implementation-freshness report generated and retained with browser artifacts.
+- [x] Dedicated Vercel project + public production alias.
+- [x] **Exact implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1` is READY in Vercel production.**
 
-## Current deployment state
-
-- [ ] Deploy the exact latest `main` descendant after Vercel accepts another production build.
-
-GitHub CI, Next.js production build, **143-test browser acceptance**, and production-route smoke tests are green at the browser checkpoint above. The latest Vercel deployment visible through the project API remains successful commit `3b1b25245d40ce93df36d0fbf9a8c6ba391814f3`; newer GitHub commits have not yet appeared as a successful production deployment. This is tracked as a deployment-state gap, not an application validation failure.
-
-## Implementation freshness observation
-
-The non-blocking CI freshness report currently finds:
-
-- `hnswlib` — current with its tracked upstream ref;
-- `faiss-hnsw`, `qiskit-phase-estimation`, `liboqs-ml-kem`, `pytorch-adamw`, `pytorch-multihead-attention`, and `z3-sat-smt` — upstream refs have moved since the immutable revisions were verified.
-
-These pins must **not** be advanced automatically. Each newer revision needs direct inspection before a new verification-history entry is accepted.
+Production alias: `https://foundation-algorithms-collection.vercel.app`
 
 ## Manual quality gates still open
 
@@ -326,85 +297,27 @@ These pins must **not** be advanced automatically. Each newer revision needs dir
 
 ---
 
-# Documentation
-
-- [x] `README.md` — collection overview.
-- [x] `DESIGN.md` — product/UI rationale.
-- [x] `DEVELOPMENT_SPEC.md` — product/technical specification.
-- [x] `PROGRESS.md` — current implementation tracker.
-- [x] `UI_AUDIT.md` — canonical UI consistency and acceptance audit.
-- [x] `CONTRIBUTING.md` — repository contribution contract.
-- [x] `ALGORITHM_AUTHORING.md` — Algorithm metadata guidance.
-- [x] `ATLAS_AUTHORING.md` — relationship/provenance guidance.
-- [x] `EVIDENCE_AUTHORING.md` — evidence/experiment authoring contract.
-- [x] `EVIDENCE_PROFILE_POLICY.md` — evidence-stage/citation/replication policy.
-- [x] `OPERATIONS.md` — CI/deployment/release operations.
-
----
-
-# Recent implementation checkpoints
-
-## 2026-10-01 — Evidence Gaps + curated Claim expansion
-
-- added `/evidence/gaps` as a neutral research-planning surface rather than a scorecard;
-- derives missing primary-source, Claim, implementation, experiment/result, and independent-evaluation layers deterministically;
-- added responsive editorial layout, sitemap/navigation integration, smoke coverage, and dedicated axe/theme/phone acceptance;
-- added curated QSVT and conformal-prediction Claims with unique passage + primary-source provenance;
-- updated Evidence keyboard acceptance for the real `Overview → Gaps → References` DOM order;
-- browser acceptance reached **143/143 passing tests** on `622560a62c076692733d42d69556a31f4b8e628c`.
-
-## 2026-10-01 — reference lifecycle provenance
-
-- added controlled Version / Errata / Correction / Superseded / Withdrawn / Retraction metadata;
-- added verified FIPS 203 final-version and authoritative errata provenance;
-- surfaced lifecycle notices in reference browsing/detail flows and acceptance tests.
-
-## 2026-10-01 — semantic acceptance + editorial consistency
-
-- added rendered landmark/H1/region/tab-order checks across representative surfaces;
-- guarded skip-link focus movement and polite command-search result announcements;
-- verified KaTeX MathML/TeX annotation structure and `aria-hidden` visual HTML;
-- fixed visible focus for dynamically keyboard-reachable math/table/code scrollers;
-- added ArrowUp/ArrowDown/Home/End command-palette result traversal without replacing Tab order;
-- converted Evidence destination/discipline card grids into editorial index rows;
-- converted the homepage Combination Lab preview into a quiet two-column editorial list.
-
-## 2026-10-01 — first reproducible result and experiment history
-
-- accepted the first reproducible project Experiment result for controlled LinUCB reranking adaptation under preference drift;
-- preserved the result as `Mixed` with explicit limitations;
-- committed deterministic simulator/result artifacts and CI regeneration/comparison;
-- added append-only experiment revision history and detail-page timeline.
-
-## 2026-09-30 — independent evaluation + provenance
-
-- added the first verified independent evaluation for HNSW via ANN-Benchmarks;
-- added explicit original-source citations and conservative `Partially supports` outcome;
-- implemented Atlas relation provenance, source-backed/conceptual edge states, evidence neighbors, and URL-restorable focus/filter state;
-- implemented Lab arbitrary-pair rule-based assumption analysis.
-
-Earlier implementation detail remains preserved in Git history and the specification/design documents; this tracker intentionally represents current state rather than duplicating every historical commit.
-
----
-
 # Immediate next work
 
-1. Complete manual VoiceOver/NVDA and mathematical-pronunciation acceptance on representative routes when appropriate assistive-technology access is available.
-2. Perform physical-device phone/tablet checks for touch ergonomics, browser chrome, OS font rendering, pinch zoom, and browser-level text scaling.
-3. Get the exact latest `main` descendant onto Vercel production and verify the public alias revision.
-4. Review upstream-moved implementation repositories conservatively before accepting any newer immutable verification pins.
-5. Continue primary Reference, Claim, citation-edge, relation-provenance, and commit-pinned Implementation coverage through direct verification.
-6. Broaden independent evaluation/replication only where independence and original-source linkage can be directly verified.
-7. Expand reproducible Experiments and attach concrete benchmark/data artifacts where study design supports them.
-8. Expand Algorithm/Atlas mechanism coverage where the corpus supports a justified first-class entity or edge.
-9. Add semantic retrieval only if it preserves inspectable provenance and outperforms the deterministic baseline.
+1. Re-review the newer PyTorch head before changing the two currently-moved immutable pins.
+2. Expand curated primary-source + Claim coverage where the corpus has a unique passage and direct primary evidence.
+3. Expand source-backed Atlas relation provenance without manufacturing graph density.
+4. Add another independently authored evaluation/replication where provenance is directly verifiable.
+5. Add another empirical project experiment with a reproducible artifact and explicit limitations.
+6. Continue manual assistive-technology / physical-device acceptance outside automated CI.
 
 ---
 
-## Maintenance rule
+# Change discipline
 
-Update this tracker whenever a meaningful implementation, acceptance gate, or blocker changes.
+Future work should preserve these rules:
 
-- `[x]` — implementation or defined acceptance gate exists and passed.
-- `[ ]` — not complete, blocked, or not yet accepted.
-- Build success does **not** imply research-evidence quality or manual assistive-technology/device acceptance.
+1. Markdown remains the canonical long-form research source.
+2. Claims must resolve to exactly one live passage and explicit supporting References.
+3. No fixed passage-count truncation may hide late source material.
+4. Implementation links remain immutable commit snapshots with append-only verification history.
+5. Upstream movement is a review signal, never permission to auto-advance evidence pins.
+6. Evidence stage is coverage, not truth/quality scoring.
+7. Negative, mixed, and inconclusive evidence is preserved.
+8. `research-ui.css` remains the canonical global visual system; do not add another override generation.
+9. Semantic retrieval must preserve inspectable provenance and beat the deterministic baseline before adoption.
