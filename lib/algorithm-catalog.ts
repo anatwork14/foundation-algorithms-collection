@@ -1,11 +1,16 @@
 import { algorithmAdditions } from "@/lib/algorithm-additions";
+import { privacyAlgorithmAdditions } from "@/lib/algorithm-privacy-additions";
 import {
   algorithms as coreAlgorithms,
   type AlgorithmEntity,
   type AlgorithmRelation,
 } from "@/lib/algorithms";
 
-export const algorithms: AlgorithmEntity[] = [...coreAlgorithms, ...algorithmAdditions];
+export const algorithms: AlgorithmEntity[] = [
+  ...coreAlgorithms,
+  ...algorithmAdditions,
+  ...privacyAlgorithmAdditions,
+];
 
 const byId = new Map(algorithms.map((algorithm) => [algorithm.id, algorithm]));
 
