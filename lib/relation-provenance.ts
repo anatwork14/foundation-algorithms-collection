@@ -50,6 +50,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The primary QSVT paper explicitly develops singular-value-transformation-based alternatives to phase-estimation-based procedures for spectral/singular-value tasks, including an alternative singular-value-estimation construction. This grounds the archive's alternative-method edge without implying that QPE is obsolete or interchangeable for every application.",
     verifiedAt: "2026-10-02",
   },
+  {
+    sourceId: "state-space-models",
+    targetId: "transformer-attention",
+    relationType: "alternative-to",
+    referenceIds: ["gu-2023-mamba"],
+    evidenceNote: "The Mamba primary paper explicitly positions selective state-space models as a linear-scaling sequence-modeling alternative to Transformer attention, while retaining a distinct recurrent/state-space computation and memory structure.",
+    verifiedAt: "2026-10-02",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
