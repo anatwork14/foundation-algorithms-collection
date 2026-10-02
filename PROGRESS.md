@@ -12,7 +12,7 @@
 **Evidence policy:** [`EVIDENCE_PROFILE_POLICY.md`](./EVIDENCE_PROFILE_POLICY.md)  
 **Operations:** [`OPERATIONS.md`](./OPERATIONS.md)
 
-This file intentionally tracks the **current state**, not a full changelog. A checked item means the implementation or automated acceptance gate exists in the repository. Manual assistive-technology and physical-device acceptance remain separate from automated browser acceptance.
+This file tracks the **current state**, not a full changelog. A checked item means the implementation or automated acceptance gate exists in the repository. Manual assistive-technology and physical-device acceptance remain separate from automated browser acceptance.
 
 ---
 
@@ -32,11 +32,11 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── Claims
-  ├── References + citation graph
-  ├── Commit-pinned Implementations + append-only verification history
+  ├── 19 curated passage-backed Claims
+  ├── 18 curated References + citation graph
+  ├── 8 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
-  ├── Independent Replications/Evaluations
+  ├── 2 independent Replication/Evaluation records
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -62,10 +62,10 @@ Vercel production
 | 2 — Design system & accessibility | 🟡 Canonical system + automated browser acceptance; manual AT/device review remains |
 | 3 — Algorithm indexing | 🟡 Strong curated system; breadth can expand |
 | 4 — Atlas | 🟡 Typed/evidence-aware graph implemented; provenance density can expand |
-| 5 — Lab | 🟡 Structured hypotheses + assumption analysis + first empirical result path implemented |
+| 5 — Lab | 🟡 Structured hypotheses + assumption analysis + empirical result paths implemented |
 | 6 — Evidence | 🟡 Full record architecture + curated evidence; breadth can expand |
 | 7 — Discovery | 🟡 Structural + deterministic ranked lexical retrieval implemented; semantic retrieval deferred |
-| 8 — Production acceptance | ✅ Current implementation checkpoint is CI-green and production infrastructure is active |
+| 8 — Production acceptance | ✅ CI/browser/build/deployment infrastructure established |
 
 ---
 
@@ -99,7 +99,7 @@ Vercel production
 - [x] GitHub-compatible heading slugs including duplicates.
 - [x] GFM + KaTeX + tables + code + TOC + related/previous/next navigation.
 - [x] Deterministic passages with stable IDs and exact Markdown source-line ranges.
-- [x] **Complete passage indexing across long chapters**; the former first-100-passage cap is removed.
+- [x] Complete passage indexing across long chapters; no fixed first-N truncation.
 - [x] Live-catalog regression test proving every curated Claim resolves to exactly one real passage.
 - [x] Ranked multi-passage lexical matching with cropped snippets and heading anchors.
 - [x] URL-backed Archive query/field/family/Algorithm/evidence/stage/sort state.
@@ -176,6 +176,8 @@ Vercel production
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
+- [x] **10 source-backed relation records** currently curated, alongside conceptual-only edges.
+- [x] Source-backed coverage includes LinUCB/UCB, Thompson/Bayesian/UCB alternatives, NeuralUCB/LinUCB, embeddings/HNSW, embeddings/Transformer attention, lattice/ML-KEM, QSVT/QPE, and SSM/Transformer relations.
 - [x] Conceptual vs source-backed edges remain distinct.
 - [x] Accessible table/regions/selection + keyboard picker.
 
@@ -197,13 +199,14 @@ Vercel production
 - [x] Rule-based assumption compatibility/tension analysis with explicit non-proof caveat.
 - [x] Structured hypotheses, benefits, risks, metrics, experiment plans, status.
 - [x] Reference / Experiment links.
-- [x] First reproducible project result for HNSW + LinUCB reranking under drift.
+- [x] Reproducible HNSW + LinUCB reranking drift pilot with committed manifest/result artifact.
+- [x] Reproducible LinUCB mutation-scheduler drift pilot with committed manifest/result artifact.
 - [x] Append-only experiment revision history.
 
 ## Open
 
 - [ ] Persist user-authored hypotheses/experiments.
-- [ ] Attach more real empirical outcomes as studies run.
+- [ ] Attach more real-target empirical outcomes as studies run.
 - [ ] Add richer benchmark/data artifacts where justified.
 
 ---
@@ -216,25 +219,23 @@ Vercel production
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **Nine curated passage-backed Claims**, including NeuralUCB's neural-gradient/tangent-feature uncertainty mechanism.
+- [x] **19 curated passage-backed Claims** across classical search, bandits, ANN, optimization, Transformers/SSMs, PQC, QPE/QSVT, VQE/QAOA, conformal prediction, and NeuralUCB.
+- [x] **18 curated References**, including primary VQE and QAOA sources added on 2026-10-02.
 - [x] Live Claim-catalog test validates every Claim against the real Markdown corpus before build.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
-- [x] Oct 2 direct re-verification advanced Faiss HNSW, Qiskit QPE, PyTorch AdamW, PyTorch MultiheadAttention, and Z3 to inspected immutable snapshots.
-- [x] PyTorch was re-reviewed again after two later test-only upstream commits; AdamW and MultiheadAttention were advanced to the directly inspected `ce42d088103272f0a90317697749d2069c815959` snapshot with revision 5 history entries.
+- [x] **8 implementation records** currently registered: Faiss HNSW, hnswlib, Qiskit QPE, Qiskit Algorithms VQE/QAOA, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, and Z3 SAT/SMT.
+- [x] Qiskit Algorithms VQE/QAOA is pinned to directly inspected commit `bcb7ded3594dac02e14acce7f59f05976916d39d`, with exact VQE/QAOA source paths and revision-1 verification history.
 - [x] Experiment model with protocol/result/limitations/artifacts + append-only history.
-- [x] Deterministic 30-seed LinUCB reranking pilot artifact regenerated and compared in CI.
-- [x] Independent Replication/Evaluation record model + first HNSW evaluation.
+- [x] CI regenerates and compares committed deterministic experiment artifacts.
+- [x] **2 independent Replication/Evaluation records**: ANN-Benchmarks/HNSW and Chapelle–Li/Thompson Sampling.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
-## Current implementation freshness
+## Implementation freshness policy
 
-The Oct 2 CI freshness report on implementation checkpoint `46f283ce24f6adc4afd3c71544e309465bcabe82` reports:
-
-- **Current (7):** Faiss HNSW, hnswlib, Qiskit QPE, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, Z3 SAT/SMT.
-- **Upstream moved (0).**
-- **Unavailable (0).**
-
-Every currently registered implementation therefore points at the same upstream branch head observed by the freshness reporter at that checkpoint. This does **not** imply future upstream movement is safe to auto-adopt: any later change still requires direct inspection and a new append-only verification entry before the archive pin advances.
+- Each Implementation record points to an immutable 40-character commit and exact source paths.
+- Append-only verification history must match the current registry snapshot.
+- CI reports whether the tracked upstream branch has moved.
+- Upstream movement is a review signal, never permission to auto-advance the archive pin.
 
 ## Open
 
@@ -242,7 +243,7 @@ Every currently registered implementation therefore points at the same upstream 
 - [ ] Broader citation/relation-provenance coverage.
 - [ ] Broader commit-pinned implementation coverage.
 - [ ] Broader independent replication/evaluation coverage.
-- [ ] Broaden empirical project experiments beyond the first controlled pilot.
+- [ ] More real-target empirical experiments beyond controlled/synthetic stress pilots.
 
 ---
 
@@ -254,7 +255,7 @@ Every currently registered implementation therefore points at the same upstream 
 - [x] Conceptual maturity remains separate from evidence stage.
 - [x] Shareable URL-backed Archive state.
 - [x] Deterministic ranked multi-passage lexical matching.
-- [x] Complete long-chapter passage corpus remains searchable/inspectable; no arbitrary 100-passage truncation.
+- [x] Complete long-chapter passage corpus remains searchable/inspectable; no arbitrary passage truncation.
 - [x] Dedicated `/passages` provenance search.
 - [x] Global command search across entity/evidence/chapter types.
 - [x] Evidence Gaps deterministic curation-planning view.
@@ -275,16 +276,15 @@ Semantic retrieval should only be added when it preserves inspectable provenance
 
 - [x] GitHub Actions on `main` and pull requests.
 - [x] Markdown-link/URL policy, source hygiene, UI consistency, experiment artifact verification, research tests, TypeScript, production build.
-- [x] **101/101 research/unit tests passed** on implementation checkpoint `46f283ce24f6adc4afd3c71544e309465bcabe82`.
-- [x] **143/143 Chromium browser acceptance tests passed** on the same checkpoint.
+- [x] 101 research/unit tests in the established suite.
+- [x] 143 Chromium browser acceptance tests in the established suite.
 - [x] Light/dark × desktop/tablet/phone/narrow containment.
 - [x] Axe WCAG A/AA representative scans.
 - [x] Keyboard, touch, reflow, screen-reader-structure, KaTeX-MathML, overflow, provenance, Lab, Atlas, Evidence and visual-artifact acceptance.
-- [x] Production route smoke tests passed.
-- [x] Implementation-freshness report generated and retained with browser artifacts; checkpoint `46f283ce…` reports 7 current / 0 moved / 0 unavailable.
-- [x] Browser-acceptance artifact retained for the checkpoint (`browser-acceptance`, artifact ID `11203797140`).
+- [x] Production route smoke tests.
+- [x] Implementation-freshness reporting retained with browser artifacts.
+- [x] Browser-acceptance screenshots/reports retained as workflow artifacts.
 - [x] Dedicated Vercel project + public production alias.
-- [x] Production alias is active; the last observed READY production deployment before this tracker-only commit was implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1`. The current implementation checkpoint `46f283ce…` is CI-green and is eligible for the normal Git/Vercel production propagation path.
 
 Production alias: `https://foundation-algorithms-collection.vercel.app`
 
@@ -300,11 +300,12 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 
 # Immediate next work
 
-1. Expand curated primary-source + Claim coverage where the corpus has a unique passage and direct primary evidence.
-2. Expand source-backed Atlas relation provenance without manufacturing graph density.
-3. Add another independently authored evaluation/replication where provenance is directly verifiable.
-4. Add another empirical project experiment with a reproducible artifact and explicit limitations.
-5. Continue manual assistive-technology / physical-device acceptance outside automated CI.
+1. Continue expanding primary-source + passage-backed Claim coverage for high-value algorithms that still have concept-only evidence.
+2. Continue converting important Atlas edges from conceptual-only to source-backed provenance where a direct source justifies the relationship.
+3. Broaden commit-pinned executable implementation coverage beyond the current 8 records.
+4. Add additional independently authored evaluations/replications, preserving negative/mixed/inconclusive outcomes.
+5. Move project experiments progressively from controlled synthetic stress tests toward real-target benchmarks and datasets with reproducible artifacts.
+6. Continue manual assistive-technology / physical-device acceptance outside automated CI.
 
 ---
 
