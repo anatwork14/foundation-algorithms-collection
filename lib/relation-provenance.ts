@@ -42,6 +42,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "FIPS 203 specifies ML-KEM as a module-lattice-based key-encapsulation mechanism, directly grounding this lattice-foundation relationship.",
     verifiedAt: "2026-09-30",
   },
+  {
+    sourceId: "qsvt",
+    targetId: "quantum-phase-estimation",
+    relationType: "alternative-to",
+    referenceIds: ["gilyen-2018-qsvt"],
+    evidenceNote: "The primary QSVT paper explicitly develops singular-value-transformation-based alternatives to phase-estimation-based procedures for spectral/singular-value tasks, including an alternative singular-value-estimation construction. This grounds the archive's alternative-method edge without implying that QPE is obsolete or interchangeable for every application.",
+    verifiedAt: "2026-10-02",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
