@@ -161,6 +161,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Freshness re-review after PyTorch main advanced. The target AdamW file was absent from the compare set; direct inspection at the new head confirms both the class constructor and functional path still set decoupled_weight_decay=True.",
   },
   {
+    implementationId: "pytorch-adamw",
+    revision: 5,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
+    sourcePaths: [
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/optim/adamw.py" },
+    ],
+    note: "Freshness re-review after PyTorch main advanced by two commits limited to test/test_sparse_semi_structured.py and test/test_transformers.py. Direct inspection confirms AdamW still sets decoupled_weight_decay=True in both the constructor and functional path.",
+  },
+  {
     implementationId: "pytorch-multihead-attention",
     revision: 1,
     verifiedAt: "2026-09-29",
@@ -203,6 +214,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
       { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/nn/modules/activation.py" },
     ],
     note: "Freshness re-review after PyTorch main advanced. The target activation module was absent from the compare set; direct inspection confirms MultiheadAttention still implements the original Transformer-style Q/K/V multi-head mechanism and can use scaled-dot-product-attention optimized paths when possible.",
+  },
+  {
+    implementationId: "pytorch-multihead-attention",
+    revision: 5,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
+    sourcePaths: [
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/nn/modules/activation.py" },
+    ],
+    note: "Freshness re-review after two upstream test-only commits. Direct inspection confirms MultiheadAttention remains the original Transformer-style Q/K/V multi-head architecture and retains scaled_dot_product_attention optimized paths when possible.",
   },
   {
     implementationId: "z3-sat-smt",
