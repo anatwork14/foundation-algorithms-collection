@@ -202,6 +202,29 @@ export const implementations: ImplementationRecord[] = [
     verifiedCommit: "378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff",
     lastVerified: "2026-10-02",
   },
+  {
+    id: "networkx-shortest-path-search",
+    name: "NetworkX A* + Dijkstra shortest paths",
+    repository: "https://github.com/networkx/networkx",
+    homepage: "https://networkx.org/",
+    algorithmIds: ["a-star", "dijkstra"],
+    language: "Python",
+    interfaces: ["Python API", "astar_path", "Dijkstra single-source/multi-source shortest paths"],
+    license: "BSD-3-Clause",
+    maturity: "Production-proven",
+    summary: "NetworkX provides executable A* and Dijkstra shortest-path implementations in its graph algorithms package.",
+    implementationNotes: [
+      "The verified A* implementation uses a priority queue keyed by accumulated path cost plus heuristic estimate and explicitly defaults h=0 to Dijkstra behavior.",
+      "The verified weighted shortest-path module contains the Dijkstra single-/multi-source implementation and documents the negative-weight limitation central to the algorithm's assumptions.",
+    ],
+    sourcePaths: [
+      { label: "A* implementation", url: "https://github.com/networkx/networkx/blob/31b74e96903d7f873b30c8ff36d71a4c9252b107/networkx/algorithms/shortest_paths/astar.py" },
+      { label: "Dijkstra implementation", url: "https://github.com/networkx/networkx/blob/31b74e96903d7f873b30c8ff36d71a4c9252b107/networkx/algorithms/shortest_paths/weighted.py" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "31b74e96903d7f873b30c8ff36d71a4c9252b107",
+    lastVerified: "2026-10-02",
+  },
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));
