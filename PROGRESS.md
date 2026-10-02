@@ -65,7 +65,7 @@ Vercel production
 | 5 — Lab | 🟡 Structured hypotheses + assumption analysis + first empirical result path implemented |
 | 6 — Evidence | 🟡 Full record architecture + curated evidence; breadth can expand |
 | 7 — Discovery | 🟡 Structural + deterministic ranked lexical retrieval implemented; semantic retrieval deferred |
-| 8 — Production acceptance | ✅ Current implementation checkpoint is CI-green and deployed |
+| 8 — Production acceptance | ✅ Current implementation checkpoint is CI-green and production infrastructure is active |
 
 ---
 
@@ -216,10 +216,11 @@ Vercel production
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **Nine curated passage-backed Claims**, now including NeuralUCB's neural-gradient/tangent-feature uncertainty mechanism.
+- [x] **Nine curated passage-backed Claims**, including NeuralUCB's neural-gradient/tangent-feature uncertainty mechanism.
 - [x] Live Claim-catalog test validates every Claim against the real Markdown corpus before build.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Oct 2 direct re-verification advanced Faiss HNSW, Qiskit QPE, PyTorch AdamW, PyTorch MultiheadAttention, and Z3 to inspected immutable snapshots.
+- [x] PyTorch was re-reviewed again after two later test-only upstream commits; AdamW and MultiheadAttention were advanced to the directly inspected `ce42d088103272f0a90317697749d2069c815959` snapshot with revision 5 history entries.
 - [x] Experiment model with protocol/result/limitations/artifacts + append-only history.
 - [x] Deterministic 30-seed LinUCB reranking pilot artifact regenerated and compared in CI.
 - [x] Independent Replication/Evaluation record model + first HNSW evaluation.
@@ -227,20 +228,19 @@ Vercel production
 
 ## Current implementation freshness
 
-The Oct 2 CI freshness report on implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1` reports:
+The Oct 2 CI freshness report on implementation checkpoint `46f283ce24f6adc4afd3c71544e309465bcabe82` reports:
 
-- **Current (5):** Faiss HNSW, hnswlib, Qiskit QPE, liboqs ML-KEM, Z3 SAT/SMT.
-- **Upstream moved (2):** PyTorch AdamW and PyTorch MultiheadAttention.
+- **Current (7):** Faiss HNSW, hnswlib, Qiskit QPE, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, Z3 SAT/SMT.
+- **Upstream moved (0).**
 - **Unavailable (0).**
 
-The two PyTorch records were directly inspected and advanced to `c4a196f8671e…` on 2026-10-02, but PyTorch `main` moved again to `ce42d0881032…` before the CI freshness step. Per policy, the archive **does not auto-advance** them; another direct inspection is required before a new history revision.
+Every currently registered implementation therefore points at the same upstream branch head observed by the freshness reporter at that checkpoint. This does **not** imply future upstream movement is safe to auto-adopt: any later change still requires direct inspection and a new append-only verification entry before the archive pin advances.
 
 ## Open
 
 - [ ] Broader primary-reference and curated Claim coverage.
 - [ ] Broader citation/relation-provenance coverage.
 - [ ] Broader commit-pinned implementation coverage.
-- [ ] Re-review the newer PyTorch head before advancing those two pins again.
 - [ ] Broader independent replication/evaluation coverage.
 - [ ] Broaden empirical project experiments beyond the first controlled pilot.
 
@@ -275,15 +275,16 @@ Semantic retrieval should only be added when it preserves inspectable provenance
 
 - [x] GitHub Actions on `main` and pull requests.
 - [x] Markdown-link/URL policy, source hygiene, UI consistency, experiment artifact verification, research tests, TypeScript, production build.
-- [x] **101/101 research/unit tests passed** on implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1`.
+- [x] **101/101 research/unit tests passed** on implementation checkpoint `46f283ce24f6adc4afd3c71544e309465bcabe82`.
 - [x] **143/143 Chromium browser acceptance tests passed** on the same checkpoint.
 - [x] Light/dark × desktop/tablet/phone/narrow containment.
 - [x] Axe WCAG A/AA representative scans.
 - [x] Keyboard, touch, reflow, screen-reader-structure, KaTeX-MathML, overflow, provenance, Lab, Atlas, Evidence and visual-artifact acceptance.
 - [x] Production route smoke tests passed.
-- [x] Non-blocking implementation-freshness report generated and retained with browser artifacts.
+- [x] Implementation-freshness report generated and retained with browser artifacts; checkpoint `46f283ce…` reports 7 current / 0 moved / 0 unavailable.
+- [x] Browser-acceptance artifact retained for the checkpoint (`browser-acceptance`, artifact ID `11203797140`).
 - [x] Dedicated Vercel project + public production alias.
-- [x] **Exact implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1` is READY in Vercel production.**
+- [x] Production alias is active; the last observed READY production deployment before this tracker-only commit was implementation checkpoint `b4a99e9753c536a18398e2e0fcc3c81e091db3b1`. The current implementation checkpoint `46f283ce…` is CI-green and is eligible for the normal Git/Vercel production propagation path.
 
 Production alias: `https://foundation-algorithms-collection.vercel.app`
 
@@ -299,12 +300,11 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 
 # Immediate next work
 
-1. Re-review the newer PyTorch head before changing the two currently-moved immutable pins.
-2. Expand curated primary-source + Claim coverage where the corpus has a unique passage and direct primary evidence.
-3. Expand source-backed Atlas relation provenance without manufacturing graph density.
-4. Add another independently authored evaluation/replication where provenance is directly verifiable.
-5. Add another empirical project experiment with a reproducible artifact and explicit limitations.
-6. Continue manual assistive-technology / physical-device acceptance outside automated CI.
+1. Expand curated primary-source + Claim coverage where the corpus has a unique passage and direct primary evidence.
+2. Expand source-backed Atlas relation provenance without manufacturing graph density.
+3. Add another independently authored evaluation/replication where provenance is directly verifiable.
+4. Add another empirical project experiment with a reproducible artifact and explicit limitations.
+5. Continue manual assistive-technology / physical-device acceptance outside automated CI.
 
 ---
 
