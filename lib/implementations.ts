@@ -38,12 +38,12 @@ export const implementations: ImplementationRecord[] = [
       "The verified revision still exposes HNSW as a link structure over a storage-index abstraction; current sources also include newer specialized HNSW variants without changing this core registry role.",
     ],
     sourcePaths: [
-      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/88a28bcd80aa4469bd15520c510186c98f51d985/faiss/IndexHNSW.h" },
-      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/88a28bcd80aa4469bd15520c510186c98f51d985/faiss/IndexHNSW.cpp" },
+      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.h" },
+      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.cpp" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "88a28bcd80aa4469bd15520c510186c98f51d985",
-    lastVerified: "2026-10-01",
+    verifiedCommit: "0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a",
+    lastVerified: "2026-10-02",
   },
   {
     id: "hnswlib",
@@ -82,12 +82,12 @@ export const implementations: ImplementationRecord[] = [
       "At the verified revision, the functional phase_estimation circuit is the forward-looking API while the PhaseEstimation class remains present but deprecated for Qiskit 3.0 removal.",
     ],
     sourcePaths: [
-      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/649763bbb0c7b7967d46aea5c6971bc4e5d1311a/qiskit/circuit/library/phase_estimation.py" },
-      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/649763bbb0c7b7967d46aea5c6971bc4e5d1311a/test/python/circuit/library/test_phase_estimation.py" },
+      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/qiskit/circuit/library/phase_estimation.py" },
+      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/test/python/circuit/library/test_phase_estimation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "649763bbb0c7b7967d46aea5c6971bc4e5d1311a",
-    lastVerified: "2026-10-01",
+    verifiedCommit: "f6924453021a254624d01a0bedc3b917c3d3ed0c",
+    lastVerified: "2026-10-02",
   },
   {
     id: "liboqs-ml-kem",
@@ -127,11 +127,11 @@ export const implementations: ImplementationRecord[] = [
       "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the verified revision.",
     ],
     sourcePaths: [
-      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff/torch/optim/adamw.py" },
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/optim/adamw.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff",
-    lastVerified: "2026-10-01",
+    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    lastVerified: "2026-10-02",
   },
   {
     id: "pytorch-multihead-attention",
@@ -149,11 +149,11 @@ export const implementations: ImplementationRecord[] = [
       "At the verified revision, PyTorch still describes this module as an implementation of the original Attention Is All You Need architecture; the Vaswani et al. reference remains the primary conceptual source in the archive.",
     ],
     sourcePaths: [
-      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff/torch/nn/modules/activation.py" },
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/nn/modules/activation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "1d40e77c093f371f28fa9caa18ba2ff3bd1c8eff",
-    lastVerified: "2026-10-01",
+    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    lastVerified: "2026-10-02",
   },
   {
     id: "z3-sat-smt",
@@ -171,12 +171,12 @@ export const implementations: ImplementationRecord[] = [
       "Z3 supports multiple theories and APIs; this record is linked to the collection's broad SAT/SMT solving entity rather than claiming one internal solving strategy represents the entire system.",
     ],
     sourcePaths: [
-      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/36828e144e0802a1e936031b6efa2dbe89fde9a5/src/solver/solver.cpp" },
-      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/36828e144e0802a1e936031b6efa2dbe89fde9a5/src" },
+      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src/solver/solver.cpp" },
+      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src" },
     ],
     verifiedRef: "master",
-    verifiedCommit: "36828e144e0802a1e936031b6efa2dbe89fde9a5",
-    lastVerified: "2026-10-01",
+    verifiedCommit: "378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff",
+    lastVerified: "2026-10-02",
   },
 ];
 
