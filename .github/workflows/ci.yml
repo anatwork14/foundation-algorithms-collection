@@ -104,13 +104,16 @@ jobs:
             "/claims"
             "/replications"
             "/replications/aumuller-2020-hnsw-evaluation"
+            "/replications/chapelle-2011-thompson-evaluation"
             "/references"
             "/references/graph"
             "/references/li-2010-contextual-bandit-news"
+            "/references/thompson-1933-probability-matching"
             "/implementations"
             "/implementations/faiss-hnsw"
             "/experiments"
             "/experiments/hnsw-linucb-reranking-drift-pilot"
+            "/experiments/linucb-fuzzing-scheduler-drift-pilot"
           )
 
           for route in "${routes[@]}"; do
