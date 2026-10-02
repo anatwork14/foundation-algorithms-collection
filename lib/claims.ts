@@ -48,6 +48,16 @@ export const claims: ClaimRecord[] = [
     note: "This is a normative-standard claim and should track FIPS 203 rather than an implementation repository.",
   },
   {
+    id: "ml-kem-module-lattice-foundation",
+    kind: "Assumption",
+    statement: "ML-KEM is a module-lattice construction whose security foundation is tied to structured module-lattice hardness rather than classical factoring or discrete-log assumptions.",
+    algorithmIds: ["ml-kem", "lattice-problems"],
+    chapterSlug: "31-post-quantum-cryptography",
+    passageContains: "ML-KEM and ML-DSA are based on module-lattice problems",
+    referenceIds: ["nist-2024-fips203"],
+    note: "This claim identifies ML-KEM's construction/assumption family only. It does not restate a concrete security level or claim that every lattice problem is equivalent to the standardized ML-KEM security definition.",
+  },
+  {
     id: "adamw-decoupled-weight-decay",
     kind: "Mechanism",
     statement: "AdamW applies weight decay separately from the adaptive gradient update rather than treating L2 regularization as equivalent under adaptive scaling.",
