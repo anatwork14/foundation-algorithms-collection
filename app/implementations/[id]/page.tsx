@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Code2, ExternalLink, GitBranch, ShieldCheck } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
-import { verificationHistoryForImplementation } from "@/lib/implementation-verification-history";
+import { verificationHistoryForImplementation } from "@/lib/implementation-verification-catalog";
 import { getImplementation, implementationCommitUrl, implementations } from "@/lib/implementations";
 
 export function generateStaticParams() {
