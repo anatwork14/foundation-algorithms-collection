@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { implementationVerificationHistory } from "../lib/implementation-verification-catalog.ts";
 import { implementationCommitUrl, implementations } from "../lib/implementations.ts";
 
 test("every implementation record pins a full Git commit", () => {
@@ -28,4 +29,20 @@ test("commit links resolve to the pinned repository revision URL shape", () => {
       `${implementation.repository}/commit/${implementation.verifiedCommit}`,
     );
   }
+});
+
+test("NetworkX shortest-path evidence covers A* and Dijkstra at one immutable revision", () => {
+  const record = implementations.find((implementation) => implementation.id === "networkx-shortest-path-search");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["a-star", "dijkstra"]);
+  assert.equal(record.license, "BSD-3-Clause");
+  assert.equal(record.verifiedCommit, "31b74e96903d7f873b30c8ff36d71a4c9252b107");
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/networkx/algorithms/shortest_paths/astar.py")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/networkx/algorithms/shortest_paths/weighted.py")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
