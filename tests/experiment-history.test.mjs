@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { experimentHistory } from "../lib/experiment-history.ts";
 import { validateExperimentHistory } from "../lib/experiment-history-validation.ts";
+import { experiments } from "../lib/experiments.ts";
 
 function experiment(overrides = {}) {
   return {
@@ -35,6 +37,16 @@ function entry(overrides = {}) {
     ...overrides,
   };
 }
+
+test("live experiment catalog has a valid append-only history for every experiment", () => {
+  assert.deepEqual(validateExperimentHistory(experimentHistory, experiments), []);
+  for (const experimentRecord of experiments) {
+    assert.ok(
+      experimentHistory.some((historyEntry) => historyEntry.experimentId === experimentRecord.id),
+      `${experimentRecord.id}: missing experiment history`,
+    );
+  }
+});
 
 test("single planned history entry validates", () => {
   assert.deepEqual(validateExperimentHistory([entry()], [experiment()]), []);
