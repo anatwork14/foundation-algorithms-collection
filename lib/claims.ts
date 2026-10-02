@@ -63,7 +63,7 @@ export const claims: ClaimRecord[] = [
     statement: "A* combines accumulated path cost with an estimate of remaining cost, using their sum to prioritize which search state to expand next.",
     algorithmIds: ["a-star"],
     chapterSlug: "02-search-graphs-ordering-indexing",
-    passageContains: "A* combines known path cost with estimated remaining cost",
+    passageContains: "known path cost with estimated remaining cost",
     referenceIds: ["hart-1968-a-star"],
     note: "This record captures A*'s cost-plus-heuristic mechanism. Optimality depends on the heuristic and graph-search conditions described separately in the chapter and primary paper.",
   },
