@@ -8,6 +8,7 @@ import { getDocument, type DocSummary } from "@/lib/content";
 import { experimentHistory } from "@/lib/experiment-history";
 import { assertValidExperimentHistory } from "@/lib/experiment-history-validation";
 import { assertValidExperiments } from "@/lib/experiment-validation";
+import { experiments } from "@/lib/experiments";
 import { implementationVerificationHistory } from "@/lib/implementation-verification-catalog";
 import { assertValidImplementations } from "@/lib/implementation-validation";
 import { assertValidImplementationVerificationHistory } from "@/lib/implementation-verification-validation";
