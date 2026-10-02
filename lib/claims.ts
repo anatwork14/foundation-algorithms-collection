@@ -28,6 +28,16 @@ export const claims: ClaimRecord[] = [
     note: "This record describes the mechanism summarized in the collection; the linked paper is the primary LinUCB application/source curated by the archive.",
   },
   {
+    id: "ucb1-count-based-confidence-bonus",
+    kind: "Mechanism",
+    statement: "UCB1 adds a confidence bonus that is larger for rarely sampled arms and shrinks as an arm accumulates observations, targeting exploration toward uncertainty.",
+    algorithmIds: ["ucb1"],
+    chapterSlug: "08-bandits-contextual-bandits-linucb",
+    passageContains: "The second term is large for rarely tried arms and shrinks as evidence accumulates",
+    referenceIds: ["auer-2002-ucb1"],
+    note: "This claim describes the defining count-based optimism mechanism of UCB1. Its textbook confidence interpretation assumes the bounded stationary stochastic setting analyzed by the primary source.",
+  },
+  {
     id: "hnsw-hierarchical-navigation",
     kind: "Mechanism",
     statement: "HNSW organizes proximity search into multiple graph layers, using sparse upper layers for long-range navigation and denser lower layers for local refinement.",
