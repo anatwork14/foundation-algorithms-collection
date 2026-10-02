@@ -19,6 +19,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-09-30",
   },
   {
+    sourceId: "thompson-sampling",
+    targetId: "bayesian-inference",
+    relationType: "depends-on",
+    referenceIds: ["chapelle-2011-thompson-evaluation"],
+    evidenceNote: "Chapelle and Li describe Thompson Sampling in a Bayesian setting: a prior and observed data define a posterior over reward-model parameters, and randomized action selection is driven by that posterior uncertainty. This directly grounds the archive's Bayesian-inference dependency edge.",
+    verifiedAt: "2026-10-02",
+  },
+  {
     sourceId: "neural-ucb",
     targetId: "linucb",
     relationType: "derived-from",
