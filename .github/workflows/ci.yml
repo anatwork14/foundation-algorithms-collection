@@ -111,6 +111,7 @@ jobs:
             "/references/thompson-1933-probability-matching"
             "/implementations"
             "/implementations/faiss-hnsw"
+            "/implementations/networkx-shortest-path-search"
             "/experiments"
             "/experiments/hnsw-linucb-reranking-drift-pilot"
             "/experiments/linucb-fuzzing-scheduler-drift-pilot"
