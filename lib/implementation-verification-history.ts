@@ -36,6 +36,18 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Freshness re-review of current Faiss main. Direct inspection confirmed the HNSW link-structure/storage-index abstraction and implementation remain present at the new immutable revision; newer specialized variants do not change this registry record's scope.",
   },
   {
+    implementationId: "faiss-hnsw",
+    revision: 3,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a",
+    sourcePaths: [
+      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.h" },
+      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.cpp" },
+    ],
+    note: "Freshness re-review after Faiss main advanced. The compare set changed IndexHNSW.cpp only minimally while IndexHNSW.h remained unchanged; direct inspection confirms the HNSW implementation and storage-index structure remain present at this immutable revision.",
+  },
+  {
     implementationId: "hnswlib",
     revision: 1,
     verifiedAt: "2026-09-28",
@@ -69,6 +81,18 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
       { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/649763bbb0c7b7967d46aea5c6971bc4e5d1311a/test/python/circuit/library/test_phase_estimation.py" },
     ],
     note: "Freshness re-review of Qiskit main. The phase-estimation implementation and tests remain present; the functional phase_estimation API is current while the PhaseEstimation class is explicitly deprecated for future removal.",
+  },
+  {
+    implementationId: "qiskit-phase-estimation",
+    revision: 3,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "f6924453021a254624d01a0bedc3b917c3d3ed0c",
+    sourcePaths: [
+      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/qiskit/circuit/library/phase_estimation.py" },
+      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/test/python/circuit/library/test_phase_estimation.py" },
+    ],
+    note: "Freshness re-review after Qiskit main advanced by two commits outside the phase-estimation implementation/tests. Direct inspection confirms the functional phase_estimation circuit and test coverage remain present; the PhaseEstimation class remains explicitly deprecated for Qiskit 3.0 removal.",
   },
   {
     implementationId: "liboqs-ml-kem",
@@ -126,6 +150,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Second freshness re-review on current PyTorch main. Direct inspection confirms both the AdamW constructor and functional adamw path still enforce decoupled_weight_decay=True at this immutable revision.",
   },
   {
+    implementationId: "pytorch-adamw",
+    revision: 4,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    sourcePaths: [
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/optim/adamw.py" },
+    ],
+    note: "Freshness re-review after PyTorch main advanced. The target AdamW file was absent from the compare set; direct inspection at the new head confirms both the class constructor and functional path still set decoupled_weight_decay=True.",
+  },
+  {
     implementationId: "pytorch-multihead-attention",
     revision: 1,
     verifiedAt: "2026-09-29",
@@ -159,6 +194,17 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Second freshness re-review on current PyTorch main. Direct inspection confirms torch.nn.MultiheadAttention remains the original Transformer-style multi-head attention module with query/key/value inputs and learned projections.",
   },
   {
+    implementationId: "pytorch-multihead-attention",
+    revision: 4,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "c4a196f8671e1f743175dfe27002830d449ed82c",
+    sourcePaths: [
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/c4a196f8671e1f743175dfe27002830d449ed82c/torch/nn/modules/activation.py" },
+    ],
+    note: "Freshness re-review after PyTorch main advanced. The target activation module was absent from the compare set; direct inspection confirms MultiheadAttention still implements the original Transformer-style Q/K/V multi-head mechanism and can use scaled-dot-product-attention optimized paths when possible.",
+  },
+  {
     implementationId: "z3-sat-smt",
     revision: 1,
     verifiedAt: "2026-09-29",
@@ -181,6 +227,18 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
       { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/36828e144e0802a1e936031b6efa2dbe89fde9a5/src" },
     ],
     note: "Freshness re-review of Z3 master. Direct inspection confirms src/solver/solver.cpp remains the abstract solver interface supporting assertion access, satisfiability checks, models, unsat cores, and assumption-based queries.",
+  },
+  {
+    implementationId: "z3-sat-smt",
+    revision: 3,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "master",
+    verifiedCommit: "378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff",
+    sourcePaths: [
+      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src/solver/solver.cpp" },
+      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src" },
+    ],
+    note: "Freshness re-review after Z3 master advanced by three commits limited to CI/examples/JavaScript dependency metadata. Direct inspection confirms src/solver/solver.cpp remains the abstract solver interface and the registry scope is unchanged.",
   },
 ];
 
