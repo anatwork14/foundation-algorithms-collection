@@ -95,6 +95,18 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
     note: "Freshness re-review after Qiskit main advanced by two commits outside the phase-estimation implementation/tests. Direct inspection confirms the functional phase_estimation circuit and test coverage remain present; the PhaseEstimation class remains explicitly deprecated for Qiskit 3.0 removal.",
   },
   {
+    implementationId: "qiskit-vqe-qaoa",
+    revision: 1,
+    verifiedAt: "2026-10-02",
+    verifiedRef: "main",
+    verifiedCommit: "bcb7ded3594dac02e14acce7f59f05976916d39d",
+    sourcePaths: [
+      { label: "VQE implementation", url: "https://github.com/qiskit-community/qiskit-algorithms/blob/bcb7ded3594dac02e14acce7f59f05976916d39d/qiskit_algorithms/minimum_eigensolvers/vqe.py" },
+      { label: "QAOA implementation", url: "https://github.com/qiskit-community/qiskit-algorithms/blob/bcb7ded3594dac02e14acce7f59f05976916d39d/qiskit_algorithms/minimum_eigensolvers/qaoa.py" },
+    ],
+    note: "Initial Qiskit Algorithms VQE/QAOA evidence snapshot. Direct inspection confirms VQE's estimator/ansatz/classical-optimizer loop and QAOA's SamplingVQE-derived alternating-ansatz implementation at this immutable main-branch revision.",
+  },
+  {
     implementationId: "liboqs-ml-kem",
     revision: 1,
     verifiedAt: "2026-09-28",
