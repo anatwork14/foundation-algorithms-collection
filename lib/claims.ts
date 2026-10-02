@@ -88,6 +88,16 @@ export const claims: ClaimRecord[] = [
     note: "The claim describes selectivity as a mechanism. It does not assert universal superiority over attention or other sequence architectures.",
   },
   {
+    id: "qpe-controlled-eigenphase-estimation",
+    kind: "Mechanism",
+    statement: "Quantum Phase Estimation uses controlled powers of a unitary and an inverse Fourier-style readout to convert an eigenstate's accumulated phase into an estimate of its eigenphase.",
+    algorithmIds: ["quantum-phase-estimation"],
+    chapterSlug: "21-quantum-search-fourier-phase-estimation",
+    passageContains: "QPE turns access to controlled time evolution into eigenvalue information",
+    referenceIds: ["kitaev-1995-eigenvalue-measurement"],
+    note: "This record captures the archive's core QPE mechanism. Precision and end-to-end cost still depend on controlled-unitary access, coherent evolution time, readout strategy, and fault-tolerant resources.",
+  },
+  {
     id: "qsvt-singular-value-polynomial-transform",
     kind: "Mechanism",
     statement: "QSVT applies a suitably bounded polynomial transformation to the singular values of a block-encoded matrix, turning polynomial approximation into a reusable quantum operator-transformation pattern.",
