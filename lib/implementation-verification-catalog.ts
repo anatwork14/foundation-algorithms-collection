@@ -1,8 +1,8 @@
-import { foundationsImplementationVerificationAdditions } from "@/lib/implementation-verification-foundations-additions";
+import { foundationsImplementationVerificationAdditions } from "./implementation-verification-foundations-additions.ts";
 import {
   implementationVerificationHistory as coreImplementationVerificationHistory,
   type ImplementationVerificationEntry,
-} from "@/lib/implementation-verification-history";
+} from "./implementation-verification-history.ts";
 
 /** Canonical verification catalog. Historical entries remain in their original
  * file while newer domain additions compose here. */
