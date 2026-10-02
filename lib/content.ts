@@ -146,7 +146,9 @@ function passagesFrom(content: string): SearchPassage[] {
   }
   flush();
 
-  return passages.slice(0, 100);
+  // Provenance must be complete. Long chapters can exceed 100 prose units,
+  // and Claims/Passage search must remain able to resolve late sections.
+  return passages;
 }
 
 export function summarizeDocumentContent(filename: string, content: string): DocSummary {
