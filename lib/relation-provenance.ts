@@ -27,6 +27,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-10-02",
   },
   {
+    sourceId: "bayesian-inference",
+    targetId: "thompson-sampling",
+    relationType: "used-by",
+    referenceIds: ["chapelle-2011-thompson-evaluation"],
+    evidenceNote: "Chapelle and Li formulate Thompson Sampling through a Bayesian posterior over reward-model parameters and choose actions by sampling from that posterior, directly supporting the archive's Bayesian-inference-to-Thompson relationship.",
+    verifiedAt: "2026-10-02",
+  },
+  {
+    sourceId: "ucb1",
+    targetId: "thompson-sampling",
+    relationType: "alternative-to",
+    referenceIds: ["chapelle-2011-thompson-evaluation"],
+    evidenceNote: "The independent empirical study evaluates Thompson Sampling against established UCB-style alternatives on simulated and real-world bandit tasks, directly grounding this alternative-exploration-strategy relationship without asserting a universal winner.",
+    verifiedAt: "2026-10-02",
+  },
+  {
     sourceId: "neural-ucb",
     targetId: "linucb",
     relationType: "derived-from",
@@ -41,6 +57,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     referenceIds: ["malkov-2018-hnsw"],
     evidenceNote: "The HNSW primary source establishes hierarchical graph indexing for high-dimensional approximate nearest-neighbor vectors, which is the retrieval role represented by this edge.",
     verifiedAt: "2026-09-30",
+  },
+  {
+    sourceId: "embedding-models",
+    targetId: "transformer-attention",
+    relationType: "used-by",
+    referenceIds: ["vaswani-2017-attention"],
+    evidenceNote: "The Transformer paper explicitly uses learned input/output embeddings as the representation layer consumed by its attention-based encoder/decoder stacks, directly grounding the archive's embedding-to-Transformer relationship.",
+    verifiedAt: "2026-10-02",
   },
   {
     sourceId: "lattice-problems",
