@@ -90,6 +90,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The Mamba primary paper explicitly positions selective state-space models as a linear-scaling sequence-modeling alternative to Transformer attention, while retaining a distinct recurrent/state-space computation and memory structure.",
     verifiedAt: "2026-10-02",
   },
+  {
+    sourceId: "a-star",
+    targetId: "dijkstra",
+    relationType: "generalizes",
+    referenceIds: ["hart-1968-a-star", "dijkstra-1959-shortest-paths"],
+    evidenceNote: "This edge is a mathematical synthesis of the two primary methods: Hart, Nilsson, and Raphael formalize cost-plus-heuristic minimum-cost search, while Dijkstra formalizes path-cost-driven shortest-path selection. Setting the A* heuristic term to zero leaves path-cost ordering, yielding the Dijkstra/uniform-cost special case represented by the archive.",
+    verifiedAt: "2026-10-02",
+  },
+  {
+    sourceId: "dijkstra",
+    targetId: "a-star",
+    relationType: "special-case-of",
+    referenceIds: ["dijkstra-1959-shortest-paths", "hart-1968-a-star"],
+    evidenceNote: "This inverse edge records the same derivation in the opposite direction: Dijkstra's nonnegative shortest-path selection is recovered from the A* evaluation rule when the heuristic contribution is zero. The record links both primary method papers and treats the relationship as an archive synthesis rather than a verbatim historical claim.",
+    verifiedAt: "2026-10-02",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
