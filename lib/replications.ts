@@ -35,6 +35,17 @@ export const replications: ReplicationRecord[] = [
     independenceNote: "The evaluation is authored by Martin Aumüller, Erik Bernhardsson, and Alexander Faithfull, a different author group from HNSW authors Yu A. Malkov and D. A. Yashunin, and uses the independently developed ANN-Benchmarks framework across multiple algorithms and datasets.",
     verifiedAt: "2026-09-30",
   },
+  {
+    id: "chapelle-2011-thompson-evaluation",
+    title: "Independent empirical evaluation of Thompson Sampling",
+    algorithmIds: ["thompson-sampling"],
+    replicationReferenceId: "chapelle-2011-thompson-evaluation",
+    originalReferenceIds: ["thompson-1933-probability-matching"],
+    outcome: "Partially supports",
+    summary: "Chapelle and Li evaluate modern Thompson Sampling on simulated and real-world bandit problems, including display-ad selection and news recommendation. Their results support Thompson Sampling as a highly competitive practical baseline and sometimes show gains over UCB-style alternatives. The record is classified as partial support because this modern evaluation does not reproduce Thompson's 1933 experimental setting or every later theoretical claim attached to posterior sampling.",
+    independenceNote: "The evaluation is authored by Olivier Chapelle and Lihong Li, a different author group from William R. Thompson, and evaluates a modern Bayesian formulation on new simulated and real-world datasets roughly eight decades after the original probability-matching paper.",
+    verifiedAt: "2026-10-02",
+  },
 ];
 
 const byId = new Map(replications.map((record) => [record.id, record]));
