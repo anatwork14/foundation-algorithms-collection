@@ -34,7 +34,7 @@ Combination Lab
 Evidence
   ├── 23 curated passage-backed Claims
   ├── 21 curated References + citation graph
-  ├── 9 commit-pinned Implementation records + append-only verification history
+  ├── 10 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
   ├── Evidence Gaps
@@ -177,8 +177,8 @@ Vercel production
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **12 source-backed relation records** currently curated, alongside conceptual-only edges.
-- [x] Source-backed coverage includes LinUCB/UCB, Thompson/Bayesian/UCB alternatives, NeuralUCB/LinUCB, embeddings/HNSW, embeddings/Transformer attention, lattice/ML-KEM, QSVT/QPE, SSM/Transformer, and the bidirectional A*/Dijkstra generalization/special-case relation.
+- [x] **14 source-backed relation records** currently curated, alongside conceptual-only edges.
+- [x] Source-backed coverage includes LinUCB/UCB, Thompson/Bayesian/UCB alternatives, NeuralUCB/LinUCB, embeddings/HNSW, embeddings/Transformer attention, lattice/ML-KEM, QSVT/QPE, SSM/Transformer, the bidirectional A*/Dijkstra relation, and both directions of the Q-learning/Dynamic Programming Bellman lineage.
 - [x] Conceptual vs source-backed edges remain distinct.
 - [x] Accessible table/regions/selection + keyboard picker.
 
@@ -224,10 +224,11 @@ Vercel production
 - [x] **21 curated References**, including primary Grover search, Q-learning, and Kalman-filter sources added on 2026-10-03.
 - [x] Live Claim-catalog test validates every Claim against the real Markdown corpus before build.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
-- [x] **9 implementation records** currently registered: Faiss HNSW, hnswlib, Qiskit QPE, Qiskit Algorithms VQE/QAOA/Grover, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, Z3 SAT/SMT, and NetworkX A*/Dijkstra.
+- [x] **10 implementation records** currently registered: Faiss HNSW, hnswlib, Qiskit QPE, Qiskit Algorithms VQE/QAOA/Grover, liboqs ML-KEM, PyTorch AdamW, PyTorch MultiheadAttention, Z3 SAT/SMT, NetworkX A*/Dijkstra, and statsmodels Kalman Filter.
 - [x] Qiskit Algorithms is pinned to directly inspected commit `bcb7ded3594dac02e14acce7f59f05976916d39d`; verification revision 2 expands that immutable snapshot from VQE/QAOA to include the inspected Grover amplitude-amplifier source without pretending the upstream commit moved.
-- [x] Grover search now has primary-source, passage-backed Claim, and commit-pinned executable evidence layers in the hub.
-- [x] Q-learning, Kalman Filter, and differential-privacy Laplace calibration now have explicit passage-backed Claims tied to curated primary sources.
+- [x] statsmodels Kalman Filter is pinned to directly inspected commit `cc001c25997351ecbd0b04d2968a08106a04a71f`, including the state-space filter source and repository license, with revision-1 verification history.
+- [x] Grover search and Kalman Filter now each have primary-source, passage-backed Claim, and commit-pinned executable evidence layers in the hub.
+- [x] Q-learning and differential-privacy Laplace calibration now have explicit passage-backed Claims tied to curated primary sources.
 - [x] Experiment model with protocol/result/limitations/artifacts + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
 - [x] **2 independent Replication/Evaluation records**: ANN-Benchmarks/HNSW and Chapelle–Li/Thompson Sampling.
@@ -304,8 +305,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 # Immediate next work
 
 1. Continue expanding primary-source + passage-backed Claim coverage for high-value algorithms that still have concept-only evidence; the 2026-10-03 batch closed Grover, Q-learning, Kalman, and differential-privacy mechanism gaps.
-2. Continue converting important Atlas edges from conceptual-only to source-backed provenance where a direct source justifies the relationship.
-3. Broaden commit-pinned executable implementation coverage beyond the current 9 records and review upstream-moved pins deliberately.
+2. Continue converting important Atlas edges from conceptual-only to source-backed provenance; the Q-learning/Dynamic Programming lineage is now source-backed in both directions.
+3. Broaden commit-pinned executable implementation coverage beyond the current 10 records and review upstream-moved pins deliberately.
 4. Add additional independently authored evaluations/replications, preserving negative/mixed/inconclusive outcomes.
 5. Move project experiments progressively from controlled synthetic stress tests toward real-target benchmarks and datasets with reproducible artifacts.
 6. Continue manual assistive-technology / physical-device acceptance outside automated CI.
