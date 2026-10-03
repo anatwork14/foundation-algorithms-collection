@@ -90,12 +90,16 @@ test("learned branching keeps both existing Atlas combination directions source-
   }
 });
 
-test("symbolic execution keeps its solver dependency source-backed", () => {
+test("symbolic execution keeps both solver-method and consumer-system provenance", () => {
   const relation = relationByKey.get(relationKey("sat-smt-solving", "used-by", "symbolic-execution"));
   assert.ok(relation, "missing source-backed SAT/SMT → Symbolic Execution relation");
   assert.ok(
+    relation.referenceIds.includes("de-moura-bjorner-2008-z3"),
+    "SAT/SMT → Symbolic Execution must cite a primary SMT solver source",
+  );
+  assert.ok(
     relation.referenceIds.includes("cadar-2008-klee"),
-    "SAT/SMT → Symbolic Execution must cite the KLEE primary systems source",
+    "SAT/SMT → Symbolic Execution must cite the KLEE primary consumer-system source",
   );
 });
 
