@@ -106,6 +106,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "This inverse edge records the same derivation in the opposite direction: Dijkstra's nonnegative shortest-path selection is recovered from the A* evaluation rule when the heuristic contribution is zero. The record links both primary method papers and treats the relationship as an archive synthesis rather than a verbatim historical claim.",
     verifiedAt: "2026-10-02",
   },
+  {
+    sourceId: "q-learning",
+    targetId: "dynamic-programming",
+    relationType: "derived-from",
+    referenceIds: ["watkins-dayan-1992-q-learning"],
+    evidenceNote: "Watkins and Dayan formulate Q-learning around the optimal action-value recursion and prove convergence toward optimal action values under the paper's tabular stochastic-process conditions. This directly grounds the archive's view of Q-learning as a sampled Bellman/dynamic-programming lineage rather than an unrelated control rule.",
+    verifiedAt: "2026-10-03",
+  },
+  {
+    sourceId: "dynamic-programming",
+    targetId: "q-learning",
+    relationType: "used-by",
+    referenceIds: ["watkins-dayan-1992-q-learning"],
+    evidenceNote: "The Q-learning primary paper's recursive optimal-value target is the dynamic-programming/Bellman structure consumed by the incremental learning rule. This inverse provenance record grounds the existing Dynamic Programming → Q-learning `used-by` edge without claiming that all dynamic programming is reinforcement learning.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
