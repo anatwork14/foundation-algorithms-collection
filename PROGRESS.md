@@ -33,7 +33,7 @@ Combination Lab
         ↓
 Evidence
   ├── 26 curated passage-backed Claims
-  ├── 27 curated References + citation graph
+  ├── 28 curated References + citation graph
   ├── 13 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
@@ -222,7 +222,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **26 curated passage-backed Claims**.
-- [x] **27 curated References**.
+- [x] **28 curated References**.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, and Driller hybrid fuzzing/symbolic execution.
 - [x] Symbolic Execution now has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization already have primary-source-backed curated Claims.
