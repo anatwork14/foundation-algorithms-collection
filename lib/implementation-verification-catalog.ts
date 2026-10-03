@@ -1,3 +1,4 @@
+import { implementationVerificationFreshnessAdditions } from "./implementation-verification-freshness-additions.ts";
 import { foundationsImplementationVerificationAdditions } from "./implementation-verification-foundations-additions.ts";
 import {
   implementationVerificationHistory as coreImplementationVerificationHistory,
@@ -5,10 +6,11 @@ import {
 } from "./implementation-verification-history.ts";
 
 /** Canonical verification catalog. Historical entries remain in their original
- * file while newer domain additions compose here. */
+ * files while newer domain and freshness additions compose here. */
 export const implementationVerificationHistory: ImplementationVerificationEntry[] = [
   ...coreImplementationVerificationHistory,
   ...foundationsImplementationVerificationAdditions,
+  ...implementationVerificationFreshnessAdditions,
 ];
 
 export function verificationHistoryForImplementation(implementationId: string) {
