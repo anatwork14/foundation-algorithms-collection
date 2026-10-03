@@ -1,3 +1,5 @@
+import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
+
 export type ImplementationMaturity =
   | "Established open-source"
   | "Production-proven"
@@ -21,7 +23,7 @@ export type ImplementationRecord = {
   lastVerified: string;
 };
 
-export const implementations: ImplementationRecord[] = [
+const coreImplementations: ImplementationRecord[] = [
   {
     id: "faiss-hnsw",
     name: "Faiss HNSW",
@@ -227,6 +229,11 @@ export const implementations: ImplementationRecord[] = [
     verifiedCommit: "31b74e96903d7f873b30c8ff36d71a4c9252b107",
     lastVerified: "2026-10-02",
   },
+];
+
+export const implementations: ImplementationRecord[] = [
+  ...coreImplementations,
+  ...foundationImplementationAdditions,
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));
