@@ -28,6 +28,8 @@ test("new foundational references are present and directly linked", () => {
     ["cadar-2008-klee", "sat-smt-solving"],
     ["dennis-2002-topological-quantum-memory", "error-correcting-codes"],
     ["dennis-2002-topological-quantum-memory", "surface-code-decoding"],
+    ["stephens-2016-driller", "coverage-guided-fuzzing"],
+    ["stephens-2016-driller", "symbolic-execution"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -87,4 +89,20 @@ test("surface-code decoding keeps its coding-theory lineage source-backed", () =
     relation.referenceIds.includes("dennis-2002-topological-quantum-memory"),
     "Error-Correcting Codes → Surface-Code Decoding must cite the topological quantum memory primary source",
   );
+});
+
+test("hybrid fuzzing keeps both Atlas combination directions source-backed", () => {
+  const expectedRelations = [
+    ["symbolic-execution", "combines-with", "coverage-guided-fuzzing"],
+    ["coverage-guided-fuzzing", "combines-with", "symbolic-execution"],
+  ];
+
+  for (const [sourceId, relationType, targetId] of expectedRelations) {
+    const relation = relationByKey.get(relationKey(sourceId, relationType, targetId));
+    assert.ok(relation, `missing source-backed relation ${sourceId} ${relationType} ${targetId}`);
+    assert.ok(
+      relation.referenceIds.includes("stephens-2016-driller"),
+      `${sourceId} ${relationType} ${targetId} must cite the Driller hybrid-testing source`,
+    );
+  }
 });
