@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, FlaskConical, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { RegistryToolbar } from "@/components/registry-toolbar";
 import { ResearchPageHeader } from "@/components/research-page-header";
 import { historyForExperiment } from "@/lib/experiment-history";
 import type { ExperimentRecord, ExperimentStatus } from "@/lib/experiments";
@@ -35,15 +36,18 @@ export function ExperimentExplorer({ records }: { records: ExperimentRecord[] })
         <EvidenceNav current="experiments" />
       </ResearchPageHeader>
 
-      <section className="experiment-controls" aria-label="Experiment filters">
-        <label>
-          <Search size={17} aria-hidden="true" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search fuzzing, reranking, QEC, baselines, metrics…" />
-        </label>
+      <RegistryToolbar
+        className="experiment-controls"
+        ariaLabel="Experiment filters"
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search fuzzing, reranking, QEC, baselines, metrics…"
+        searchAriaLabel="Search experiments"
+      >
         <select value={status} onChange={(event) => setStatus(event.target.value as ExperimentStatus | "All")} aria-label="Filter experiments by status">
           {statuses.map((item) => <option key={item} value={item}>{item === "All" ? "All experiment states" : item}</option>)}
         </select>
-      </section>
+      </RegistryToolbar>
 
       <div className="experiment-result-count">{results.length} experiment records</div>
 
