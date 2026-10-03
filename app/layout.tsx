@@ -20,6 +20,7 @@ import "./evidence-profile.css";
 import "./search-passages.css";
 import "./passage-provenance.css";
 import "./claim-provenance.css";
+import "./algorithm-variants.css";
 import "./accessibility.css";
 import "./theme-dock.css";
 import "./research-ui.css";
