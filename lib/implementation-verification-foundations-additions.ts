@@ -50,4 +50,16 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial Qiskit QFT evidence snapshot. Direct inspection confirms QFTGate, inverse-QFT behavior, synthesis through qiskit.synthesis.qft.synth_qft_full, and configurable approximate-QFT rotation dropping at the same immutable Qiskit revision already used by the archive's phase-estimation implementation record. The older QFT BlueprintCircuit wrapper is explicitly deprecated, so the registry records the retained gate/synthesis direction rather than treating that wrapper as the future API.",
   },
+  {
+    implementationId: "botorch-bayesian-optimization",
+    revision: 1,
+    verifiedAt: "2026-10-03",
+    verifiedRef: "main",
+    verifiedCommit: "bda063ae5c6d2bbe058a7d1566818ae2e14a673e",
+    sourcePaths: [
+      { label: "Analytic acquisition functions", url: "https://github.com/meta-pytorch/botorch/blob/bda063ae5c6d2bbe058a7d1566818ae2e14a673e/botorch/acquisition/analytic.py" },
+      { label: "Repository license", url: "https://github.com/meta-pytorch/botorch/blob/bda063ae5c6d2bbe058a7d1566818ae2e14a673e/LICENSE" },
+    ],
+    note: "Initial BoTorch Bayesian-optimization evidence snapshot. Direct inspection confirms posterior-based analytic Probability of Improvement, Expected Improvement, and Log Expected Improvement acquisition functions at this immutable main-branch revision. The repository LICENSE records MIT terms; the archive keeps Jones–Schonlau–Welch 1998 as the method-authority Reference rather than treating library code as the theoretical source.",
+  },
 ];
