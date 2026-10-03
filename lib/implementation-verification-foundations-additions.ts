@@ -62,4 +62,18 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial BoTorch Bayesian-optimization evidence snapshot. Direct inspection confirms posterior-based analytic Probability of Improvement, Expected Improvement, and Log Expected Improvement acquisition functions at this immutable main-branch revision. The repository LICENSE records MIT terms; the archive keeps Jones–Schonlau–Welch 1998 as the method-authority Reference rather than treating library code as the theoretical source.",
   },
+  {
+    implementationId: "pymatching-surface-code-decoder",
+    revision: 1,
+    verifiedAt: "2026-10-03",
+    verifiedRef: "master",
+    verifiedCommit: "6f63b2b9474ba0fa7e511fe52bffdce858a06984",
+    sourcePaths: [
+      { label: "Matching Python API", url: "https://github.com/oscarhiggott/PyMatching/blob/6f63b2b9474ba0fa7e511fe52bffdce858a06984/src/pymatching/matching.py" },
+      { label: "Sparse-blossom MWPM decoder", url: "https://github.com/oscarhiggott/PyMatching/blob/6f63b2b9474ba0fa7e511fe52bffdce858a06984/src/pymatching/sparse_blossom/driver/mwpm_decoding.cc" },
+      { label: "Surface-code benchmarks", url: "https://github.com/oscarhiggott/PyMatching/blob/6f63b2b9474ba0fa7e511fe52bffdce858a06984/benchmarks/surface_codes/README.md" },
+      { label: "Repository license", url: "https://github.com/oscarhiggott/PyMatching/blob/6f63b2b9474ba0fa7e511fe52bffdce858a06984/LICENSE" },
+    ],
+    note: "Initial PyMatching surface-code decoding evidence snapshot. Direct inspection confirms the Matching API's minimum-weight-perfect-matching decoder, repeated-measurement/timelike-edge controls, Stim detector-error-model support, the sparse-blossom C++ decoding driver, and committed surface-code benchmark assets at this immutable master-branch revision. The repository LICENSE records Apache-2.0 terms.",
+  },
 ];
