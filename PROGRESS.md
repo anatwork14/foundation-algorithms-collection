@@ -32,7 +32,7 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 31 curated passage-backed Claims
+  ├── 32 curated passage-backed Claims
   ├── 32 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
@@ -221,7 +221,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **31 curated passage-backed Claims**.
+- [x] **32 curated passage-backed Claims**.
 - [x] **32 curated References**.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] Zero-Knowledge Proofs have an explicit passage-backed no-additional-knowledge Claim tied to Goldwasser–Micali–Rackoff 1989; the existing Secure-MPC/Zero-Knowledge Atlas edge now cites both the foundational ZK source and GMW's MPC construction that consumes ZK subprotocols.
@@ -229,6 +229,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
 - [x] Gentry 2009 now source-backs the existing lattice-to-FHE Atlas lineage without treating all modern FHE schemes as identical to the original ideal-lattice construction.
 - [x] FHE has an explicit passage-backed arbitrary-circuit/bootstrapping Claim tied to Gentry 2009, while noting that later leveled and optimized schemes can manage evaluable depth and noise differently.
+- [x] Learned Heuristics now have an explicit passage-backed learned-branching Claim tied to Khalil et al. 2016, while preserving exact branch-and-bound bounding and pruning as the correctness boundary rather than the learned branch-ranking policy.
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.

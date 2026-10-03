@@ -268,6 +268,16 @@ export const claims: ClaimRecord[] = [
     note: "This claim captures the surrogate-plus-acquisition pattern. Practical behavior depends on the surrogate, acquisition function, observation-noise model, and the optimization used to select acquisition maxima.",
   },
   {
+    id: "learned-branching-priority-exact-pruning",
+    kind: "Mechanism",
+    statement: "Learned branching can use a trained ranking policy to prioritize branch-and-bound decisions while leaving exact bounding and pruning logic responsible for correctness.",
+    algorithmIds: ["learned-heuristics", "branch-and-bound"],
+    chapterSlug: "03-optimization-randomization-constraints",
+    passageContains: "Train a model to prioritize branches but retain exact pruning/correctness logic",
+    referenceIds: ["khalil-2016-learning-to-branch"],
+    note: "This claim is scoped to learned branch selection inside exact branch-and-bound. The learned policy can affect search efficiency, but exactness still depends on valid bounds, pruning, solver tolerances, and complete search logic rather than on the learned ranking itself.",
+  },
+  {
     id: "symbolic-execution-solver-concretization",
     kind: "Mechanism",
     statement: "Symbolic execution accumulates path constraints over symbolic inputs and uses a constraint solver to produce concrete inputs that satisfy feasible path conditions.",
