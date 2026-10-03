@@ -278,6 +278,16 @@ export const claims: ClaimRecord[] = [
     note: "This claim captures the solver-backed path-concretization mechanism exemplified by KLEE. Solver theory support, environment modeling, and path-explosion behavior vary across symbolic-execution systems.",
   },
   {
+    id: "smt-theory-aware-satisfiability",
+    kind: "Mechanism",
+    statement: "Satisfiability Modulo Theories extends Boolean satisfiability with theory-aware reasoning over domains such as arithmetic, bit-vectors, arrays, and uninterpreted functions.",
+    algorithmIds: ["sat-smt-solving"],
+    chapterSlug: "34-security-analysis-symbolic-execution-fuzzing",
+    passageContains: "Satisfiability Modulo Theories extends SAT with domains such as",
+    referenceIds: ["de-moura-bjorner-2008-z3"],
+    note: "This claim captures the theory-aware satisfiability role represented by the archive's SAT/SMT entity. Individual solvers differ in supported theories, combination architecture, preprocessing, search, and model/proof capabilities, so the statement is not a claim that all SMT systems behave identically.",
+  },
+  {
     id: "surface-code-repeated-syndrome-spacetime-decoding",
     kind: "Mechanism",
     statement: "With noisy syndrome measurements, surface-code decoding is performed across repeated rounds so detection events are inferred from changes through space and time rather than from one isolated syndrome snapshot.",
