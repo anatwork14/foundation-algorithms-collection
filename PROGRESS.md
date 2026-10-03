@@ -32,12 +32,12 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 28 curated passage-backed Claims
-  ├── 30 curated References + citation graph
+  ├── 29 curated passage-backed Claims
+  ├── 31 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
-  ├── 24 source-backed Atlas relations
+  ├── 26 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -179,8 +179,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **24 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, and both Symbolic-Execution/Coverage-Guided-Fuzzing directions.
+- [x] **26 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -221,9 +221,10 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **28 curated passage-backed Claims**.
-- [x] **30 curated References**.
-- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, and Gentry fully homomorphic encryption.
+- [x] **29 curated passage-backed Claims**.
+- [x] **31 curated References**.
+- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, and Goldreich–Micali–Wigderson secure multiparty computation.
+- [x] Secure MPC has an explicit passage-backed private-input-computation Claim tied to GMW 1987; its FHE alternative edge cites both GMW and Gentry, while its Zero-Knowledge combination edge cites GMW and preserves the paper's adversary-model scope rather than treating all MPC protocols as identical.
 - [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
 - [x] Gentry 2009 now source-backs the existing lattice-to-FHE Atlas lineage without treating all modern FHE schemes as identical to the original ideal-lattice construction.
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.

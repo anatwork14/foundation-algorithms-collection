@@ -33,6 +33,7 @@ test("new foundational references are present and directly linked", () => {
     ["de-moura-bjorner-2008-z3", "sat-smt-solving"],
     ["gentry-2009-fully-homomorphic-encryption", "fhe"],
     ["gentry-2009-fully-homomorphic-encryption", "lattice-problems"],
+    ["goldreich-micali-wigderson-1987-mental-game", "secure-multiparty-computation"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -53,6 +54,7 @@ test("new foundational claims retain explicit primary-source links", () => {
     ["symbolic-execution-solver-concretization", "symbolic-execution", "cadar-2008-klee"],
     ["surface-code-repeated-syndrome-spacetime-decoding", "surface-code-decoding", "dennis-2002-topological-quantum-memory"],
     ["smt-theory-aware-satisfiability", "sat-smt-solving", "de-moura-bjorner-2008-z3"],
+    ["secure-mpc-private-input-computation", "secure-multiparty-computation", "goldreich-micali-wigderson-1987-mental-game"],
   ];
 
   for (const [claimId, algorithmId, referenceId] of expectedClaims) {
@@ -114,4 +116,18 @@ test("hybrid fuzzing keeps both Atlas combination directions source-backed", () 
     assert.ok(relation, `missing source-backed relation ${sourceId} ${relationType} ${targetId}`);
     assert.ok(relation.referenceIds.includes("stephens-2016-driller"), `${sourceId} ${relationType} ${targetId} must cite the Driller hybrid-testing source`);
   }
+});
+
+test("secure MPC keeps its private-computation alternative and zero-knowledge combination source-backed", () => {
+  const fheAlternative = relationByKey.get(relationKey("secure-multiparty-computation", "alternative-to", "fhe"));
+  assert.ok(fheAlternative, "missing source-backed Secure MPC → FHE alternative relation");
+  assert.ok(fheAlternative.referenceIds.includes("goldreich-micali-wigderson-1987-mental-game"), "Secure MPC → FHE must cite the GMW MPC primary source");
+  assert.ok(fheAlternative.referenceIds.includes("gentry-2009-fully-homomorphic-encryption"), "Secure MPC → FHE must cite Gentry's FHE primary source");
+
+  const zeroKnowledgeCombination = relationByKey.get(relationKey("secure-multiparty-computation", "combines-with", "zero-knowledge-proofs"));
+  assert.ok(zeroKnowledgeCombination, "missing source-backed Secure MPC → Zero-Knowledge Proofs combination relation");
+  assert.ok(
+    zeroKnowledgeCombination.referenceIds.includes("goldreich-micali-wigderson-1987-mental-game"),
+    "Secure MPC → Zero-Knowledge Proofs must cite the GMW primary source",
+  );
 });

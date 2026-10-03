@@ -202,6 +202,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Driller's hybrid design lets the instrumented fuzzer identify stalled compartments and uses selective concolic execution to solve blocking predicates and return new inputs, grounding the inverse fuzzing/symbolic-execution combination edge without claiming either technique subsumes the other.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "secure-multiparty-computation",
+    targetId: "fhe",
+    relationType: "alternative-to",
+    referenceIds: ["goldreich-micali-wigderson-1987-mental-game", "gentry-2009-fully-homomorphic-encryption"],
+    evidenceNote: "GMW gives a general interactive multiparty-computation model under explicit adversary assumptions, while Gentry gives encrypted circuit evaluation through fully homomorphic encryption. Together they source the archive's alternative private-computation models without asserting equivalent trust, interaction, assumptions, or performance.",
+    verifiedAt: "2026-10-03",
+  },
+  {
+    sourceId: "secure-multiparty-computation",
+    targetId: "zero-knowledge-proofs",
+    relationType: "combines-with",
+    referenceIds: ["goldreich-micali-wigderson-1987-mental-game"],
+    evidenceNote: "The GMW secure-computation construction uses zero-knowledge proofs as part of enforcing correct protocol behavior against malicious deviation, supporting this combination edge without implying that every MPC protocol requires zero knowledge.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

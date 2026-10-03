@@ -297,6 +297,16 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["dennis-2002-topological-quantum-memory"],
     note: "This claim is scoped to repeated-syndrome recovery under noisy measurement. The exact decoding graph, threshold, and logical-error behavior remain dependent on code geometry, circuit/noise assumptions, and decoder choice.",
   },
+  {
+    id: "secure-mpc-private-input-computation",
+    kind: "Mechanism",
+    statement: "Secure multi-party computation lets multiple parties jointly evaluate a functionality while limiting what participants learn about one another's private inputs beyond the protocol's specified outputs and security guarantees.",
+    algorithmIds: ["secure-multiparty-computation"],
+    chapterSlug: "33-mpc-homomorphic-encryption-differential-privacy",
+    passageContains: "without revealing their private inputs beyond what follows from output and protocol security definition",
+    referenceIds: ["goldreich-micali-wigderson-1987-mental-game"],
+    note: "This claim is scoped to the security model actually proved by the supporting protocol family. GMW's original completeness result uses an honest-majority setting for its strongest no-partial-information guarantee; modern MPC spans additional adversary, corruption, setup, fairness, and abort models.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
