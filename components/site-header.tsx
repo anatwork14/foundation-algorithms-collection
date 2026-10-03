@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Github, Menu, Search, X } from "lucide-react";
 import { FoundationMark } from "@/components/logo";
 import { algorithms, algorithmSearchText } from "@/lib/algorithm-catalog";
+import { algorithmVariants, variantSearchText } from "@/lib/algorithm-variants";
 import { claims, claimSearchText } from "@/lib/claims";
 import type { DocSummary } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
@@ -25,7 +26,7 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "chapter" | "reference" | "implementation" | "experiment" | "claim" | "replication";
+  kind: "algorithm" | "variant" | "chapter" | "reference" | "implementation" | "experiment" | "claim" | "replication";
 };
 
 function linkedField(algorithmIds: string[]): ResearchField {
@@ -162,6 +163,24 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
+    const variantResults: SearchResult[] = algorithmVariants.map((variant) => {
+      const parent = algorithms.find((algorithm) => algorithm.id === variant.parentAlgorithmId);
+      const exactName = variant.name.toLowerCase() === needle ? 13 : 0;
+      const titleHit = variant.name.toLowerCase().includes(needle) ? 9 : 0;
+      const aliasHit = variant.aliases.some((alias) => alias.toLowerCase().includes(needle)) ? 6 : 0;
+      const bodyHit = variantSearchText(variant).includes(needle) ? 3 : 0;
+      return {
+        id: `variant-${variant.id}`,
+        title: variant.name,
+        field: parent?.fields[0] ?? "Cross-field",
+        meta: `${parent?.name ?? variant.parentAlgorithmId} · algorithm variant`,
+        href: `/algorithms/${variant.parentAlgorithmId}/variants/${variant.id}`,
+        marker: "VAR",
+        score: exactName + titleHit + aliasHit + bodyHit,
+        kind: "variant",
+      };
+    });
+
     const claimResults: SearchResult[] = claims.map((claim) => {
       const statementHit = claim.statement.toLowerCase().includes(needle) ? 9 : 0;
       const bodyHit = claimSearchText(claim).includes(needle) ? 4 : 0;
@@ -263,7 +282,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...claimResults, ...replicationResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
+    return [...algorithmResults, ...variantResults, ...claimResults, ...replicationResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
@@ -271,7 +290,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
 
   const nav = [
     { href: "/archive", label: "Archive", matches: ["/archive"] },
-    { href: "/algorithms", label: "Algorithms", matches: ["/algorithms"] },
+    { href: "/algorithms", label: "Algorithms", matches: ["/algorithms", "/variants"] },
     { href: "/atlas", label: "Atlas", matches: ["/atlas"] },
     { href: "/lab", label: "Lab", matches: ["/lab"] },
     { href: "/evidence", label: "Evidence", matches: ["/evidence", "/references", "/implementations", "/experiments", "/passages", "/claims", "/replications"] },
@@ -279,6 +298,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
 
   function resultKindLabel(kind: SearchResult["kind"]) {
     if (kind === "algorithm") return "Algorithm";
+    if (kind === "variant") return "Algorithm variant";
     if (kind === "claim") return "Curated claim";
     if (kind === "replication") return "Independent replication";
     if (kind === "reference") return "Reference";
@@ -353,7 +373,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, claims, replications, papers, code, experiments, chapters…"
+                placeholder="Search algorithms, variants, claims, replications, papers, code, experiments, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -383,7 +403,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + claims + replications + sources + code + experiments + chapters</span>
+              <span>Algorithms + variants + claims + replications + sources + code + experiments + chapters</span>
               <span>Chapter body matches rank inspectable passages and jump to the top section</span>
             </div>
           </div>
