@@ -277,6 +277,16 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["cadar-2008-klee"],
     note: "This claim captures the solver-backed path-concretization mechanism exemplified by KLEE. Solver theory support, environment modeling, and path-explosion behavior vary across symbolic-execution systems.",
   },
+  {
+    id: "surface-code-repeated-syndrome-spacetime-decoding",
+    kind: "Mechanism",
+    statement: "With noisy syndrome measurements, surface-code decoding is performed across repeated rounds so detection events are inferred from changes through space and time rather than from one isolated syndrome snapshot.",
+    algorithmIds: ["surface-code-decoding", "error-correcting-codes"],
+    chapterSlug: "24-quantum-error-correction-decoding",
+    passageContains: "Surface-code decoding is often performed in spacetime",
+    referenceIds: ["dennis-2002-topological-quantum-memory"],
+    note: "This claim is scoped to repeated-syndrome recovery under noisy measurement. The exact decoding graph, threshold, and logical-error behavior remain dependent on code geometry, circuit/noise assumptions, and decoder choice.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
