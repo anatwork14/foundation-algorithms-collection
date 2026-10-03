@@ -267,6 +267,16 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["jones-1998-efficient-global-optimization"],
     note: "This claim captures the surrogate-plus-acquisition pattern. Practical behavior depends on the surrogate, acquisition function, observation-noise model, and the optimization used to select acquisition maxima.",
   },
+  {
+    id: "symbolic-execution-solver-concretization",
+    kind: "Mechanism",
+    statement: "Symbolic execution accumulates path constraints over symbolic inputs and uses a constraint solver to produce concrete inputs that satisfy feasible path conditions.",
+    algorithmIds: ["symbolic-execution", "sat-smt-solving"],
+    chapterSlug: "34-security-analysis-symbolic-execution-fuzzing",
+    passageContains: "An SMT solver finds a satisfying concrete input if one exists",
+    referenceIds: ["cadar-2008-klee"],
+    note: "This claim captures the solver-backed path-concretization mechanism exemplified by KLEE. Solver theory support, environment modeling, and path-explosion behavior vary across symbolic-execution systems.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
