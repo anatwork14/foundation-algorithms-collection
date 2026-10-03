@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Network, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { RegistryToolbar } from "@/components/registry-toolbar";
 import { ResearchPageHeader } from "@/components/research-page-header";
 import type { ReferenceEntity, ReferenceEvidenceRole, ReferenceKind, ReferenceNoticeKind } from "@/lib/references";
 import { referenceSearchText } from "@/lib/references";
@@ -62,11 +63,14 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
         <Link href="/references/graph" className="reference-graph-link"><Network size={14} aria-hidden="true" /> Explore citation graph <ArrowRight size={13} aria-hidden="true" /></Link>
       </ResearchPageHeader>
 
-      <section className="reference-controls" aria-label="Reference filters">
-        <label>
-          <Search size={17} aria-hidden="true" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search papers, authors, standards, algorithms, errata…" />
-        </label>
+      <RegistryToolbar
+        className="reference-controls"
+        ariaLabel="Reference filters"
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search papers, authors, standards, algorithms, errata…"
+        searchAriaLabel="Search references"
+      >
         <div className="reference-filter-selects">
           <select value={kind} onChange={(event) => setKind(event.target.value as ReferenceKind | "All")} aria-label="Filter references by type">
             {kinds.map((item) => <option key={item} value={item}>{item === "All" ? "All reference types" : item}</option>)}
@@ -82,7 +86,7 @@ export function ReferenceExplorer({ references }: { references: ReferenceEntity[
             ))}
           </select>
         </div>
-      </section>
+      </RegistryToolbar>
 
       <div className="reference-result-count">{results.length} {results.length === 1 ? "reference" : "references"}</div>
 

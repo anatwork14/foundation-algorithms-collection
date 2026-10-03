@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, Code2, Search } from "lucide-react";
 import { EvidenceNav } from "@/components/evidence-nav";
+import { RegistryToolbar } from "@/components/registry-toolbar";
 import { ResearchPageHeader } from "@/components/research-page-header";
 import type { ImplementationMaturity, ImplementationRecord } from "@/lib/implementations";
 import { implementationSearchText } from "@/lib/implementations";
@@ -39,15 +40,18 @@ export function ImplementationExplorer({ records }: { records: ImplementationRec
         <EvidenceNav current="implementations" />
       </ResearchPageHeader>
 
-      <section className="implementation-controls" aria-label="Implementation filters">
-        <label>
-          <Search size={17} aria-hidden="true" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search HNSW, Qiskit, ML-KEM, C++, Python…" />
-        </label>
+      <RegistryToolbar
+        className="implementation-controls"
+        ariaLabel="Implementation filters"
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Search HNSW, Qiskit, ML-KEM, C++, Python…"
+        searchAriaLabel="Search implementations"
+      >
         <select value={maturity} onChange={(event) => setMaturity(event.target.value as ImplementationMaturity | "All")} aria-label="Filter implementations by maturity">
           {maturityOptions.map((item) => <option key={item} value={item}>{item === "All" ? "All maturity levels" : item}</option>)}
         </select>
-      </section>
+      </RegistryToolbar>
 
       <div className="implementation-result-count">{results.length} implementation records</div>
 

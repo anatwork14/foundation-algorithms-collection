@@ -3,6 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const headerPath = path.join(root, "components", "research-page-header.tsx");
+const toolbarPath = path.join(root, "components", "registry-toolbar.tsx");
 const registryFiles = [
   "components/reference-explorer.tsx",
   "components/implementation-explorer.tsx",
@@ -25,6 +26,22 @@ if (!fs.existsSync(headerPath)) {
   }
 }
 
+if (!fs.existsSync(toolbarPath)) {
+  errors.push("Missing canonical components/registry-toolbar.tsx");
+} else {
+  const toolbar = fs.readFileSync(toolbarPath, "utf8");
+  for (const needle of [
+    "ariaLabel: string",
+    "searchAriaLabel: string",
+    "onQueryChange: (value: string) => void",
+    "<Search size={17} aria-hidden=\"true\" />",
+    "aria-label={searchAriaLabel}",
+    "{children}",
+  ]) {
+    if (!toolbar.includes(needle)) errors.push(`RegistryToolbar contract missing: ${needle}`);
+  }
+}
+
 for (const file of registryFiles) {
   const fullPath = path.join(root, file);
   if (!fs.existsSync(fullPath)) {
@@ -42,6 +59,16 @@ for (const file of registryFiles) {
   if (/<header\s+className="(?:reference|implementation|experiment)-hero">/.test(source)) {
     errors.push(`${file} reintroduced a hand-built registry hero`);
   }
+
+  if (!source.includes('import { RegistryToolbar } from "@/components/registry-toolbar";')) {
+    errors.push(`${file} must import the shared RegistryToolbar`);
+  }
+  if (!source.includes("<RegistryToolbar")) {
+    errors.push(`${file} must render the shared RegistryToolbar`);
+  }
+  if (/<section\s+className="(?:reference|implementation|experiment)-controls"/.test(source)) {
+    errors.push(`${file} reintroduced a hand-built registry toolbar`);
+  }
 }
 
 if (errors.length) {
@@ -50,4 +77,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Shared UI structure check passed (${registryFiles.length} registry surfaces use ResearchPageHeader).`);
+console.log(`Shared UI structure check passed (${registryFiles.length} registry surfaces use ResearchPageHeader + RegistryToolbar).`);
