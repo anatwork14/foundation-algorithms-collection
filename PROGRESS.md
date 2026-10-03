@@ -32,7 +32,7 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 26 curated passage-backed Claims
+  ├── 27 curated passage-backed Claims
   ├── 28 curated References + citation graph
   ├── 13 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
@@ -221,9 +221,10 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **26 curated passage-backed Claims**.
+- [x] **27 curated passage-backed Claims**.
 - [x] **28 curated References**.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, and Driller hybrid fuzzing/symbolic execution.
+- [x] Surface-code decoding now has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution now has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization already have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
