@@ -33,11 +33,11 @@ Combination Lab
         ↓
 Evidence
   ├── 28 curated passage-backed Claims
-  ├── 29 curated References + citation graph
+  ├── 30 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
-  ├── 23 source-backed Atlas relations
+  ├── 24 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -179,8 +179,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **23 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, and both Symbolic-Execution/Coverage-Guided-Fuzzing directions.
+- [x] **24 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, and both Symbolic-Execution/Coverage-Guided-Fuzzing directions.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -222,15 +222,16 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **28 curated passage-backed Claims**.
-- [x] **29 curated References**.
-- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, and de Moura–Bjørner Z3 SMT solving.
-- [x] SAT/SMT solving now has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage.
-- [x] Surface-code decoding now has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
-- [x] Symbolic Execution now has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
-- [x] Branch-and-Bound and Bayesian Optimization already have primary-source-backed curated Claims.
+- [x] **30 curated References**.
+- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, and Gentry fully homomorphic encryption.
+- [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
+- [x] Gentry 2009 now source-backs the existing lattice-to-FHE Atlas lineage without treating all modern FHE schemes as identical to the original ideal-lattice construction.
+- [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
+- [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
+- [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] **14 implementation records** currently registered.
-- [x] PyMatching now provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
+- [x] PyMatching provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
 - [x] **2 independent Replication/Evaluation records**.
