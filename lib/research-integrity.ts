@@ -1,3 +1,5 @@
+import { assertValidAlgorithmVariants } from "@/lib/algorithm-variant-validation";
+import { algorithmVariants } from "@/lib/algorithm-variants";
 import { assertValidAlgorithmEntities } from "@/lib/algorithm-validation";
 import { algorithms } from "@/lib/algorithm-catalog";
 import { assertValidClaims } from "@/lib/claim-validation";
@@ -30,6 +32,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   );
 
   assertValidAlgorithmEntities(algorithms, chapterSlugs);
+  assertValidAlgorithmVariants(algorithmVariants, algorithms, [...records.values()]);
   assertValidResearchCombinations(combinations, algorithms, chapterSlugs);
   assertValidReferences(references, algorithms, combinations, chapterSlugs);
   assertValidRelationProvenance(relationProvenance, algorithms, references);
@@ -44,6 +47,7 @@ export function assertResearchIntegrity(documents: DocSummary[]) {
   return {
     chapters: chapterSlugs.length,
     algorithms: algorithms.length,
+    variants: algorithmVariants.length,
     combinations: combinations.length,
     references: references.length,
     relationProvenance: relationProvenance.length,
