@@ -39,4 +39,15 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial IBM diffprivlib Laplace-mechanism evidence snapshot. Direct inspection confirms explicit epsilon/delta/sensitivity parameters, sensitivity-calibrated Laplace randomization, and the source's citation of the Dwork–McSherry–Nissim–Smith mechanism at this immutable main-branch revision. The repository LICENSE.md records MIT licensing.",
   },
+  {
+    implementationId: "qiskit-qft",
+    revision: 1,
+    verifiedAt: "2026-10-03",
+    verifiedRef: "main",
+    verifiedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
+    sourcePaths: [
+      { label: "QFT circuit and QFTGate", url: "https://github.com/Qiskit/qiskit/blob/a1c2c2e796ff265c59a916c49d09942b27eb0e28/qiskit/circuit/library/basis_change/qft.py" },
+    ],
+    note: "Initial Qiskit QFT evidence snapshot. Direct inspection confirms QFTGate, inverse-QFT behavior, synthesis through qiskit.synthesis.qft.synth_qft_full, and configurable approximate-QFT rotation dropping at the same immutable Qiskit revision already used by the archive's phase-estimation implementation record. The older QFT BlueprintCircuit wrapper is explicitly deprecated, so the registry records the retained gate/synthesis direction rather than treating that wrapper as the future API.",
+  },
 ];
