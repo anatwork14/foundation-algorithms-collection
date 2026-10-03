@@ -47,6 +47,7 @@ test("new foundational claims retain explicit primary-source links", () => {
     ["differential-privacy-laplace-sensitivity", "differential-privacy", "dwork-2006-calibrating-noise"],
     ["branch-and-bound-valid-bound-pruning", "branch-and-bound", "land-doig-1960-branch-bound"],
     ["bayesian-optimization-surrogate-acquisition", "bayesian-optimization", "jones-1998-efficient-global-optimization"],
+    ["symbolic-execution-solver-concretization", "symbolic-execution", "cadar-2008-klee"],
   ];
 
   for (const [claimId, algorithmId, referenceId] of expectedClaims) {
