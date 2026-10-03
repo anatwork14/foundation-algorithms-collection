@@ -166,8 +166,8 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     sourceId: "sat-smt-solving",
     targetId: "symbolic-execution",
     relationType: "used-by",
-    referenceIds: ["cadar-2008-klee"],
-    evidenceNote: "KLEE accumulates symbolic path conditions and invokes its constraint solver to determine whether branch directions are feasible and to construct concrete satisfying inputs. This directly grounds the archive's SAT/SMT-to-symbolic-execution `used-by` edge without implying that every symbolic executor uses the same solver or theory stack.",
+    referenceIds: ["de-moura-bjorner-2008-z3", "cadar-2008-klee"],
+    evidenceNote: "de Moura and Bjørner provide the primary SMT-solver source for theory-aware satisfiability, while KLEE demonstrates symbolic execution consuming solver-backed path constraints to determine feasible branches and construct concrete inputs. Together they ground the archive's SAT/SMT-to-symbolic-execution `used-by` edge without implying that every symbolic executor uses Z3 or the same theory stack.",
     verifiedAt: "2026-10-03",
   },
   {
