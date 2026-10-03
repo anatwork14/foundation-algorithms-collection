@@ -30,7 +30,7 @@ export function RegistryToolbar({
   children,
 }: RegistryToolbarProps) {
   return (
-    <section className={className} aria-label={ariaLabel}>
+    <section className={`registry-toolbar ${className}`} aria-label={ariaLabel}>
       <label>
         <Search size={17} aria-hidden="true" />
         <input
