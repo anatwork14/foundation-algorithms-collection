@@ -77,4 +77,28 @@ export const foundationImplementationAdditions: ImplementationRecord[] = [
     verifiedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
     lastVerified: "2026-10-03",
   },
+  {
+    id: "botorch-bayesian-optimization",
+    name: "BoTorch Bayesian Optimization",
+    repository: "https://github.com/meta-pytorch/botorch",
+    homepage: "https://botorch.org/",
+    algorithmIds: ["bayesian-optimization"],
+    language: "Python",
+    interfaces: ["Python API", "Gaussian-process models", "Expected/Log Expected Improvement", "Acquisition optimization"],
+    license: "MIT",
+    maturity: "Production-proven",
+    summary: "BoTorch provides modular probabilistic models and acquisition functions for modern Bayesian-optimization workflows on PyTorch.",
+    implementationNotes: [
+      "The inspected analytic acquisition module evaluates model posteriors and implements Probability of Improvement, Expected Improvement, and numerically stable Log Expected Improvement for Gaussian posterior settings.",
+      "The implementation makes the surrogate-posterior-to-acquisition step explicit, providing executable evidence for the archive's probabilistic-surrogate view of Bayesian optimization.",
+      "BoTorch contains many additional Monte-Carlo, constrained, multi-objective, and batch acquisition methods; this registry record deliberately anchors only the directly inspected analytic acquisition surface rather than claiming exhaustive coverage of the package.",
+    ],
+    sourcePaths: [
+      { label: "Analytic acquisition functions", url: "https://github.com/meta-pytorch/botorch/blob/bda063ae5c6d2bbe058a7d1566818ae2e14a673e/botorch/acquisition/analytic.py" },
+      { label: "Repository license", url: "https://github.com/meta-pytorch/botorch/blob/bda063ae5c6d2bbe058a7d1566818ae2e14a673e/LICENSE" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "bda063ae5c6d2bbe058a7d1566818ae2e14a673e",
+    lastVerified: "2026-10-03",
+  },
 ];
