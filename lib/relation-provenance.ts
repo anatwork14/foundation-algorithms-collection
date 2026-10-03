@@ -19,6 +19,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-09-30",
   },
   {
+    sourceId: "ucb1",
+    targetId: "linucb",
+    relationType: "generalizes",
+    referenceIds: ["auer-2002-ucb1", "li-2010-contextual-bandit-news"],
+    evidenceNote: "Auer, Cesa-Bianchi, and Fischer establish confidence-bound exploration for stochastic multi-armed bandits, while Li et al. extend the optimism principle to context-dependent linear reward models. Together these primary sources ground the archive's UCB1-to-LinUCB generalization edge without claiming that LinUCB is the only contextual generalization of UCB.",
+    verifiedAt: "2026-10-03",
+  },
+  {
     sourceId: "thompson-sampling",
     targetId: "bayesian-inference",
     relationType: "depends-on",
