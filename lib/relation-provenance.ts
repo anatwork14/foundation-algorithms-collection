@@ -154,6 +154,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The AAAI 2016 primary extension integrates a learned variable-ranking heuristic into branch-and-bound, supporting the inverse combination edge without implying that learned branching alone provides branch-and-bound's exactness guarantee.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "sat-smt-solving",
+    targetId: "symbolic-execution",
+    relationType: "used-by",
+    referenceIds: ["cadar-2008-klee"],
+    evidenceNote: "KLEE accumulates symbolic path conditions and invokes its constraint solver to determine whether branch directions are feasible and to construct concrete satisfying inputs. This directly grounds the archive's SAT/SMT-to-symbolic-execution `used-by` edge without implying that every symbolic executor uses the same solver or theory stack.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
