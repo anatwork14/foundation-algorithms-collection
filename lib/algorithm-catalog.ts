@@ -1,5 +1,6 @@
 import { algorithmAdditions } from "@/lib/algorithm-additions";
 import { privacyAlgorithmAdditions } from "@/lib/algorithm-privacy-additions";
+import { variantsForAlgorithm } from "@/lib/algorithm-variants";
 import {
   algorithms as coreAlgorithms,
   type AlgorithmEntity,
@@ -29,6 +30,7 @@ export function algorithmsForChapter(slug: string) {
 }
 
 export function algorithmSearchText(algorithm: AlgorithmEntity) {
+  const variants = variantsForAlgorithm(algorithm.id);
   return [
     algorithm.name,
     ...algorithm.aliases,
@@ -39,6 +41,13 @@ export function algorithmSearchText(algorithm: AlgorithmEntity) {
     algorithm.contribution,
     ...algorithm.assumptions,
     ...algorithm.tags,
+    ...variants.flatMap((variant) => [
+      variant.name,
+      ...variant.aliases,
+      variant.summary,
+      variant.distinction,
+      ...variant.tags,
+    ]),
   ]
     .join(" ")
     .toLowerCase();
