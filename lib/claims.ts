@@ -308,6 +308,16 @@ export const claims: ClaimRecord[] = [
     note: "This claim is scoped to the security model actually proved by the supporting protocol family. GMW's original completeness result uses an honest-majority setting for its strongest no-partial-information guarantee; modern MPC spans additional adversary, corruption, setup, fairness, and abort models.",
   },
   {
+    id: "fhe-arbitrary-circuit-bootstrapping",
+    kind: "Mechanism",
+    statement: "Gentry's fully homomorphic encryption construction obtains arbitrary encrypted circuit evaluation by making the scheme bootstrappable so ciphertexts can be refreshed through homomorphic evaluation of decryption-related circuitry.",
+    algorithmIds: ["fhe"],
+    chapterSlug: "33-mpc-homomorphic-encryption-differential-privacy",
+    passageContains: "FHE supports arbitrary circuits by refreshing ciphertexts through bootstrapping",
+    referenceIds: ["gentry-2009-fully-homomorphic-encryption"],
+    note: "This claim is scoped to Gentry's 2009 bootstrapping blueprint and the archive passage that summarizes it. Later leveled or optimized FHE constructions can manage depth/noise differently, so bootstrapping should not be treated as the only implementation path for every modern FHE system.",
+  },
+  {
     id: "zero-knowledge-no-additional-knowledge",
     kind: "Guarantee",
     statement: "Under a proof system's formal zero-knowledge definition, the verifier learns no additional knowledge beyond the validity of the proved proposition.",
