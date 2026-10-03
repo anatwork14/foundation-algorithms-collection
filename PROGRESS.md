@@ -37,7 +37,7 @@ Evidence
   ├── 13 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
-  ├── 22 source-backed Atlas relations
+  ├── 23 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -179,7 +179,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **22 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] **23 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
 - [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, and both Symbolic-Execution/Coverage-Guided-Fuzzing directions.
 - [x] Accessible table/regions/selection + keyboard picker.
 
