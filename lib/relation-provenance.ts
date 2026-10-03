@@ -170,6 +170,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Dennis et al. analyze surface codes explicitly as quantum error-correcting codes and formulate recovery protocols for identifying/correcting error chains from syndrome information. This grounds the archive's coding-theory-to-surface-code-decoding edge without collapsing classical and quantum decoding assumptions into one model.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "symbolic-execution",
+    targetId: "coverage-guided-fuzzing",
+    relationType: "combines-with",
+    referenceIds: ["stephens-2016-driller"],
+    evidenceNote: "Driller uses fuzzing for inexpensive broad exploration and selectively invokes concolic execution to generate inputs for complex conditions the fuzzer cannot satisfy, directly grounding the archive's symbolic-execution/fuzzing combination edge.",
+    verifiedAt: "2026-10-03",
+  },
+  {
+    sourceId: "coverage-guided-fuzzing",
+    targetId: "symbolic-execution",
+    relationType: "combines-with",
+    referenceIds: ["stephens-2016-driller"],
+    evidenceNote: "Driller's hybrid design lets the instrumented fuzzer identify stalled compartments and uses selective concolic execution to solve blocking predicates and return new inputs, grounding the inverse fuzzing/symbolic-execution combination edge without claiming either technique subsumes the other.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
