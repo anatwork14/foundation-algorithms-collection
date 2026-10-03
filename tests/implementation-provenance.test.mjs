@@ -46,3 +46,21 @@ test("NetworkX shortest-path evidence covers A* and Dijkstra at one immutable re
   assert.equal(history[0].verifiedCommit, record.verifiedCommit);
   assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
+
+test("PyMatching surface-code decoder evidence is pinned with matching history", () => {
+  const record = implementations.find((implementation) => implementation.id === "pymatching-surface-code-decoder");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["surface-code-decoding"]);
+  assert.equal(record.license, "Apache-2.0");
+  assert.equal(record.verifiedRef, "master");
+  assert.equal(record.verifiedCommit, "6f63b2b9474ba0fa7e511fe52bffdce858a06984");
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/pymatching/matching.py")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/pymatching/sparse_blossom/driver/mwpm_decoding.cc")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/benchmarks/surface_codes/README.md")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
+});
