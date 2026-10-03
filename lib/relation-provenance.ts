@@ -83,6 +83,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-09-30",
   },
   {
+    sourceId: "lattice-problems",
+    targetId: "fhe",
+    relationType: "used-by",
+    referenceIds: ["gentry-2009-fully-homomorphic-encryption"],
+    evidenceNote: "Gentry's STOC 2009 construction uses ideal lattices and bootstrapping to obtain fully homomorphic encryption, directly grounding the archive's lattice-foundation-to-FHE edge. This provenance supports the historical lattice lineage without implying that every modern FHE construction uses exactly Gentry's ideal-lattice scheme or identical assumptions.",
+    verifiedAt: "2026-10-03",
+  },
+  {
     sourceId: "qsvt",
     targetId: "quantum-phase-estimation",
     relationType: "alternative-to",
