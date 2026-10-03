@@ -288,6 +288,16 @@ export const claims: ClaimRecord[] = [
     note: "This claim captures the solver-backed path-concretization mechanism exemplified by KLEE. Solver theory support, environment modeling, and path-explosion behavior vary across symbolic-execution systems.",
   },
   {
+    id: "hybrid-fuzzing-selective-symbolic-solving",
+    kind: "Mechanism",
+    statement: "Hybrid fuzzing combines high-throughput coverage-guided exploration with selective symbolic or concolic solving for difficult branches, feeding solver-generated inputs back into fuzzing.",
+    algorithmIds: ["coverage-guided-fuzzing", "symbolic-execution"],
+    chapterSlug: "34-security-analysis-symbolic-execution-fuzzing",
+    passageContains: "Combine fast coverage fuzzing with selective symbolic/concolic solving for branches the fuzzer struggles to cross",
+    referenceIds: ["stephens-2016-driller"],
+    note: "This claim captures the division of labor exemplified by Driller: inexpensive fuzzing performs broad exploration and selective symbolic reasoning targets conditions that block progress. It does not imply that hybridization universally improves coverage, finding rate, or cost on every target.",
+  },
+  {
     id: "smt-theory-aware-satisfiability",
     kind: "Mechanism",
     statement: "Satisfiability Modulo Theories extends Boolean satisfiability with theory-aware reasoning over domains such as arithmetic, bit-vectors, arrays, and uninterpreted functions.",
