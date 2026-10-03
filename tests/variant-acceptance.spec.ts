@@ -36,8 +36,8 @@ test("variant detail preserves parent and source provenance", async ({ page }) =
     "/archive/08-bandits-contextual-bandits-linucb#17-hybrid-linucb",
   );
 
-  await expect(page.getByRole("link", { name: /Disjoint LinUCB/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Shared LinUCB/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Disjoint LinUCB", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Shared LinUCB", exact: true })).toBeVisible();
   await expectNoDocumentOverflow(page);
 });
 
