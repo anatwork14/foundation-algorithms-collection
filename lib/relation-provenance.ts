@@ -162,6 +162,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "KLEE accumulates symbolic path conditions and invokes its constraint solver to determine whether branch directions are feasible and to construct concrete satisfying inputs. This directly grounds the archive's SAT/SMT-to-symbolic-execution `used-by` edge without implying that every symbolic executor uses the same solver or theory stack.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "error-correcting-codes",
+    targetId: "surface-code-decoding",
+    relationType: "used-by",
+    referenceIds: ["dennis-2002-topological-quantum-memory"],
+    evidenceNote: "Dennis et al. analyze surface codes explicitly as quantum error-correcting codes and formulate recovery protocols for identifying/correcting error chains from syndrome information. This grounds the archive's coding-theory-to-surface-code-decoding edge without collapsing classical and quantum decoding assumptions into one model.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
