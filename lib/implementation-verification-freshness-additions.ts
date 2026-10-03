@@ -2,7 +2,8 @@ import type { ImplementationVerificationEntry } from "./implementation-verificat
 
 /**
  * Append-only freshness re-verifications performed on 2026-10-03 after the
- * upstream default branches moved beyond the previous immutable snapshots.
+ * upstream default branches moved beyond the previous immutable snapshots or
+ * when the inspected scope of an existing immutable snapshot was expanded.
  */
 export const implementationVerificationFreshnessAdditions: ImplementationVerificationEntry[] = [
   {
@@ -28,6 +29,19 @@ export const implementationVerificationFreshnessAdditions: ImplementationVerific
       { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/a1c2c2e796ff265c59a916c49d09942b27eb0e28/test/python/circuit/library/test_phase_estimation.py" },
     ],
     note: "Freshness re-review after Qiskit main advanced into 2.7 development. The compare set did not modify the phase-estimation implementation/tests; direct inspection confirms the functional phase_estimation circuit and tests remain present while the PhaseEstimation class remains explicitly deprecated for Qiskit 3.0 removal.",
+  },
+  {
+    implementationId: "qiskit-vqe-qaoa",
+    revision: 2,
+    verifiedAt: "2026-10-03",
+    verifiedRef: "main",
+    verifiedCommit: "bcb7ded3594dac02e14acce7f59f05976916d39d",
+    sourcePaths: [
+      { label: "VQE implementation", url: "https://github.com/qiskit-community/qiskit-algorithms/blob/bcb7ded3594dac02e14acce7f59f05976916d39d/qiskit_algorithms/minimum_eigensolvers/vqe.py" },
+      { label: "QAOA implementation", url: "https://github.com/qiskit-community/qiskit-algorithms/blob/bcb7ded3594dac02e14acce7f59f05976916d39d/qiskit_algorithms/minimum_eigensolvers/qaoa.py" },
+      { label: "Grover implementation", url: "https://github.com/qiskit-community/qiskit-algorithms/blob/bcb7ded3594dac02e14acce7f59f05976916d39d/qiskit_algorithms/amplitude_amplifiers/grover.py" },
+    ],
+    note: "Expanded the inspected scope of the existing immutable Qiskit Algorithms snapshot to include its Grover amplitude-amplifier implementation. Direct inspection confirms oracle-driven Grover-operator construction, configurable iteration schedules, sampler execution, and the source's explicit linkage to Grover's primary search paper. The underlying commit did not move; this revision records broader verified coverage rather than an upstream refresh.",
   },
   {
     implementationId: "pytorch-adamw",
