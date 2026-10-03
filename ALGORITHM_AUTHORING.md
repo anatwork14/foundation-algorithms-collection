@@ -38,7 +38,7 @@ sat-smt-solving
 
 Do not encode UI position, evidence stage, maturity, year, or temporary status in the ID.
 
-Changing an existing ID is a graph migration: References, Implementations, Claims, Experiments, Replications, Lab combinations, and URLs may depend on it.
+Changing an existing ID is a graph migration: References, Implementations, Claims, Experiments, Replications, Lab combinations, Variants, and URLs may depend on it.
 
 ## Names and aliases
 
@@ -121,6 +121,41 @@ Use asymptotics only when they are meaningful for the represented level of abstr
 
 State hidden cost models when they matter: oracle access, model inference, memory bandwidth, communication rounds, circuit depth, measurements, or proof generation.
 
+## First-class variants
+
+Use an `AlgorithmVariantRecord` when a formulation is materially different enough to deserve its own assumptions, tradeoffs, implementation notes, source heading, and stable URL, but still shares the parent's conceptual identity.
+
+Examples in the current catalog are:
+
+```text
+LinUCB
+├── Disjoint LinUCB
+├── Shared LinUCB
+└── Hybrid LinUCB
+```
+
+A Variant must have:
+
+- a stable kebab-case variant ID;
+- one valid `parentAlgorithmId`;
+- a canonical name and non-ambiguous aliases;
+- a concise summary;
+- a `distinction` explaining what changes relative to the parent;
+- explicit assumptions;
+- tradeoffs rather than one-sided benefits;
+- implementation notes;
+- optional variant-specific complexity notes;
+- at least one source link to an exact live chapter heading;
+- stable tags for discovery.
+
+Variant source links are stronger than a chapter-only association: build validation checks both the chapter and the exact TOC anchor. If a heading is renamed, moved, or removed, the integrity build must fail until the record is reconciled.
+
+Do **not** create a Variant merely because a paper or implementation uses a different hyperparameter, backend, optimizer, data structure, or API. Those differences belong in implementation/evidence records unless they change the research formulation itself.
+
+Promote a formulation to a standalone `AlgorithmEntity` instead of a Variant when it develops enough independent identity that it needs its own mechanism-level relationships, evidence profile, research lineage, or conceptual treatment. Examples can include a method that began as an extension but is now routinely studied as a separate algorithm family.
+
+Variants inherit the parent's broad conceptual/evidence context; they do not automatically inherit a claim that every parent guarantee, implementation, benchmark, or replication applies unchanged. Add variant-specific evidence records when that distinction matters scientifically.
+
 ## Conceptual maturity
 
 Maturity and evidence stage are intentionally separate.
@@ -133,6 +168,8 @@ Use the existing maturity vocabulary conservatively:
 - `Emerging`
 
 Maturity is a curated description of the mechanism's conceptual/adoption state. Evidence stage is automatically derived from linked archive records and must never be set here.
+
+A Variant may override the parent maturity only when there is a clear reason. Otherwise its UI inherits the parent Algorithm's maturity description.
 
 ## Implementation guidance
 
@@ -186,6 +223,8 @@ Direction matters. For example, if A is a special case of B, encode the directio
 
 Avoid adding both directions mechanically. The Atlas can display incoming relations without duplicating data.
 
+Do not use Algorithm relationships as a substitute for a Variant when the relationship is really “same parent mechanism, different formulation.” First-class Variant records exist specifically to keep that distinction explicit.
+
 ## Tags
 
 Tags aid search. Prefer a small set of stable concepts (`bandit`, `uncertainty`, `graph`, `pqc`) over long keyword stuffing.
@@ -208,6 +247,8 @@ Algorithm pages derive their evidence profile from linked records:
 
 Do not manually adjust an Algorithm entity to make its evidence stage appear stronger. Add the missing evidence record only when it genuinely exists.
 
+Variant pages currently remain subordinate to the parent Algorithm's evidence graph while preserving exact source-section provenance. Add variant-specific evidence linkages only when the evidence actually distinguishes that formulation.
+
 ## Validation checklist
 
 Before committing an Algorithm entity:
@@ -223,6 +264,20 @@ Before committing an Algorithm entity:
 - [ ] Failure modes are concrete.
 - [ ] Every relation target exists and relation direction is intentional.
 - [ ] Open questions are genuinely unresolved.
+
+Before committing a Variant:
+
+- [ ] Parent Algorithm exists.
+- [ ] Variant ID/name/aliases are unique.
+- [ ] Distinction from the parent is explicit.
+- [ ] Assumptions and tradeoffs are formulation-specific.
+- [ ] Every source chapter and exact heading anchor exists.
+- [ ] The record is truly a formulation variant rather than an implementation/configuration detail.
+- [ ] The formulation does not already deserve a standalone Algorithm entity.
+
+For both record types:
+
 - [ ] `npm run test:research` passes.
 - [ ] `npm run typecheck` passes.
 - [ ] `npm run build` passes.
+- [ ] relevant browser acceptance passes.
