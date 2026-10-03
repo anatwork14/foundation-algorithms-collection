@@ -48,6 +48,7 @@ test("new foundational claims retain explicit primary-source links", () => {
     ["branch-and-bound-valid-bound-pruning", "branch-and-bound", "land-doig-1960-branch-bound"],
     ["bayesian-optimization-surrogate-acquisition", "bayesian-optimization", "jones-1998-efficient-global-optimization"],
     ["symbolic-execution-solver-concretization", "symbolic-execution", "cadar-2008-klee"],
+    ["surface-code-repeated-syndrome-spacetime-decoding", "surface-code-decoding", "dennis-2002-topological-quantum-memory"],
   ];
 
   for (const [claimId, algorithmId, referenceId] of expectedClaims) {
