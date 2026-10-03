@@ -41,6 +41,21 @@ test("variant detail preserves parent and source provenance", async ({ page }) =
   await expectNoDocumentOverflow(page);
 });
 
+test("command palette routes directly to a matching variant", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Search research" }).click();
+  const search = page.getByRole("textbox", { name: "Search research" });
+  await search.fill("Hybrid LinUCB");
+
+  const result = page.getByRole("button", { name: /Hybrid LinUCB/ }).first();
+  await expect(result).toContainText("Algorithm variant");
+  await result.click();
+  await expect(page).toHaveURL(new RegExp(`${variantRoute.replaceAll("/", "\\/")}$`));
+  await expect(page.getByRole("heading", { name: "Hybrid LinUCB", level: 1 })).toBeVisible();
+});
+
 test("variant surfaces have no WCAG A/AA axe violations", async ({ page }) => {
   for (const route of ["/variants", variantRoute]) {
     await page.goto(route);
