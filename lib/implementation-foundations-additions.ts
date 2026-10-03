@@ -54,4 +54,27 @@ export const foundationImplementationAdditions: ImplementationRecord[] = [
     verifiedCommit: "f9a37dd74b18108d46a421e66321635a3d774eab",
     lastVerified: "2026-10-03",
   },
+  {
+    id: "qiskit-qft",
+    name: "Qiskit Quantum Fourier Transform",
+    repository: "https://github.com/Qiskit/qiskit",
+    homepage: "https://www.ibm.com/quantum/qiskit",
+    algorithmIds: ["quantum-fourier-transform"],
+    language: "Python",
+    interfaces: ["Python SDK", "QFTGate", "synth_qft_full"],
+    license: "Apache-2.0",
+    maturity: "Established open-source",
+    summary: "Qiskit's circuit library provides a Quantum Fourier Transform gate/circuit together with exact, inverse, and approximate synthesis controls.",
+    implementationNotes: [
+      "The inspected source defines the QFT unitary, QFTGate, inverse-QFT behavior, and synthesis through Hadamard/controlled-phase/swap structure.",
+      "Approximate QFT support drops the smallest controlled-phase rotations through an explicit approximation degree, making the implementation useful for studying depth/accuracy tradeoffs.",
+      "The legacy QFT BlueprintCircuit class is marked for Qiskit 3.0 removal in favor of QFTGate or synth_qft_full, so this record points to the source that exposes both the deprecated wrapper and the retained gate/synthesis direction rather than presenting the deprecated class as the long-term API.",
+    ],
+    sourcePaths: [
+      { label: "QFT circuit and QFTGate", url: "https://github.com/Qiskit/qiskit/blob/a1c2c2e796ff265c59a916c49d09942b27eb0e28/qiskit/circuit/library/basis_change/qft.py" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
+    lastVerified: "2026-10-03",
+  },
 ];
