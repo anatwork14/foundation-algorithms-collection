@@ -122,6 +122,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The Q-learning primary paper's recursive optimal-value target is the dynamic-programming/Bellman structure consumed by the incremental learning rule. This inverse provenance record grounds the existing Dynamic Programming → Q-learning `used-by` edge without claiming that all dynamic programming is reinforcement learning.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "bayesian-optimization",
+    targetId: "bayesian-inference",
+    relationType: "depends-on",
+    referenceIds: ["jones-1998-efficient-global-optimization"],
+    evidenceNote: "Jones, Schonlau, and Welch model the expensive objective with an uncertainty-bearing stochastic surrogate and use its predictive distribution to compute expected improvement. This directly grounds the archive's Bayesian/probabilistic-inference dependency for classical Bayesian optimization while leaving room for non-Gaussian and modern surrogate variants.",
+    verifiedAt: "2026-10-03",
+  },
+  {
+    sourceId: "bayesian-inference",
+    targetId: "bayesian-optimization",
+    relationType: "used-by",
+    referenceIds: ["jones-1998-efficient-global-optimization"],
+    evidenceNote: "The EGO primary paper uses posterior/predictive uncertainty from its stochastic surrogate to decide where to evaluate the expensive black-box objective next, supporting the inverse Bayesian-inference → Bayesian-optimization edge without implying that all Bayesian inference is optimization.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
