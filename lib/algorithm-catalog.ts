@@ -1,4 +1,5 @@
 import { algorithmAdditions } from "@/lib/algorithm-additions";
+import { foundationAlgorithmAdditions } from "@/lib/algorithm-foundations-additions";
 import { privacyAlgorithmAdditions } from "@/lib/algorithm-privacy-additions";
 import { variantsForAlgorithm } from "@/lib/algorithm-variants";
 import {
@@ -10,6 +11,7 @@ import {
 export const algorithms: AlgorithmEntity[] = [
   ...coreAlgorithms,
   ...algorithmAdditions,
+  ...foundationAlgorithmAdditions,
   ...privacyAlgorithmAdditions,
 ];
 
