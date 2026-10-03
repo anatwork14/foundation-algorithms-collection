@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { ArrowUpRight, Search, ShieldCheck } from "lucide-react";
 import type { AlgorithmEntity, MaturityLevel } from "@/lib/algorithms";
 import { algorithmSearchText } from "@/lib/algorithm-catalog";
+import { algorithmVariants, variantsForAlgorithm } from "@/lib/algorithm-variants";
 import type { EvidenceStage } from "@/lib/evidence-profile";
 import { fieldKey, fields, type ResearchField } from "@/lib/taxonomy";
 
@@ -63,6 +64,9 @@ export function AlgorithmExplorer({ algorithms, evidenceProfiles }: { algorithms
         <div className="entity-index-count">
           <strong>{algorithms.length}</strong>
           <span>curated entities</span>
+          <Link href="/variants" className="source-button">
+            {algorithmVariants.length} variants <ArrowUpRight size={13} />
+          </Link>
         </div>
       </header>
 
@@ -89,6 +93,7 @@ export function AlgorithmExplorer({ algorithms, evidenceProfiles }: { algorithms
         {results.map((algorithm) => {
           const primaryField = algorithm.fields[0];
           const evidenceProfile = profileByAlgorithm.get(algorithm.id);
+          const variantCount = variantsForAlgorithm(algorithm.id).length;
           return (
             <Link key={algorithm.id} href={`/algorithms/${algorithm.id}`} className="entity-row">
               <span className={`entity-field-dot field-dot-${fieldKey(primaryField)}`} aria-hidden="true" />
@@ -108,6 +113,7 @@ export function AlgorithmExplorer({ algorithms, evidenceProfiles }: { algorithms
               </div>
               <div className="entity-row-meta">
                 <span>{algorithm.relations.length} relations</span>
+                {variantCount > 0 && <span>{variantCount} variant{variantCount === 1 ? "" : "s"}</span>}
                 <span>{algorithm.chapterSlugs.length} sources</span>
                 <ArrowUpRight size={17} />
               </div>
