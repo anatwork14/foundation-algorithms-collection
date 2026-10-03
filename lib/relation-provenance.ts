@@ -138,6 +138,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The EGO primary paper uses posterior/predictive uncertainty from its stochastic surrogate to decide where to evaluate the expensive black-box objective next, supporting the inverse Bayesian-inference → Bayesian-optimization edge without implying that all Bayesian inference is optimization.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "learned-heuristics",
+    targetId: "branch-and-bound",
+    relationType: "combines-with",
+    referenceIds: ["khalil-2016-learning-to-branch"],
+    evidenceNote: "Khalil et al. learn an inexpensive ranking surrogate from strong-branching decisions and then use that learned policy for variable selection inside a branch-and-bound MIP solver. This directly grounds the archive's learned-heuristic combination edge while leaving exact pruning and incumbent/bound logic outside the learned model.",
+    verifiedAt: "2026-10-03",
+  },
+  {
+    sourceId: "branch-and-bound",
+    targetId: "learned-heuristics",
+    relationType: "combines-with",
+    referenceIds: ["khalil-2016-learning-to-branch"],
+    evidenceNote: "The AAAI 2016 primary extension integrates a learned variable-ranking heuristic into branch-and-bound, supporting the inverse combination edge without implying that learned branching alone provides branch-and-bound's exactness guarantee.",
+    verifiedAt: "2026-10-03",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
