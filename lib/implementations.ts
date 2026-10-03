@@ -35,15 +35,15 @@ export const implementations: ImplementationRecord[] = [
     summary: "Faiss includes an HNSW index implementation inside a broader dense-vector similarity-search library.",
     implementationNotes: [
       "Useful for studying HNSW as part of a larger ANN system with multiple index families.",
-      "The verified revision still exposes HNSW as a link structure over a storage-index abstraction; current sources also include newer specialized HNSW variants without changing this core registry role.",
+      "At the 2026-10-03 verification revision, IndexHNSW still exposes an HNSW link structure over a storage-index abstraction; the reviewed upstream movement did not replace this core registry role.",
     ],
     sourcePaths: [
-      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.h" },
-      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a/faiss/IndexHNSW.cpp" },
+      { label: "IndexHNSW interface", url: "https://github.com/facebookresearch/faiss/blob/e7c44eb000bebb16f84be38a115caa5d333a8229/faiss/IndexHNSW.h" },
+      { label: "HNSW implementation", url: "https://github.com/facebookresearch/faiss/blob/e7c44eb000bebb16f84be38a115caa5d333a8229/faiss/IndexHNSW.cpp" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "0db2f3088643c2b2d0bc1c3afdba1dc0c40fee1a",
-    lastVerified: "2026-10-02",
+    verifiedCommit: "e7c44eb000bebb16f84be38a115caa5d333a8229",
+    lastVerified: "2026-10-03",
   },
   {
     id: "hnswlib",
@@ -79,15 +79,15 @@ export const implementations: ImplementationRecord[] = [
     summary: "Qiskit's circuit library includes a Quantum Phase Estimation circuit implementation and associated tests.",
     implementationNotes: [
       "Useful for connecting the abstract QPE circuit to an executable SDK representation.",
-      "At the verified revision, the functional phase_estimation circuit is the forward-looking API while the PhaseEstimation class remains present but deprecated for Qiskit 3.0 removal.",
+      "At the 2026-10-03 verification revision, the functional phase_estimation circuit remains present while the PhaseEstimation class is still explicitly deprecated for Qiskit 3.0 removal; the associated circuit tests remain present at the same immutable commit.",
     ],
     sourcePaths: [
-      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/qiskit/circuit/library/phase_estimation.py" },
-      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/f6924453021a254624d01a0bedc3b917c3d3ed0c/test/python/circuit/library/test_phase_estimation.py" },
+      { label: "Phase estimation circuit", url: "https://github.com/Qiskit/qiskit/blob/a1c2c2e796ff265c59a916c49d09942b27eb0e28/qiskit/circuit/library/phase_estimation.py" },
+      { label: "Phase estimation tests", url: "https://github.com/Qiskit/qiskit/blob/a1c2c2e796ff265c59a916c49d09942b27eb0e28/test/python/circuit/library/test_phase_estimation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "f6924453021a254624d01a0bedc3b917c3d3ed0c",
-    lastVerified: "2026-10-02",
+    verifiedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
+    lastVerified: "2026-10-03",
   },
   {
     id: "qiskit-vqe-qaoa",
@@ -148,14 +148,14 @@ export const implementations: ImplementationRecord[] = [
     summary: "PyTorch exposes AdamW through torch.optim with decoupled weight decay enabled explicitly in the optimizer implementation.",
     implementationNotes: [
       "The AdamW constructor delegates to the shared Adam implementation with decoupled_weight_decay enabled.",
-      "The functional adamw path also forwards decoupled_weight_decay=True, making the defining mechanism inspectable at the verified revision.",
+      "Direct inspection at the 2026-10-03 revision confirms AdamW still enforces decoupled_weight_decay=True and preserves that property when loading optimizer state.",
     ],
     sourcePaths: [
-      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/optim/adamw.py" },
+      { label: "AdamW optimizer", url: "https://github.com/pytorch/pytorch/blob/68d62895fad677a8497f83eef2e0e348d7c7f1ab/torch/optim/adamw.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
-    lastVerified: "2026-10-02",
+    verifiedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    lastVerified: "2026-10-03",
   },
   {
     id: "pytorch-multihead-attention",
@@ -170,14 +170,14 @@ export const implementations: ImplementationRecord[] = [
     summary: "PyTorch provides a MultiheadAttention module implementing the multi-head attention architecture used by Transformer-style models.",
     implementationNotes: [
       "The module exposes query, key, and value inputs with learned projections and multi-head attention behavior.",
-      "At the verified revision, PyTorch still describes this module as an implementation of the original Attention Is All You Need architecture; the Vaswani et al. reference remains the primary conceptual source in the archive.",
+      "At the 2026-10-03 verification revision, PyTorch still identifies the module as the original Attention Is All You Need architecture and retains optimized scaled-dot-product-attention paths when possible.",
     ],
     sourcePaths: [
-      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/ce42d088103272f0a90317697749d2069c815959/torch/nn/modules/activation.py" },
+      { label: "MultiheadAttention module", url: "https://github.com/pytorch/pytorch/blob/68d62895fad677a8497f83eef2e0e348d7c7f1ab/torch/nn/modules/activation.py" },
     ],
     verifiedRef: "main",
-    verifiedCommit: "ce42d088103272f0a90317697749d2069c815959",
-    lastVerified: "2026-10-02",
+    verifiedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    lastVerified: "2026-10-03",
   },
   {
     id: "z3-sat-smt",
@@ -192,15 +192,15 @@ export const implementations: ImplementationRecord[] = [
     summary: "Z3 is an SMT theorem prover with solver interfaces and theory reasoning used in verification, symbolic execution, synthesis, and constraint solving.",
     implementationNotes: [
       "The verified solver layer still exposes the abstract solver interface used for assertions, satisfiability checks, models, unsat cores, and assumption-based queries.",
-      "Z3 supports multiple theories and APIs; this record is linked to the collection's broad SAT/SMT solving entity rather than claiming one internal solving strategy represents the entire system.",
+      "At the 2026-10-03 revision, the upstream changes since the previous pin touched other API/theory areas while direct inspection confirms src/solver/solver.cpp remains the same registry-level solver interface; this record deliberately does not claim one internal strategy represents all of Z3.",
     ],
     sourcePaths: [
-      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src/solver/solver.cpp" },
-      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff/src" },
+      { label: "Solver interface implementation", url: "https://github.com/Z3Prover/z3/blob/ce305e38247a7b9c75953a47e5683ab7bd2bce87/src/solver/solver.cpp" },
+      { label: "Core source tree", url: "https://github.com/Z3Prover/z3/tree/ce305e38247a7b9c75953a47e5683ab7bd2bce87/src" },
     ],
     verifiedRef: "master",
-    verifiedCommit: "378a8e8bb1cfd96c24c4c2a49ca236b72142d2ff",
-    lastVerified: "2026-10-02",
+    verifiedCommit: "ce305e38247a7b9c75953a47e5683ab7bd2bce87",
+    lastVerified: "2026-10-03",
   },
   {
     id: "networkx-shortest-path-search",
