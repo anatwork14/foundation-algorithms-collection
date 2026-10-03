@@ -35,6 +35,9 @@ jobs:
       - name: Verify experiment artifacts
         run: npm run check:experiments
 
+      - name: Check progress consistency
+        run: npm run check:progress
+
       - name: Test research utilities
         run: npm run test:research
 
