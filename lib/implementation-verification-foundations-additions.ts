@@ -15,4 +15,16 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial NetworkX shortest-path evidence snapshot. Direct inspection confirms A* priority-queue search with h=0 explicitly reducing to Dijkstra behavior, plus the weighted shortest-path Dijkstra implementation at this immutable main-branch revision.",
   },
+  {
+    implementationId: "statsmodels-kalman-filter",
+    revision: 1,
+    verifiedAt: "2026-10-03",
+    verifiedRef: "main",
+    verifiedCommit: "cc001c25997351ecbd0b04d2968a08106a04a71f",
+    sourcePaths: [
+      { label: "KalmanFilter state-space implementation", url: "https://github.com/statsmodels/statsmodels/blob/cc001c25997351ecbd0b04d2968a08106a04a71f/statsmodels/tsa/statespace/kalman_filter.py" },
+      { label: "Repository license", url: "https://github.com/statsmodels/statsmodels/blob/cc001c25997351ecbd0b04d2968a08106a04a71f/LICENSE.txt" },
+    ],
+    note: "Initial statsmodels Kalman-filter evidence snapshot. Direct inspection confirms the state-space KalmanFilter class, conventional filtering option, configurable inversion/stability/timing/memory controls, and recursive filtered/predicted state covariance outputs at this immutable main-branch revision; the repository LICENSE.txt provides the BSD-style redistribution terms recorded by the registry.",
+  },
 ];
