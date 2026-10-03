@@ -38,6 +38,7 @@ for (const viewport of [
 
         const toolbar = page.locator(registry.toolbar);
         await expect(toolbar).toBeVisible();
+        await expect(toolbar).toHaveClass(/\bregistry-toolbar\b/);
 
         const search = page.getByRole("textbox", { name: registry.searchName });
         await expect(search).toBeVisible();
