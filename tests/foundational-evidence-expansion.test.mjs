@@ -34,6 +34,7 @@ test("new foundational references are present and directly linked", () => {
     ["gentry-2009-fully-homomorphic-encryption", "fhe"],
     ["gentry-2009-fully-homomorphic-encryption", "lattice-problems"],
     ["goldreich-micali-wigderson-1987-mental-game", "secure-multiparty-computation"],
+    ["goldwasser-micali-rackoff-1989-knowledge-complexity", "zero-knowledge-proofs"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -55,6 +56,7 @@ test("new foundational claims retain explicit primary-source links", () => {
     ["surface-code-repeated-syndrome-spacetime-decoding", "surface-code-decoding", "dennis-2002-topological-quantum-memory"],
     ["smt-theory-aware-satisfiability", "sat-smt-solving", "de-moura-bjorner-2008-z3"],
     ["secure-mpc-private-input-computation", "secure-multiparty-computation", "goldreich-micali-wigderson-1987-mental-game"],
+    ["zero-knowledge-no-additional-knowledge", "zero-knowledge-proofs", "goldwasser-micali-rackoff-1989-knowledge-complexity"],
   ];
 
   for (const [claimId, algorithmId, referenceId] of expectedClaims) {
@@ -129,5 +131,9 @@ test("secure MPC keeps its private-computation alternative and zero-knowledge co
   assert.ok(
     zeroKnowledgeCombination.referenceIds.includes("goldreich-micali-wigderson-1987-mental-game"),
     "Secure MPC → Zero-Knowledge Proofs must cite the GMW primary source",
+  );
+  assert.ok(
+    zeroKnowledgeCombination.referenceIds.includes("goldwasser-micali-rackoff-1989-knowledge-complexity"),
+    "Secure MPC → Zero-Knowledge Proofs must cite the foundational zero-knowledge primary source",
   );
 });

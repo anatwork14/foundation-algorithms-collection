@@ -1,5 +1,6 @@
 import { foundationReferenceAdditions } from "./reference-foundations-additions.ts";
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
+import { zeroKnowledgeReferenceAdditions } from "./reference-zero-knowledge-additions.ts";
 import { references as coreReferences, type ReferenceEntity } from "./references-core.ts";
 
 export type {
@@ -15,6 +16,7 @@ export const references: ReferenceEntity[] = [
   ...coreReferences,
   ...foundationReferenceAdditions,
   ...privacyReferenceAdditions,
+  ...zeroKnowledgeReferenceAdditions,
 ];
 
 const byId = new Map(references.map((reference) => [reference.id, reference]));

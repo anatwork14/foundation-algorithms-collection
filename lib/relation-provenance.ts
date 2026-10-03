@@ -214,8 +214,8 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     sourceId: "secure-multiparty-computation",
     targetId: "zero-knowledge-proofs",
     relationType: "combines-with",
-    referenceIds: ["goldreich-micali-wigderson-1987-mental-game"],
-    evidenceNote: "The GMW secure-computation construction uses zero-knowledge proofs as part of enforcing correct protocol behavior against malicious deviation, supporting this combination edge without implying that every MPC protocol requires zero knowledge.",
+    referenceIds: ["goldreich-micali-wigderson-1987-mental-game", "goldwasser-micali-rackoff-1989-knowledge-complexity"],
+    evidenceNote: "Goldwasser, Micali, and Rackoff provide the foundational zero-knowledge definition, while GMW uses zero-knowledge subprotocols to enforce correct behavior against malicious deviation in its secure-computation construction. Together they ground this combination edge without implying that every MPC protocol requires zero knowledge or that zero-knowledge proofs are specific to MPC.",
     verifiedAt: "2026-10-03",
   },
 ];

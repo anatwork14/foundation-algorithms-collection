@@ -32,8 +32,8 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 29 curated passage-backed Claims
-  ├── 31 curated References + citation graph
+  ├── 30 curated passage-backed Claims
+  ├── 32 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
@@ -221,10 +221,11 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **29 curated passage-backed Claims**.
-- [x] **31 curated References**.
-- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, and Goldreich–Micali–Wigderson secure multiparty computation.
-- [x] Secure MPC has an explicit passage-backed private-input-computation Claim tied to GMW 1987; its FHE alternative edge cites both GMW and Gentry, while its Zero-Knowledge combination edge cites GMW and preserves the paper's adversary-model scope rather than treating all MPC protocols as identical.
+- [x] **30 curated passage-backed Claims**.
+- [x] **32 curated References**.
+- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
+- [x] Zero-Knowledge Proofs have an explicit passage-backed no-additional-knowledge Claim tied to Goldwasser–Micali–Rackoff 1989; the existing Secure-MPC/Zero-Knowledge Atlas edge now cites both the foundational ZK source and GMW's MPC construction that consumes ZK subprotocols.
+- [x] Secure MPC has an explicit passage-backed private-input-computation Claim tied to GMW 1987; its FHE alternative edge cites both GMW and Gentry, while its Zero-Knowledge combination edge preserves the relevant adversary/protocol scope rather than treating all MPC protocols as identical.
 - [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
 - [x] Gentry 2009 now source-backs the existing lattice-to-FHE Atlas lineage without treating all modern FHE schemes as identical to the original ideal-lattice construction.
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.

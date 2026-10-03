@@ -307,6 +307,16 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["goldreich-micali-wigderson-1987-mental-game"],
     note: "This claim is scoped to the security model actually proved by the supporting protocol family. GMW's original completeness result uses an honest-majority setting for its strongest no-partial-information guarantee; modern MPC spans additional adversary, corruption, setup, fairness, and abort models.",
   },
+  {
+    id: "zero-knowledge-no-additional-knowledge",
+    kind: "Guarantee",
+    statement: "Under a proof system's formal zero-knowledge definition, the verifier learns no additional knowledge beyond the validity of the proved proposition.",
+    algorithmIds: ["zero-knowledge-proofs"],
+    chapterSlug: "32-zero-knowledge-verifiable-computation",
+    passageContains: "zero knowledge — verifier learns nothing beyond validity, under the formal definition used",
+    referenceIds: ["goldwasser-micali-rackoff-1989-knowledge-complexity"],
+    note: "This claim records the foundational disclosure property, not a blanket statement about every deployed proof system. Perfect, statistical, and computational zero knowledge, honest-verifier variants, setup assumptions, composition, and implementation leakage have distinct definitions and threat models.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
