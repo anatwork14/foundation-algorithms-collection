@@ -58,6 +58,19 @@ test("new foundational claims retain explicit primary-source links", () => {
   }
 });
 
+test("UCB1 to LinUCB keeps its confidence-bound lineage source-backed", () => {
+  const relation = relationByKey.get(relationKey("ucb1", "generalizes", "linucb"));
+  assert.ok(relation, "missing source-backed UCB1 → LinUCB generalization relation");
+  assert.ok(
+    relation.referenceIds.includes("auer-2002-ucb1"),
+    "UCB1 → LinUCB must cite the UCB1 primary source",
+  );
+  assert.ok(
+    relation.referenceIds.includes("li-2010-contextual-bandit-news"),
+    "UCB1 → LinUCB must cite the LinUCB primary source",
+  );
+});
+
 test("learned branching keeps both existing Atlas combination directions source-backed", () => {
   const expectedRelations = [
     ["learned-heuristics", "combines-with", "branch-and-bound"],
