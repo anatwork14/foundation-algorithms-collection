@@ -24,6 +24,8 @@ test("new foundational references are present and directly linked", () => {
     ["jones-1998-efficient-global-optimization", "bayesian-optimization"],
     ["khalil-2016-learning-to-branch", "learned-heuristics"],
     ["khalil-2016-learning-to-branch", "branch-and-bound"],
+    ["cadar-2008-klee", "symbolic-execution"],
+    ["cadar-2008-klee", "sat-smt-solving"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -65,4 +67,13 @@ test("learned branching keeps both existing Atlas combination directions source-
       `${sourceId} ${relationType} ${targetId} must cite the learned-branching primary extension`,
     );
   }
+});
+
+test("symbolic execution keeps its solver dependency source-backed", () => {
+  const relation = relationByKey.get(relationKey("sat-smt-solving", "used-by", "symbolic-execution"));
+  assert.ok(relation, "missing source-backed SAT/SMT → Symbolic Execution relation");
+  assert.ok(
+    relation.referenceIds.includes("cadar-2008-klee"),
+    "SAT/SMT → Symbolic Execution must cite the KLEE primary systems source",
+  );
 });
