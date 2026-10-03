@@ -247,6 +247,26 @@ export const claims: ClaimRecord[] = [
     referenceIds: ["dwork-2006-calibrating-noise"],
     note: "This claim is scoped to sensitivity-calibrated Laplace release under the neighboring-dataset model. Privacy accounting, approximate-DP mechanisms, iterative training, and side channels require additional analysis.",
   },
+  {
+    id: "branch-and-bound-valid-bound-pruning",
+    kind: "Mechanism",
+    statement: "Branch and bound partitions an exact optimization problem into subproblems and safely prunes a branch when its valid bound proves that branch cannot improve the incumbent solution.",
+    algorithmIds: ["branch-and-bound"],
+    chapterSlug: "03-optimization-randomization-constraints",
+    passageContains: "that branch cannot improve the incumbent and can be discarded",
+    referenceIds: ["land-doig-1960-branch-bound"],
+    note: "This claim is scoped to bound-based exact pruning. Correctness depends on bounds being valid for the represented subproblems and on numerical tolerances not invalidating the pruning decision.",
+  },
+  {
+    id: "bayesian-optimization-surrogate-acquisition",
+    kind: "Mechanism",
+    statement: "Bayesian optimization maintains an uncertainty-aware probabilistic surrogate for an expensive black-box objective and uses an acquisition function to choose the next evaluation.",
+    algorithmIds: ["bayesian-optimization"],
+    chapterSlug: "03-optimization-randomization-constraints",
+    passageContains: "maintains a surrogate model with uncertainty and chooses the next evaluation by an acquisition function",
+    referenceIds: ["jones-1998-efficient-global-optimization"],
+    note: "This claim captures the surrogate-plus-acquisition pattern. Practical behavior depends on the surrogate, acquisition function, observation-noise model, and the optimization used to select acquisition maxima.",
+  },
 ];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
