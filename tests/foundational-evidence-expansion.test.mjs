@@ -30,6 +30,7 @@ test("new foundational references are present and directly linked", () => {
     ["dennis-2002-topological-quantum-memory", "surface-code-decoding"],
     ["stephens-2016-driller", "coverage-guided-fuzzing"],
     ["stephens-2016-driller", "symbolic-execution"],
+    ["de-moura-bjorner-2008-z3", "sat-smt-solving"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -49,6 +50,7 @@ test("new foundational claims retain explicit primary-source links", () => {
     ["bayesian-optimization-surrogate-acquisition", "bayesian-optimization", "jones-1998-efficient-global-optimization"],
     ["symbolic-execution-solver-concretization", "symbolic-execution", "cadar-2008-klee"],
     ["surface-code-repeated-syndrome-spacetime-decoding", "surface-code-decoding", "dennis-2002-topological-quantum-memory"],
+    ["smt-theory-aware-satisfiability", "sat-smt-solving", "de-moura-bjorner-2008-z3"],
   ];
 
   for (const [claimId, algorithmId, referenceId] of expectedClaims) {
