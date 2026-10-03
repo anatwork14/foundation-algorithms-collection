@@ -63,7 +63,7 @@ test("Atlas exposes curated source provenance separately from structural relatio
   await expect(provenance).toBeVisible();
   await expect(provenance).toContainText("source-backed visible edge");
 
-  const ucb1Relation = provenance.locator(".relation-evidence-card").filter({ hasText: "LinUCB → UCB1" });
+  const ucb1Relation = provenance.locator(".atlas-provenance-row").filter({ hasText: "LinUCB → UCB1" });
   await expect(ucb1Relation).toHaveCount(1);
   await expect(ucb1Relation.getByRole("link", { name: /Contextual-Bandit Approach to Personalized News/i })).toBeVisible();
   await expect(ucb1Relation).toContainText("Verified 2026-09-30");
@@ -77,7 +77,7 @@ test("Algorithm cards expose relation-level provenance counts and sources", asyn
   await expect(sourceBackedRow).toBeVisible();
   expect(Number.parseInt((await sourceBackedRow.locator("strong").innerText()).trim(), 10)).toBeGreaterThan(0);
 
-  const relationEvidence = page.locator(".relation-evidence-card").filter({ hasText: "LinUCB → UCB1" });
+  const relationEvidence = page.locator(".relation-evidence-record").filter({ hasText: "LinUCB → UCB1" });
   await expect(relationEvidence).toHaveCount(1);
   await expect(relationEvidence.getByRole("link", { name: /2010 · A Contextual-Bandit Approach/i })).toBeVisible();
 });
