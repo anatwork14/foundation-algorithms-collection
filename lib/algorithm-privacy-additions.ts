@@ -8,7 +8,7 @@ export const privacyAlgorithmAdditions: AlgorithmEntity[] = [
   {
     id: "differential-privacy",
     name: "Differential Privacy",
-    aliases: ["DP", "epsilon-DP", "Approximate differential privacy"],
+    aliases: ["epsilon-DP", "Approximate differential privacy"],
     fields: ["Cybersecurity", "AI / ML", "Foundations"],
     families: ["Privacy-preserving computation", "Randomized algorithms", "Statistical privacy"],
     chapterSlugs: ["33-mpc-homomorphic-encryption-differential-privacy"],
