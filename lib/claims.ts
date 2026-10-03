@@ -223,7 +223,7 @@ export const claims: ClaimRecord[] = [
     statement: "Q-learning is an off-policy temporal-difference control method that updates an action value toward immediate reward plus the maximum estimated value of the next state's actions.",
     algorithmIds: ["q-learning"],
     chapterSlug: "05-probabilistic-control-reinforcement-learning",
-    passageContains: "Off-policy TD control update",
+    passageContains: "It learns toward the greedy target policy while behavior can still explore",
     referenceIds: ["watkins-dayan-1992-q-learning"],
     note: "The claim is limited to the defining off-policy TD target. Convergence statements require the visitation, step-size, and stationary finite-MDP conditions analyzed by the primary literature rather than being inferred from the update alone.",
   },
