@@ -31,6 +31,8 @@ test("new foundational references are present and directly linked", () => {
     ["stephens-2016-driller", "coverage-guided-fuzzing"],
     ["stephens-2016-driller", "symbolic-execution"],
     ["de-moura-bjorner-2008-z3", "sat-smt-solving"],
+    ["gentry-2009-fully-homomorphic-encryption", "fhe"],
+    ["gentry-2009-fully-homomorphic-encryption", "lattice-problems"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -64,14 +66,8 @@ test("new foundational claims retain explicit primary-source links", () => {
 test("UCB1 to LinUCB keeps its confidence-bound lineage source-backed", () => {
   const relation = relationByKey.get(relationKey("ucb1", "generalizes", "linucb"));
   assert.ok(relation, "missing source-backed UCB1 → LinUCB generalization relation");
-  assert.ok(
-    relation.referenceIds.includes("auer-2002-ucb1"),
-    "UCB1 → LinUCB must cite the UCB1 primary source",
-  );
-  assert.ok(
-    relation.referenceIds.includes("li-2010-contextual-bandit-news"),
-    "UCB1 → LinUCB must cite the LinUCB primary source",
-  );
+  assert.ok(relation.referenceIds.includes("auer-2002-ucb1"), "UCB1 → LinUCB must cite the UCB1 primary source");
+  assert.ok(relation.referenceIds.includes("li-2010-contextual-bandit-news"), "UCB1 → LinUCB must cite the LinUCB primary source");
 });
 
 test("learned branching keeps both existing Atlas combination directions source-backed", () => {
@@ -79,36 +75,32 @@ test("learned branching keeps both existing Atlas combination directions source-
     ["learned-heuristics", "combines-with", "branch-and-bound"],
     ["branch-and-bound", "combines-with", "learned-heuristics"],
   ];
-
   for (const [sourceId, relationType, targetId] of expectedRelations) {
     const relation = relationByKey.get(relationKey(sourceId, relationType, targetId));
     assert.ok(relation, `missing source-backed relation ${sourceId} ${relationType} ${targetId}`);
-    assert.ok(
-      relation.referenceIds.includes("khalil-2016-learning-to-branch"),
-      `${sourceId} ${relationType} ${targetId} must cite the learned-branching primary extension`,
-    );
+    assert.ok(relation.referenceIds.includes("khalil-2016-learning-to-branch"), `${sourceId} ${relationType} ${targetId} must cite the learned-branching primary extension`);
   }
 });
 
 test("symbolic execution keeps both solver-method and consumer-system provenance", () => {
   const relation = relationByKey.get(relationKey("sat-smt-solving", "used-by", "symbolic-execution"));
   assert.ok(relation, "missing source-backed SAT/SMT → Symbolic Execution relation");
-  assert.ok(
-    relation.referenceIds.includes("de-moura-bjorner-2008-z3"),
-    "SAT/SMT → Symbolic Execution must cite a primary SMT solver source",
-  );
-  assert.ok(
-    relation.referenceIds.includes("cadar-2008-klee"),
-    "SAT/SMT → Symbolic Execution must cite the KLEE primary consumer-system source",
-  );
+  assert.ok(relation.referenceIds.includes("de-moura-bjorner-2008-z3"), "SAT/SMT → Symbolic Execution must cite a primary SMT solver source");
+  assert.ok(relation.referenceIds.includes("cadar-2008-klee"), "SAT/SMT → Symbolic Execution must cite the KLEE primary consumer-system source");
 });
 
 test("surface-code decoding keeps its coding-theory lineage source-backed", () => {
   const relation = relationByKey.get(relationKey("error-correcting-codes", "used-by", "surface-code-decoding"));
   assert.ok(relation, "missing source-backed Error-Correcting Codes → Surface-Code Decoding relation");
+  assert.ok(relation.referenceIds.includes("dennis-2002-topological-quantum-memory"), "Error-Correcting Codes → Surface-Code Decoding must cite the topological quantum memory primary source");
+});
+
+test("lattice problems to FHE keeps its original lattice construction source-backed", () => {
+  const relation = relationByKey.get(relationKey("lattice-problems", "used-by", "fhe"));
+  assert.ok(relation, "missing source-backed Lattice Problems → FHE relation");
   assert.ok(
-    relation.referenceIds.includes("dennis-2002-topological-quantum-memory"),
-    "Error-Correcting Codes → Surface-Code Decoding must cite the topological quantum memory primary source",
+    relation.referenceIds.includes("gentry-2009-fully-homomorphic-encryption"),
+    "Lattice Problems → FHE must cite Gentry's primary FHE construction",
   );
 });
 
@@ -117,13 +109,9 @@ test("hybrid fuzzing keeps both Atlas combination directions source-backed", () 
     ["symbolic-execution", "combines-with", "coverage-guided-fuzzing"],
     ["coverage-guided-fuzzing", "combines-with", "symbolic-execution"],
   ];
-
   for (const [sourceId, relationType, targetId] of expectedRelations) {
     const relation = relationByKey.get(relationKey(sourceId, relationType, targetId));
     assert.ok(relation, `missing source-backed relation ${sourceId} ${relationType} ${targetId}`);
-    assert.ok(
-      relation.referenceIds.includes("stephens-2016-driller"),
-      `${sourceId} ${relationType} ${targetId} must cite the Driller hybrid-testing source`,
-    );
+    assert.ok(relation.referenceIds.includes("stephens-2016-driller"), `${sourceId} ${relationType} ${targetId} must cite the Driller hybrid-testing source`);
   }
 });
