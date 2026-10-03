@@ -96,6 +96,8 @@ jobs:
             "/archive?q=contextual%20bandit"
             "/algorithms"
             "/algorithms/linucb"
+            "/variants"
+            "/algorithms/linucb/variants/hybrid-linucb"
             "/atlas"
             "/lab"
             "/evidence"
