@@ -26,6 +26,8 @@ test("new foundational references are present and directly linked", () => {
     ["khalil-2016-learning-to-branch", "branch-and-bound"],
     ["cadar-2008-klee", "symbolic-execution"],
     ["cadar-2008-klee", "sat-smt-solving"],
+    ["dennis-2002-topological-quantum-memory", "error-correcting-codes"],
+    ["dennis-2002-topological-quantum-memory", "surface-code-decoding"],
   ];
 
   for (const [referenceId, algorithmId] of expectedReferences) {
@@ -75,5 +77,14 @@ test("symbolic execution keeps its solver dependency source-backed", () => {
   assert.ok(
     relation.referenceIds.includes("cadar-2008-klee"),
     "SAT/SMT → Symbolic Execution must cite the KLEE primary systems source",
+  );
+});
+
+test("surface-code decoding keeps its coding-theory lineage source-backed", () => {
+  const relation = relationByKey.get(relationKey("error-correcting-codes", "used-by", "surface-code-decoding"));
+  assert.ok(relation, "missing source-backed Error-Correcting Codes → Surface-Code Decoding relation");
+  assert.ok(
+    relation.referenceIds.includes("dennis-2002-topological-quantum-memory"),
+    "Error-Correcting Codes → Surface-Code Decoding must cite the topological quantum memory primary source",
   );
 });
