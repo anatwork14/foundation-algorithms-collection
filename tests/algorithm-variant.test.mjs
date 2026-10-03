@@ -70,12 +70,20 @@ test("variant validation rejects unknown parent and broken source anchor", () =>
   assert.ok(errors.some((error) => error.includes("source anchor does not exist")));
 });
 
-test("variant validation rejects duplicate ids and ambiguous aliases", () => {
+test("variant validation rejects duplicate ids", () => {
   const errors = validateAlgorithmVariants([
-    variant({ aliases: ["Global model"] }),
-    variant({ name: "Another variant", aliases: ["Global model"] }),
+    variant(),
+    variant({ name: "Duplicate identity" }),
   ], [algorithm()], documents);
 
   assert.ok(errors.some((error) => error.includes("Duplicate variant id")));
+});
+
+test("variant validation rejects ambiguous aliases across distinct variant ids", () => {
+  const errors = validateAlgorithmVariants([
+    variant({ aliases: ["Global model"] }),
+    variant({ id: "alternate-linucb", name: "Alternate LinUCB", aliases: ["Global model"] }),
+  ], [algorithm()], documents);
+
   assert.ok(errors.some((error) => error.includes("Ambiguous variant name/alias")));
 });
