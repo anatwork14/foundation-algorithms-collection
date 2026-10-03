@@ -32,8 +32,8 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 27 curated passage-backed Claims
-  ├── 28 curated References + citation graph
+  ├── 28 curated passage-backed Claims
+  ├── 29 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
@@ -221,9 +221,10 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **27 curated passage-backed Claims**.
-- [x] **28 curated References**.
-- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, and Driller hybrid fuzzing/symbolic execution.
+- [x] **28 curated passage-backed Claims**.
+- [x] **29 curated References**.
+- [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, and de Moura–Bjørner Z3 SMT solving.
+- [x] SAT/SMT solving now has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage.
 - [x] Surface-code decoding now has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution now has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization already have primary-source-backed curated Claims.
