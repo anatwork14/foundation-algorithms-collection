@@ -1,0 +1,137 @@
+import type { ImplementationRecord } from "./implementations.ts";
+
+export type ImplementationUpstreamReviewDecision = "Retain pin" | "Advance pin" | "Needs follow-up";
+
+export type ImplementationUpstreamReview = {
+  implementationId: string;
+  revision: number;
+  reviewedAt: string;
+  observedRef: string;
+  observedCommit: string;
+  pinnedCommit: string;
+  decision: ImplementationUpstreamReviewDecision;
+  materialChange: boolean;
+  inspectedPaths: Array<{
+    path: string;
+    pinnedBlob: string;
+    upstreamBlob: string;
+    changed: boolean;
+  }>;
+  note: string;
+};
+
+export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
+  {
+    implementationId: "faiss-hnsw",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "b0074a3fa426027d9ff8575b44386d5922859ac9",
+    pinnedCommit: "e7c44eb000bebb16f84be38a115caa5d333a8229",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "faiss/IndexHNSW.h",
+        pinnedBlob: "ab13715b7be65308911a9e8696da99a2ba12ada4",
+        upstreamBlob: "ab13715b7be65308911a9e8696da99a2ba12ada4",
+        changed: false,
+      },
+      {
+        path: "faiss/IndexHNSW.cpp",
+        pinnedBlob: "424bf7ddeada5c3699f704e8f87b494a23429d16",
+        upstreamBlob: "424bf7ddeada5c3699f704e8f87b494a23429d16",
+        changed: false,
+      },
+    ],
+    note: "Reviewed Faiss main after it moved two commits beyond the immutable HNSW evidence pin. The intervening work covered cuVS test quarantine and SuperKMeans/fp16 support; direct blob comparison shows IndexHNSW.h and IndexHNSW.cpp are byte-identical to the pinned snapshot. Retain the existing archive pin rather than advancing it solely because main moved.",
+  },
+];
+
+export function validateImplementationUpstreamReviews(
+  reviews: ImplementationUpstreamReview[],
+  implementations: ImplementationRecord[],
+) {
+  const errors: string[] = [];
+  const implementationIds = new Set(implementations.map((record) => record.id));
+  const grouped = new Map<string, ImplementationUpstreamReview[]>();
+
+  for (const review of reviews) {
+    if (!implementationIds.has(review.implementationId)) {
+      errors.push(`Upstream review references unknown implementation ${review.implementationId}`);
+    }
+    if (!Number.isInteger(review.revision) || review.revision < 1) {
+      errors.push(`${review.implementationId}: upstream-review revision must be a positive integer`);
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt)) {
+      errors.push(`${review.implementationId} r${review.revision}: reviewedAt must use YYYY-MM-DD`);
+    }
+    if (!review.observedRef.trim()) {
+      errors.push(`${review.implementationId} r${review.revision}: observedRef is required`);
+    }
+    if (!/^[0-9a-f]{40}$/i.test(review.observedCommit)) {
+      errors.push(`${review.implementationId} r${review.revision}: observedCommit must be a full 40-character Git SHA`);
+    }
+    if (!/^[0-9a-f]{40}$/i.test(review.pinnedCommit)) {
+      errors.push(`${review.implementationId} r${review.revision}: pinnedCommit must be a full 40-character Git SHA`);
+    }
+    if (!review.note.trim()) {
+      errors.push(`${review.implementationId} r${review.revision}: review note is required`);
+    }
+    if (!review.inspectedPaths.length) {
+      errors.push(`${review.implementationId} r${review.revision}: at least one inspected path is required`);
+    }
+    for (const inspected of review.inspectedPaths) {
+      if (!inspected.path.trim()) {
+        errors.push(`${review.implementationId} r${review.revision}: inspected path is required`);
+      }
+      if (!/^[0-9a-f]{40}$/i.test(inspected.pinnedBlob) || !/^[0-9a-f]{40}$/i.test(inspected.upstreamBlob)) {
+        errors.push(`${review.implementationId} r${review.revision}: inspected blobs must be full 40-character Git SHAs`);
+      }
+      const actuallyChanged = inspected.pinnedBlob.toLowerCase() !== inspected.upstreamBlob.toLowerCase();
+      if (inspected.changed !== actuallyChanged) {
+        errors.push(`${review.implementationId} r${review.revision}: ${inspected.path} changed flag does not match blob identity`);
+      }
+    }
+
+    const entries = grouped.get(review.implementationId) ?? [];
+    entries.push(review);
+    grouped.set(review.implementationId, entries);
+  }
+
+  for (const [implementationId, entries] of grouped) {
+    entries.sort((a, b) => a.revision - b.revision);
+    for (let index = 0; index < entries.length; index += 1) {
+      const expectedRevision = index + 1;
+      if (entries[index].revision !== expectedRevision) {
+        errors.push(`${implementationId}: upstream-review revisions must be contiguous from 1; expected ${expectedRevision}, found ${entries[index].revision}`);
+      }
+      if (index > 0 && entries[index - 1].reviewedAt > entries[index].reviewedAt) {
+        errors.push(`${implementationId}: upstream-review dates must be nondecreasing by revision`);
+      }
+    }
+  }
+
+  return errors;
+}
+
+export function upstreamReviewsForImplementation(implementationId: string) {
+  return implementationUpstreamReviews
+    .filter((review) => review.implementationId === implementationId)
+    .sort((a, b) => a.revision - b.revision);
+}
+
+export function latestUpstreamReviewForImplementation(implementationId: string) {
+  return upstreamReviewsForImplementation(implementationId).at(-1) ?? null;
+}
+
+export function implementationUpstreamReviewState(
+  review: ImplementationUpstreamReview | null,
+  upstreamCommit: string | null,
+) {
+  if (!upstreamCommit) return null;
+  if (!review || review.observedCommit.toLowerCase() !== upstreamCommit.toLowerCase()) return "Review available";
+  if (review.decision === "Retain pin") return "Reviewed — retain pin";
+  if (review.decision === "Advance pin") return "Reviewed — advance pin";
+  return "Reviewed — needs follow-up";
+}

@@ -6,6 +6,10 @@ import {
   implementationFreshnessState,
   parseGitHubRepository,
 } from "../lib/implementation-freshness.ts";
+import {
+  implementationUpstreamReviewState,
+  latestUpstreamReviewForImplementation,
+} from "../lib/implementation-upstream-reviews.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputPath = path.join(root, "test-results", "implementation-freshness.json");
@@ -53,6 +57,10 @@ const records = [];
 for (const record of implementations) {
   const resolved = await resolveUpstreamCommit(record);
   const state = implementationFreshnessState(record.verifiedCommit, resolved.upstreamCommit);
+  const review = latestUpstreamReviewForImplementation(record.id);
+  const reviewState = state === "Upstream moved"
+    ? implementationUpstreamReviewState(review, resolved.upstreamCommit)
+    : null;
   records.push({
     id: record.id,
     name: record.name,
@@ -62,6 +70,18 @@ for (const record of implementations) {
     lastVerified: record.lastVerified,
     upstreamCommit: resolved.upstreamCommit,
     state,
+    reviewState,
+    review: review
+      ? {
+          revision: review.revision,
+          reviewedAt: review.reviewedAt,
+          observedCommit: review.observedCommit,
+          pinnedCommit: review.pinnedCommit,
+          decision: review.decision,
+          materialChange: review.materialChange,
+          note: review.note,
+        }
+      : null,
     reason: resolved.reason,
   });
 }
@@ -73,10 +93,18 @@ const counts = Object.fromEntries(
   ]),
 );
 
+const reviewCounts = {
+  "Reviewed — retain pin": records.filter((record) => record.reviewState === "Reviewed — retain pin").length,
+  "Reviewed — advance pin": records.filter((record) => record.reviewState === "Reviewed — advance pin").length,
+  "Reviewed — needs follow-up": records.filter((record) => record.reviewState === "Reviewed — needs follow-up").length,
+  "Review available": records.filter((record) => record.reviewState === "Review available").length,
+};
+
 const report = {
   generatedAt: new Date().toISOString(),
-  policy: "Informational only. Immutable verifiedCommit pins remain authoritative; an upstream move means re-review is available, not that the pinned implementation is invalid.",
+  policy: "Informational only. Immutable verifiedCommit pins remain authoritative; upstream movement is reviewed separately and never auto-advances the evidence snapshot.",
   counts,
+  reviewCounts,
   records,
 };
 
@@ -85,26 +113,30 @@ fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`);
 
 for (const record of records) {
   const upstream = record.upstreamCommit ? record.upstreamCommit.slice(0, 12) : "unavailable";
-  console.log(`${record.state.padEnd(14)} ${record.id.padEnd(28)} pinned=${record.verifiedCommit.slice(0, 12)} upstream=${upstream}`);
+  const review = record.reviewState ? ` review=${record.reviewState}` : "";
+  console.log(`${record.state.padEnd(14)} ${record.id.padEnd(28)} pinned=${record.verifiedCommit.slice(0, 12)} upstream=${upstream}${review}`);
   if (record.reason) console.log(`  ↳ ${record.reason}`);
 }
-console.log(`Freshness report written to ${path.relative(root, outputPath)}: ${JSON.stringify(counts)}`);
+console.log(`Freshness report written to ${path.relative(root, outputPath)}: ${JSON.stringify(counts)}; reviews=${JSON.stringify(reviewCounts)}`);
 
 const summaryPath = process.env.GITHUB_STEP_SUMMARY?.trim();
 if (summaryPath) {
   const rows = records.map((record) => {
     const upstream = record.upstreamCommit ? `\`${record.upstreamCommit.slice(0, 12)}\`` : "—";
-    return `| ${record.id} | ${record.verifiedRef} | \`${record.verifiedCommit.slice(0, 12)}\` | ${upstream} | ${record.state} |`;
+    const review = record.reviewState ?? "—";
+    return `| ${record.id} | ${record.verifiedRef} | \`${record.verifiedCommit.slice(0, 12)}\` | ${upstream} | ${record.state} | ${review} |`;
   });
   const summary = [
     "## Implementation freshness",
     "",
-    "> Informational only. Immutable verified commits remain the evidence snapshot; branch movement only signals that a new review is available.",
+    "> Informational only. Immutable verified commits remain the evidence snapshot; branch movement is reviewed separately and never auto-advances a pin.",
     "",
     `**${counts.Current} current · ${counts["Upstream moved"]} upstream moved · ${counts.Unavailable} unavailable**`,
     "",
-    "| Implementation | Verified ref | Pinned commit | Upstream ref | State |",
-    "|---|---|---|---|---|",
+    `**Moved-ref reviews: ${reviewCounts["Reviewed — retain pin"]} retain pin · ${reviewCounts["Reviewed — advance pin"]} advance pin · ${reviewCounts["Reviewed — needs follow-up"]} needs follow-up · ${reviewCounts["Review available"]} available**`,
+    "",
+    "| Implementation | Verified ref | Pinned commit | Upstream ref | State | Review |",
+    "|---|---|---|---|---|---|",
     ...rows,
     "",
   ].join("\n");
