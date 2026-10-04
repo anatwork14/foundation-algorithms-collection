@@ -48,3 +48,19 @@ test("LinUCB and Thompson Sampling keep both alternative directions source-backe
     );
   }
 });
+
+test("UCB1 and Thompson Sampling keep both alternative directions source-backed", () => {
+  const expectedRelations = [
+    ["ucb1", "alternative-to", "thompson-sampling"],
+    ["thompson-sampling", "alternative-to", "ucb1"],
+  ];
+
+  for (const [sourceId, relationType, targetId] of expectedRelations) {
+    const relation = relationByKey.get(relationKey(sourceId, relationType, targetId));
+    assert.ok(relation, `missing source-backed relation ${sourceId} ${relationType} ${targetId}`);
+    assert.ok(
+      relation.referenceIds.includes("chapelle-2011-thompson-evaluation"),
+      `${sourceId} ${relationType} ${targetId} must cite the Chapelle-Li empirical evaluation`,
+    );
+  }
+});

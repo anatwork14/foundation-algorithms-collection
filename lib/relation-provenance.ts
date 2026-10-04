@@ -67,6 +67,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-10-02",
   },
   {
+    sourceId: "thompson-sampling",
+    targetId: "ucb1",
+    relationType: "alternative-to",
+    referenceIds: ["chapelle-2011-thompson-evaluation"],
+    evidenceNote: "Chapelle and Li empirically evaluate Thompson Sampling against UCB-family baselines across simulated and real-world bandit tasks. That direct comparison grounds the inverse Thompson-Sampling-to-UCB1 alternative edge while preserving differences in posterior sampling, confidence-bound optimism, assumptions, and workload-dependent outcomes rather than asserting a universal winner.",
+    verifiedAt: "2026-10-04",
+  },
+  {
     sourceId: "neural-ucb",
     targetId: "linucb",
     relationType: "derived-from",
