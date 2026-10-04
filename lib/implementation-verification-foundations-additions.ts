@@ -147,4 +147,19 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial AFL++ coverage-guided-fuzzing evidence snapshot. The pinned approach document states the queue/select/mutate/execute/retain-on-new-instrumented-state loop directly. afl-fuzz-bitmap.c classifies trace counts, detects new hit-count states versus new tuples through has_new_bits(), updates the virgin map, and participates in saving interesting inputs; afl-fuzz-one.c exposes the per-queue-entry mutation entry point and multiple mutation/scheduling paths. This snapshot documents AFL++'s executable greybox loop without generalizing one power schedule, instrumentation backend, or mutation policy to all coverage-guided fuzzers. The repository README and LICENSE record AGPL-3.0-or-later at repository scope while explicitly noting Apache-2.0 licensing for files compiled into fuzzing harnesses and per-file SPDX terms.",
   },
+  {
+    implementationId: "scip-branch-and-bound",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "master",
+    verifiedCommit: "ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53",
+    sourcePaths: [
+      { label: "SCIP solver scope", url: "https://github.com/scipopt/scip/blob/ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53/README.md" },
+      { label: "Branching API and child creation", url: "https://github.com/scipopt/scip/blob/ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53/src/scip/scip_branch.c" },
+      { label: "Branch-and-bound tree and cutoff pruning", url: "https://github.com/scipopt/scip/blob/ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53/src/scip/tree.c" },
+      { label: "Primal bound and cutoff propagation", url: "https://github.com/scipopt/scip/blob/ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53/src/scip/primal.c" },
+      { label: "Repository license", url: "https://github.com/scipopt/scip/blob/ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53/LICENSE" },
+    ],
+    note: "Initial SCIP branch-and-bound evidence snapshot. The pinned README identifies SCIP as a broader MIP/MINLP and branch-cut-and-price solver framework. scip_branch.c exposes the branching API used to create child subproblems; tree.c keeps nodes only when their lower bound is better than the cutoff bound and cuts off nodes that cannot improve it; primal.c updates the primal upper bound when a new best solution is found and propagates cutoff changes into the tree. This snapshot therefore documents the executable branch-and-bound tree inside SCIP without generalizing its presolve, cuts, pricing, branching rules, objective-integrality adjustments, numerical tolerances, or optional exact-mode behavior to every branch-and-bound implementation. LICENSE records Apache-2.0 terms.",
+  },
 ];
