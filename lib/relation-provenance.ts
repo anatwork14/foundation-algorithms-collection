@@ -27,6 +27,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-10-03",
   },
   {
+    sourceId: "linucb",
+    targetId: "thompson-sampling",
+    relationType: "alternative-to",
+    referenceIds: ["li-2010-contextual-bandit-news", "agrawal-goyal-2013-contextual-thompson"],
+    evidenceNote: "Li et al. provide the archive's primary LinUCB source for confidence-bound action selection with contextual linear reward structure, while Agrawal and Goyal design and analyze Thompson Sampling for stochastic contextual bandits with linear payoffs and explicitly compare posterior sampling with UCB-family approaches to the same problem class. Together they ground this alternative-method edge without claiming identical assumptions, priors, confidence construction, regret constants, or empirical behavior.",
+    verifiedAt: "2026-10-04",
+  },
+  {
+    sourceId: "thompson-sampling",
+    targetId: "linucb",
+    relationType: "alternative-to",
+    referenceIds: ["agrawal-goyal-2013-contextual-thompson", "li-2010-contextual-bandit-news"],
+    evidenceNote: "Agrawal and Goyal establish a linear-contextual Thompson Sampling method based on randomized posterior-style parameter sampling, while Li et al. provide LinUCB's optimistic confidence-bound construction for contextual recommendation. These primary sources justify the inverse alternative edge while preserving the distinct exploration mechanisms and source-specific assumptions of the two methods.",
+    verifiedAt: "2026-10-04",
+  },
+  {
     sourceId: "thompson-sampling",
     targetId: "bayesian-inference",
     relationType: "depends-on",

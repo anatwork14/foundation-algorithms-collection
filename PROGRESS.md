@@ -1,7 +1,7 @@
 # Foundation Algorithms Research Hub — Progress Tracker
 
 **Status:** Active  
-**Last updated:** 2026-10-03  
+**Last updated:** 2026-10-04  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
 **UI audit:** [`UI_AUDIT.md`](./UI_AUDIT.md)  
@@ -33,11 +33,11 @@ Combination Lab
         ↓
 Evidence
   ├── 33 curated passage-backed Claims
-  ├── 32 curated References + citation graph
+  ├── 33 curated References + citation graph
   ├── 14 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
-  ├── 26 source-backed Atlas relations
+  ├── 28 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -179,8 +179,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **26 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages, ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
+- [x] **28 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB/Thompson Sampling directions), ANN/embedding links, Transformer/SSM relationships, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -222,8 +222,9 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **33 curated passage-backed Claims**.
-- [x] **32 curated References**.
+- [x] **33 curated References**.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
+- [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension and source-backs both LinUCB↔Thompson Sampling alternative-method Atlas directions alongside Li et al.'s LinUCB primary source.
 - [x] Zero-Knowledge Proofs have an explicit passage-backed no-additional-knowledge Claim tied to Goldwasser–Micali–Rackoff 1989; the existing Secure-MPC/Zero-Knowledge Atlas edge now cites both the foundational ZK source and GMW's MPC construction that consumes ZK subprotocols.
 - [x] Secure MPC has an explicit passage-backed private-input-computation Claim tied to GMW 1987; its FHE alternative edge cites both GMW and Gentry, while its Zero-Knowledge combination edge preserves the relevant adversary/protocol scope rather than treating all MPC protocols as identical.
 - [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
