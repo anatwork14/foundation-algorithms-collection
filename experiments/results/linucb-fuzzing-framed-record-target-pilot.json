@@ -1,0 +1,48 @@
+{
+  "experimentId": "linucb-fuzzing-framed-record-target-pilot",
+  "configuration": {
+    "baseSeed": 20261004,
+    "runs": 30,
+    "horizon": 1500,
+    "actions": 4,
+    "contextDimensions": 4,
+    "linucbAlpha": 0.8,
+    "ridgeLambda": 1,
+    "maxCorpusSize": 128,
+    "actionNames": [
+      "bit-flip",
+      "random-byte-overwrite",
+      "dictionary-insert",
+      "delete-range"
+    ]
+  },
+  "summary": {
+    "uniform": {
+      "uniqueTraceFeatures": { "mean": 96.466667, "sd": 0.973204 },
+      "acceptedInputs": { "mean": 56.6, "sd": 3.035423 },
+      "noveltyRate": { "mean": 0.037733, "sd": 0.002024 },
+      "finalCorpusSize": { "mean": 59.6, "sd": 3.035423 },
+      "actionEntropy": { "mean": 1.385143, "sd": 0.000883 }
+    },
+    "ucb1": {
+      "uniqueTraceFeatures": { "mean": 95.633333, "sd": 1.188547 },
+      "acceptedInputs": { "mean": 55.1, "sd": 2.10664 },
+      "noveltyRate": { "mean": 0.036733, "sd": 0.001404 },
+      "finalCorpusSize": { "mean": 58.1, "sd": 2.10664 },
+      "actionEntropy": { "mean": 1.356853, "sd": 0.006 }
+    },
+    "linucb": {
+      "uniqueTraceFeatures": { "mean": 95.5, "sd": 1.279817 },
+      "acceptedInputs": { "mean": 54.533333, "sd": 2.528913 },
+      "noveltyRate": { "mean": 0.036356, "sd": 0.001686 },
+      "finalCorpusSize": { "mean": 57.533333, "sd": 2.528913 },
+      "actionEntropy": { "mean": 1.328695, "sd": 0.03513 }
+    }
+  },
+  "interpretation": {
+    "linucbUniqueFeatureDeltaVsUniform": -0.966667,
+    "linucbUniqueFeatureDeltaVsUcb1": -0.133333,
+    "linucbAcceptedInputDeltaVsUniform": -2.066667,
+    "linucbAcceptedInputDeltaVsUcb1": -0.566667
+  }
+}

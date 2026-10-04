@@ -1,4 +1,5 @@
 import type { ExperimentStatus } from "./experiments.ts";
+import { realTargetExperimentHistoryAdditions } from "./experiment-history-real-target-additions.ts";
 
 export type ExperimentHistoryKind = "Protocol" | "Status" | "Artifact" | "Result";
 
@@ -119,6 +120,7 @@ export const experimentHistory: ExperimentHistoryEntry[] = [
     title: "Protocol registered",
     note: "Initial learned-decoder-prior protocol recorded with logical-error, latency-tail, drift, calibration, and fallback criteria before implementation artifacts are available.",
   },
+  ...realTargetExperimentHistoryAdditions,
 ];
 
 export function historyForExperiment(experimentId: string) {

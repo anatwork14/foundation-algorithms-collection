@@ -1,0 +1,41 @@
+{
+  "experimentId": "linucb-fuzzing-framed-record-target-pilot",
+  "manifestVersion": 1,
+  "studyType": "deterministic executed-target mutation-scheduler pilot",
+  "purpose": "Move beyond synthetic reward generation by executing a committed byte-parser target, mutating a retained corpus, and rewarding only newly observed target trace features while comparing uniform scheduling, context-free UCB1, and stationary LinUCB.",
+  "seedPlan": {
+    "baseSeed": 20261004,
+    "runs": 30,
+    "lastSeed": 20261033
+  },
+  "campaign": {
+    "executionsPerPolicyPerRun": 1500,
+    "maxCorpusSize": 128,
+    "initialCorpusEntries": 3,
+    "reward": "1 iff the executed child input exposes at least one target trace feature not previously seen by that policy in the run; otherwise 0"
+  },
+  "target": {
+    "name": "framed-record parser harness",
+    "path": "experiments/targets/framed-record-parser.mjs",
+    "inputType": "byte array",
+    "traceModel": "explicit parser branch/state features covering magic bytes, version/flags, declared-length relations, payload token/brace states, and checksum states"
+  },
+  "actionSpace": {
+    "actions": 4,
+    "names": ["bit-flip", "random-byte-overwrite", "dictionary-insert", "delete-range"],
+    "contextDimensionsIncludingIntercept": 4
+  },
+  "policyParameters": {
+    "ridgeLambda": 1,
+    "linucbAlpha": 0.8,
+    "policies": ["uniform", "ucb1", "linucb"]
+  },
+  "interpretationBoundary": [
+    "This pilot executes committed target code and evolves a real corpus; reward is not sampled from a synthetic probability model.",
+    "The target is a small in-repository parser harness, not an external benchmark program or production parser.",
+    "Trace features are explicit branch/state markers, not compiler-instrumented AFL++ edge coverage.",
+    "The campaign does not run AFL++, libFuzzer, sanitizers, or crash triage and therefore does not establish real-world fault-finding performance.",
+    "All policies receive the same run count and execution budget, but corpus evolution causes their later inputs to diverge.",
+    "The negative LinUCB point estimates are preserved as an exploratory result; no inferential significance claim is made."
+  ]
+}

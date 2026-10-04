@@ -1,3 +1,5 @@
+import { realTargetExperimentAdditions } from "./experiment-real-target-additions.ts";
+
 export type ExperimentStatus = "Planned" | "Running" | "Completed" | "Inconclusive" | "Failed";
 export type ExperimentOutcome = "Positive" | "Negative" | "Mixed" | "Inconclusive";
 
@@ -363,6 +365,7 @@ export const experiments: ExperimentRecord[] = [
     ],
     lastUpdated: "2026-09-28",
   },
+  ...realTargetExperimentAdditions,
 ];
 
 const byId = new Map(experiments.map((experiment) => [experiment.id, experiment]));
