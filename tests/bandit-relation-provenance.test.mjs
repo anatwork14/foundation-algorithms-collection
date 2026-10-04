@@ -21,6 +21,14 @@ test("linear contextual Thompson extension is curated as a primary source", () =
   assert.ok(reference.citations.some((citation) => citation.targetId === "thompson-1933-probability-matching"));
 });
 
+test("contextual Thompson source preserves its explicit Chapelle-Li evaluation citation", () => {
+  const reference = referenceById.get("agrawal-goyal-2013-contextual-thompson");
+  assert.ok(reference, "missing Agrawal-Goyal contextual Thompson source");
+  const citation = reference.citations.find((item) => item.targetId === "chapelle-2011-thompson-evaluation");
+  assert.ok(citation, "contextual Thompson source must cite the Chapelle-Li empirical evaluation");
+  assert.match(citation.note, /empirical evaluation/i);
+});
+
 test("LinUCB and Thompson Sampling keep both alternative directions source-backed", () => {
   const expectedRelations = [
     ["linucb", "alternative-to", "thompson-sampling"],

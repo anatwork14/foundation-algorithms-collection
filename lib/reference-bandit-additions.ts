@@ -21,6 +21,12 @@ export const banditReferenceAdditions: ReferenceEntity[] = [
         verificationUrl: "https://proceedings.mlr.press/v28/agrawal13.html",
         verifiedAt: "2026-10-04",
       },
+      {
+        targetId: "chapelle-2011-thompson-evaluation",
+        note: "Agrawal and Goyal explicitly cite Chapelle and Li's empirical evaluation when motivating renewed interest in Thompson Sampling and summarize its competitive performance against UCB-style methods in contextual applications.",
+        verificationUrl: "https://proceedings.mlr.press/v28/agrawal13.pdf",
+        verifiedAt: "2026-10-04",
+      },
     ],
     notices: [],
     summary: "Designs and analyzes Thompson Sampling for stochastic contextual multi-armed bandits with linear payoff functions, providing theoretical guarantees in the linear contextual setting.",
