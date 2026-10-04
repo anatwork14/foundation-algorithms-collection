@@ -34,7 +34,7 @@ Combination Lab
 Evidence
   ├── 33 curated passage-backed Claims
   ├── 33 curated References + citation graph
-  ├── 22 commit-pinned Implementation records + append-only verification history
+  ├── 23 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
   ├── 29 source-backed Atlas relations
@@ -236,8 +236,9 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
-- [x] **22 implementation records** currently registered.
+- [x] **23 implementation records** currently registered.
 - [x] MAPIE now provides a commit-pinned Conformal Prediction implementation record scoped to Conformalized Quantile Regression: the inspected source fits lower/upper quantile estimators, calibrates on a held-out conformalization set through conformity scores, and exposes calibrated prediction intervals, with a matching revision-1 verification snapshot. Romano–Patterson–Candès 2019 remains the theoretical authority; the implementation does not establish conditional coverage or robustness under distribution shift.
+- [x] PennyLane now provides a commit-pinned QSVT implementation record scoped to polynomial singular-value transformation: the high-level `qsvt` wrapper converts polynomial coefficients to QSVT phase angles, chooses a supported block encoding, constructs projector-controlled phases, and returns the `QSVT` circuit template, while pinned tests exercise validity, decomposition, and numerical behavior. The snapshot preserves encoding/normalization constraints and does not treat executable support as evidence of end-to-end quantum advantage.
 - [x] The official state-spaces Mamba repository now provides a commit-pinned Selective State-Space Models implementation record scoped to the Mamba-1 block: `mamba_simple.py` derives sequence-dependent `dt`, `B`, and `C` before selective scanning, `selective_scan_ref` exposes the recurrent update with variable B/C by position, and the matching revision-1 snapshot preserves the current README's opt-in CUDA selective-scan requirement without conflating Mamba-2/3 or all SSMs with that path.
 - [x] SCIP now provides a commit-pinned Branch-and-Bound implementation record scoped to its exact-search tree: the inspected branching API creates child subproblems, `tree.c` cuts off nodes whose lower bound is not better than the active cutoff, and `primal.c` propagates improved primal bounds into that cutoff while preserving objective-integrality, numerical-tolerance, objective-limit, and optional exact-mode distinctions in a matching revision-1 verification snapshot.
 - [x] AFL++ now provides a commit-pinned Coverage-Guided Fuzzing implementation record scoped to its instrumentation-guided greybox loop: the inspected approach document and source cover queued seeds, mutation, execution-path novelty, and retention of interesting inputs, with a matching revision-1 verification snapshot and upstream licensing scope preserved.
