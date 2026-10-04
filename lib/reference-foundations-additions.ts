@@ -167,7 +167,14 @@ export const foundationReferenceAdditions: ReferenceEntity[] = [
     algorithmIds: ["coverage-guided-fuzzing", "symbolic-execution"],
     combinationIds: [],
     chapterSlugs: ["34-security-analysis-symbolic-execution-fuzzing", "40-ai-quantum-cybersecurity-combination-map"],
-    citations: [],
+    citations: [
+      {
+        targetId: "cadar-2008-klee",
+        note: "Driller explicitly identifies KLEE as a refinement in the concolic-execution lineage while motivating selective symbolic execution for hybrid fuzzing.",
+        verificationUrl: "https://www.ndss-symposium.org/wp-content/uploads/2017/09/driller-augmenting-fuzzing-through-selective-symbolic-execution.pdf",
+        verifiedAt: "2026-10-04",
+      },
+    ],
     notices: [],
     summary: "Presents Driller, a hybrid vulnerability-analysis system that uses fuzzing for inexpensive broad exploration and selective concolic execution to solve complex conditions that block further fuzzer progress.",
     significance: "Primary extension source for the archive's symbolic-execution/fuzzing combination, grounding a concrete division of labor between feedback-driven exploration and solver-backed path reasoning.",

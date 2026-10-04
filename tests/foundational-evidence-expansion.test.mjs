@@ -44,6 +44,14 @@ test("new foundational references are present and directly linked", () => {
   }
 });
 
+test("Driller preserves its explicit KLEE lineage citation", () => {
+  const reference = referenceById.get("stephens-2016-driller");
+  assert.ok(reference, "missing Driller primary extension");
+  const citation = reference.citations.find((item) => item.targetId === "cadar-2008-klee");
+  assert.ok(citation, "Driller must retain its explicit citation to KLEE");
+  assert.match(citation.note, /concolic-execution lineage/i);
+});
+
 test("new foundational claims retain explicit primary-source links", () => {
   const expectedClaims = [
     ["grover-reflection-amplitude-rotation", "grover-search", "grover-1996-database-search"],
