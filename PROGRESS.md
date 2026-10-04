@@ -34,7 +34,7 @@ Combination Lab
 Evidence
   ├── 33 curated passage-backed Claims
   ├── 33 curated References + citation graph
-  ├── 20 commit-pinned Implementation records + append-only verification history
+  ├── 21 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
   ├── 29 source-backed Atlas relations
@@ -236,7 +236,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
-- [x] **20 implementation records** currently registered.
+- [x] **21 implementation records** currently registered.
+- [x] The official state-spaces Mamba repository now provides a commit-pinned Selective State-Space Models implementation record scoped to the Mamba-1 block: `mamba_simple.py` derives sequence-dependent `dt`, `B`, and `C` before selective scanning, `selective_scan_ref` exposes the recurrent update with variable B/C by position, and the matching revision-1 snapshot preserves the current README's opt-in CUDA selective-scan requirement without conflating Mamba-2/3 or all SSMs with that path.
 - [x] SCIP now provides a commit-pinned Branch-and-Bound implementation record scoped to its exact-search tree: the inspected branching API creates child subproblems, `tree.c` cuts off nodes whose lower bound is not better than the active cutoff, and `primal.c` propagates improved primal bounds into that cutoff while preserving objective-integrality, numerical-tolerance, objective-limit, and optional exact-mode distinctions in a matching revision-1 verification snapshot.
 - [x] AFL++ now provides a commit-pinned Coverage-Guided Fuzzing implementation record scoped to its instrumentation-guided greybox loop: the inspected approach document and source cover queued seeds, mutation, execution-path novelty, and retention of interesting inputs, with a matching revision-1 verification snapshot and upstream licensing scope preserved.
 - [x] arkworks Groth16 now provides a commit-pinned Zero-Knowledge Proofs implementation record scoped to the Groth16 zkSNARK: the inspected source exposes circuit-specific common-reference-string generation, randomized zero-knowledge proof creation, and pairing-based verification, while preserving the repository's own academic proof-of-concept/not-production-ready warning and Groth16's setup assumptions in a matching revision-1 verification snapshot.

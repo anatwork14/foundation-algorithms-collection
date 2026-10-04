@@ -162,4 +162,18 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial SCIP branch-and-bound evidence snapshot. The pinned README identifies SCIP as a broader MIP/MINLP and branch-cut-and-price solver framework. scip_branch.c exposes the branching API used to create child subproblems; tree.c keeps nodes only when their lower bound is better than the cutoff bound and cuts off nodes that cannot improve it; primal.c updates the primal upper bound when a new best solution is found and propagates cutoff changes into the tree. This snapshot therefore documents the executable branch-and-bound tree inside SCIP without generalizing its presolve, cuts, pricing, branching rules, objective-integrality adjustments, numerical tolerances, or optional exact-mode behavior to every branch-and-bound implementation. LICENSE records Apache-2.0 terms.",
   },
+  {
+    implementationId: "mamba-selective-ssm",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "main",
+    verifiedCommit: "e9594ce1c732d97440f0332fdc43170a2294dbfa",
+    sourcePaths: [
+      { label: "Mamba scope, selective-SSM interface, and installation modes", url: "https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/README.md" },
+      { label: "Mamba-1 block and input-dependent state parameters", url: "https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/mamba_ssm/modules/mamba_simple.py" },
+      { label: "Selective scan implementation and reference recurrence", url: "https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/mamba_ssm/ops/selective_scan_interface.py" },
+      { label: "Repository license", url: "https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/LICENSE" },
+    ],
+    note: "Initial Mamba selective-SSM evidence snapshot. The pinned README identifies the original Mamba block as a selective state-space layer and now separately exposes Mamba-2 and Mamba-3. mamba_simple.py derives dt, B, and C from the current sequence input and passes those input-dependent parameters into the selective scan, with a corresponding token-at-a-time recurrent update path. selective_scan_interface.py exposes both the accelerated selective-scan wrapper and selective_scan_ref, whose recurrence makes variable B/C behavior inspectable by sequence position. The README also records that the CUDA selective-scan extension is opt-in in the current installation flow. This snapshot is therefore scoped to the Mamba-1 selective mechanism and does not generalize later Mamba generations, optimized kernels, or hardware/runtime requirements to every selective SSM. LICENSE records Apache-2.0 terms.",
+  },
 ];
