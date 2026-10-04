@@ -1,0 +1,52 @@
+{
+  "experimentId": "linucb-fuzzing-multitarget-executed-pilot",
+  "manifestVersion": 1,
+  "studyType": "deterministic multi-target executed-target mutation-scheduler pilot",
+  "purpose": "Test whether the directional scheduler result from one in-repository parser target generalizes to a second structurally different parser while keeping target execution, corpus evolution, mutation families, policy parameters, run count, and per-target execution budgets inspectable and reproducible.",
+  "seedPlan": {
+    "baseSeed": 20261005,
+    "runs": 30,
+    "lastSeed": 20261034
+  },
+  "campaign": {
+    "executionsPerPolicyPerTargetPerRun": 1200,
+    "maxCorpusSize": 128,
+    "targetCount": 2,
+    "policiesPerTarget": 3,
+    "totalTargetExecutions": 216000,
+    "reward": "1 iff the executed child input exposes at least one target trace feature not previously seen by that policy on that target in the run; otherwise 0"
+  },
+  "targets": [
+    {
+      "id": "framed-record-parser",
+      "path": "experiments/targets/framed-record-parser.mjs",
+      "initialCorpusEntries": 3,
+      "traceModel": "binary framed-record states covering magic bytes, version/flags, declared-length relations, payload tokens/braces, and checksum states"
+    },
+    {
+      "id": "command-script-parser",
+      "path": "experiments/targets/command-script-parser.mjs",
+      "initialCorpusEntries": 3,
+      "traceModel": "ASCII command-language states covering line structure, command recognition, key/value forms, authorization forms, separators, quoting, and batch subcommands"
+    }
+  ],
+  "actionSpace": {
+    "actions": 4,
+    "names": ["bit-flip", "random-byte-overwrite", "dictionary-insert", "delete-range"],
+    "contextDimensionsIncludingIntercept": 4,
+    "contextFeatures": ["intercept", "normalized parent length", "parent ASCII ratio", "recent 50-execution novelty rate"]
+  },
+  "policyParameters": {
+    "ridgeLambda": 1,
+    "linucbAlpha": 0.8,
+    "policies": ["uniform", "ucb1", "linucb"]
+  },
+  "interpretationBoundary": [
+    "Both targets are committed executable research harnesses, not external benchmark or production programs.",
+    "Target-specific dictionaries are allowed, while the four-dimensional LinUCB context definition and policy parameters are shared across targets.",
+    "Trace features are explicit parser branch/state markers, not compiler-instrumented AFL++ edge coverage.",
+    "The campaign does not use AFL++, libFuzzer, sanitizers, crash discovery, or fault triage.",
+    "Per-target feature counts are reported separately because the two trace spaces have different semantics and sizes; no pooled raw feature-count winner is manufactured.",
+    "The study is exploratory and preserves target-to-target directional disagreement without inferential significance claims."
+  ]
+}
