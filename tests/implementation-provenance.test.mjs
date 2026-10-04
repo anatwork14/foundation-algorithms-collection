@@ -82,3 +82,22 @@ test("KLEE symbolic-execution evidence is pinned with matching history", () => {
   assert.equal(history[0].verifiedRef, record.verifiedRef);
   assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
+
+test("MP-SPDZ secure-MPC evidence is pinned with matching history", () => {
+  const record = implementations.find((implementation) => implementation.id === "mp-spdz-secure-mpc");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["secure-multiparty-computation"]);
+  assert.equal(record.verifiedRef, "master");
+  assert.equal(record.verifiedCommit, "d39bd91c08801cb195012d6df5267eac3a9c5ef1");
+  assert.ok(record.license.startsWith("BSD-3-Clause"));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/Protocols/Semi.h")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/Protocols/Beaver.hpp")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/License.txt")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.equal(history[0].verifiedRef, record.verifiedRef);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
+});

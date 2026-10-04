@@ -88,4 +88,18 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial KLEE symbolic-execution evidence snapshot. Direct inspection of Executor.cpp confirms solver evaluation over the current state's path constraints, state forking on symbolic conditions, and addition of branch conditions or their negations to successor constraint sets at this immutable master-branch revision. LICENSE.TXT records the University of Illinois/NCSA Open Source License used by the inspected source.",
   },
+  {
+    implementationId: "mp-spdz-secure-mpc",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "master",
+    verifiedCommit: "d39bd91c08801cb195012d6df5267eac3a9c5ef1",
+    sourcePaths: [
+      { label: "Framework scope and protocol models", url: "https://github.com/data61/MP-SPDZ/blob/d39bd91c08801cb195012d6df5267eac3a9c5ef1/README.md" },
+      { label: "Semi dishonest-majority protocol", url: "https://github.com/data61/MP-SPDZ/blob/d39bd91c08801cb195012d6df5267eac3a9c5ef1/Protocols/Semi.h" },
+      { label: "Beaver multiplication implementation", url: "https://github.com/data61/MP-SPDZ/blob/d39bd91c08801cb195012d6df5267eac3a9c5ef1/Protocols/Beaver.hpp" },
+      { label: "Repository license", url: "https://github.com/data61/MP-SPDZ/blob/d39bd91c08801cb195012d6df5267eac3a9c5ef1/License.txt" },
+    ],
+    note: "Initial MP-SPDZ secure-MPC evidence snapshot. The pinned README identifies the framework's multiple corruption/security models and implementation techniques; Semi.h identifies the inspected dishonest-majority arithmetic protocol; Beaver.hpp shows preprocessing-triple masking, opening/exchange, and product-share reconstruction. This snapshot therefore documents a concrete executable MPC path without generalizing its preprocessing or corruption assumptions to every protocol in the framework. License.txt records BSD 3-Clause terms for the primary repository code while separately retaining notices for bundled third-party components.",
+  },
 ];
