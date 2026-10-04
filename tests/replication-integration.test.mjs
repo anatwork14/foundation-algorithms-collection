@@ -34,12 +34,40 @@ test("HNSW has the independently authored ANN-Benchmarks evaluation", () => {
   assert.ok(original.algorithmIds.includes("hnsw"));
 });
 
-test("both independent and original references resolve back to the same replication record", () => {
-  const fromEvaluation = replicationsForReference("aumuller-2020-ann-benchmarks");
-  const fromOriginal = replicationsForReference("malkov-2018-hnsw");
+test("conformal prediction has an independently authored CQR comparative evaluation", () => {
+  const records = replicationsForAlgorithm("conformal-prediction");
+  assert.equal(records.length, 1);
 
-  assert.deepEqual(fromEvaluation.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
-  assert.deepEqual(fromOriginal.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
+  const record = records[0];
+  assert.equal(record.id, "dewolf-2023-cqr-evaluation");
+  assert.equal(record.replicationReferenceId, "dewolf-2023-valid-prediction-intervals");
+  assert.deepEqual(record.originalReferenceIds, ["romano-2019-cqr"]);
+  assert.equal(record.outcome, "Partially supports");
+  assert.match(record.independenceNote, /no author overlap/i);
+  assert.match(record.summary, /performance variation/i);
+
+  const evaluation = references.find((reference) => reference.id === record.replicationReferenceId);
+  assert.ok(evaluation);
+  assert.equal(evaluation.evidenceRole, "Replication / evaluation");
+  assert.ok(evaluation.algorithmIds.includes("conformal-prediction"));
+  assert.ok(evaluation.citations.some((citation) => citation.targetId === "romano-2019-cqr"));
+
+  const original = references.find((reference) => reference.id === "romano-2019-cqr");
+  assert.ok(original);
+  assert.equal(original.evidenceRole, "Primary extension");
+  assert.ok(original.algorithmIds.includes("conformal-prediction"));
+});
+
+test("independent and original references resolve back to their replication records", () => {
+  const hnswFromEvaluation = replicationsForReference("aumuller-2020-ann-benchmarks");
+  const hnswFromOriginal = replicationsForReference("malkov-2018-hnsw");
+  assert.deepEqual(hnswFromEvaluation.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
+  assert.deepEqual(hnswFromOriginal.map((record) => record.id), ["aumuller-2020-hnsw-evaluation"]);
+
+  const cqrFromEvaluation = replicationsForReference("dewolf-2023-valid-prediction-intervals");
+  const cqrFromOriginal = replicationsForReference("romano-2019-cqr");
+  assert.deepEqual(cqrFromEvaluation.map((record) => record.id), ["dewolf-2023-cqr-evaluation"]);
+  assert.deepEqual(cqrFromOriginal.map((record) => record.id), ["dewolf-2023-cqr-evaluation"]);
 });
 
 test("an explicit independent evaluation advances descriptive coverage to Replicated", () => {

@@ -46,6 +46,17 @@ export const replications: ReplicationRecord[] = [
     independenceNote: "The evaluation is authored by Olivier Chapelle and Lihong Li, a different author group from William R. Thompson, and evaluates a modern Bayesian formulation on new simulated and real-world datasets roughly eight decades after the original probability-matching paper.",
     verifiedAt: "2026-10-02",
   },
+  {
+    id: "dewolf-2023-cqr-evaluation",
+    title: "Independent comparative evaluation of conformalized quantile regression",
+    algorithmIds: ["conformal-prediction"],
+    replicationReferenceId: "dewolf-2023-valid-prediction-intervals",
+    originalReferenceIds: ["romano-2019-cqr"],
+    outcome: "Partially supports",
+    summary: "Dewolf, De Baets, and Waegeman independently compare prediction-interval methods across benchmark regression datasets and explicitly reuse the conformal calibration construction introduced for quantile regression by Romano, Patterson, and Candès. Their results support conformal calibration as a useful mechanism for recovering marginal validity when uncalibrated interval methods miss the target coverage, while also showing substantial performance variation across datasets and trade-offs in interval width. This is partial support rather than a reproduction of every efficiency or adaptivity claim associated with CQR.",
+    independenceNote: "Nicolas Dewolf, Bernard De Baets, and Willem Waegeman have no author overlap with Yaniv Romano, Evan Patterson, or Emmanuel J. Candès. Their paper is an independently authored conceptual and experimental comparison across multiple prediction-interval method classes and benchmark datasets rather than an extension written by the original CQR authors.",
+    verifiedAt: "2026-10-04",
+  },
 ];
 
 const byId = new Map(replications.map((record) => [record.id, record]));

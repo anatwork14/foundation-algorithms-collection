@@ -33,10 +33,10 @@ Combination Lab
         ↓
 Evidence
   ├── 33 curated passage-backed Claims
-  ├── 33 curated References + citation graph
+  ├── 34 curated References + citation graph
   ├── 24 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
-  ├── 2 independent Replication/Evaluation records
+  ├── 3 independent Replication/Evaluation records
   ├── 29 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
@@ -222,9 +222,10 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **33 curated passage-backed Claims**.
-- [x] **33 curated References**.
+- [x] **34 curated References**.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension, source-backs both LinUCB↔Thompson Sampling directions, and now source-backs both UCB1↔Thompson Sampling alternative-method directions using the independently authored Chapelle–Li evaluation without asserting a universal winner.
+- [x] New 2026-10-04 replication coverage adds Dewolf–De Baets–Waegeman's independently authored prediction-interval comparison for Conformal Prediction/CQR. The source explicitly attributes the CQR calibration construction to Romano–Patterson–Candès, reports substantial benchmark-to-benchmark performance variation, and is therefore curated as partial support rather than as a universal reproduction of CQR efficiency, conditional coverage, or distribution-shift robustness.
 - [x] Zero-Knowledge Proofs have an explicit passage-backed no-additional-knowledge Claim tied to Goldwasser–Micali–Rackoff 1989; the existing Secure-MPC/Zero-Knowledge Atlas edge now cites both the foundational ZK source and GMW's MPC construction that consumes ZK subprotocols.
 - [x] Secure MPC has an explicit passage-backed private-input-computation Claim tied to GMW 1987; its FHE alternative edge cites both GMW and Gentry, while its Zero-Knowledge combination edge preserves the relevant adversary/protocol scope rather than treating all MPC protocols as identical.
 - [x] SAT/SMT solving has an explicit theory-aware satisfiability Claim tied to the Z3 primary system paper and the live SMT chapter passage; its Symbolic-Execution Atlas edge cites both Z3 and KLEE.
@@ -250,7 +251,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] PyMatching provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
-- [x] **2 independent Replication/Evaluation records**.
+- [x] **3 independent Replication/Evaluation records**.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
 ## Implementation freshness policy
