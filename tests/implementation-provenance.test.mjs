@@ -101,3 +101,23 @@ test("MP-SPDZ secure-MPC evidence is pinned with matching history", () => {
   assert.equal(history[0].verifiedRef, record.verifiedRef);
   assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
+
+test("OpenFHE CKKS bootstrapping evidence is pinned with matching history", () => {
+  const record = implementations.find((implementation) => implementation.id === "openfhe-ckks-bootstrapping");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["fhe"]);
+  assert.equal(record.license, "BSD-2-Clause");
+  assert.equal(record.verifiedRef, "main");
+  assert.equal(record.verifiedCommit, "6206d24f9eefefc620b524a4f2b9f308feb91e9f");
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/README.md")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/pke/examples/simple-ckks-bootstrapping.cpp")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/pke/lib/scheme/ckksrns/ckksrns-fhe.cpp")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/LICENSE")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.equal(history[0].verifiedRef, record.verifiedRef);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
+});

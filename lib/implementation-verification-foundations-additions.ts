@@ -102,4 +102,18 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial MP-SPDZ secure-MPC evidence snapshot. The pinned README identifies the framework's multiple corruption/security models and implementation techniques; Semi.h identifies the inspected dishonest-majority arithmetic protocol; Beaver.hpp shows preprocessing-triple masking, opening/exchange, and product-share reconstruction. This snapshot therefore documents a concrete executable MPC path without generalizing its preprocessing or corruption assumptions to every protocol in the framework. License.txt records BSD 3-Clause terms for the primary repository code while separately retaining notices for bundled third-party components.",
   },
+  {
+    implementationId: "openfhe-ckks-bootstrapping",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "main",
+    verifiedCommit: "6206d24f9eefefc620b524a4f2b9f308feb91e9f",
+    sourcePaths: [
+      { label: "OpenFHE scope and supported FHE schemes", url: "https://github.com/openfheorg/openfhe-development/blob/6206d24f9eefefc620b524a4f2b9f308feb91e9f/README.md" },
+      { label: "Simple CKKS bootstrapping example", url: "https://github.com/openfheorg/openfhe-development/blob/6206d24f9eefefc620b524a4f2b9f308feb91e9f/src/pke/examples/simple-ckks-bootstrapping.cpp" },
+      { label: "CKKS bootstrapping implementation", url: "https://github.com/openfheorg/openfhe-development/blob/6206d24f9eefefc620b524a4f2b9f308feb91e9f/src/pke/lib/scheme/ckksrns/ckksrns-fhe.cpp" },
+      { label: "Repository license", url: "https://github.com/openfheorg/openfhe-development/blob/6206d24f9eefefc620b524a4f2b9f308feb91e9f/LICENSE" },
+    ],
+    note: "Initial OpenFHE CKKS-bootstrapping evidence snapshot. The pinned README identifies OpenFHE as a multi-scheme FHE library and CKKS as supporting approximate bootstrapping. The inspected example enables FHE, configures bootstrapping, generates bootstrap evaluation keys, constructs a depleted ciphertext, and calls EvalBootstrap to restore levels for further homomorphic computation; ckksrns-fhe.cpp contains the corresponding CKKS bootstrap implementation and setup restrictions. This snapshot documents a modern CKKS executable path without treating it as identical to Gentry's 2009 construction or to every FHE scheme supported by the library. LICENSE records BSD 2-Clause terms.",
+  },
 ];
