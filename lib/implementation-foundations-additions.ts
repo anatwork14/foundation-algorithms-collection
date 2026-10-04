@@ -127,4 +127,28 @@ export const foundationImplementationAdditions: ImplementationRecord[] = [
     verifiedCommit: "6f63b2b9474ba0fa7e511fe52bffdce858a06984",
     lastVerified: "2026-10-03",
   },
+  {
+    id: "klee-symbolic-execution",
+    name: "KLEE symbolic execution engine",
+    repository: "https://github.com/klee/klee",
+    homepage: "https://klee-se.org/",
+    algorithmIds: ["symbolic-execution"],
+    language: "C++",
+    interfaces: ["LLVM bitcode", "klee command-line", "Solver-backed symbolic execution"],
+    license: "University of Illinois/NCSA Open Source License",
+    maturity: "Established open-source",
+    summary: "KLEE provides an executable symbolic virtual machine for LLVM bitcode, maintaining path constraints and solver-backed branch exploration to generate concrete test cases and analyze program behavior.",
+    implementationNotes: [
+      "At the verified revision, Executor::fork evaluates a symbolic branch condition against the current execution state's constraint set through the configured solver before deciding whether one or both paths remain feasible.",
+      "When KLEE explores a branch, the executor adds the corresponding condition or its negation to the child state's constraint set, directly exposing the path-constraint mechanism represented by the archive's symbolic-execution Algorithm and Claim.",
+      "The executor also supports concretization and resource controls when solver/fork budgets are exceeded; this record documents the inspected KLEE implementation rather than treating those engineering policies as universal symbolic-execution semantics.",
+    ],
+    sourcePaths: [
+      { label: "Core symbolic executor", url: "https://github.com/klee/klee/blob/9a36a6782b814fe1fa37439652b875114faa0e20/lib/Core/Executor.cpp" },
+      { label: "Repository license", url: "https://github.com/klee/klee/blob/9a36a6782b814fe1fa37439652b875114faa0e20/LICENSE.TXT" },
+    ],
+    verifiedRef: "master",
+    verifiedCommit: "9a36a6782b814fe1fa37439652b875114faa0e20",
+    lastVerified: "2026-10-04",
+  },
 ];

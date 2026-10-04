@@ -64,3 +64,21 @@ test("PyMatching surface-code decoder evidence is pinned with matching history",
   assert.equal(history[0].verifiedCommit, record.verifiedCommit);
   assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
+
+test("KLEE symbolic-execution evidence is pinned with matching history", () => {
+  const record = implementations.find((implementation) => implementation.id === "klee-symbolic-execution");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["symbolic-execution"]);
+  assert.equal(record.license, "University of Illinois/NCSA Open Source License");
+  assert.equal(record.verifiedRef, "master");
+  assert.equal(record.verifiedCommit, "9a36a6782b814fe1fa37439652b875114faa0e20");
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/lib/Core/Executor.cpp")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/LICENSE.TXT")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.equal(history[0].verifiedRef, record.verifiedRef);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
+});

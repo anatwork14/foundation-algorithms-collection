@@ -76,4 +76,16 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial PyMatching surface-code decoding evidence snapshot. Direct inspection confirms the Matching API's minimum-weight-perfect-matching decoder, repeated-measurement/timelike-edge controls, Stim detector-error-model support, the sparse-blossom C++ decoding driver, and committed surface-code benchmark assets at this immutable master-branch revision. The repository LICENSE records Apache-2.0 terms.",
   },
+  {
+    implementationId: "klee-symbolic-execution",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "master",
+    verifiedCommit: "9a36a6782b814fe1fa37439652b875114faa0e20",
+    sourcePaths: [
+      { label: "Core symbolic executor", url: "https://github.com/klee/klee/blob/9a36a6782b814fe1fa37439652b875114faa0e20/lib/Core/Executor.cpp" },
+      { label: "Repository license", url: "https://github.com/klee/klee/blob/9a36a6782b814fe1fa37439652b875114faa0e20/LICENSE.TXT" },
+    ],
+    note: "Initial KLEE symbolic-execution evidence snapshot. Direct inspection of Executor.cpp confirms solver evaluation over the current state's path constraints, state forking on symbolic conditions, and addition of branch conditions or their negations to successor constraint sets at this immutable master-branch revision. LICENSE.TXT records the University of Illinois/NCSA Open Source License used by the inspected source.",
+  },
 ];

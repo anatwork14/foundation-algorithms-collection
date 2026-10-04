@@ -34,7 +34,7 @@ Combination Lab
 Evidence
   ├── 33 curated passage-backed Claims
   ├── 33 curated References + citation graph
-  ├── 14 commit-pinned Implementation records + append-only verification history
+  ├── 15 commit-pinned Implementation records + append-only verification history
   ├── Experiments + append-only history
   ├── 2 independent Replication/Evaluation records
   ├── 29 source-backed Atlas relations
@@ -236,7 +236,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
-- [x] **14 implementation records** currently registered.
+- [x] **15 implementation records** currently registered.
+- [x] KLEE now provides a commit-pinned symbolic-execution record whose verified executor evaluates branch conditions against path constraints, forks feasible states, and appends branch constraints, with a matching revision-1 verification snapshot.
 - [x] PyMatching provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
