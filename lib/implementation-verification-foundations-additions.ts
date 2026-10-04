@@ -132,4 +132,19 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial arkworks Groth16 zkSNARK evidence snapshot. The pinned README identifies the crate as a Groth16 zero-knowledge succinct non-interactive argument implementation and explicitly warns that it is an academic proof-of-concept prototype not ready for production. generator.rs exposes circuit-specific common-reference-string generation and the scheme's toxic-waste setup values; prover.rs samples fresh r and s for the zero-knowledge proof path while its no-zk helper sets them to zero; verifier.rs implements the pairing-based verification equation over public inputs. This snapshot therefore documents one concrete Groth16 path without generalizing its trusted-setup, R1CS/QAP, or pairing assumptions to every zero-knowledge protocol. The repository is dual-licensed MIT or Apache-2.0.",
   },
+  {
+    implementationId: "aflplusplus-coverage-guided-fuzzing",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "stable",
+    verifiedCommit: "dbaf11913c1b2702dee5b4d3dcfffd52f1defe50",
+    sourcePaths: [
+      { label: "AFL++ scope and licensing", url: "https://github.com/AFLplusplus/AFLplusplus/blob/dbaf11913c1b2702dee5b4d3dcfffd52f1defe50/README.md" },
+      { label: "Coverage-guided queue/mutation approach", url: "https://github.com/AFLplusplus/AFLplusplus/blob/dbaf11913c1b2702dee5b4d3dcfffd52f1defe50/docs/afl-fuzz_approach.md" },
+      { label: "Coverage novelty and interesting-input handling", url: "https://github.com/AFLplusplus/AFLplusplus/blob/dbaf11913c1b2702dee5b4d3dcfffd52f1defe50/src/afl-fuzz-bitmap.c" },
+      { label: "Mutation loop entry point", url: "https://github.com/AFLplusplus/AFLplusplus/blob/dbaf11913c1b2702dee5b4d3dcfffd52f1defe50/src/afl-fuzz-one.c" },
+      { label: "Repository license", url: "https://github.com/AFLplusplus/AFLplusplus/blob/dbaf11913c1b2702dee5b4d3dcfffd52f1defe50/LICENSE" },
+    ],
+    note: "Initial AFL++ coverage-guided-fuzzing evidence snapshot. The pinned approach document states the queue/select/mutate/execute/retain-on-new-instrumented-state loop directly. afl-fuzz-bitmap.c classifies trace counts, detects new hit-count states versus new tuples through has_new_bits(), updates the virgin map, and participates in saving interesting inputs; afl-fuzz-one.c exposes the per-queue-entry mutation entry point and multiple mutation/scheduling paths. This snapshot documents AFL++'s executable greybox loop without generalizing one power schedule, instrumentation backend, or mutation policy to all coverage-guided fuzzers. The repository README and LICENSE record AGPL-3.0-or-later at repository scope while explicitly noting Apache-2.0 licensing for files compiled into fuzzing harnesses and per-file SPDX terms.",
+  },
 ];
