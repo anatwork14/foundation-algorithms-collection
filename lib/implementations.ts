@@ -1,3 +1,4 @@
+import { banditImplementationAdditions } from "./implementation-bandit-additions.ts";
 import { conformalImplementationAdditions } from "./implementation-conformal-additions.ts";
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
@@ -238,6 +239,7 @@ export const implementations: ImplementationRecord[] = [
   ...foundationImplementationAdditions,
   ...conformalImplementationAdditions,
   ...qsvtImplementationAdditions,
+  ...banditImplementationAdditions,
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));
