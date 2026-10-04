@@ -1,3 +1,4 @@
+import { conformalImplementationAdditions } from "./implementation-conformal-additions.ts";
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
 
 export type ImplementationMaturity =
@@ -234,6 +235,7 @@ const coreImplementations: ImplementationRecord[] = [
 export const implementations: ImplementationRecord[] = [
   ...coreImplementations,
   ...foundationImplementationAdditions,
+  ...conformalImplementationAdditions,
 ];
 
 const byId = new Map(implementations.map((implementation) => [implementation.id, implementation]));

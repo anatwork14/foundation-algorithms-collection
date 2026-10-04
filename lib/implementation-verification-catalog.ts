@@ -1,3 +1,4 @@
+import { conformalImplementationVerificationAdditions } from "./implementation-verification-conformal-additions.ts";
 import { implementationVerificationFreshnessAdditions } from "./implementation-verification-freshness-additions.ts";
 import { foundationsImplementationVerificationAdditions } from "./implementation-verification-foundations-additions.ts";
 import {
@@ -10,6 +11,7 @@ import {
 export const implementationVerificationHistory: ImplementationVerificationEntry[] = [
   ...coreImplementationVerificationHistory,
   ...foundationsImplementationVerificationAdditions,
+  ...conformalImplementationVerificationAdditions,
   ...implementationVerificationFreshnessAdditions,
 ];
 
