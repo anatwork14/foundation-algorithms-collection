@@ -116,4 +116,20 @@ export const foundationsImplementationVerificationAdditions: ImplementationVerif
     ],
     note: "Initial OpenFHE CKKS-bootstrapping evidence snapshot. The pinned README identifies OpenFHE as a multi-scheme FHE library and CKKS as supporting approximate bootstrapping. The inspected example enables FHE, configures bootstrapping, generates bootstrap evaluation keys, constructs a depleted ciphertext, and calls EvalBootstrap to restore levels for further homomorphic computation; ckksrns-fhe.cpp contains the corresponding CKKS bootstrap implementation and setup restrictions. This snapshot documents a modern CKKS executable path without treating it as identical to Gentry's 2009 construction or to every FHE scheme supported by the library. LICENSE records BSD 2-Clause terms.",
   },
+  {
+    implementationId: "arkworks-groth16-zksnark",
+    revision: 1,
+    verifiedAt: "2026-10-04",
+    verifiedRef: "master",
+    verifiedCommit: "8f0904a7d7a2c8945bf770bdd3c2081e0be1941a",
+    sourcePaths: [
+      { label: "Groth16 scope and prototype warning", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/README.md" },
+      { label: "Circuit-specific reference-string generation", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/src/generator.rs" },
+      { label: "Randomized zero-knowledge prover", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/src/prover.rs" },
+      { label: "Pairing-based proof verifier", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/src/verifier.rs" },
+      { label: "Apache-2.0 license", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/LICENSE-APACHE" },
+      { label: "MIT license", url: "https://github.com/arkworks-rs/groth16/blob/8f0904a7d7a2c8945bf770bdd3c2081e0be1941a/LICENSE-MIT" },
+    ],
+    note: "Initial arkworks Groth16 zkSNARK evidence snapshot. The pinned README identifies the crate as a Groth16 zero-knowledge succinct non-interactive argument implementation and explicitly warns that it is an academic proof-of-concept prototype not ready for production. generator.rs exposes circuit-specific common-reference-string generation and the scheme's toxic-waste setup values; prover.rs samples fresh r and s for the zero-knowledge proof path while its no-zk helper sets them to zero; verifier.rs implements the pairing-based verification equation over public inputs. This snapshot therefore documents one concrete Groth16 path without generalizing its trusted-setup, R1CS/QAP, or pairing assumptions to every zero-knowledge protocol. The repository is dual-licensed MIT or Apache-2.0.",
+  },
 ];

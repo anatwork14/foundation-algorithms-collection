@@ -121,3 +121,26 @@ test("OpenFHE CKKS bootstrapping evidence is pinned with matching history", () =
   assert.equal(history[0].verifiedRef, record.verifiedRef);
   assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
 });
+
+test("arkworks Groth16 zero-knowledge evidence is pinned with matching history and prototype scope", () => {
+  const record = implementations.find((implementation) => implementation.id === "arkworks-groth16-zksnark");
+  assert.ok(record);
+  assert.deepEqual(record.algorithmIds, ["zero-knowledge-proofs"]);
+  assert.equal(record.maturity, "Research/prototyping");
+  assert.equal(record.license, "MIT OR Apache-2.0");
+  assert.equal(record.verifiedRef, "master");
+  assert.equal(record.verifiedCommit, "8f0904a7d7a2c8945bf770bdd3c2081e0be1941a");
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/README.md")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/generator.rs")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/prover.rs")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/src/verifier.rs")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/LICENSE-APACHE")));
+  assert.ok(record.sourcePaths.some((source) => source.url.endsWith("/LICENSE-MIT")));
+
+  const history = implementationVerificationHistory.filter((entry) => entry.implementationId === record.id);
+  assert.equal(history.length, 1);
+  assert.equal(history[0].revision, 1);
+  assert.equal(history[0].verifiedCommit, record.verifiedCommit);
+  assert.equal(history[0].verifiedRef, record.verifiedRef);
+  assert.deepEqual(history[0].sourcePaths, record.sourcePaths);
+});
