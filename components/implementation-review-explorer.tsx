@@ -115,8 +115,9 @@ export function ImplementationReviewExplorer({
         {results.map((review) => {
           const implementation = implementationsById.get(review.implementationId);
           if (!implementation) return null;
+          const anchor = `${review.implementationId}-r${review.revision}`;
           return (
-            <article id={`${review.implementationId}-r${review.revision}`} key={`${review.implementationId}-${review.revision}`} className="implementation-row">
+            <article id={anchor} key={`${review.implementationId}-${review.revision}`} className="implementation-row">
               <div className="implementation-language">U{review.revision}</div>
               <div>
                 <div className="implementation-overline">{review.decision} · reviewed {review.reviewedAt}</div>
@@ -127,12 +128,19 @@ export function ImplementationReviewExplorer({
                   <span>{review.materialChange ? "Material change" : "No material path change"}</span>
                   {review.inspectedPaths.map((item) => <span key={item.path}>{item.path} · {item.changed ? "changed" : "unchanged"}</span>)}
                 </div>
+                <div className="implementation-verification-sources" aria-label={`Reviewed source blobs for ${implementation.name} upstream review ${review.revision}`}>
+                  {review.inspectedPaths.flatMap((item) => [
+                    <a key={`${item.path}-pinned`} href={`${implementation.repository}/blob/${review.pinnedCommit}/${item.path}`} target="_blank" rel="noreferrer">Pinned {item.path} · <code>{item.pinnedBlob.slice(0, 10)}</code> <ExternalLink size={11} aria-hidden="true" /></a>,
+                    <a key={`${item.path}-observed`} href={`${implementation.repository}/blob/${review.observedCommit}/${item.path}`} target="_blank" rel="noreferrer">Observed {item.path} · <code>{item.upstreamBlob.slice(0, 10)}</code>{item.changed ? " · changed" : " · unchanged"} <ExternalLink size={11} aria-hidden="true" /></a>,
+                  ])}
+                </div>
               </div>
               <div className="implementation-row-meta">
                 <span>Pinned <code>{review.pinnedCommit.slice(0, 12)}</code></span>
                 <span>Observed <code>{review.observedCommit.slice(0, 12)}</code></span>
                 <Link href={`/implementations/${implementation.id}`}>Inspect implementation <ArrowRight size={13} aria-hidden="true" /></Link>
                 <a href={`${implementation.repository}/compare/${review.pinnedCommit}...${review.observedCommit}`} target="_blank" rel="noreferrer"><GitBranch size={13} aria-hidden="true" /> Compare commits <ExternalLink size={11} aria-hidden="true" /></a>
+                <Link href={`/implementations/reviews#${anchor}`}>Permalink <ArrowRight size={13} aria-hidden="true" /></Link>
               </div>
             </article>
           );
