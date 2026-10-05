@@ -40,13 +40,14 @@ test("PyG GAT is a commit-pinned executable record with matching verification hi
   assert.deepEqual(history[0].sourcePaths, implementation.sourcePaths);
 });
 
-test("GNN evidence coverage now includes GCN, GraphSAGE, and GAT", () => {
+test("GNN evidence coverage includes local aggregation and Graphormer executable paths", () => {
   const implementationIds = implementationsForAlgorithm("graph-neural-networks").map((item) => item.id).sort();
-  assert.deepEqual(implementationIds, ["pyg-gat", "pyg-gcn", "pyg-graphsage"]);
+  assert.deepEqual(implementationIds, ["microsoft-graphormer", "pyg-gat", "pyg-gcn", "pyg-graphsage"]);
 
   const claimIds = claimsForAlgorithm("graph-neural-networks").map((item) => item.id).sort();
   assert.deepEqual(claimIds, ["gat-learned-neighbor-attention", "gcn-normalized-neighbor-aggregation", "graphsage-sampled-inductive-aggregation"]);
 
   const referenceIds = referencesForAlgorithm("graph-neural-networks").map((item) => item.id);
   assert.ok(referenceIds.includes("velickovic-2018-gat"));
+  assert.ok(referenceIds.includes("ying-2021-graphormer"));
 });
