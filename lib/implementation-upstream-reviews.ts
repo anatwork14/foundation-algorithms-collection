@@ -46,6 +46,31 @@ export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
     ],
     note: "Reviewed Faiss main after it moved two commits beyond the immutable HNSW evidence pin. The intervening work covered cuVS test quarantine and SuperKMeans/fp16 support; direct blob comparison shows IndexHNSW.h and IndexHNSW.cpp are byte-identical to the pinned snapshot. Retain the existing archive pin rather than advancing it solely because main moved.",
   },
+  {
+    implementationId: "qiskit-phase-estimation",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "91895b850b9f8ba466c4d4868af389e249a7c087",
+    pinnedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "qiskit/circuit/library/phase_estimation.py",
+        pinnedBlob: "bf82f4be9ef4a51cb7aaa4607f4ddfb937ae3a85",
+        upstreamBlob: "bf82f4be9ef4a51cb7aaa4607f4ddfb937ae3a85",
+        changed: false,
+      },
+      {
+        path: "test/python/circuit/library/test_phase_estimation.py",
+        pinnedBlob: "324da96da1aba83eebdc7d9ac4e5b06f011c6c59",
+        upstreamBlob: "324da96da1aba83eebdc7d9ac4e5b06f011c6c59",
+        changed: false,
+      },
+    ],
+    note: "Reviewed Qiskit main after it advanced two commits beyond the immutable phase-estimation evidence pin. The intervening changes are confined to C-language tests, including memory-leak cleanup, while direct blob comparison confirms both the phase_estimation.py implementation and its Python test suite are byte-identical to the pinned snapshot. Retain the existing archive pin rather than advancing verification for unrelated upstream movement.",
+  },
 ];
 
 export function validateImplementationUpstreamReviews(
