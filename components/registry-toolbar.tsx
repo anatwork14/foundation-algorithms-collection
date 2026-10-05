@@ -34,6 +34,7 @@ export function RegistryToolbar({
       <label>
         <Search size={17} aria-hidden="true" />
         <input
+          type="search"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
           placeholder={placeholder}
