@@ -56,6 +56,25 @@ When a re-review accepts a newer upstream snapshot:
 
 This means the product can show the current inspected state while preserving the complete sequence of earlier inspected snapshots without relying only on Git history.
 
+## Upstream-review ledger rule
+
+Upstream movement can be reviewed without changing the evidence pin. Those decisions live separately in `lib/implementation-upstream-reviews.ts`.
+
+Each upstream-review revision stores:
+
+- implementation ID and sequential review revision;
+- review date and observed branch/ref;
+- the exact observed upstream commit;
+- the immutable pinned commit that was compared;
+- an explicit decision: **Retain pin**, **Advance pin**, or **Needs follow-up**;
+- whether the inspected implementation paths contain a material change;
+- per-path pinned and upstream blob identities plus a changed/unchanged flag;
+- a concise note explaining the decision.
+
+Review revisions are append-only and do not mutate verification history. A **Retain pin** decision records that upstream movement was inspected and the existing snapshot remains the intended evidence pin. An **Advance pin** decision is still only a review decision until a new verification-history revision and matching `ImplementationRecord` update are committed. **Needs follow-up** preserves uncertainty rather than silently selecting a new snapshot.
+
+The Implementation registry exposes this ledger directly: records can be filtered by upstream-review state, review notes and inspected paths participate in registry search, and implementation detail pages show observed commits, compare links, per-path pinned/observed blobs, material-change status, and the full review note.
+
 ## Automation
 
 `npm run report:freshness`:
@@ -64,8 +83,9 @@ This means the product can show the current inspected state while preserving the
 2. parses each canonical public GitHub repository URL;
 3. resolves the declared `verifiedRef` through the GitHub API;
 4. compares the current upstream commit with the immutable `verifiedCommit`;
-5. writes `test-results/implementation-freshness.json`;
-6. writes a compact table to the GitHub Actions step summary when available.
+5. matches moved refs against the latest append-only upstream-review revision;
+6. writes `test-results/implementation-freshness.json` with freshness and review state;
+7. writes a compact table and moved-ref review summary to the GitHub Actions step summary when available.
 
 The normal validation workflow runs this report as **non-blocking** because network/API availability must not determine whether the research hub builds correctly.
 
@@ -77,11 +97,11 @@ When a record is reported as **Upstream moved**:
 
 1. compare the pinned commit with the new upstream ref;
 2. inspect only relevant implementation paths first;
-3. decide whether the existing evidence snapshot remains sufficient;
-4. if a new snapshot is useful, verify it explicitly;
-5. append a new verification-history revision;
-6. update the live record to the newly verified exact commit/source paths/date;
-7. let validation confirm that the live record and latest verification revision agree.
+3. append an upstream-review revision with the observed commit, inspected blob identities, material-change result, and explicit decision;
+4. if the decision is **Retain pin**, keep the Implementation record and verification history unchanged;
+5. if the decision is **Advance pin**, perform a full implementation verification, append the next verification-history revision, and update the live record to that exact commit/source-path/date snapshot;
+6. if the decision is **Needs follow-up**, preserve the existing pin until the unresolved change is reviewed;
+7. let validation confirm both ledgers remain internally consistent.
 
 Do not interpret frequent upstream movement as lower quality. Active projects naturally move more often than stable ones.
 
