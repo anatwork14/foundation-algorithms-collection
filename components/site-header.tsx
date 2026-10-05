@@ -11,7 +11,7 @@ import { claims, claimSearchText } from "@/lib/claims";
 import type { DocSummary } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
-import { implementationUpstreamReviews } from "@/lib/implementation-upstream-reviews";
+import { implementationUpstreamReviewSearchText, implementationUpstreamReviews } from "@/lib/implementation-upstream-reviews";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
 import { replications, replicationSearchText } from "@/lib/replications";
@@ -263,17 +263,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       const title = `${implementation?.name ?? review.implementationId} upstream review`;
       const exactTitle = title.toLowerCase() === needle ? 12 : 0;
       const titleHit = title.toLowerCase().includes(needle) ? 8 : 0;
-      const bodyHit = [
-        review.implementationId,
-        review.decision,
-        review.reviewedAt,
-        review.observedRef,
-        review.observedCommit,
-        review.pinnedCommit,
-        review.note,
-        review.materialChange ? "material change" : "no material change unchanged",
-        ...review.inspectedPaths.flatMap((item) => [item.path, item.pinnedBlob, item.upstreamBlob, item.changed ? "changed" : "unchanged"]),
-      ].join(" ").toLowerCase().includes(needle) ? 4 : 0;
+      const bodyHit = implementationUpstreamReviewSearchText(review, implementation?.name).includes(needle) ? 4 : 0;
       return {
         id: `implementation-review-${review.implementationId}-${review.revision}`,
         title,
