@@ -42,4 +42,19 @@ export const aiImplementationVerificationAdditions: ImplementationVerificationEn
     ],
     note: "Initial PyTorch Geometric GAT evidence snapshot. Direct inspection confirms learned source/destination neighborhood-attention coefficients, multi-head concatenation or averaging, self-loop insertion, attention dropout, residual projection, bipartite inputs, edge-feature-aware attention, and returned attention weights. The pinned tests cover dense/sparse adjacency, attention-weight outputs, bipartite propagation, residuals, TorchScript, edge features, and empty graphs; they also explicitly preserve the SparseTensor edge-attribute/self-loop NotImplementedError limitation. The MIT license is preserved at the same immutable master-branch revision.",
   },
+  {
+    implementationId: "microsoft-graphormer",
+    revision: 1,
+    verifiedAt: "2026-10-05",
+    verifiedRef: "main",
+    verifiedCommit: "59c0decffcade9df81d29dcc178a489b31958bab",
+    sourcePaths: [
+      { label: "Graph structural encodings", url: "https://github.com/microsoft/Graphormer/blob/59c0decffcade9df81d29dcc178a489b31958bab/graphormer/modules/graphormer_layers.py" },
+      { label: "Graphormer encoder", url: "https://github.com/microsoft/Graphormer/blob/59c0decffcade9df81d29dcc178a489b31958bab/graphormer/modules/graphormer_graph_encoder.py" },
+      { label: "Pretrained-model tests", url: "https://github.com/microsoft/Graphormer/blob/59c0decffcade9df81d29dcc178a489b31958bab/tests/test_pretrained_model.py" },
+      { label: "Repository README", url: "https://github.com/microsoft/Graphormer/blob/59c0decffcade9df81d29dcc178a489b31958bab/README.md" },
+      { label: "Repository license", url: "https://github.com/microsoft/Graphormer/blob/59c0decffcade9df81d29dcc178a489b31958bab/LICENSE" },
+    ],
+    note: "Initial Microsoft Graphormer evidence snapshot. Direct inspection confirms degree-augmented node features, a learned graph token, spatial-position attention bias, graph-token virtual distance, edge encodings including multi-hop distance conditioning, and propagation of those biases through stacked Transformer encoder layers before graph-token readout. The repository's pinned test file validates pretrained/local checkpoint loading rather than the full graph encoder numerically, so this snapshot records source-level executable mechanism evidence without claiming broad model-behavior test coverage. The same immutable revision documents a reproducibility-oriented legacy Python 3.9/PyTorch 1.9.1/Fairseq environment and preserves the MIT license.",
+  },
 ];
