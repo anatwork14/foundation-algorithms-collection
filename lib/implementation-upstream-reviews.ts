@@ -172,6 +172,44 @@ export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
     ],
     note: "Reviewed statsmodels main after it advanced beyond the immutable Kalman-filter evidence pin. The observed upstream changes concern VAR forecast/IRF argument validation; direct blob comparison confirms both the tracked KalmanFilter implementation and repository license are byte-identical to the pinned snapshot. Retain the existing pin rather than advancing verification for unrelated time-series changes.",
   },
+  {
+    implementationId: "pytorch-adamw",
+    revision: 2,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "b8ef86910433c789ad8d22111e51c941283d05d7",
+    pinnedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "torch/optim/adamw.py",
+        pinnedBlob: "031f8540357d2c62c82b7111cd8b0924e6041510",
+        upstreamBlob: "031f8540357d2c62c82b7111cd8b0924e6041510",
+        changed: false,
+      },
+    ],
+    note: "Reviewed PyTorch main again after it advanced two commits beyond the prior review head through automated torchtitan and audio dependency-hash updates. Direct blob comparison confirms torch/optim/adamw.py is still byte-identical to the immutable evidence pin. Retain the existing archive pin rather than advancing verification for unrelated repository movement.",
+  },
+  {
+    implementationId: "pytorch-multihead-attention",
+    revision: 2,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "b8ef86910433c789ad8d22111e51c941283d05d7",
+    pinnedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "torch/nn/modules/activation.py",
+        pinnedBlob: "533de4fa590109fe189f05747ee8f8f744819192",
+        upstreamBlob: "533de4fa590109fe189f05747ee8f8f744819192",
+        changed: false,
+      },
+    ],
+    note: "Reviewed PyTorch main again after it advanced two commits beyond the prior review head through automated torchtitan and audio dependency-hash updates. Direct blob comparison confirms torch/nn/modules/activation.py is still byte-identical to the immutable MultiheadAttention evidence pin. Retain the existing archive pin rather than advancing verification for unrelated repository movement.",
+  },
 ];
 
 export function validateImplementationUpstreamReviews(
