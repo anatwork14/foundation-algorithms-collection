@@ -8,6 +8,7 @@ import { getAllDocuments } from "@/lib/content";
 import { getEvidenceGapCatalog } from "@/lib/evidence-gaps";
 import { getAlgorithmEvidenceProfile, type EvidenceStage } from "@/lib/evidence-profile";
 import { experiments } from "@/lib/experiments";
+import { implementationUpstreamReviews } from "@/lib/implementation-upstream-reviews";
 import { implementations } from "@/lib/implementations";
 import { references } from "@/lib/references";
 import { relationProvenance } from "@/lib/relation-provenance";
@@ -35,6 +36,7 @@ export default function EvidencePage() {
   const algorithmsWithImplementations = new Set(implementations.flatMap((implementation) => implementation.algorithmIds)).size;
   const algorithmsWithExperiments = new Set(experiments.flatMap((experiment) => experiment.algorithmIds)).size;
   const algorithmsWithReplications = new Set(replications.flatMap((replication) => replication.algorithmIds)).size;
+  const implementationsWithUpstreamReviews = new Set(implementationUpstreamReviews.map((review) => review.implementationId)).size;
   const profiles = algorithms.map((algorithm) => getAlgorithmEvidenceProfile(algorithm.id));
   const stageCounts = new Map<EvidenceStage, number>(evidenceStages.map((stage) => [stage, 0]));
   for (const profile of profiles) stageCounts.set(profile.stage, (stageCounts.get(profile.stage) ?? 0) + 1);
@@ -49,7 +51,7 @@ export default function EvidencePage() {
         <span className="eyebrow"><GitBranch size={13} /> Research evidence</span>
         <h1>Trace an idea from source to code to experiment.</h1>
         <p>
-          Evidence is kept separate from conceptual descriptions so the archive can distinguish source passages, primary literature and standards, executable code, curated claim assertions, project experiments, and independently authored replication evidence.
+          Evidence is kept separate from conceptual descriptions so the archive can distinguish source passages, primary literature and standards, executable code, curated claim assertions, upstream implementation review, project experiments, and independently authored replication evidence.
         </p>
         <EvidenceNav current="overview" />
       </header>
@@ -58,6 +60,7 @@ export default function EvidencePage() {
         <div><strong>{references.length}</strong><span>curated references</span></div>
         <div><strong>{claims.length}</strong><span>curated claims</span></div>
         <div><strong>{implementations.length}</strong><span>implementation records</span></div>
+        <div><strong>{implementationUpstreamReviews.length}</strong><span>upstream reviews</span></div>
         <div><strong>{experiments.length}</strong><span>experiment records</span></div>
         <div><strong>{replications.length}</strong><span>independent replications</span></div>
       </section>
@@ -126,6 +129,15 @@ export default function EvidencePage() {
           <strong>Inspect implementations <ArrowRight size={14} /></strong>
         </Link>
 
+        <Link href="/implementations/reviews" className="evidence-hub-card">
+          <div className="evidence-hub-icon"><RefreshCcw size={19} /></div>
+          <span className="research-block-label">Operational provenance</span>
+          <h2>Upstream Reviews</h2>
+          <p>Append-only decisions that compare immutable implementation pins with later upstream commits without treating branch movement as permission to rewrite evidence.</p>
+          <div className="evidence-card-stats"><span>{implementationUpstreamReviews.length} review revisions</span><span>{implementationsWithUpstreamReviews} implementations reviewed</span></div>
+          <strong>Inspect upstream reviews <ArrowRight size={14} /></strong>
+        </Link>
+
         <Link href="/experiments" className="evidence-hub-card">
           <div className="evidence-hub-icon"><FlaskConical size={19} /></div>
           <span className="research-block-label">Project empirical knowledge</span>
@@ -174,8 +186,9 @@ export default function EvidencePage() {
           <div><span>03</span><ScrollText size={17} /><strong>Source</strong><p>References establish where the mechanism, guarantee, standard, or empirical result comes from.</p></div>
           <div><span>04</span><ShieldCheck size={17} /><strong>Claim</strong><p>Curated claims join a precise archive statement to a unique passage and explicit supporting references.</p></div>
           <div><span>05</span><Code2 size={17} /><strong>Implementation</strong><p>Registry records identify exact inspected code revisions without treating an implementation as proof of correctness.</p></div>
-          <div><span>06</span><FlaskConical size={17} /><strong>Experiment</strong><p>Project experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
-          <div><span>07</span><RefreshCcw size={17} /><strong>Replication</strong><p>Independent records preserve agreement, disagreement, partial reproduction, or inconclusive evaluation without converting any outcome into a truth score.</p></div>
+          <div><span>06</span><RefreshCcw size={17} /><strong>Upstream review</strong><p>Append-only review records preserve what changed upstream and whether the archive should retain, advance, or investigate an immutable implementation pin.</p></div>
+          <div><span>07</span><FlaskConical size={17} /><strong>Experiment</strong><p>Project experiment records state what was tested, against which baselines, and how outcomes should be interpreted.</p></div>
+          <div><span>08</span><RefreshCcw size={17} /><strong>Replication</strong><p>Independent records preserve agreement, disagreement, partial reproduction, or inconclusive evaluation without converting any outcome into a truth score.</p></div>
         </div>
       </section>
 
