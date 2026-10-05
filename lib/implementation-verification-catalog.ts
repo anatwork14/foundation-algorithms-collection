@@ -1,3 +1,4 @@
+import { aiImplementationVerificationAdditions } from "./implementation-verification-ai-additions.ts";
 import { banditImplementationVerificationAdditions } from "./implementation-verification-bandit-additions.ts";
 import { conformalImplementationVerificationAdditions } from "./implementation-verification-conformal-additions.ts";
 import { implementationVerificationFreshnessAdditions } from "./implementation-verification-freshness-additions.ts";
@@ -16,6 +17,7 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
   ...conformalImplementationVerificationAdditions,
   ...qsvtImplementationVerificationAdditions,
   ...banditImplementationVerificationAdditions,
+  ...aiImplementationVerificationAdditions,
   ...implementationVerificationFreshnessAdditions,
 ];
 
