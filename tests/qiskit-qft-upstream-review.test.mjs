@@ -1,0 +1,27 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+import {
+  implementationUpstreamReviewState,
+  upstreamReviewsForImplementation,
+} from "../lib/implementation-upstream-reviews.ts";
+import { getImplementation } from "../lib/implementations.ts";
+
+test("Qiskit QFT upstream review retains the immutable pin after unchanged source inspection", () => {
+  const implementation = getImplementation("qiskit-qft");
+  assert.ok(implementation);
+
+  const reviews = upstreamReviewsForImplementation("qiskit-qft");
+  assert.equal(reviews.length, 1);
+  const review = reviews[0];
+
+  assert.equal(review.pinnedCommit, implementation.verifiedCommit);
+  assert.equal(review.observedCommit, "91895b850b9f8ba466c4d4868af389e249a7c087");
+  assert.equal(review.decision, "Retain pin");
+  assert.equal(review.materialChange, false);
+  assert.deepEqual(
+    review.inspectedPaths.map((item) => [item.path, item.changed, item.pinnedBlob === item.upstreamBlob]),
+    [["qiskit/circuit/library/basis_change/qft.py", false, true]],
+  );
+  assert.equal(implementationUpstreamReviewState(review, review.observedCommit), "Reviewed — retain pin");
+});
