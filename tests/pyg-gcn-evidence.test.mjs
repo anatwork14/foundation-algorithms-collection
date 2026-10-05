@@ -23,7 +23,7 @@ test("PyG GCN is a commit-pinned executable GNN record with matching verificatio
   assert.deepEqual(history[0].sourcePaths, implementation.sourcePaths);
 });
 
-test("GNN executable coverage now includes both PyG GCN and GraphSAGE", () => {
+test("GNN executable coverage includes PyG GAT, GCN, and GraphSAGE", () => {
   const ids = implementationsForAlgorithm("graph-neural-networks").map((item) => item.id).sort();
-  assert.deepEqual(ids, ["pyg-gcn", "pyg-graphsage"]);
+  assert.deepEqual(ids, ["pyg-gat", "pyg-gcn", "pyg-graphsage"]);
 });
