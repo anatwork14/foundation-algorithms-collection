@@ -57,6 +57,17 @@ export const replications: ReplicationRecord[] = [
     independenceNote: "Nicolas Dewolf, Bernard De Baets, and Willem Waegeman have no author overlap with Yaniv Romano, Evan Patterson, or Emmanuel J. Candès. Their paper is an independently authored conceptual and experimental comparison across multiple prediction-interval method classes and benchmark datasets rather than an extension written by the original CQR authors.",
     verifiedAt: "2026-10-04",
   },
+  {
+    id: "dwivedi-2023-gnn-benchmark",
+    title: "Independent benchmark evaluation of GCN and GraphSAGE",
+    algorithmIds: ["graph-neural-networks"],
+    replicationReferenceId: "dwivedi-2023-gnn-benchmark",
+    originalReferenceIds: ["kipf-welling-2017-gcn", "hamilton-2017-graphsage"],
+    outcome: "Partially supports",
+    summary: "Dwivedi et al. benchmark GCN, GraphSAGE, and other graph architectures under a shared reproducible framework with common parameter-budget and training-protocol constraints. Their results show that both GCN and GraphSAGE remain useful competitive baselines but that relative performance changes across datasets, tasks, depth, and architecture choices. The archive therefore records partial support for the practical mechanisms rather than treating the benchmark as a universal reproduction or ranking of the original methods.",
+    independenceNote: "Vijay Prakash Dwivedi, Chaitanya K. Joshi, Anh Tuan Luu, Thomas Laurent, Yoshua Bengio, and Xavier Bresson have no author overlap with Thomas Kipf, Max Welling, William Hamilton, Rex Ying, or Jure Leskovec. The JMLR benchmark is independently authored and evaluates multiple graph architectures under a common experimental framework.",
+    verifiedAt: "2026-10-05",
+  },
 ];
 
 const byId = new Map(replications.map((record) => [record.id, record]));
