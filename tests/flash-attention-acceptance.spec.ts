@@ -6,5 +6,5 @@ test("Transformer detail exposes FlashAttention method, extension, and executabl
   await expect(page.getByRole("heading", { name: "Transformer Attention" })).toBeVisible();
   await expect(page.getByRole("link", { name: /FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /FlashAttention-2/i })).toBeVisible();
+  await expect(page.locator('a[href="/implementations/dao-flash-attention-2"]')).toBeVisible();
 });
