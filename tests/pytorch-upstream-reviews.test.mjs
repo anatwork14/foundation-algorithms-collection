@@ -21,22 +21,37 @@ const cases = [
 ];
 
 for (const item of cases) {
-  test(`${item.id} retains its immutable pin after unchanged tracked-source inspection`, () => {
+  test(`${item.id} preserves append-only retain-pin reviews across unchanged tracked-source inspections`, () => {
     const implementation = getImplementation(item.id);
     assert.ok(implementation);
 
     const reviews = upstreamReviewsForImplementation(item.id);
-    assert.equal(reviews.length, 1);
-    const review = reviews[0];
-
-    assert.equal(review.pinnedCommit, implementation.verifiedCommit);
-    assert.equal(review.observedCommit, "fc695b3ea18cb62d839658fd919217227a919855");
-    assert.equal(review.decision, "Retain pin");
-    assert.equal(review.materialChange, false);
+    assert.equal(reviews.length, 2);
+    assert.deepEqual(reviews.map((review) => review.revision), [1, 2]);
     assert.deepEqual(
-      review.inspectedPaths.map((path) => [path.path, path.pinnedBlob, path.upstreamBlob, path.changed]),
-      [[item.path, item.blob, item.blob, false]],
+      reviews.map((review) => review.observedCommit),
+      [
+        "fc695b3ea18cb62d839658fd919217227a919855",
+        "b8ef86910433c789ad8d22111e51c941283d05d7",
+      ],
     );
-    assert.equal(implementationUpstreamReviewState(review, review.observedCommit), "Reviewed — retain pin");
+
+    for (const review of reviews) {
+      assert.equal(review.pinnedCommit, implementation.verifiedCommit);
+      assert.equal(review.decision, "Retain pin");
+      assert.equal(review.materialChange, false);
+      assert.deepEqual(
+        review.inspectedPaths.map((path) => [path.path, path.pinnedBlob, path.upstreamBlob, path.changed]),
+        [[item.path, item.blob, item.blob, false]],
+      );
+    }
+
+    const latest = reviews.at(-1);
+    assert.ok(latest);
+    assert.equal(implementationUpstreamReviewState(latest, latest.observedCommit), "Reviewed — retain pin");
+    assert.equal(
+      implementationUpstreamReviewState(latest, reviews[0].observedCommit),
+      "Review available",
+    );
   });
 }
