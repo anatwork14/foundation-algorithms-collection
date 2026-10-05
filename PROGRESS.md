@@ -32,9 +32,9 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 36 curated passage-backed Claims
-  ├── 38 curated References + citation graph
-  ├── 26 commit-pinned Implementation records + append-only verification history
+  ├── 37 curated passage-backed Claims
+  ├── 39 curated References + citation graph
+  ├── 27 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 4 independent Replication/Evaluation records
@@ -222,9 +222,9 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **36 curated passage-backed Claims**.
-- [x] **38 curated References**.
-- [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing, Kipf–Welling GCN plus normalized-neighbor aggregation, and Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation, all tied to the live neural-architectures chapter.
+- [x] **37 curated passage-backed Claims**.
+- [x] **39 curated References**.
+- [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; and Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 independent GNN evaluation adds Dwivedi et al.'s JMLR benchmark as a no-author-overlap comparison of GCN and GraphSAGE under a common reproducible parameter/training framework; the archive records partial support because relative performance varies across tasks and datasets rather than asserting a universal winner.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension, source-backs both LinUCB↔Thompson Sampling directions, and now source-backs both UCB1↔Thompson Sampling alternative-method directions using the independently authored Chapelle–Li evaluation without asserting a universal winner.
@@ -241,8 +241,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
-- [x] **26 implementation records** currently registered.
-- [x] PyTorch Geometric now provides separate commit-pinned GCN and GraphSAGE implementation records at the same immutable upstream revision. `GCNConv` exposes Kipf–Welling symmetric degree normalization, self-loop/weighted-edge handling, sparse adjacency, and transductive caching with pinned tests for dense/sparse equivalence, weights, caching, flow, sparse features, and TorchScript; `SAGEConv` defaults to mean neighborhood aggregation, applies learned transforms to aggregated neighbor and optional root features, supports optional projection/output normalization and sparse message aggregation, and has pinned tests spanning dense/sparse adjacency, bipartite message passing, alternative aggregators, JIT, and compilation. Kipf–Welling and Hamilton–Ying–Leskovec remain the primary method sources and the independent JMLR benchmark remains separate empirical evidence.
+- [x] **27 implementation records** currently registered.
+- [x] PyTorch Geometric now provides separate commit-pinned GCN, GraphSAGE, and GAT implementation records at the same immutable upstream revision. `GCNConv` exposes Kipf–Welling symmetric degree normalization, self-loop/weighted-edge handling, sparse adjacency, and transductive caching; `SAGEConv` exposes learned sampled-neighborhood aggregation with optional projection/root features and alternative aggregators; and `GATConv` exposes learned multi-head neighborhood attention, returned attention weights, bipartite inputs, residuals, and edge-feature-aware attention. Their pinned tests exercise dense/sparse paths and the relevant API behavior, while the GAT snapshot explicitly preserves the unsupported SparseTensor edge-attribute plus automatic-self-loop combination. Kipf–Welling, Hamilton–Ying–Leskovec, and Veličković et al. remain the primary method sources and independent evaluation remains a separate evidence layer.
 - [x] MAPIE now provides a commit-pinned Conformal Prediction implementation record scoped to Conformalized Quantile Regression: the inspected source fits lower/upper quantile estimators, calibrates on a held-out conformalization set through conformity scores, and exposes calibrated prediction intervals, with a matching revision-1 verification snapshot. Romano–Patterson–Candès 2019 remains the theoretical authority; the implementation does not establish conditional coverage or robustness under distribution shift.
 - [x] PennyLane now provides a commit-pinned QSVT implementation record scoped to polynomial singular-value transformation: the high-level `qsvt` wrapper converts polynomial coefficients to QSVT phase angles, chooses a supported block encoding, constructs projector-controlled phases, and returns the `QSVT` circuit template, while pinned tests exercise validity, decomposition, and numerical behavior. The snapshot preserves encoding/normalization constraints and does not treat executable support as evidence of end-to-end quantum advantage.
 - [x] MABWiser now provides one commit-pinned executable bandit record spanning LinUCB, UCB1, and Thompson Sampling: the inspected LinUCB path is the disjoint/per-arm ridge-regression form with an uncertainty bonus, UCB1 uses mean plus a count/log confidence term, and Thompson Sampling draws from Beta success/failure posteriors with binary rewards or an explicit binarizer. The matching revision-1 snapshot preserves those distinct scopes instead of treating the three exploration strategies as equivalent or inheriting theoretical guarantees for arbitrary tuning and reward models.
