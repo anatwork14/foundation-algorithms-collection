@@ -128,6 +128,50 @@ export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
     ],
     note: "Reviewed PyTorch main after it advanced beyond the immutable MultiheadAttention evidence pin. The tracked activation.py blob is byte-identical at the observed main revision, so the archive's query/key/value projection and scaled-dot-product-attention implementation evidence has not materially changed. Retain the existing pin rather than advancing verification solely because main moved.",
   },
+  {
+    implementationId: "z3-sat-smt",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "master",
+    observedCommit: "0f985010a6dd3d263a4c0fc82afeaf5ef12adbc7",
+    pinnedCommit: "ce305e38247a7b9c75953a47e5683ab7bd2bce87",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "src/solver/solver.cpp",
+        pinnedBlob: "8dd352579fad471522c7aa383b3aa55e6311b9dd",
+        upstreamBlob: "8dd352579fad471522c7aa383b3aa55e6311b9dd",
+        changed: false,
+      },
+    ],
+    note: "Reviewed Z3 master after it advanced beyond the immutable solver-interface evidence pin. Current upstream work includes optimizer search-bound changes, while direct blob comparison confirms src/solver/solver.cpp—the registry's inspected abstract solver interface—is byte-identical to the pinned snapshot. Retain the existing pin; broader Z3 subsystems may continue changing without implying this tracked interface evidence changed.",
+  },
+  {
+    implementationId: "statsmodels-kalman-filter",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "15d85ecd4e9daa67820f7c8318e7c8d578b21d5f",
+    pinnedCommit: "cc001c25997351ecbd0b04d2968a08106a04a71f",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "statsmodels/tsa/statespace/kalman_filter.py",
+        pinnedBlob: "5b195f874c8344378bbbad74d0203b33480b5d83",
+        upstreamBlob: "5b195f874c8344378bbbad74d0203b33480b5d83",
+        changed: false,
+      },
+      {
+        path: "LICENSE.txt",
+        pinnedBlob: "47cd54eec489af242da0e1a9fe00f1ed15cf2e69",
+        upstreamBlob: "47cd54eec489af242da0e1a9fe00f1ed15cf2e69",
+        changed: false,
+      },
+    ],
+    note: "Reviewed statsmodels main after it advanced beyond the immutable Kalman-filter evidence pin. The observed upstream changes concern VAR forecast/IRF argument validation; direct blob comparison confirms both the tracked KalmanFilter implementation and repository license are byte-identical to the pinned snapshot. Retain the existing pin rather than advancing verification for unrelated time-series changes.",
+  },
 ];
 
 export function validateImplementationUpstreamReviews(
