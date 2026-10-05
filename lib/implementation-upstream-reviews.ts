@@ -90,6 +90,44 @@ export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
     ],
     note: "Reviewed Qiskit main after it advanced beyond the immutable QFT evidence pin. Direct blob comparison confirms qft.py is byte-identical at the observed main revision, while the intervening commits are unrelated to this tracked QFT source. Retain the existing archive pin rather than advancing verification solely because the branch head moved.",
   },
+  {
+    implementationId: "pytorch-adamw",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "fc695b3ea18cb62d839658fd919217227a919855",
+    pinnedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "torch/optim/adamw.py",
+        pinnedBlob: "031f8540357d2c62c82b7111cd8b0924e6041510",
+        upstreamBlob: "031f8540357d2c62c82b7111cd8b0924e6041510",
+        changed: false,
+      },
+    ],
+    note: "Reviewed PyTorch main after it advanced beyond the immutable AdamW evidence pin. Direct blob comparison confirms torch/optim/adamw.py is byte-identical at the observed main revision, including the explicit decoupled_weight_decay=True behavior tracked by the archive. Retain the existing pin rather than advancing verification for unrelated upstream movement.",
+  },
+  {
+    implementationId: "pytorch-multihead-attention",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "fc695b3ea18cb62d839658fd919217227a919855",
+    pinnedCommit: "68d62895fad677a8497f83eef2e0e348d7c7f1ab",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "torch/nn/modules/activation.py",
+        pinnedBlob: "533de4fa590109fe189f05747ee8f8f744819192",
+        upstreamBlob: "533de4fa590109fe189f05747ee8f8f744819192",
+        changed: false,
+      },
+    ],
+    note: "Reviewed PyTorch main after it advanced beyond the immutable MultiheadAttention evidence pin. The tracked activation.py blob is byte-identical at the observed main revision, so the archive's query/key/value projection and scaled-dot-product-attention implementation evidence has not materially changed. Retain the existing pin rather than advancing verification solely because main moved.",
+  },
 ];
 
 export function validateImplementationUpstreamReviews(
