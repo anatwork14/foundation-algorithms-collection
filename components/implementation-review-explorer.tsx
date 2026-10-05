@@ -116,7 +116,7 @@ export function ImplementationReviewExplorer({
           const implementation = implementationsById.get(review.implementationId);
           if (!implementation) return null;
           return (
-            <article key={`${review.implementationId}-${review.revision}`} className="implementation-row">
+            <article id={`${review.implementationId}-r${review.revision}`} key={`${review.implementationId}-${review.revision}`} className="implementation-row">
               <div className="implementation-language">U{review.revision}</div>
               <div>
                 <div className="implementation-overline">{review.decision} · reviewed {review.reviewedAt}</div>
