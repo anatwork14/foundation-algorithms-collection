@@ -7,8 +7,9 @@ test("implementation registry exposes upstream review filtering", async ({ page 
   await expect(reviewFilter).toBeVisible();
   await reviewFilter.selectOption("Reviewed");
 
-  await expect(page.getByRole("heading", { name: /Faiss HNSW/i })).toBeVisible();
-  await expect(page.getByText(/Upstream review 2026-10-05 · Retain pin/i)).toBeVisible();
+  const faissRow = page.locator(".implementation-row").filter({ hasText: "Faiss HNSW" });
+  await expect(faissRow).toBeVisible();
+  await expect(faissRow).toContainText("Upstream review 2026-10-05 · Retain pin");
 });
 
 test("Faiss detail exposes append-only upstream review evidence", async ({ page }) => {
