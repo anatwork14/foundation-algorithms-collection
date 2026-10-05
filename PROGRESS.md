@@ -34,7 +34,7 @@ Combination Lab
 Evidence
   ├── 36 curated passage-backed Claims
   ├── 38 curated References + citation graph
-  ├── 24 commit-pinned Implementation records + append-only verification history
+  ├── 25 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 4 independent Replication/Evaluation records
@@ -241,7 +241,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
-- [x] **24 implementation records** currently registered.
+- [x] **25 implementation records** currently registered.
+- [x] PyTorch Geometric now provides a commit-pinned GraphSAGE implementation record scoped to `SAGEConv`: the inspected source defaults to mean neighborhood aggregation, applies learned transforms to aggregated neighbor and optional root features, supports optional projection/output normalization and sparse message aggregation, and has pinned tests spanning dense/sparse adjacency, bipartite message passing, alternative aggregators, JIT, and compilation. Hamilton–Ying–Leskovec remains the primary method source and the independent JMLR benchmark remains separate empirical evidence.
 - [x] MAPIE now provides a commit-pinned Conformal Prediction implementation record scoped to Conformalized Quantile Regression: the inspected source fits lower/upper quantile estimators, calibrates on a held-out conformalization set through conformity scores, and exposes calibrated prediction intervals, with a matching revision-1 verification snapshot. Romano–Patterson–Candès 2019 remains the theoretical authority; the implementation does not establish conditional coverage or robustness under distribution shift.
 - [x] PennyLane now provides a commit-pinned QSVT implementation record scoped to polynomial singular-value transformation: the high-level `qsvt` wrapper converts polynomial coefficients to QSVT phase angles, chooses a supported block encoding, constructs projector-controlled phases, and returns the `QSVT` circuit template, while pinned tests exercise validity, decomposition, and numerical behavior. The snapshot preserves encoding/normalization constraints and does not treat executable support as evidence of end-to-end quantum advantage.
 - [x] MABWiser now provides one commit-pinned executable bandit record spanning LinUCB, UCB1, and Thompson Sampling: the inspected LinUCB path is the disjoint/per-arm ridge-regression form with an uncertainty bonus, UCB1 uses mean plus a count/log confidence term, and Thompson Sampling draws from Beta success/failure posteriors with binary rewards or an explicit binarizer. The matching revision-1 snapshot preserves those distinct scopes instead of treating the three exploration strategies as equivalent or inheriting theoretical guarantees for arbitrary tuning and reward models.
