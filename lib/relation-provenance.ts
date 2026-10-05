@@ -131,6 +131,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     verifiedAt: "2026-10-02",
   },
   {
+    sourceId: "transformer-attention",
+    targetId: "state-space-models",
+    relationType: "alternative-to",
+    referenceIds: ["gu-2023-mamba"],
+    evidenceNote: "Gu and Dao motivate selective state-space models by contrasting their linear-time recurrent sequence computation with the quadratic sequence-length cost of Transformer attention. The primary Mamba paper therefore directly supports the inverse Transformer-to-SSM alternative edge while preserving the architectures' different memory, routing, and content-interaction mechanisms.",
+    verifiedAt: "2026-10-05",
+  },
+  {
     sourceId: "a-star",
     targetId: "dijkstra",
     relationType: "generalizes",
