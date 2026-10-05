@@ -148,6 +148,16 @@ export const claims: ClaimRecord[] = [
     note: "The claim describes selectivity as a mechanism. It does not assert universal superiority over attention or other sequence architectures.",
   },
   {
+    id: "moe-sparse-expert-routing",
+    kind: "Mechanism",
+    statement: "Sparse mixture-of-experts models use a trainable router to activate only a subset of expert subnetworks for each input, separating total parameter capacity from active computation.",
+    algorithmIds: ["mixture-of-experts"],
+    chapterSlug: "11-neural-architectures-attention-ssm-moe-gnn",
+    passageContains: "A mixture-of-experts model contains multiple expert networks and a router",
+    referenceIds: ["shazeer-2017-sparsely-gated-moe"],
+    note: "This claim is limited to sparse conditional expert routing. Routing balance, communication overhead, capacity limits, expert specialization, and end-to-end quality remain architecture- and system-dependent.",
+  },
+  {
     id: "qpe-controlled-eigenphase-estimation",
     kind: "Mechanism",
     statement: "Quantum Phase Estimation uses controlled powers of a unitary and an inverse Fourier-style readout to convert an eigenstate's accumulated phase into an estimate of its eigenphase.",
@@ -357,12 +367,4 @@ export function getClaim(id: string) {
 
 export function claimsForAlgorithm(algorithmId: string) {
   return claims.filter((claim) => claim.algorithmIds.includes(algorithmId));
-}
-
-export function claimsForReference(referenceId: string) {
-  return claims.filter((claim) => claim.referenceIds.includes(referenceId));
-}
-
-export function claimSearchText(claim: ClaimRecord) {
-  return [claim.statement, claim.kind, claim.note, ...claim.algorithmIds, ...claim.referenceIds].join(" ").toLowerCase();
 }
