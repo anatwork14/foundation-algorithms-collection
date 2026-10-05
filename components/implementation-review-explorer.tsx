@@ -6,7 +6,11 @@ import { ArrowRight, ExternalLink, GitBranch, RefreshCcw, Search } from "lucide-
 import { EvidenceNav } from "@/components/evidence-nav";
 import { RegistryToolbar } from "@/components/registry-toolbar";
 import { ResearchPageHeader } from "@/components/research-page-header";
-import type { ImplementationUpstreamReview, ImplementationUpstreamReviewDecision } from "@/lib/implementation-upstream-reviews";
+import {
+  implementationUpstreamReviewSearchText,
+  type ImplementationUpstreamReview,
+  type ImplementationUpstreamReviewDecision,
+} from "@/lib/implementation-upstream-reviews";
 import type { ImplementationRecord } from "@/lib/implementations";
 
 type DecisionFilter = "All" | ImplementationUpstreamReviewDecision;
@@ -56,18 +60,8 @@ export function ImplementationReviewExplorer({
       const materialMatch = material === "All"
         || (material === "Changed" && review.materialChange)
         || (material === "Unchanged" && !review.materialChange);
-      const searchText = [
-        implementation?.name ?? review.implementationId,
-        review.implementationId,
-        review.decision,
-        review.reviewedAt,
-        review.observedRef,
-        review.observedCommit,
-        review.pinnedCommit,
-        review.note,
-        ...review.inspectedPaths.flatMap((item) => [item.path, item.pinnedBlob, item.upstreamBlob, item.changed ? "changed" : "unchanged"]),
-      ].join(" ").toLowerCase();
-      return decisionMatch && materialMatch && (!needle || searchText.includes(needle));
+      const queryMatch = !needle || implementationUpstreamReviewSearchText(review, implementation?.name).includes(needle);
+      return decisionMatch && materialMatch && queryMatch;
     });
   }, [decision, implementationsById, material, orderedReviews, query]);
 
