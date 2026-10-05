@@ -178,6 +178,16 @@ export const claims: ClaimRecord[] = [
     note: "This claim is limited to GraphSAGE's inductive sampled-neighborhood aggregation mechanism. Accuracy, neighborhood fanout, memory, and runtime tradeoffs remain dataset- and implementation-dependent.",
   },
   {
+    id: "gat-learned-neighbor-attention",
+    kind: "Mechanism",
+    statement: "Graph Attention Networks learn attention coefficients over graph neighborhoods so different neighboring nodes can receive different data-dependent aggregation weights instead of relying on fixed normalized adjacency weights.",
+    algorithmIds: ["graph-neural-networks"],
+    chapterSlug: "11-neural-architectures-attention-ssm-moe-gnn",
+    passageContains: "GAT learns neighbor weights using attention rather than fixed normalized adjacency weights",
+    referenceIds: ["velickovic-2018-gat"],
+    note: "This claim is limited to the defining learned neighborhood-attention mechanism of GAT. Attention expressivity, head count, sparsity, edge-feature handling, oversmoothing/oversquashing, and empirical performance remain architecture-, graph-, and implementation-dependent.",
+  },
+  {
     id: "qpe-controlled-eigenphase-estimation",
     kind: "Mechanism",
     statement: "Quantum Phase Estimation uses controlled powers of a unitary and an inverse Fourier-style readout to convert an eigenstate's accumulated phase into an estimate of its eigenphase.",
