@@ -26,13 +26,14 @@ for (const item of cases) {
     assert.ok(implementation);
 
     const reviews = upstreamReviewsForImplementation(item.id);
-    assert.equal(reviews.length, 2);
-    assert.deepEqual(reviews.map((review) => review.revision), [1, 2]);
+    assert.equal(reviews.length, 3);
+    assert.deepEqual(reviews.map((review) => review.revision), [1, 2, 3]);
     assert.deepEqual(
       reviews.map((review) => review.observedCommit),
       [
         "fc695b3ea18cb62d839658fd919217227a919855",
         "b8ef86910433c789ad8d22111e51c941283d05d7",
+        "cf2cd3d06f8381f5503ccba4afbae7386f6d4e70",
       ],
     );
 
@@ -50,7 +51,7 @@ for (const item of cases) {
     assert.ok(latest);
     assert.equal(implementationUpstreamReviewState(latest, latest.observedCommit), "Reviewed — retain pin");
     assert.equal(
-      implementationUpstreamReviewState(latest, reviews[0].observedCommit),
+      implementationUpstreamReviewState(latest, reviews[1].observedCommit),
       "Review available",
     );
   });
