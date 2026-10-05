@@ -32,9 +32,10 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 33 curated passage-backed Claims
-  ├── 34 curated References + citation graph
+  ├── 34 curated passage-backed Claims
+  ├── 35 curated References + citation graph
   ├── 24 commit-pinned Implementation records + append-only verification history
+  ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 3 independent Replication/Evaluation records
   ├── 30 source-backed Atlas relations
@@ -218,11 +219,12 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 ## Implemented
 
 - [x] Unified Evidence overview/navigation + Evidence Gaps.
-- [x] References, Implementations, Experiments, Passages, Claims, Replications as separate record surfaces.
+- [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **33 curated passage-backed Claims**.
-- [x] **34 curated References**.
+- [x] **34 curated passage-backed Claims**.
+- [x] **35 curated References**.
+- [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper as the primary MoE source and a passage-backed sparse expert-routing Claim tied to the live neural-architectures chapter.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension, source-backs both LinUCB↔Thompson Sampling directions, and now source-backs both UCB1↔Thompson Sampling alternative-method directions using the independently authored Chapelle–Li evaluation without asserting a universal winner.
 - [x] New 2026-10-04 replication coverage adds Dewolf–De Baets–Waegeman's independently authored prediction-interval comparison for Conformal Prediction/CQR. The source explicitly attributes the CQR calibration construction to Romano–Patterson–Candès, reports substantial benchmark-to-benchmark performance variation, and is therefore curated as partial support rather than as a universal reproduction of CQR efficiency, conditional coverage, or distribution-shift robustness.
@@ -237,6 +239,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
+- [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
 - [x] **24 implementation records** currently registered.
 - [x] MAPIE now provides a commit-pinned Conformal Prediction implementation record scoped to Conformalized Quantile Regression: the inspected source fits lower/upper quantile estimators, calibrates on a held-out conformalization set through conformity scores, and exposes calibrated prediction intervals, with a matching revision-1 verification snapshot. Romano–Patterson–Candès 2019 remains the theoretical authority; the implementation does not establish conditional coverage or robustness under distribution shift.
 - [x] PennyLane now provides a commit-pinned QSVT implementation record scoped to polynomial singular-value transformation: the high-level `qsvt` wrapper converts polynomial coefficients to QSVT phase angles, chooses a supported block encoding, constructs projector-controlled phases, and returns the `QSVT` circuit template, while pinned tests exercise validity, decomposition, and numerical behavior. The snapshot preserves encoding/normalization constraints and does not treat executable support as evidence of end-to-end quantum advantage.
@@ -259,7 +262,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - Each Implementation points to an immutable 40-character commit and exact source paths.
 - Append-only verification history must match the current registry snapshot.
 - CI reports whether the tracked upstream branch has moved.
-- Upstream movement is a review signal, never permission to auto-advance an archive pin.
+- Upstream movement is reviewed in a separate append-only ledger and is never permission to auto-advance an archive pin.
 
 ## Open
 
@@ -281,7 +284,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Deterministic ranked multi-passage lexical matching.
 - [x] Complete long-chapter passage corpus remains searchable/inspectable.
 - [x] Dedicated `/passages` provenance search.
-- [x] Global command search across entity/evidence/chapter types.
+- [x] Global command search across entity/evidence/chapter types, including upstream Implementation review records and stable review anchors.
 - [x] Evidence Gaps deterministic curation-planning view.
 
 ## Deferred intentionally
