@@ -71,6 +71,25 @@ export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
     ],
     note: "Reviewed Qiskit main after it advanced two commits beyond the immutable phase-estimation evidence pin. The intervening changes are confined to C-language tests, including memory-leak cleanup, while direct blob comparison confirms both the phase_estimation.py implementation and its Python test suite are byte-identical to the pinned snapshot. Retain the existing archive pin rather than advancing verification for unrelated upstream movement.",
   },
+  {
+    implementationId: "qiskit-qft",
+    revision: 1,
+    reviewedAt: "2026-10-05",
+    observedRef: "main",
+    observedCommit: "91895b850b9f8ba466c4d4868af389e249a7c087",
+    pinnedCommit: "a1c2c2e796ff265c59a916c49d09942b27eb0e28",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      {
+        path: "qiskit/circuit/library/basis_change/qft.py",
+        pinnedBlob: "edb42f01975157542287640de56ddd74839df49e",
+        upstreamBlob: "edb42f01975157542287640de56ddd74839df49e",
+        changed: false,
+      },
+    ],
+    note: "Reviewed Qiskit main after it advanced beyond the immutable QFT evidence pin. Direct blob comparison confirms qft.py is byte-identical at the observed main revision, while the intervening commits are unrelated to this tracked QFT source. Retain the existing archive pin rather than advancing verification solely because the branch head moved.",
+  },
 ];
 
 export function validateImplementationUpstreamReviews(
