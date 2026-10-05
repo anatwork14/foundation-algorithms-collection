@@ -15,6 +15,25 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(faissRecord.getByRole("link", { name: /Compare commits/i })).toBeVisible();
 });
 
+test("upstream review registry filters by decision, material change, and source-path search", async ({ page }) => {
+  await page.goto("/implementations/reviews");
+
+  const decision = page.getByRole("combobox", { name: "Filter upstream reviews by decision" });
+  const material = page.getByRole("combobox", { name: "Filter upstream reviews by material change" });
+  const search = page.getByRole("searchbox", { name: "Search upstream implementation reviews" });
+
+  await decision.selectOption("Needs follow-up");
+  await expect(page.getByText("No matching upstream review.")).toBeVisible();
+
+  await decision.selectOption("Retain pin");
+  await material.selectOption("Changed");
+  await expect(page.getByText("No matching upstream review.")).toBeVisible();
+
+  await material.selectOption("Unchanged");
+  await search.fill("IndexHNSW.cpp");
+  await expect(page.getByRole("article").filter({ hasText: "Faiss" })).toBeVisible();
+});
+
 test("Evidence navigation reaches the upstream review registry", async ({ page }) => {
   await page.goto("/implementations");
   await page.getByRole("link", { name: "Reviews" }).click();
