@@ -94,7 +94,7 @@ test("Evidence destinations stay an editorial index rather than a dashboard-card
 
   const grid = page.locator(".evidence-hub-grid");
   const rows = grid.locator(":scope > .evidence-hub-card");
-  await expect(rows).toHaveCount(7);
+  await expect(rows).toHaveCount(8);
 
   const layout = await rows.evaluateAll((elements) => elements.map((element) => {
     const rect = element.getBoundingClientRect();
@@ -115,12 +115,12 @@ test("Evidence destinations stay an editorial index rather than a dashboard-card
   expect(layout.every((row) => row.background === "rgba(0, 0, 0, 0)")).toBeTruthy();
 });
 
-test("Evidence flow renders seven real steps without a phantom grid cell", async ({ page }) => {
+test("Evidence flow renders eight real steps without a phantom grid cell", async ({ page }) => {
   await page.setViewportSize(desktop);
   await page.goto("/evidence", { waitUntil: "domcontentloaded" });
 
   const flow = page.locator(".evidence-flow-grid");
-  await expect(flow.locator(":scope > div")).toHaveCount(7);
+  await expect(flow.locator(":scope > div")).toHaveCount(8);
   const background = await flow.evaluate((element) => getComputedStyle(element).backgroundColor);
   expect(background).toBe("rgba(0, 0, 0, 0)");
 });
