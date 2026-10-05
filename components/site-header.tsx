@@ -11,6 +11,7 @@ import { claims, claimSearchText } from "@/lib/claims";
 import type { DocSummary } from "@/lib/content";
 import { getAlgorithmEvidenceProfile } from "@/lib/evidence-profile";
 import { experiments, experimentSearchText } from "@/lib/experiments";
+import { implementationUpstreamReviews } from "@/lib/implementation-upstream-reviews";
 import { implementations, implementationSearchText } from "@/lib/implementations";
 import { references, referenceSearchText } from "@/lib/references";
 import { replications, replicationSearchText } from "@/lib/replications";
@@ -26,7 +27,7 @@ type SearchResult = {
   href: string;
   marker: string;
   score: number;
-  kind: "algorithm" | "variant" | "chapter" | "reference" | "implementation" | "experiment" | "claim" | "replication";
+  kind: "algorithm" | "variant" | "chapter" | "reference" | "implementation" | "implementation-review" | "experiment" | "claim" | "replication";
 };
 
 function linkedField(algorithmIds: string[]): ResearchField {
@@ -121,6 +122,19 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
           score: 1,
           kind: "implementation" as const,
         })),
+        ...implementationUpstreamReviews.slice(0, 1).map((review) => {
+          const implementation = implementations.find((item) => item.id === review.implementationId);
+          return {
+            id: `implementation-review-${review.implementationId}-${review.revision}`,
+            title: `${implementation?.name ?? review.implementationId} upstream review`,
+            field: linkedField(implementation?.algorithmIds ?? []),
+            meta: `${review.decision} · ${review.reviewedAt} · observed ${review.observedRef}`,
+            href: `/implementations/reviews#${review.implementationId}-r${review.revision}`,
+            marker: "REV",
+            score: 1,
+            kind: "implementation-review" as const,
+          };
+        }),
         ...experiments.slice(0, 2).map((experiment) => ({
           id: `experiment-${experiment.id}`,
           title: experiment.title,
@@ -244,6 +258,35 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
+    const implementationReviewResults: SearchResult[] = implementationUpstreamReviews.map((review) => {
+      const implementation = implementations.find((item) => item.id === review.implementationId);
+      const title = `${implementation?.name ?? review.implementationId} upstream review`;
+      const exactTitle = title.toLowerCase() === needle ? 12 : 0;
+      const titleHit = title.toLowerCase().includes(needle) ? 8 : 0;
+      const bodyHit = [
+        review.implementationId,
+        review.decision,
+        review.reviewedAt,
+        review.observedRef,
+        review.observedCommit,
+        review.pinnedCommit,
+        review.note,
+        review.materialChange ? "material change" : "no material change unchanged",
+        ...review.inspectedPaths.flatMap((item) => [item.path, item.pinnedBlob, item.upstreamBlob, item.changed ? "changed" : "unchanged"]),
+      ].join(" ").toLowerCase().includes(needle) ? 4 : 0;
+      return {
+        id: `implementation-review-${review.implementationId}-${review.revision}`,
+        title,
+        field: linkedField(implementation?.algorithmIds ?? []),
+        meta: `${review.decision} · ${review.reviewedAt} · observed ${review.observedRef}`,
+        context: review.note,
+        href: `/implementations/reviews#${review.implementationId}-r${review.revision}`,
+        marker: "REV",
+        score: exactTitle + titleHit + bodyHit,
+        kind: "implementation-review",
+      };
+    });
+
     const experimentResults: SearchResult[] = experiments.map((experiment) => {
       const exactTitle = experiment.title.toLowerCase() === needle ? 12 : 0;
       const titleHit = experiment.title.toLowerCase().includes(needle) ? 8 : 0;
@@ -282,7 +325,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
       };
     });
 
-    return [...algorithmResults, ...variantResults, ...claimResults, ...replicationResults, ...referenceResults, ...implementationResults, ...experimentResults, ...chapterResults]
+    return [...algorithmResults, ...variantResults, ...claimResults, ...replicationResults, ...referenceResults, ...implementationResults, ...implementationReviewResults, ...experimentResults, ...chapterResults]
       .filter((entry) => entry.score > 0)
       .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
       .slice(0, 10);
@@ -303,6 +346,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
     if (kind === "replication") return "Independent replication";
     if (kind === "reference") return "Reference";
     if (kind === "implementation") return "Implementation";
+    if (kind === "implementation-review") return "Implementation upstream review";
     if (kind === "experiment") return "Experiment";
     return "Research chapter";
   }
@@ -373,7 +417,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
                 ref={inputRef}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search algorithms, variants, claims, replications, papers, code, experiments, chapters…"
+                placeholder="Search algorithms, variants, claims, reviews, replications, papers, code, experiments, chapters…"
                 aria-label="Search research"
               />
               <button onClick={() => setSearchOpen(false)} aria-label="Close search">Esc</button>
@@ -403,7 +447,7 @@ export function SiteHeader({ documents }: { documents: DocSummary[] }) {
               )) : <div className="empty-search">No research entity matches that phrase yet.</div>}
             </div>
             <div className="palette-footer">
-              <span>Algorithms + variants + claims + replications + sources + code + experiments + chapters</span>
+              <span>Algorithms + variants + claims + reviews + replications + sources + code + experiments + chapters</span>
               <span>Chapter body matches rank inspectable passages and jump to the top section</span>
             </div>
           </div>
