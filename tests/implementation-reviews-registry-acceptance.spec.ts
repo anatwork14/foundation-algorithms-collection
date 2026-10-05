@@ -6,8 +6,8 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(page.getByRole("heading", { name: "Review branch movement without rewriting evidence history." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Reviews" })).toHaveAttribute("aria-current", "page");
   const coverage = page.getByRole("region", { name: "Upstream review coverage" });
-  await expect(coverage).toContainText("5review revisions");
-  await expect(coverage).toContainText("5retain-pin decisions");
+  await expect(coverage).toContainText("7review revisions");
+  await expect(coverage).toContainText("7retain-pin decisions");
 
   const faissRecord = page.getByRole("article").filter({ hasText: "Faiss" });
   await expect(faissRecord).toContainText("Retain pin");
@@ -36,6 +36,15 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   const attentionRecord = page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" });
   await expect(attentionRecord).toContainText("torch/nn/modules/activation.py · unchanged");
   await expect(attentionRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r1");
+
+  const z3Record = page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" });
+  await expect(z3Record).toContainText("src/solver/solver.cpp · unchanged");
+  await expect(z3Record.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#z3-sat-smt-r1");
+
+  const kalmanRecord = page.getByRole("article").filter({ hasText: "statsmodels Kalman Filter" });
+  await expect(kalmanRecord).toContainText("statsmodels/tsa/statespace/kalman_filter.py · unchanged");
+  await expect(kalmanRecord).toContainText("LICENSE.txt · unchanged");
+  await expect(kalmanRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#statsmodels-kalman-filter-r1");
 });
 
 test("upstream review registry filters by decision, material change, and source-path search", async ({ page }) => {
@@ -67,6 +76,12 @@ test("upstream review registry filters by decision, material change, and source-
 
   await search.fill("activation.py");
   await expect(page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" })).toBeVisible();
+
+  await search.fill("solver.cpp");
+  await expect(page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" })).toBeVisible();
+
+  await search.fill("kalman_filter.py");
+  await expect(page.getByRole("article").filter({ hasText: "statsmodels Kalman Filter" })).toBeVisible();
 });
 
 test("Evidence navigation reaches the upstream review registry", async ({ page }) => {
