@@ -33,11 +33,11 @@ Combination Lab
         ↓
 Evidence
   ├── 36 curated passage-backed Claims
-  ├── 37 curated References + citation graph
+  ├── 38 curated References + citation graph
   ├── 24 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
-  ├── 3 independent Replication/Evaluation records
+  ├── 4 independent Replication/Evaluation records
   ├── 30 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
@@ -223,8 +223,9 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **36 curated passage-backed Claims**.
-- [x] **37 curated References**.
+- [x] **38 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing, Kipf–Welling GCN plus normalized-neighbor aggregation, and Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation, all tied to the live neural-architectures chapter.
+- [x] New 2026-10-05 independent GNN evaluation adds Dwivedi et al.'s JMLR benchmark as a no-author-overlap comparison of GCN and GraphSAGE under a common reproducible parameter/training framework; the archive records partial support because relative performance varies across tasks and datasets rather than asserting a universal winner.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension, source-backs both LinUCB↔Thompson Sampling directions, and now source-backs both UCB1↔Thompson Sampling alternative-method directions using the independently authored Chapelle–Li evaluation without asserting a universal winner.
 - [x] New 2026-10-04 replication coverage adds Dewolf–De Baets–Waegeman's independently authored prediction-interval comparison for Conformal Prediction/CQR. The source explicitly attributes the CQR calibration construction to Romano–Patterson–Candès, reports substantial benchmark-to-benchmark performance variation, and is therefore curated as partial support rather than as a universal reproduction of CQR efficiency, conditional coverage, or distribution-shift robustness.
@@ -254,7 +255,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] PyMatching provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
-- [x] **3 independent Replication/Evaluation records**.
+- [x] **4 independent Replication/Evaluation records**.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
 ## Implementation freshness policy
