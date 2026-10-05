@@ -39,7 +39,7 @@ for (const viewport of [
         const toolbar = page.locator(registry.toolbar);
         await expect(toolbar).toBeVisible();
 
-        const search = page.getByRole("textbox", { name: registry.searchName });
+        const search = page.getByRole("searchbox", { name: registry.searchName });
         await expect(search).toBeVisible();
 
         for (const name of registry.selectNames) {
