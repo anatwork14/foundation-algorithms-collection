@@ -1,3 +1,4 @@
+import { aiReferenceAdditions } from "./reference-ai-additions.ts";
 import { banditReferenceAdditions } from "./reference-bandit-additions.ts";
 import { foundationReferenceAdditions } from "./reference-foundations-additions.ts";
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
@@ -16,6 +17,7 @@ export type {
 
 export const references: ReferenceEntity[] = [
   ...coreReferences,
+  ...aiReferenceAdditions,
   ...banditReferenceAdditions,
   ...foundationReferenceAdditions,
   ...privacyReferenceAdditions,
