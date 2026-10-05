@@ -1,3 +1,4 @@
+import { attentionImplementationVerificationAdditions } from "./implementation-verification-attention-additions.ts";
 import type { ImplementationVerificationEntry } from "./implementation-verification-history.ts";
 
 /** Append-only verification entries for AI/ML implementations added after the
@@ -57,4 +58,5 @@ export const aiImplementationVerificationAdditions: ImplementationVerificationEn
     ],
     note: "Initial Microsoft Graphormer evidence snapshot. Direct inspection confirms degree-augmented node features, a learned graph token, spatial-position attention bias, graph-token virtual distance, edge encodings including multi-hop distance conditioning, and propagation of those biases through stacked Transformer encoder layers before graph-token readout. The repository's pinned test file validates pretrained/local checkpoint loading rather than the full graph encoder numerically, so this snapshot records source-level executable mechanism evidence without claiming broad model-behavior test coverage. The same immutable revision documents a reproducibility-oriented legacy Python 3.9/PyTorch 1.9.1/Fairseq environment and preserves the MIT license.",
   },
+  ...attentionImplementationVerificationAdditions,
 ];
