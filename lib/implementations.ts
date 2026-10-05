@@ -1,3 +1,4 @@
+import { aiImplementationAdditions } from "./implementation-ai-additions.ts";
 import { banditImplementationAdditions } from "./implementation-bandit-additions.ts";
 import { conformalImplementationAdditions } from "./implementation-conformal-additions.ts";
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
@@ -237,6 +238,7 @@ const coreImplementations: ImplementationRecord[] = [
 export const implementations: ImplementationRecord[] = [
   ...coreImplementations,
   ...foundationImplementationAdditions,
+  ...aiImplementationAdditions,
   ...conformalImplementationAdditions,
   ...qsvtImplementationAdditions,
   ...banditImplementationAdditions,
