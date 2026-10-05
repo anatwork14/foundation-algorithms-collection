@@ -125,6 +125,30 @@ export function latestUpstreamReviewForImplementation(implementationId: string) 
   return upstreamReviewsForImplementation(implementationId).at(-1) ?? null;
 }
 
+export function implementationUpstreamReviewSearchText(
+  review: ImplementationUpstreamReview,
+  implementationName = "",
+) {
+  return [
+    implementationName,
+    review.implementationId,
+    review.revision.toString(),
+    review.decision,
+    review.reviewedAt,
+    review.observedRef,
+    review.observedCommit,
+    review.pinnedCommit,
+    review.note,
+    review.materialChange ? "material change changed" : "no material change unchanged",
+    ...review.inspectedPaths.flatMap((item) => [
+      item.path,
+      item.pinnedBlob,
+      item.upstreamBlob,
+      item.changed ? "changed" : "unchanged",
+    ]),
+  ].join(" ").toLowerCase();
+}
+
 export function implementationUpstreamReviewState(
   review: ImplementationUpstreamReview | null,
   upstreamCommit: string | null,
