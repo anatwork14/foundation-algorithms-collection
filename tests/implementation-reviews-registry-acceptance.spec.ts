@@ -6,8 +6,8 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(page.getByRole("heading", { name: "Review branch movement without rewriting evidence history." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Reviews" })).toHaveAttribute("aria-current", "page");
   const coverage = page.getByRole("region", { name: "Upstream review coverage" });
-  await expect(coverage).toContainText("3review revisions");
-  await expect(coverage).toContainText("3retain-pin decisions");
+  await expect(coverage).toContainText("5review revisions");
+  await expect(coverage).toContainText("5retain-pin decisions");
 
   const faissRecord = page.getByRole("article").filter({ hasText: "Faiss" });
   await expect(faissRecord).toContainText("Retain pin");
@@ -28,6 +28,14 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(qftRecord).toContainText("Retain pin");
   await expect(qftRecord).toContainText("qiskit/circuit/library/basis_change/qft.py · unchanged");
   await expect(qftRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#qiskit-qft-r1");
+
+  const adamwRecord = page.getByRole("article").filter({ hasText: "PyTorch AdamW" });
+  await expect(adamwRecord).toContainText("torch/optim/adamw.py · unchanged");
+  await expect(adamwRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r1");
+
+  const attentionRecord = page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" });
+  await expect(attentionRecord).toContainText("torch/nn/modules/activation.py · unchanged");
+  await expect(attentionRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r1");
 });
 
 test("upstream review registry filters by decision, material change, and source-path search", async ({ page }) => {
@@ -53,6 +61,12 @@ test("upstream review registry filters by decision, material change, and source-
 
   await search.fill("basis_change/qft.py");
   await expect(page.getByRole("article").filter({ hasText: "Qiskit Quantum Fourier Transform" })).toBeVisible();
+
+  await search.fill("adamw.py");
+  await expect(page.getByRole("article").filter({ hasText: "PyTorch AdamW" })).toBeVisible();
+
+  await search.fill("activation.py");
+  await expect(page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" })).toBeVisible();
 });
 
 test("Evidence navigation reaches the upstream review registry", async ({ page }) => {
