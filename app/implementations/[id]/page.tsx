@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Code2, ExternalLink, GitBranch, ShieldCheck } from "lucide-react";
 import { getAlgorithm } from "@/lib/algorithm-catalog";
+import { upstreamReviewsForImplementation } from "@/lib/implementation-upstream-reviews";
 import { verificationHistoryForImplementation } from "@/lib/implementation-verification-catalog";
 import { getImplementation, implementationCommitUrl, implementations } from "@/lib/implementations";
 
@@ -25,6 +26,7 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
   const linkedAlgorithms = implementation.algorithmIds.map(getAlgorithm).filter((item) => Boolean(item));
   const commitUrl = implementationCommitUrl(implementation);
   const verificationHistory = verificationHistoryForImplementation(implementation.id);
+  const upstreamReviews = upstreamReviewsForImplementation(implementation.id);
 
   return (
     <main className="implementation-detail-page">
@@ -47,6 +49,7 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
           <div><span>Verified ref</span><strong>{implementation.verifiedRef}</strong></div>
           <div><span>Verified commit</span><strong><code>{implementation.verifiedCommit.slice(0, 12)}</code></strong></div>
           <div><span>Verification revisions</span><strong>{verificationHistory.length}</strong></div>
+          <div><span>Upstream reviews</span><strong>{upstreamReviews.length}</strong></div>
           <div><span>Verified</span><strong>{implementation.lastVerified}</strong></div>
         </aside>
       </header>
@@ -109,6 +112,39 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
               ))}
             </ol>
           </section>
+
+          {upstreamReviews.length > 0 && (
+            <section className="research-block">
+              <div className="research-block-label">05 · Upstream review history</div>
+              <h2>Upstream review ledger</h2>
+              <p className="implementation-verification-intro">Upstream reviews are append-only decisions about branch movement. They do not rewrite the immutable evidence pin unless a separate verification revision deliberately advances the snapshot.</p>
+              <ol className="implementation-verification-history" aria-label="Implementation upstream review history">
+                {upstreamReviews.map((review) => (
+                  <li key={review.revision}>
+                    <div className="implementation-verification-marker" aria-hidden="true">u{review.revision}</div>
+                    <div className="implementation-verification-content">
+                      <div className="implementation-verification-meta">
+                        <time dateTime={review.reviewedAt}>{review.reviewedAt}</time>
+                        <span>{review.observedRef}</span>
+                        <a href={`${implementation.repository}/commit/${review.observedCommit}`} target="_blank" rel="noreferrer"><code>{review.observedCommit.slice(0, 12)}</code> <ExternalLink size={11} aria-hidden="true" /></a>
+                      </div>
+                      <p><strong>{review.decision}</strong> · {review.materialChange ? "Material change observed in the inspected implementation paths." : "No material change observed in the inspected implementation paths."}</p>
+                      <p>{review.note}</p>
+                      <div className="implementation-repository-links">
+                        <a href={`${implementation.repository}/compare/${review.pinnedCommit}...${review.observedCommit}`} target="_blank" rel="noreferrer"><GitBranch size={15} aria-hidden="true" /> Compare pinned → observed <ExternalLink size={13} aria-hidden="true" /></a>
+                      </div>
+                      <div className="implementation-verification-sources" aria-label={`Inspected paths for upstream review ${review.revision}`}>
+                        {review.inspectedPaths.flatMap((source) => [
+                          <a key={`${source.path}-pinned`} href={`${implementation.repository}/blob/${review.pinnedCommit}/${source.path}`} target="_blank" rel="noreferrer">Pinned {source.path} · <code>{source.pinnedBlob.slice(0, 10)}</code> <ExternalLink size={11} aria-hidden="true" /></a>,
+                          <a key={`${source.path}-observed`} href={`${implementation.repository}/blob/${review.observedCommit}/${source.path}`} target="_blank" rel="noreferrer">Observed {source.path} · <code>{source.upstreamBlob.slice(0, 10)}</code>{source.changed ? " · changed" : " · unchanged"} <ExternalLink size={11} aria-hidden="true" /></a>,
+                        ])}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
         </article>
 
         <aside className="reference-detail-side">
@@ -126,7 +162,7 @@ export default async function ImplementationDetailPage({ params }: { params: Pro
 
           <div className="entity-side-card provenance-card">
             <div className="entity-side-title"><ShieldCheck size={14} aria-hidden="true" /> Registry provenance</div>
-            <p>Repository metadata and implementation paths are curated records. The current inspected revision is pinned to <code>{implementation.verifiedCommit}</code> from <strong>{implementation.verifiedRef}</strong>, verified {implementation.lastVerified}. {verificationHistory.length} verification revision{verificationHistory.length === 1 ? " is" : "s are"} preserved.</p>
+            <p>Repository metadata and implementation paths are curated records. The current inspected revision is pinned to <code>{implementation.verifiedCommit}</code> from <strong>{implementation.verifiedRef}</strong>, verified {implementation.lastVerified}. {verificationHistory.length} verification revision{verificationHistory.length === 1 ? " is" : "s are"} preserved. {upstreamReviews.length} upstream review revision{upstreamReviews.length === 1 ? " is" : "s are"} preserved separately from the evidence pin.</p>
           </div>
         </aside>
       </div>
