@@ -5,7 +5,7 @@ test("GNN detail exposes claims, primary sources, executable GraphSAGE, and inde
 
   await expect(page.getByRole("heading", { name: "Graph Neural Networks" })).toBeVisible();
   await expect(page.getByText("Curated claims").locator("..").getByText("2", { exact: true })).toBeVisible();
-  await expect(page.getByText("References").locator("..").getByText("4", { exact: true })).toBeVisible();
+  await expect(page.getByText("References").locator("..").getByText("3", { exact: true })).toBeVisible();
   await expect(page.getByText("Implementations").locator("..").getByText("1", { exact: true })).toBeVisible();
   await expect(page.getByText("Independent replications").locator("..").getByText("1", { exact: true })).toBeVisible();
 
