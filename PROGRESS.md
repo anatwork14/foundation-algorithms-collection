@@ -32,7 +32,7 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 37 curated passage-backed Claims
+  ├── 38 curated passage-backed Claims
   ├── 42 curated References + citation graph
   ├── 29 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
@@ -222,10 +222,11 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **37 curated passage-backed Claims**.
+- [x] **38 curated passage-backed Claims**.
 - [x] **42 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
+- [x] FlashAttention now has an explicit passage-backed IO-aware exact-attention mechanism Claim tied to Dao et al. 2022; the Claim preserves exact dense-attention semantics while scoping the systems contribution to reduced memory traffic through tiling and online softmax rather than generalizing speedups across hardware or workloads.
 - [x] New 2026-10-05 independent GNN evaluation adds Dwivedi et al.'s JMLR benchmark as a no-author-overlap comparison of GCN and GraphSAGE under a common reproducible parameter/training framework; the same benchmark evaluates and cites GAT, but the archive does not count it as independent GAT replication because Yoshua Bengio is an author of both works. Relative performance varies across tasks and datasets rather than establishing a universal winner.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.
 - [x] New 2026-10-04 bandit provenance adds Agrawal–Goyal contextual Thompson Sampling as a Primary extension, source-backs both LinUCB↔Thompson Sampling directions, and now source-backs both UCB1↔Thompson Sampling alternative-method directions using the independently authored Chapelle–Li evaluation without asserting a universal winner.
