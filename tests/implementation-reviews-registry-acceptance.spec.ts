@@ -13,6 +13,9 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(faissRecord).toContainText("No material path change");
   await expect(faissRecord).toContainText("faiss/IndexHNSW.h · unchanged");
   await expect(faissRecord.getByRole("link", { name: /Compare commits/i })).toBeVisible();
+  await expect(faissRecord.getByRole("link", { name: /Pinned faiss\/IndexHNSW\.h/i })).toBeVisible();
+  await expect(faissRecord.getByRole("link", { name: /Observed faiss\/IndexHNSW\.cpp/i })).toBeVisible();
+  await expect(faissRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#faiss-hnsw-r1");
 });
 
 test("upstream review registry filters by decision, material change, and source-path search", async ({ page }) => {
