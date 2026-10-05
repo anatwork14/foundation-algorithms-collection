@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { implementations } from "../lib/implementations.ts";
 import {
   implementationUpstreamReviews,
+  implementationUpstreamReviewSearchText,
   implementationUpstreamReviewState,
   latestUpstreamReviewForImplementation,
   validateImplementationUpstreamReviews,
@@ -29,6 +30,24 @@ test("Faiss HNSW upstream review retains the immutable pin after byte-identical 
   assert.deepEqual(review.inspectedPaths.map((item) => item.path), ["faiss/IndexHNSW.h", "faiss/IndexHNSW.cpp"]);
   assert.ok(review.inspectedPaths.every((item) => item.changed === false));
   assert.ok(review.inspectedPaths.every((item) => item.pinnedBlob === item.upstreamBlob));
+});
+
+test("upstream-review search text indexes review identity, decision, commits, and inspected paths", () => {
+  const review = latestUpstreamReviewForImplementation("faiss-hnsw");
+  assert.ok(review);
+  const text = implementationUpstreamReviewSearchText(review, "Faiss HNSW");
+
+  for (const needle of [
+    "faiss hnsw",
+    "faiss-hnsw",
+    "retain pin",
+    "indexhnsw.cpp",
+    review.observedCommit,
+    review.pinnedCommit,
+    "unchanged",
+  ]) {
+    assert.ok(text.includes(needle.toLowerCase()), `expected review search text to contain ${needle}`);
+  }
 });
 
 test("upstream-review status distinguishes an exact reviewed head from later branch movement", () => {
