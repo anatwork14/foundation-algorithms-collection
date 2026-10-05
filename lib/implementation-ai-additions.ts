@@ -1,3 +1,4 @@
+import { attentionImplementationAdditions } from "./implementation-attention-additions.ts";
 import type { ImplementationRecord } from "./implementations.ts";
 
 /** AI/ML implementation records kept modular from the historical registry. */
@@ -84,4 +85,5 @@ export const aiImplementationAdditions: ImplementationRecord[] = [
     verifiedCommit: "59c0decffcade9df81d29dcc178a489b31958bab",
     lastVerified: "2026-10-05",
   },
+  ...attentionImplementationAdditions,
 ];
