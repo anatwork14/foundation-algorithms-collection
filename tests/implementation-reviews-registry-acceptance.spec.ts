@@ -6,8 +6,8 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(page.getByRole("heading", { name: "Review branch movement without rewriting evidence history." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Reviews" })).toHaveAttribute("aria-current", "page");
   const coverage = page.getByRole("region", { name: "Upstream review coverage" });
-  await expect(coverage).toContainText("7review revisions");
-  await expect(coverage).toContainText("7retain-pin decisions");
+  await expect(coverage).toContainText("9review revisions");
+  await expect(coverage).toContainText("9retain-pin decisions");
 
   const faissRecord = page.getByRole("article").filter({ hasText: "Faiss" });
   await expect(faissRecord).toContainText("Retain pin");
@@ -29,13 +29,23 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(qftRecord).toContainText("qiskit/circuit/library/basis_change/qft.py · unchanged");
   await expect(qftRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#qiskit-qft-r1");
 
-  const adamwRecord = page.getByRole("article").filter({ hasText: "PyTorch AdamW" });
-  await expect(adamwRecord).toContainText("torch/optim/adamw.py · unchanged");
-  await expect(adamwRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r1");
+  const adamwR1 = page.locator("#pytorch-adamw-r1");
+  await expect(adamwR1).toContainText("torch/optim/adamw.py · unchanged");
+  await expect(adamwR1.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r1");
 
-  const attentionRecord = page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" });
-  await expect(attentionRecord).toContainText("torch/nn/modules/activation.py · unchanged");
-  await expect(attentionRecord.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r1");
+  const adamwR2 = page.locator("#pytorch-adamw-r2");
+  await expect(adamwR2).toContainText("torch/optim/adamw.py · unchanged");
+  await expect(adamwR2).toContainText("b8ef86910433c789ad8d22111e51c941283d05d7");
+  await expect(adamwR2.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r2");
+
+  const attentionR1 = page.locator("#pytorch-multihead-attention-r1");
+  await expect(attentionR1).toContainText("torch/nn/modules/activation.py · unchanged");
+  await expect(attentionR1.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r1");
+
+  const attentionR2 = page.locator("#pytorch-multihead-attention-r2");
+  await expect(attentionR2).toContainText("torch/nn/modules/activation.py · unchanged");
+  await expect(attentionR2).toContainText("b8ef86910433c789ad8d22111e51c941283d05d7");
+  await expect(attentionR2.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r2");
 
   const z3Record = page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" });
   await expect(z3Record).toContainText("src/solver/solver.cpp · unchanged");
@@ -72,10 +82,10 @@ test("upstream review registry filters by decision, material change, and source-
   await expect(page.getByRole("article").filter({ hasText: "Qiskit Quantum Fourier Transform" })).toBeVisible();
 
   await search.fill("adamw.py");
-  await expect(page.getByRole("article").filter({ hasText: "PyTorch AdamW" })).toBeVisible();
+  await expect(page.locator("#pytorch-adamw-r2")).toBeVisible();
 
   await search.fill("activation.py");
-  await expect(page.getByRole("article").filter({ hasText: "PyTorch MultiheadAttention" })).toBeVisible();
+  await expect(page.locator("#pytorch-multihead-attention-r2")).toBeVisible();
 
   await search.fill("solver.cpp");
   await expect(page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" })).toBeVisible();
