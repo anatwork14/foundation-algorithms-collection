@@ -368,3 +368,11 @@ export function getClaim(id: string) {
 export function claimsForAlgorithm(algorithmId: string) {
   return claims.filter((claim) => claim.algorithmIds.includes(algorithmId));
 }
+
+export function claimsForReference(referenceId: string) {
+  return claims.filter((claim) => claim.referenceIds.includes(referenceId));
+}
+
+export function claimSearchText(claim: ClaimRecord) {
+  return [claim.statement, claim.kind, claim.note, ...claim.algorithmIds, ...claim.referenceIds].join(" ").toLowerCase();
+}
