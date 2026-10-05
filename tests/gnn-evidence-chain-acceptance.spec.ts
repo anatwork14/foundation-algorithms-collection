@@ -15,7 +15,7 @@ test("GNN detail exposes GCN, GraphSAGE, GAT, executable implementations, and in
 
   await expect(page.getByRole("link", { name: /Semi-Supervised Classification with Graph Convolutional Networks/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Inductive Representation Learning on Large Graphs/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /^Primary method · 2018Graph Attention Networks/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Primary method · 2018\s+Graph Attention Networks/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Benchmarking Graph Neural Networks/i })).toBeVisible();
 
   await expect(page.getByRole("link", { name: /PyTorch Geometric GCN/i })).toBeVisible();
