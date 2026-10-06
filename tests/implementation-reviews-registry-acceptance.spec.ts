@@ -102,13 +102,13 @@ test("upstream review registry filters by decision, material change, and source-
 
   await material.selectOption("Unchanged");
   await search.fill("IndexHNSW.cpp");
-  await expect(page.getByRole("article").filter({ hasText: "Faiss" })).toBeVisible();
+  await expect(page.locator("#faiss-hnsw-r2")).toBeVisible();
 
   await search.fill("phase_estimation.py");
-  await expect(page.getByRole("article").filter({ hasText: "Qiskit Phase Estimation" })).toBeVisible();
+  await expect(page.locator("#qiskit-phase-estimation-r2")).toBeVisible();
 
   await search.fill("basis_change/qft.py");
-  await expect(page.getByRole("article").filter({ hasText: "Qiskit Quantum Fourier Transform" })).toBeVisible();
+  await expect(page.locator("#qiskit-qft-r2")).toBeVisible();
 
   await search.fill("adamw.py");
   await expect(page.locator("#pytorch-adamw-r5")).toBeVisible();
