@@ -6,8 +6,8 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(page.getByRole("heading", { name: "Review branch movement without rewriting evidence history." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Reviews" })).toHaveAttribute("aria-current", "page");
   const coverage = page.getByRole("region", { name: "Upstream review coverage" });
-  await expect(coverage).toContainText("11review revisions");
-  await expect(coverage).toContainText("11retain-pin decisions");
+  await expect(coverage).toContainText("13review revisions");
+  await expect(coverage).toContainText("13retain-pin decisions");
 
   const faissRecord = page.getByRole("article").filter({ hasText: "Faiss" });
   await expect(faissRecord).toContainText("Retain pin");
@@ -43,6 +43,11 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(adamwR3).toContainText("cf2cd3d06f83");
   await expect(adamwR3.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r3");
 
+  const adamwR4 = page.locator("#pytorch-adamw-r4");
+  await expect(adamwR4).toContainText("torch/optim/adamw.py · unchanged");
+  await expect(adamwR4).toContainText("6b3607efa40b");
+  await expect(adamwR4.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-adamw-r4");
+
   const attentionR1 = page.locator("#pytorch-multihead-attention-r1");
   await expect(attentionR1).toContainText("torch/nn/modules/activation.py · unchanged");
   await expect(attentionR1.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r1");
@@ -56,6 +61,11 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(attentionR3).toContainText("torch/nn/modules/activation.py · unchanged");
   await expect(attentionR3).toContainText("cf2cd3d06f83");
   await expect(attentionR3.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r3");
+
+  const attentionR4 = page.locator("#pytorch-multihead-attention-r4");
+  await expect(attentionR4).toContainText("torch/nn/modules/activation.py · unchanged");
+  await expect(attentionR4).toContainText("6b3607efa40b");
+  await expect(attentionR4.getByRole("link", { name: /Permalink/i })).toHaveAttribute("href", "/implementations/reviews#pytorch-multihead-attention-r4");
 
   const z3Record = page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" });
   await expect(z3Record).toContainText("src/solver/solver.cpp · unchanged");
@@ -92,10 +102,10 @@ test("upstream review registry filters by decision, material change, and source-
   await expect(page.getByRole("article").filter({ hasText: "Qiskit Quantum Fourier Transform" })).toBeVisible();
 
   await search.fill("adamw.py");
-  await expect(page.locator("#pytorch-adamw-r3")).toBeVisible();
+  await expect(page.locator("#pytorch-adamw-r4")).toBeVisible();
 
   await search.fill("activation.py");
-  await expect(page.locator("#pytorch-multihead-attention-r3")).toBeVisible();
+  await expect(page.locator("#pytorch-multihead-attention-r4")).toBeVisible();
 
   await search.fill("solver.cpp");
   await expect(page.getByRole("article").filter({ hasText: "Z3 Theorem Prover" })).toBeVisible();
