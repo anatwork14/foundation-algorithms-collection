@@ -22,4 +22,14 @@ export const attentionClaimAdditions: ClaimRecord[] = [
     referenceIds: ["ying-2021-graphormer"],
     note: "This claim uses Graphormer as a primary graph-Transformer instance of the chapter's structural-encoding mechanism. It does not imply that every graph Transformer uses the same encodings or that structural attention universally outperforms message-passing GNNs.",
   },
+  {
+    id: "switch-transformer-conditional-capacity",
+    kind: "Mechanism",
+    statement: "Combining sparse mixture-of-experts routing with a Transformer stack provides conditional model capacity: different tokens activate selected expert parameters instead of executing the same dense feed-forward parameters for every token.",
+    algorithmIds: ["mixture-of-experts", "transformer-attention"],
+    chapterSlug: "11-neural-architectures-attention-ssm-moe-gnn",
+    passageContains: "MoE + Transformer",
+    referenceIds: ["fedus-2022-switch-transformer"],
+    note: "This claim is scoped to the conditional-capacity pattern exemplified by Switch Transformer. Expert count, routing policy, capacity factors, communication cost, stability, and quality gains remain architecture-, hardware-, and workload-dependent.",
+  },
 ];

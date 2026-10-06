@@ -266,6 +266,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Graphormer combines graph-specific centrality, spatial, and edge encodings with a Transformer attention backbone for graph representation learning. That primary method directly grounds the inverse GNN-to-Transformer combination edge while keeping local message-passing GNNs, graph Transformers, and other graph architectures conceptually distinct.",
     verifiedAt: "2026-10-06",
   },
+  {
+    sourceId: "transformer-attention",
+    targetId: "mixture-of-experts",
+    relationType: "combines-with",
+    referenceIds: ["fedus-2022-switch-transformer"],
+    evidenceNote: "Fedus, Zoph, and Shazeer construct Switch Transformer from Transformer/T5 models and replace dense feed-forward capacity with sparsely activated experts selected by a router. This directly grounds the Transformer-to-MoE combination edge while preserving that Transformer attention and expert routing remain distinct architectural mechanisms.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "mixture-of-experts",
+    targetId: "transformer-attention",
+    relationType: "combines-with",
+    referenceIds: ["fedus-2022-switch-transformer"],
+    evidenceNote: "Switch Transformer is a primary sparse-MoE extension of Transformer language models: token-level routing activates selected experts within an otherwise Transformer-based architecture. This grounds the inverse MoE-to-Transformer combination edge without implying that every MoE system is a Transformer or uses Switch's single-expert routing.",
+    verifiedAt: "2026-10-06",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
