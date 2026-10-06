@@ -2,6 +2,7 @@ import { aiReferenceAdditions } from "./reference-ai-additions.ts";
 import { attentionReferenceAdditions } from "./reference-attention-additions.ts";
 import { banditReferenceAdditions } from "./reference-bandit-additions.ts";
 import { foundationReferenceAdditions } from "./reference-foundations-additions.ts";
+import { generativeReferenceAdditions } from "./reference-generative-additions.ts";
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
 import { replicationReferenceAdditions } from "./reference-replication-additions.ts";
 import { zeroKnowledgeReferenceAdditions } from "./reference-zero-knowledge-additions.ts";
@@ -22,6 +23,7 @@ export const references: ReferenceEntity[] = [
   ...attentionReferenceAdditions,
   ...banditReferenceAdditions,
   ...foundationReferenceAdditions,
+  ...generativeReferenceAdditions,
   ...privacyReferenceAdditions,
   ...replicationReferenceAdditions,
   ...zeroKnowledgeReferenceAdditions,

@@ -32,13 +32,13 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 40 curated passage-backed Claims
-  ├── 43 curated References + citation graph
+  ├── 42 curated passage-backed Claims
+  ├── 45 curated References + citation graph
   ├── 29 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 4 independent Replication/Evaluation records
-  ├── 34 source-backed Atlas relations
+  ├── 36 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,8 +180,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **34 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), ANN/embedding links, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
+- [x] **36 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), ANN/embedding links, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, QSVT/QPE, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -222,11 +222,12 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **40 curated passage-backed Claims**.
-- [x] **43 curated References**.
+- [x] **42 curated passage-backed Claims**.
+- [x] **45 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
+- [x] New 2026-10-06 generative-model evidence adds Ho–Jain–Abbeel DDPM and Lipman et al. Flow Matching primary sources, passage-backed mechanism Claims for iterative denoising and vector-field regression, and both Diffusion↔Flow-Matching alternative directions with their overlapping-but-distinct path formulations preserved.
 - [x] FlashAttention now has an explicit passage-backed IO-aware exact-attention mechanism Claim tied to Dao et al. 2022; the Claim preserves exact dense-attention semantics while scoping the systems contribution to reduced memory traffic through tiling and online softmax rather than generalizing speedups across hardware or workloads.
 - [x] New 2026-10-05 independent GNN evaluation adds Dwivedi et al.'s JMLR benchmark as a no-author-overlap comparison of GCN and GraphSAGE under a common reproducible parameter/training framework; the same benchmark evaluates and cites GAT, but the archive does not count it as independent GAT replication because Yoshua Bengio is an author of both works. Relative performance varies across tasks and datasets rather than establishing a universal winner.
 - [x] New 2026-10-03 foundational/security/quantum additions include Land–Doig Branch-and-Bound, Jones–Schonlau–Welch EGO, Khalil et al. learned branching, KLEE symbolic execution, Dennis et al. surface-code recovery, Driller hybrid fuzzing/symbolic execution, de Moura–Bjørner Z3 SMT solving, Gentry fully homomorphic encryption, Goldreich–Micali–Wigderson secure multiparty computation, and Goldwasser–Micali–Rackoff zero knowledge.

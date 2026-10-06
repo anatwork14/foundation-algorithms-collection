@@ -282,6 +282,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Switch Transformer is a primary sparse-MoE extension of Transformer language models: token-level routing activates selected experts within an otherwise Transformer-based architecture. This grounds the inverse MoE-to-Transformer combination edge without implying that every MoE system is a Transformer or uses Switch's single-expert routing.",
     verifiedAt: "2026-10-06",
   },
+  {
+    sourceId: "diffusion-models",
+    targetId: "flow-matching",
+    relationType: "alternative-to",
+    referenceIds: ["ho-2020-ddpm", "lipman-2023-flow-matching"],
+    evidenceNote: "Ho, Jain, and Abbeel provide the canonical DDPM forward-noise/reverse-denoising formulation, while Lipman et al. introduce Flow Matching and explicitly show that diffusion probability paths are one supported path family alongside non-diffusion transport paths. Together these primary sources ground the diffusion-to-flow alternative edge without treating the methods as disjoint or universally superior to one another.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "flow-matching",
+    targetId: "diffusion-models",
+    relationType: "alternative-to",
+    referenceIds: ["lipman-2023-flow-matching", "ho-2020-ddpm"],
+    evidenceNote: "Flow Matching directly compares its simulation-free vector-field regression framework with diffusion-based generative modeling, supports diffusion paths as specific instances, and also permits non-diffusion paths such as optimal-transport interpolations. Paired with the DDPM primary source, this grounds the inverse flow-to-diffusion alternative edge while preserving their distinct training and sampling formulations.",
+    verifiedAt: "2026-10-06",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
