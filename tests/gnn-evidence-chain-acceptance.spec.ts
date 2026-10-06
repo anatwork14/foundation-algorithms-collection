@@ -17,7 +17,7 @@ test("GNN detail exposes local GNNs, Graphormer, executable implementations, and
   await expect(page.getByRole("link", { name: /Semi-Supervised Classification with Graph Convolutional Networks/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Inductive Representation Learning on Large Graphs/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Primary method · 2018\s+Graph Attention Networks/i })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Do Transformers Really Perform Badly for Graph Representation/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Primary method · 2021\s+Do Transformers Really Perform Badly for Graph Representation/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Benchmarking Graph Neural Networks/i })).toBeVisible();
 
   await expect(page.getByRole("link", { name: /PyTorch Geometric GCN/i })).toBeVisible();
