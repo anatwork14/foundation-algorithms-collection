@@ -32,7 +32,7 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 38 curated passage-backed Claims
+  ├── 39 curated passage-backed Claims
   ├── 42 curated References + citation graph
   ├── 29 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
@@ -222,7 +222,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **38 curated passage-backed Claims**.
+- [x] **39 curated passage-backed Claims**.
 - [x] **42 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
