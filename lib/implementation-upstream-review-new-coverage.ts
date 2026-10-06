@@ -1,0 +1,72 @@
+import type { ImplementationUpstreamReview } from "./implementation-upstream-reviews-base.ts";
+
+/** First upstream reviews for recently added executable-evidence records. */
+export const implementationUpstreamReviewNewCoverage: ImplementationUpstreamReview[] = [
+  {
+    implementationId: "botorch-bayesian-optimization",
+    revision: 1,
+    reviewedAt: "2026-10-06",
+    observedRef: "main",
+    observedCommit: "0b6dc20ed81b5767767036a50c997059d103bf34",
+    pinnedCommit: "bda063ae5c6d2bbe058a7d1566818ae2e14a673e",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      { path: "botorch/acquisition/analytic.py", pinnedBlob: "dcdbe605ef5bf140c7cb31df30ed26e7b9e19a99", upstreamBlob: "dcdbe605ef5bf140c7cb31df30ed26e7b9e19a99", changed: false },
+      { path: "LICENSE", pinnedBlob: "b93be90515ccd0b9daedaa589e42bf5929693f1f", upstreamBlob: "b93be90515ccd0b9daedaa589e42bf5929693f1f", changed: false },
+    ],
+    note: "Reviewed BoTorch main after citation maintenance advanced the branch. The tracked analytic acquisition-function module and MIT license remain byte-identical to the immutable Bayesian-optimization evidence pin, so the archive retains that pin.",
+  },
+  {
+    implementationId: "scip-branch-and-bound",
+    revision: 1,
+    reviewedAt: "2026-10-06",
+    observedRef: "master",
+    observedCommit: "e61d097a1bbe7051f2d75dcc5f0dc8cd740c9731",
+    pinnedCommit: "ab66fc1bbadc22fa7b03c72e3dd0d30c404e0a53",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      { path: "README.md", pinnedBlob: "0764bab0f2af1b8de8c0249cb22387cfbaa6e86c", upstreamBlob: "0764bab0f2af1b8de8c0249cb22387cfbaa6e86c", changed: false },
+      { path: "src/scip/scip_branch.c", pinnedBlob: "528a9948daf34b1cfa7fa9d43115bc5168dbdd82", upstreamBlob: "528a9948daf34b1cfa7fa9d43115bc5168dbdd82", changed: false },
+      { path: "src/scip/tree.c", pinnedBlob: "3c3fc6cfd05119bda244f8d014ea72d5fea9c1ff", upstreamBlob: "3c3fc6cfd05119bda244f8d014ea72d5fea9c1ff", changed: false },
+      { path: "src/scip/primal.c", pinnedBlob: "287a661472b7d118a3ee0b24970e2fe65d9457e9", upstreamBlob: "287a661472b7d118a3ee0b24970e2fe65d9457e9", changed: false },
+      { path: "LICENSE", pinnedBlob: "d645695673349e3947e8e5ae42332d0ac3164cd7", upstreamBlob: "d645695673349e3947e8e5ae42332d0ac3164cd7", changed: false },
+    ],
+    note: "Reviewed SCIP master after the v10-minor merge advanced upstream. README scope, branching API, tree cutoff logic, primal-bound propagation, and license are all byte-identical to the immutable branch-and-bound evidence pin, so the archive retains that pin.",
+  },
+  {
+    implementationId: "dao-flash-attention-2",
+    revision: 1,
+    reviewedAt: "2026-10-06",
+    observedRef: "main",
+    observedCommit: "47e91f1f7dd8a22649cee0dd9a182b69ffe782ef",
+    pinnedCommit: "3451a2a67a24eeed8af54d3c5b8d219577113797",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      { path: "flash_attn/__init__.py", pinnedBlob: "ebf8176e25fc7c17f14c7b94de4013677fb836a9", upstreamBlob: "ebf8176e25fc7c17f14c7b94de4013677fb836a9", changed: false },
+      { path: "flash_attn/flash_attn_interface.py", pinnedBlob: "1edab572c1f81ae6fd13bf1c43cf9e022c531adc", upstreamBlob: "1edab572c1f81ae6fd13bf1c43cf9e022c531adc", changed: false },
+      { path: "tests/test_flash_attn.py", pinnedBlob: "a728e1192bd4aafcee21ec06d2d4bb4004d2e7b5", upstreamBlob: "a728e1192bd4aafcee21ec06d2d4bb4004d2e7b5", changed: false },
+      { path: "README.md", pinnedBlob: "2c9b7ac83a7d22edfd7ff97c55ae0185b894b6c5", upstreamBlob: "2c9b7ac83a7d22edfd7ff97c55ae0185b894b6c5", changed: false },
+      { path: "LICENSE", pinnedBlob: "5860e4b33f3d9d85fc636137c559331d51783a5b", upstreamBlob: "5860e4b33f3d9d85fc636137c559331d51783a5b", changed: false },
+    ],
+    note: "Reviewed FlashAttention main after SM100 backward-postprocess kernel work advanced the branch. The pinned FA2 package exports, public interface, canonical tests, README support matrix, and license remain byte-identical, so the archive retains the v2.8.4 evidence pin.",
+  },
+  {
+    implementationId: "pennylane-qsvt",
+    revision: 1,
+    reviewedAt: "2026-10-06",
+    observedRef: "main",
+    observedCommit: "395906614c129028685274683326e33eac32bf73",
+    pinnedCommit: "04a3038c02ec15874947bfed85cf28ebe84f75be",
+    decision: "Retain pin",
+    materialChange: false,
+    inspectedPaths: [
+      { path: "pennylane/templates/subroutines/qsvt.py", pinnedBlob: "8a23f7ae3d2f40869222db1ef7e77dd3c4227d02", upstreamBlob: "8a23f7ae3d2f40869222db1ef7e77dd3c4227d02", changed: false },
+      { path: "tests/templates/subroutines/test_qsvt.py", pinnedBlob: "9f4d1e7d445b9d0ba48e837ff0dc7473e9dc5288", upstreamBlob: "9f4d1e7d445b9d0ba48e837ff0dc7473e9dc5288", changed: false },
+      { path: "LICENSE", pinnedBlob: "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64", upstreamBlob: "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64", changed: false },
+    ],
+    note: "Reviewed PennyLane main after nightly-version maintenance advanced the branch. The tracked QSVT wrapper/template, implementation tests, and Apache-2.0 license remain byte-identical to the immutable evidence pin, so the archive retains that pin.",
+  },
+];

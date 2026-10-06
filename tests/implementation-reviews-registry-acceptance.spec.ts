@@ -6,8 +6,8 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(page.getByRole("heading", { name: "Review branch movement without rewriting evidence history." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Reviews" })).toHaveAttribute("aria-current", "page");
   const coverage = page.getByRole("region", { name: "Upstream review coverage" });
-  await expect(coverage).toContainText("20review revisions");
-  await expect(coverage).toContainText("20retain-pin decisions");
+  await expect(coverage).toContainText("24review revisions");
+  await expect(coverage).toContainText("24retain-pin decisions");
 
   const faissRecord = page.locator("#faiss-hnsw-r2");
   await expect(faissRecord).toContainText("Retain pin");
@@ -84,6 +84,11 @@ test("upstream review registry summarizes append-only decisions", async ({ page 
   await expect(kalmanRecord).toContainText("88aec26e2c0f");
   await expect(kalmanRecord).toContainText("statsmodels/tsa/statespace/kalman_filter.py · unchanged");
   await expect(kalmanRecord).toContainText("LICENSE.txt · unchanged");
+
+  await expect(page.locator("#botorch-bayesian-optimization-r1")).toContainText("botorch/acquisition/analytic.py · unchanged");
+  await expect(page.locator("#scip-branch-and-bound-r1")).toContainText("src/scip/tree.c · unchanged");
+  await expect(page.locator("#dao-flash-attention-2-r1")).toContainText("flash_attn/flash_attn_interface.py · unchanged");
+  await expect(page.locator("#pennylane-qsvt-r1")).toContainText("pennylane/templates/subroutines/qsvt.py · unchanged");
 });
 
 test("upstream review registry filters by decision, material change, and source-path search", async ({ page }) => {
@@ -121,6 +126,18 @@ test("upstream review registry filters by decision, material change, and source-
 
   await search.fill("kalman_filter.py");
   await expect(page.locator("#statsmodels-kalman-filter-r2")).toBeVisible();
+
+  await search.fill("analytic.py");
+  await expect(page.locator("#botorch-bayesian-optimization-r1")).toBeVisible();
+
+  await search.fill("scip_branch.c");
+  await expect(page.locator("#scip-branch-and-bound-r1")).toBeVisible();
+
+  await search.fill("flash_attn_interface.py");
+  await expect(page.locator("#dao-flash-attention-2-r1")).toBeVisible();
+
+  await search.fill("subroutines/qsvt.py");
+  await expect(page.locator("#pennylane-qsvt-r1")).toBeVisible();
 });
 
 test("Evidence navigation reaches the upstream review registry", async ({ page }) => {
