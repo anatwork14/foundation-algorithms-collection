@@ -2,6 +2,7 @@ import { aiImplementationAdditions } from "./implementation-ai-additions.ts";
 import { banditImplementationAdditions } from "./implementation-bandit-additions.ts";
 import { conformalImplementationAdditions } from "./implementation-conformal-additions.ts";
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
+import { generativeImplementationAdditions } from "./implementation-generative-additions.ts";
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
 
 export type ImplementationMaturity =
@@ -238,6 +239,7 @@ const coreImplementations: ImplementationRecord[] = [
 export const implementations: ImplementationRecord[] = [
   ...coreImplementations,
   ...foundationImplementationAdditions,
+  ...generativeImplementationAdditions,
   ...aiImplementationAdditions,
   ...conformalImplementationAdditions,
   ...qsvtImplementationAdditions,

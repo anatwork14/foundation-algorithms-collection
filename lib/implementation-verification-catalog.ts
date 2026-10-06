@@ -3,6 +3,7 @@ import { banditImplementationVerificationAdditions } from "./implementation-veri
 import { conformalImplementationVerificationAdditions } from "./implementation-verification-conformal-additions.ts";
 import { implementationVerificationFreshnessAdditions } from "./implementation-verification-freshness-additions.ts";
 import { foundationsImplementationVerificationAdditions } from "./implementation-verification-foundations-additions.ts";
+import { generativeImplementationVerificationAdditions } from "./implementation-verification-generative-additions.ts";
 import { qsvtImplementationVerificationAdditions } from "./implementation-verification-qsvt-additions.ts";
 import {
   implementationVerificationHistory as coreImplementationVerificationHistory,
@@ -14,6 +15,7 @@ import {
 export const implementationVerificationHistory: ImplementationVerificationEntry[] = [
   ...coreImplementationVerificationHistory,
   ...foundationsImplementationVerificationAdditions,
+  ...generativeImplementationVerificationAdditions,
   ...conformalImplementationVerificationAdditions,
   ...qsvtImplementationVerificationAdditions,
   ...banditImplementationVerificationAdditions,
