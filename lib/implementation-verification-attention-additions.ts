@@ -17,4 +17,18 @@ export const attentionImplementationVerificationAdditions: ImplementationVerific
     ],
     note: "Initial FlashAttention-2 evidence snapshot. The pinned v2.8.4 package exports dense, packed-QKV/KV, variable-length, and KV-cache interfaces; direct inspection of the public interface confirms GPU-kernel dispatch with causal/local masking, softmax scaling, soft-capping, dropout, and ALiBi options where supported. The canonical pinned tests build a PyTorch reference attention and exercise exported interfaces, masks, padding, shapes, gradients, and inference-oriented paths on supported GPU configurations. This snapshot is explicitly scoped to FlashAttention-2 rather than the repository's separate FlashAttention-3/4 paths, and preserves the documented PyTorch, CUDA/ROCm, GPU-family, dtype, and backend-specific support constraints together with the BSD-3-Clause license.",
   },
+  {
+    implementationId: "hf-switch-transformers",
+    revision: 1,
+    verifiedAt: "2026-10-06",
+    verifiedRef: "main",
+    verifiedCommit: "8073e6dcaea9aa4b42acf2d92ec72148786bbaeb",
+    sourcePaths: [
+      { label: "Canonical SwitchTransformers modular source", url: "https://github.com/huggingface/transformers/blob/8073e6dcaea9aa4b42acf2d92ec72148786bbaeb/src/transformers/models/switch_transformers/modular_switch_transformers.py" },
+      { label: "SwitchTransformers configuration", url: "https://github.com/huggingface/transformers/blob/8073e6dcaea9aa4b42acf2d92ec72148786bbaeb/src/transformers/models/switch_transformers/configuration_switch_transformers.py" },
+      { label: "SwitchTransformers model tests", url: "https://github.com/huggingface/transformers/blob/8073e6dcaea9aa4b42acf2d92ec72148786bbaeb/tests/models/switch_transformers/test_modeling_switch_transformers.py" },
+      { label: "Repository license", url: "https://github.com/huggingface/transformers/blob/8073e6dcaea9aa4b42acf2d92ec72148786bbaeb/LICENSE" },
+    ],
+    note: "Initial Hugging Face SwitchTransformers evidence snapshot. The pinned canonical modular source implements top-1 token routing, expert-capacity masking, sparse expert dispatch, T5-style attention blocks, and sparse/dense feed-forward selection. Configuration provenance preserves expert/routing settings and the documented one-layer zero-sparse-count edge case. Canonical tests cover sparse configurations, router logits and auxiliary/z-losses, generation/cache behavior, precision paths, pretrained loading, and common model invariants. The generated modeling file is intentionally excluded because upstream marks it as generated from the modular source. The snapshot preserves Apache-2.0 licensing and does not generalize paper scaling or quality results beyond the inspected implementation.",
+  },
 ];
