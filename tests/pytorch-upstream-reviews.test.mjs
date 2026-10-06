@@ -26,8 +26,8 @@ for (const item of cases) {
     assert.ok(implementation);
 
     const reviews = upstreamReviewsForImplementation(item.id);
-    assert.equal(reviews.length, 4);
-    assert.deepEqual(reviews.map((review) => review.revision), [1, 2, 3, 4]);
+    assert.equal(reviews.length, 5);
+    assert.deepEqual(reviews.map((review) => review.revision), [1, 2, 3, 4, 5]);
     assert.deepEqual(
       reviews.map((review) => review.observedCommit),
       [
@@ -35,6 +35,7 @@ for (const item of cases) {
         "b8ef86910433c789ad8d22111e51c941283d05d7",
         "cf2cd3d06f8381f5503ccba4afbae7386f6d4e70",
         "6b3607efa40bd0093e58fb887c87cf724a057491",
+        "086c61b685c0b264267f33b2642fb20c2ea794d7",
       ],
     );
 

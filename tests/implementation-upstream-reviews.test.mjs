@@ -19,10 +19,10 @@ test("Faiss HNSW upstream review retains the immutable pin after byte-identical 
 
   assert.ok(implementation);
   assert.ok(review);
-  assert.equal(review.revision, 1);
-  assert.equal(review.reviewedAt, "2026-10-05");
+  assert.equal(review.revision, 2);
+  assert.equal(review.reviewedAt, "2026-10-06");
   assert.equal(review.observedRef, "main");
-  assert.equal(review.observedCommit, "b0074a3fa426027d9ff8575b44386d5922859ac9");
+  assert.equal(review.observedCommit, "83ae8b0908312c1e40734a806a3cc435b64f9496");
   assert.equal(review.pinnedCommit, implementation.verifiedCommit);
   assert.equal(review.pinnedCommit, "e7c44eb000bebb16f84be38a115caa5d333a8229");
   assert.equal(review.decision, "Retain pin");
@@ -54,7 +54,7 @@ test("upstream-review status distinguishes an exact reviewed head from later bra
   const review = latestUpstreamReviewForImplementation("faiss-hnsw");
   assert.ok(review);
   assert.equal(
-    implementationUpstreamReviewState(review, "b0074a3fa426027d9ff8575b44386d5922859ac9"),
+    implementationUpstreamReviewState(review, "83ae8b0908312c1e40734a806a3cc435b64f9496"),
     "Reviewed — retain pin",
   );
   assert.equal(

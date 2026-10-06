@@ -4,6 +4,7 @@ import {
 } from "./implementation-upstream-reviews-base.ts";
 import type { ImplementationUpstreamReview } from "./implementation-upstream-reviews-base.ts";
 import { implementationUpstreamReviewFollowups } from "./implementation-upstream-review-followups.ts";
+import { implementationUpstreamReviewExistingRefresh } from "./implementation-upstream-review-existing-refresh.ts";
 
 export type {
   ImplementationUpstreamReview,
@@ -13,6 +14,7 @@ export type {
 export const implementationUpstreamReviews: ImplementationUpstreamReview[] = [
   ...baseImplementationUpstreamReviews,
   ...implementationUpstreamReviewFollowups,
+  ...implementationUpstreamReviewExistingRefresh,
 ];
 
 export function validateImplementationUpstreamReviews(

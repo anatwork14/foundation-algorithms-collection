@@ -12,11 +12,13 @@ test("Qiskit QFT upstream review retains the immutable pin after unchanged sourc
   assert.ok(implementation);
 
   const reviews = upstreamReviewsForImplementation("qiskit-qft");
-  assert.equal(reviews.length, 1);
-  const review = reviews[0];
+  assert.equal(reviews.length, 2);
+  assert.deepEqual(reviews.map((review) => review.revision), [1, 2]);
+  const review = reviews.at(-1);
+  assert.ok(review);
 
   assert.equal(review.pinnedCommit, implementation.verifiedCommit);
-  assert.equal(review.observedCommit, "91895b850b9f8ba466c4d4868af389e249a7c087");
+  assert.equal(review.observedCommit, "abe422d0ad6eb0e3acbb2f4160a0d336ed4d26cb");
   assert.equal(review.decision, "Retain pin");
   assert.equal(review.materialChange, false);
   assert.deepEqual(
