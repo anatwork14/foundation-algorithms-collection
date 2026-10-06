@@ -287,6 +287,7 @@ export const algorithms: AlgorithmEntity[] = [
     relations: [
       { target: "state-space-models", type: "alternative-to", note: "SSMs offer a different long-sequence computation pattern." },
       { target: "mixture-of-experts", type: "combines-with", note: "MoE feed-forward blocks can add conditional compute to Transformer stacks." },
+      { target: "graph-neural-networks", type: "combines-with", note: "Graph Transformers combine Transformer attention with graph structural encodings." },
       { target: "hnsw", type: "combines-with", note: "Transformer embeddings often feed retrieval indices." },
     ],
     tags: ["transformer", "attention", "sequence"],
@@ -348,7 +349,10 @@ export const algorithms: AlgorithmEntity[] = [
     maturity: "Production-proven",
     implementation: ["Choose aggregation invariant to node ordering", "Normalize or gate messages", "Handle batching and sparse adjacency carefully"],
     failureModes: ["Oversmoothing", "Oversquashing", "Long-range dependencies", "Graph construction errors"],
-    relations: [{ target: "surface-code-decoding", type: "combines-with", note: "Quantum syndrome/check structure can be represented as a graph for learned decoding components." }],
+    relations: [
+      { target: "transformer-attention", type: "combines-with", note: "Graph Transformers combine graph structural encodings with Transformer attention." },
+      { target: "surface-code-decoding", type: "combines-with", note: "Quantum syndrome/check structure can be represented as a graph for learned decoding components." },
+    ],
     tags: ["graph", "message-passing", "representation"],
     openQuestions: ["How can learned graph proposals be combined with exact constrained decoders for safety-critical systems?"],
   },

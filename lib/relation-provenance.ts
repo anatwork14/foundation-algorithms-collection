@@ -250,6 +250,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Goldwasser, Micali, and Rackoff provide the foundational zero-knowledge definition, while GMW uses zero-knowledge subprotocols to enforce correct behavior against malicious deviation in its secure-computation construction. Together they ground this combination edge without implying that every MPC protocol requires zero knowledge or that zero-knowledge proofs are specific to MPC.",
     verifiedAt: "2026-10-03",
   },
+  {
+    sourceId: "transformer-attention",
+    targetId: "graph-neural-networks",
+    relationType: "combines-with",
+    referenceIds: ["ying-2021-graphormer"],
+    evidenceNote: "Ying et al. build Graphormer directly on the standard Transformer architecture while injecting graph-structural encodings into node representations and self-attention. This primary graph-Transformer construction grounds the Transformer-to-GNN combination edge without implying that every graph neural network uses Transformer attention or the same structural encodings.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "graph-neural-networks",
+    targetId: "transformer-attention",
+    relationType: "combines-with",
+    referenceIds: ["ying-2021-graphormer"],
+    evidenceNote: "Graphormer combines graph-specific centrality, spatial, and edge encodings with a Transformer attention backbone for graph representation learning. That primary method directly grounds the inverse GNN-to-Transformer combination edge while keeping local message-passing GNNs, graph Transformers, and other graph architectures conceptually distinct.",
+    verifiedAt: "2026-10-06",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
