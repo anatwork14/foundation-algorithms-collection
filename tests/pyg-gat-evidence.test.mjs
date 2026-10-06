@@ -45,7 +45,7 @@ test("GNN evidence coverage includes local aggregation and Graphormer executable
   assert.deepEqual(implementationIds, ["microsoft-graphormer", "pyg-gat", "pyg-gcn", "pyg-graphsage"]);
 
   const claimIds = claimsForAlgorithm("graph-neural-networks").map((item) => item.id).sort();
-  assert.deepEqual(claimIds, ["gat-learned-neighbor-attention", "gcn-normalized-neighbor-aggregation", "graphormer-structural-encoding-attention", "graphsage-sampled-inductive-aggregation"]);
+  assert.deepEqual(claimIds, ["gat-learned-neighbor-attention", "gcn-normalized-neighbor-aggregation", "gnn-surface-code-detector-graph-decoding", "graphormer-structural-encoding-attention", "graphsage-sampled-inductive-aggregation"]);
 
   const referenceIds = referencesForAlgorithm("graph-neural-networks").map((item) => item.id);
   assert.ok(referenceIds.includes("velickovic-2018-gat"));
