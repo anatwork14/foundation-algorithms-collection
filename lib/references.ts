@@ -4,6 +4,7 @@ import { banditReferenceAdditions } from "./reference-bandit-additions.ts";
 import { foundationReferenceAdditions } from "./reference-foundations-additions.ts";
 import { generativeReferenceAdditions } from "./reference-generative-additions.ts";
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
+import { quantumReferenceAdditions } from "./reference-quantum-additions.ts";
 import { replicationReferenceAdditions } from "./reference-replication-additions.ts";
 import { zeroKnowledgeReferenceAdditions } from "./reference-zero-knowledge-additions.ts";
 import { references as coreReferences, type ReferenceEntity } from "./references-core.ts";
@@ -25,6 +26,7 @@ export const references: ReferenceEntity[] = [
   ...foundationReferenceAdditions,
   ...generativeReferenceAdditions,
   ...privacyReferenceAdditions,
+  ...quantumReferenceAdditions,
   ...replicationReferenceAdditions,
   ...zeroKnowledgeReferenceAdditions,
 ];

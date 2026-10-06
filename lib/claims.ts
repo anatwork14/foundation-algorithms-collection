@@ -1,11 +1,12 @@
 import { attentionClaimAdditions } from "./claim-attention-additions.ts";
 import { generativeClaimAdditions } from "./claim-generative-additions.ts";
+import { quantumClaimAdditions } from "./claim-quantum-additions.ts";
 import { claims as baseClaims } from "./claims-base.ts";
 import type { ClaimRecord } from "./claims-base.ts";
 
 export type { ClaimKind, ClaimRecord } from "./claims-base.ts";
 
-export const claims: ClaimRecord[] = [...baseClaims, ...attentionClaimAdditions, ...generativeClaimAdditions];
+export const claims: ClaimRecord[] = [...baseClaims, ...attentionClaimAdditions, ...generativeClaimAdditions, ...quantumClaimAdditions];
 
 const byId = new Map(claims.map((claim) => [claim.id, claim]));
 

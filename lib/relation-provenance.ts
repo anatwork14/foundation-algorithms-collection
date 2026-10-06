@@ -298,6 +298,30 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Flow Matching directly compares its simulation-free vector-field regression framework with diffusion-based generative modeling, supports diffusion paths as specific instances, and also permits non-diffusion paths such as optimal-transport interpolations. Paired with the DDPM primary source, this grounds the inverse flow-to-diffusion alternative edge while preserving their distinct training and sampling formulations.",
     verifiedAt: "2026-10-06",
   },
+  {
+    sourceId: "quantum-fourier-transform",
+    targetId: "quantum-phase-estimation",
+    relationType: "used-by",
+    referenceIds: ["cleve-1998-quantum-algorithms-revisited"],
+    evidenceNote: "Cleve et al. construct phase estimation by coherently accumulating powers of an eigenphase and applying inverse QFT to recover an m-bit estimator. This directly grounds the QFT-to-QPE used-by edge while preserving that iterative and Kitaev-style phase-estimation variants need not execute the same full inverse-QFT circuit.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "quantum-phase-estimation",
+    targetId: "quantum-fourier-transform",
+    relationType: "depends-on",
+    referenceIds: ["cleve-1998-quantum-algorithms-revisited"],
+    evidenceNote: "In the canonical Fourier-based phase-estimation construction of Cleve et al., controlled unitary powers encode phase in the control register and inverse QFT turns the resulting Fourier structure into a measurable phase estimate. This grounds the QPE-to-QFT dependency edge only for that canonical formulation, not for all phase-estimation variants.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "quantum-phase-estimation",
+    targetId: "qsvt",
+    relationType: "alternative-to",
+    referenceIds: ["gilyen-2018-qsvt"],
+    evidenceNote: "Gilyén et al. explicitly develop singular-value-transformation-based procedures that replace phase-estimation-based spectral transformations in important matrix-algorithm settings. This grounds the reciprocal QPE-to-QSVT alternative edge while preserving that QPE remains appropriate for direct eigenphase estimation and is not universally interchangeable with QSVT.",
+    verifiedAt: "2026-10-06",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
