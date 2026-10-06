@@ -40,7 +40,6 @@ export const implementationUpstreamReviewFollowups: ImplementationUpstreamReview
     ],
     note: "Reviewed PyTorch main after the NVGEMM benchmark-layout change advanced the branch beyond the prior review head. Direct blob comparison confirms torch/nn/modules/activation.py remains byte-identical to the immutable MultiheadAttention evidence pin. Retain the existing archive pin because the observed upstream movement is unrelated to the tracked attention source.",
   },
-,
   {
     implementationId: "pytorch-adamw",
     revision: 4,
