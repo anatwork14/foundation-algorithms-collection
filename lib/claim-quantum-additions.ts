@@ -12,4 +12,14 @@ export const quantumClaimAdditions: ClaimRecord[] = [
     referenceIds: ["cleve-1998-quantum-algorithms-revisited"],
     note: "This claim is scoped to the canonical inverse-QFT readout formulation. Iterative, Kitaev-style, Bayesian, and other phase-estimation variants can recover phase information without executing the same full inverse-QFT circuit.",
   },
+  {
+    id: "gnn-surface-code-detector-graph-decoding",
+    kind: "Mechanism",
+    statement: "Graph-neural-network quantum decoders can represent stabilizer measurement outcomes as a detector graph and learn to predict logical-error classes from that graph-structured syndrome information.",
+    algorithmIds: ["graph-neural-networks", "surface-code-decoding"],
+    chapterSlug: "24-quantum-error-correction-decoding",
+    passageContains: "Graph neural network decoders can encode stabilizer measurements as detector graphs and predict logical-error classes from the resulting structured syndrome data.",
+    referenceIds: ["lange-2025-gnn-qec-decoder"],
+    note: "This claim is scoped to detector-graph GNN decoding. Logical-error rates, training cost, inference latency, code generalization, and robustness to real hardware drift remain code-, noise-, dataset-, and implementation-dependent.",
+  },
 ];

@@ -245,6 +245,8 @@ This is a direct application of multiscale algorithm design.
 
 Train a model to map syndrome history to correction/logical-error predictions.
 
+Graph neural network decoders can encode stabilizer measurements as detector graphs and predict logical-error classes from the resulting structured syndrome data.
+
 Architectures:
 
 - MLP/CNN;

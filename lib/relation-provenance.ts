@@ -322,6 +322,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Gilyén et al. explicitly develop singular-value-transformation-based procedures that replace phase-estimation-based spectral transformations in important matrix-algorithm settings. This grounds the reciprocal QPE-to-QSVT alternative edge while preserving that QPE remains appropriate for direct eigenphase estimation and is not universally interchangeable with QSVT.",
     verifiedAt: "2026-10-06",
   },
+  {
+    sourceId: "graph-neural-networks",
+    targetId: "surface-code-decoding",
+    relationType: "combines-with",
+    referenceIds: ["lange-2025-gnn-qec-decoder"],
+    evidenceNote: "Lange et al. formulate quantum-error-correction decoding as graph classification: stabilizer measurements become an annotated detector graph and a GNN predicts the most likely logical-error class, with evaluation on circuit-level surface-code noise. This directly grounds the GNN-to-surface-decoding combination edge without implying universal superiority over matching or other decoders.",
+    verifiedAt: "2026-10-06",
+  },
+  {
+    sourceId: "surface-code-decoding",
+    targetId: "graph-neural-networks",
+    relationType: "combines-with",
+    referenceIds: ["lange-2025-gnn-qec-decoder"],
+    evidenceNote: "The same primary study applies a graph-neural-network decoder to surface-code syndrome data by constructing detector graphs from stabilizer measurements and predicting logical-error classes. This grounds the reciprocal surface-decoding-to-GNN combination edge while keeping performance claims specific to the studied codes, noise models, and datasets.",
+    verifiedAt: "2026-10-06",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
