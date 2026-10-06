@@ -25,7 +25,7 @@ test("Switch Transformer source-backs conditional MoE capacity inside Transforme
   assert.equal(claim.kind, "Mechanism");
   assert.deepEqual(claim.algorithmIds, reference.algorithmIds);
   assert.deepEqual(claim.referenceIds, [reference.id]);
-  assert.equal(claim.passageContains, "MoE + Transformer");
+  assert.equal(claim.passageContains, "Transformer variants such as Switch Transformer place sparse expert routing in feed-forward sublayers, turning added parameter capacity into conditional capacity rather than activating every expert for every token.");
 
   const transformerToMoe = getRelationProvenance(
     "transformer-attention",

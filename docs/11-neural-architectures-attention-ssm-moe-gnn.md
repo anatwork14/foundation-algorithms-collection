@@ -330,6 +330,8 @@ Increase parameter capacity without executing every parameter for every input.
 
 Conditional computation separates total model capacity from active computation per token.
 
+Transformer variants such as Switch Transformer place sparse expert routing in feed-forward sublayers, turning added parameter capacity into conditional capacity rather than activating every expert for every token.
+
 ## 19. Top-k Routing
 
 The router chooses the highest-scoring \(k\) experts.
