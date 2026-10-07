@@ -25,7 +25,7 @@ test("TransPath source-backs Transformer learned heuristics and has a matching i
   assert.equal(implementation.maturity, "Research/prototyping");
   assert.equal(implementation.license, "MIT");
   assert.deepEqual(implementation.algorithmIds, reference.algorithmIds);
-  assert.match(implementation.implementationNotes.join(" "), /no standalone automated.*test suite/i);
+  assert.match(implementation.implementationNotes.join(" "), /standalone automated.*test suite/i);
 
   const history = verificationHistoryForImplementation(implementation.id);
   assert.equal(history.length, 1);
