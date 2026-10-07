@@ -33,12 +33,12 @@ Combination Lab
         ↓
 Evidence
   ├── 54 curated passage-backed Claims
-  ├── 61 curated References + citation graph
+  ├── 62 curated References + citation graph
   ├── 40 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 5 independent Replication/Evaluation records
-  ├── 58 source-backed Atlas relations
+  ├── 59 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,7 +180,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **58 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] **59 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
 - [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), both LinUCB↔Coverage-Guided-Fuzzing contextual-mutation directions, ANN/embedding links, Embedding-Models→LinUCB representation/context linkage, both Transformer↔HNSW dense-retrieval directions, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, both A*→Transformer and Learned-Heuristics→Transformer learned-search links, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Conformal-Prediction→Bayesian-Inference ridge-interval comparison, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both SSM↔Surface-Code-Decoding sequence-decoder directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
@@ -223,7 +223,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **54 curated passage-backed Claims**.
-- [x] **61 curated References**.
+- [x] **62 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -284,6 +284,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
 - [x] **5 independent Replication/Evaluation records**.
+- [x] Swin Transformer now source-backs the existing AdamW→Transformer Atlas edge: Liu et al. explicitly train the shifted-window Transformer architecture with AdamW across primary ImageNet and downstream vision protocols, while the record remains scoped so AdamW is not treated as a mandatory optimizer for every Transformer family.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
 ## Implementation freshness policy

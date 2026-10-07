@@ -474,6 +474,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "TransPath is a direct example of learned heuristics implemented with Transformer attention: attention-based spatial features predict correction-factor or path-probability proxies that are consumed by heuristic search. This grounds the Learned-Heuristics-to-Transformer edge without implying that learned heuristics require Transformers or inherit classical admissibility guarantees.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "adamw",
+    targetId: "transformer-attention",
+    relationType: "used-by",
+    referenceIds: ["liu-2021-swin-transformer"],
+    evidenceNote: "Liu et al. train the Swin Transformer architecture with AdamW across ImageNet training and fine-tuning protocols, directly grounding the archive's AdamW-to-Transformer used-by edge. The evidence is scoped to a concrete Transformer family and does not imply that AdamW is required by every Transformer architecture or training regime.",
+    verifiedAt: "2026-10-08",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
