@@ -386,6 +386,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Iannelli and Jansen tailor Gaussian-process Bayesian optimization to minimize noisy VQE energy objectives. This directly grounds the VQE-to-BO combination edge while keeping optimizer performance specific to the studied ansatz, objective, noise, and evaluation-budget conditions.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "error-correcting-codes",
+    targetId: "bayesian-inference",
+    relationType: "combines-with",
+    referenceIds: ["olding-2014-bayesian-error-correction"],
+    evidenceNote: "Olding, Olivier, and Salmon explicitly formulate error-correction decoding with Bayesian networks and belief propagation, treating hidden transmitted/error variables probabilistically given observed channel evidence. This directly grounds the Error-Correcting-Codes-to-Bayesian-Inference combination edge without implying that every decoder is Bayesian or that posterior inference is the preferred implementation for every code family.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

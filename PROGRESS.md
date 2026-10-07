@@ -32,13 +32,13 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 50 curated passage-backed Claims
-  ├── 54 curated References + citation graph
+  ├── 51 curated passage-backed Claims
+  ├── 55 curated References + citation graph
   ├── 39 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 4 independent Replication/Evaluation records
-  ├── 47 source-backed Atlas relations
+  ├── 48 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,7 +180,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **47 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] **48 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
 - [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), ANN/embedding links, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
@@ -222,8 +222,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **50 curated passage-backed Claims**.
-- [x] **54 curated References**.
+- [x] **51 curated passage-backed Claims**.
+- [x] **55 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -249,6 +249,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
 - [x] New 2026-10-07 foundational Claim coverage closes the last zero-Claim first-class algorithms: Bellman's dynamic-programming decomposition and Mikolov et al.'s learned continuous word representations now have primary-method sources, while Gelman et al. provide a modern synthesis for the prior/evidence/posterior Bayesian update; all three now have unique live-passage Claims. A regression now requires every first-class Algorithm to retain at least one curated Claim.
+- [x] New 2026-10-07 coding/inference evidence adds Olding–Olivier–Salmon's Bayesian-network decoder for algebraic error-correcting codes, promotes posterior decoding into canonical prose, adds a passage-backed probabilistic-decoding Claim, and source-backs the existing Error-Correcting-Codes→Bayesian-Inference edge without treating all decoders as Bayesian.
 - [x] New 2026-10-07 executable coverage adds commit-pinned Gensim Word2Vec and PyMC posterior-sampling records with matching revision-1 verification histories. Gensim is scoped to Word2Vec skip-gram/CBOW training plus its optimized Cython kernels and tests; PyMC is scoped to posterior MCMC/NUTS computation and sampling tests. Neither record generalizes implementation evidence into universal representation quality, model correctness, or convergence guarantees.
 - [x] New 2026-10-07 executable coverage adds fplll LLL/BKZ lattice reduction and galois BCH/Reed–Solomon coding as commit-pinned records with revision-1 verification. fplll is scoped to lattice-reduction/attack-cost mechanics rather than cryptosystem break claims; galois is scoped to classical algebraic codes rather than quantum surface-code decoding or every coding family.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.

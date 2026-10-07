@@ -1,6 +1,7 @@
 import { aiReferenceAdditions } from "./reference-ai-additions.ts";
 import { attentionReferenceAdditions } from "./reference-attention-additions.ts";
 import { banditReferenceAdditions } from "./reference-bandit-additions.ts";
+import { codingReferenceAdditions } from "./reference-coding-additions.ts";
 import { foundationReferenceAdditions } from "./reference-foundations-additions.ts";
 import { foundationalClaimReferenceAdditions } from "./reference-foundational-claim-additions.ts";
 import { generativeReferenceAdditions } from "./reference-generative-additions.ts";
@@ -24,6 +25,7 @@ export const references: ReferenceEntity[] = [
   ...aiReferenceAdditions,
   ...attentionReferenceAdditions,
   ...banditReferenceAdditions,
+  ...codingReferenceAdditions,
   ...foundationReferenceAdditions,
   ...foundationalClaimReferenceAdditions,
   ...generativeReferenceAdditions,

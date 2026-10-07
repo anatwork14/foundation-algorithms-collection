@@ -271,6 +271,8 @@ Architectures:
 
 ## 19. Decoder as Bayesian inference
 
+Probabilistic decoding can be framed as posterior inference over candidate error patterns or codewords conditioned on observed syndrome or soft channel evidence.
+
 Given syndrome \(s\), infer likely error equivalence class:
 
 \[
