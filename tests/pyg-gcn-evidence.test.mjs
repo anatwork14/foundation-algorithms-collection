@@ -25,5 +25,5 @@ test("PyG GCN is a commit-pinned executable GNN record with matching verificatio
 
 test("GNN executable coverage includes Graphormer plus PyG GAT, GCN, and GraphSAGE", () => {
   const ids = implementationsForAlgorithm("graph-neural-networks").map((item) => item.id).sort();
-  assert.deepEqual(ids, ["microsoft-graphormer", "pyg-gat", "pyg-gcn", "pyg-graphsage"]);
+  assert.deepEqual(ids, ["lange-gnn-surface-code-decoder", "microsoft-graphormer", "pyg-gat", "pyg-gcn", "pyg-graphsage"]);
 });
