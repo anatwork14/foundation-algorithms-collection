@@ -1,0 +1,61 @@
+import type { ImplementationRecord } from "./implementations.ts";
+
+/** Executable anchors for remaining foundational implementation gaps. */
+export const foundationalGapImplementationAdditions: ImplementationRecord[] = [
+  {
+    id: "fplll-lattice-reduction",
+    name: "fplll LLL + BKZ lattice reduction",
+    repository: "https://github.com/fplll/fplll",
+    homepage: "https://fplll.github.io/fplll/",
+    algorithmIds: ["lattice-problems"],
+    language: "C++",
+    interfaces: ["C++ library", "fplll command-line tools", "LLLReduction", "BKZReduction"],
+    license: "LGPL-2.1-or-later",
+    maturity: "Established open-source",
+    summary: "fplll provides executable lattice-reduction algorithms including LLL and BKZ together with supporting enumeration and lattice-problem utilities.",
+    implementationNotes: [
+      "The pinned LLL implementation exposes configurable reduction over Gram–Schmidt data and tracks swaps/status while supporting the numerical backends and reduction flags used by the fplll library.",
+      "The pinned BKZ implementation composes LLL preprocessing, blockwise enumeration, pruning/strategy parameters, and basis updates to implement block Korkine–Zolotarev reduction used in practical lattice-reduction workflows.",
+      "Dedicated LLL and BKZ tests exercise reduction validity across matrix/numeric configurations, method flags, block sizes, and failure/status behavior. These tests corroborate implementation mechanics rather than concrete cryptanalytic security estimates.",
+      "This archive record is scoped to lattice reduction and related attack-cost building blocks. It does not treat successful LLL/BKZ execution as evidence that any particular ML-KEM/FHE parameter set is insecure, nor does it replace scheme-specific security analysis.",
+    ],
+    sourcePaths: [
+      { label: "LLL implementation", url: "https://github.com/fplll/fplll/blob/a48096bbd19792eed4267025f924b5095f079e29/fplll/lll.cpp" },
+      { label: "BKZ implementation", url: "https://github.com/fplll/fplll/blob/a48096bbd19792eed4267025f924b5095f079e29/fplll/bkz.cpp" },
+      { label: "LLL tests", url: "https://github.com/fplll/fplll/blob/a48096bbd19792eed4267025f924b5095f079e29/tests/test_lll.cpp" },
+      { label: "BKZ tests", url: "https://github.com/fplll/fplll/blob/a48096bbd19792eed4267025f924b5095f079e29/tests/test_bkz.cpp" },
+      { label: "Repository license", url: "https://github.com/fplll/fplll/blob/a48096bbd19792eed4267025f924b5095f079e29/COPYING" },
+    ],
+    verifiedRef: "master",
+    verifiedCommit: "a48096bbd19792eed4267025f924b5095f079e29",
+    lastVerified: "2026-10-07",
+  },
+  {
+    id: "galois-classical-codes",
+    name: "galois BCH + Reed–Solomon codes",
+    repository: "https://github.com/mhostetter/galois",
+    homepage: "https://mhostetter.github.io/galois/",
+    algorithmIds: ["error-correcting-codes"],
+    language: "Python / NumPy / Numba",
+    interfaces: ["Python API", "BCH", "ReedSolomon", "encode", "decode"],
+    license: "MIT",
+    maturity: "Established open-source",
+    summary: "The galois library implements algebraic BCH and Reed–Solomon error-correcting codes over finite fields with executable encoding/decoding and dedicated test suites.",
+    implementationNotes: [
+      "The pinned BCH implementation defines general q-ary cyclic BCH codes over finite fields, constructs generator-code parameters, and uses algebraic syndrome/error-location machinery through shared cyclic-code and Berlekamp–Massey components.",
+      "The pinned Reed–Solomon implementation exposes maximum-distance-separable RS(n,k) codes over GF(q), including systematic/shortened usage and shared algebraic decoding infrastructure.",
+      "Dedicated BCH and Reed–Solomon tests exercise constructor validation, encode/decode behavior, shortened codes, systematic variants, finite-field configurations, and correction behavior across parameterized cases.",
+      "This record is scoped to classical algebraic coding implementations. It does not imply that BCH/Reed–Solomon decoders implement surface-code quantum decoding, belief propagation, LDPC/polar families, or every code/noise model represented by the broader Error-Correcting Codes entity.",
+    ],
+    sourcePaths: [
+      { label: "BCH implementation", url: "https://github.com/mhostetter/galois/blob/0243840b44e39713dec1f9d48d4faa7581306b3d/src/galois/_codes/_bch.py" },
+      { label: "Reed–Solomon implementation", url: "https://github.com/mhostetter/galois/blob/0243840b44e39713dec1f9d48d4faa7581306b3d/src/galois/_codes/_reed_solomon.py" },
+      { label: "BCH tests", url: "https://github.com/mhostetter/galois/blob/0243840b44e39713dec1f9d48d4faa7581306b3d/tests/codes/test_bch.py" },
+      { label: "Reed–Solomon tests", url: "https://github.com/mhostetter/galois/blob/0243840b44e39713dec1f9d48d4faa7581306b3d/tests/codes/test_reed_solomon.py" },
+      { label: "Repository license", url: "https://github.com/mhostetter/galois/blob/0243840b44e39713dec1f9d48d4faa7581306b3d/LICENSE" },
+    ],
+    verifiedRef: "main",
+    verifiedCommit: "0243840b44e39713dec1f9d48d4faa7581306b3d",
+    lastVerified: "2026-10-07",
+  },
+];

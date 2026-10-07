@@ -3,6 +3,7 @@ import { banditImplementationAdditions } from "./implementation-bandit-additions
 import { conformalImplementationAdditions } from "./implementation-conformal-additions.ts";
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
 import { foundationalClaimImplementationAdditions } from "./implementation-foundational-claim-additions.ts";
+import { foundationalGapImplementationAdditions } from "./implementation-foundational-gap-additions.ts";
 import { generativeImplementationAdditions } from "./implementation-generative-additions.ts";
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
 import { quantumImplementationAdditions } from "./implementation-quantum-additions.ts";
@@ -242,6 +243,7 @@ export const implementations: ImplementationRecord[] = [
   ...coreImplementations,
   ...foundationImplementationAdditions,
   ...foundationalClaimImplementationAdditions,
+  ...foundationalGapImplementationAdditions,
   ...generativeImplementationAdditions,
   ...aiImplementationAdditions,
   ...conformalImplementationAdditions,
