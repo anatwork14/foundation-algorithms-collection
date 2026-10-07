@@ -434,6 +434,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Burnaev and Vovk directly compare conformalized ridge-regression prediction sets with standard Bayesian ridge prediction intervals and show that, when the Bayesian model assumptions hold, their asymptotic efficiencies can be close. This grounds the Conformal-Prediction-to-Bayesian-Inference alternative edge in a specific regression setting without presenting the paradigms as universally opposed or interchangeable.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "hnsw",
+    targetId: "transformer-attention",
+    relationType: "combines-with",
+    referenceIds: ["ma-2023-anserini-hnsw"],
+    evidenceNote: "Ma, Teofili, and Lin describe dense retrieval models whose query/document vectors are typically produced by pretrained Transformers, then integrate and evaluate HNSW indexes for approximate nearest-neighbor search over those dense representations. This directly grounds the HNSW-to-Transformer combination edge while keeping representation learning and vector indexing as distinct system stages.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "transformer-attention",
+    targetId: "hnsw",
+    relationType: "combines-with",
+    referenceIds: ["ma-2023-anserini-hnsw"],
+    evidenceNote: "The Anserini HNSW study explicitly frames modern dense retrieval as pretrained Transformer encoders producing dense query/document vectors followed by efficient top-k vector search, and evaluates HNSW as that retrieval index. This grounds the reciprocal Transformer-to-HNSW combination edge without implying that every Transformer system requires approximate-nearest-neighbor indexing.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
