@@ -68,6 +68,17 @@ export const replications: ReplicationRecord[] = [
     independenceNote: "Vijay Prakash Dwivedi, Chaitanya K. Joshi, Anh Tuan Luu, Thomas Laurent, Yoshua Bengio, and Xavier Bresson have no author overlap with Thomas Kipf, Max Welling, William Hamilton, Rex Ying, or Jure Leskovec. The JMLR benchmark is independently authored and evaluates multiple graph architectures under a common experimental framework.",
     verifiedAt: "2026-10-05",
   },
+  {
+    id: "canim-2026-embedding-linucb-evaluation",
+    title: "Independent evaluation of retrieval-trained embeddings for LinUCB",
+    algorithmIds: ["linucb"],
+    replicationReferenceId: "canim-2026-embedding-linucb-evaluation",
+    originalReferenceIds: ["li-2010-contextual-bandit-news"],
+    outcome: "Inconclusive",
+    summary: "Canim independently evaluates LinUCB with frozen BERT-base context embeddings across three recommendation datasets, two embedding-training regimes, two dimensionality-reduction methods, and repeated seeds. The study finds that retrieval fine-tuning does not yield a universal LinUCB advantage: results depend strongly on dataset and reduction choice, and the reduction step can dominate the encoder effect. Because this work does not reproduce the original Yahoo! Front Page click-lift setting and instead tests a modern representation hypothesis around LinUCB, the archive records the result as inconclusive rather than as support or contradiction of the original empirical finding.",
+    independenceNote: "Mustafa Canim has no author overlap with Lihong Li, Wei Chu, John Langford, or Robert E. Schapire. The 2026 study uses separate datasets, embedding models, dimensionality-reduction choices, and repeated experimental runs to evaluate LinUCB under a modern frozen-representation pipeline.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 const byId = new Map(replications.map((record) => [record.id, record]));

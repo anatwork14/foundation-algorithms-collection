@@ -65,4 +65,33 @@ export const replicationReferenceAdditions: ReferenceEntity[] = [
     significance: "Provides independently authored evaluation evidence for GCN and GraphSAGE under a shared experimental framework and also directly evaluates GAT. Because benchmark coauthor Yoshua Bengio is also a GAT coauthor, GAT is linked through citation/evaluation provenance but is deliberately excluded from the archive's independent-replication claim for this source.",
     tags: ["graph-neural-network", "gcn", "graphsage", "gat", "benchmark", "independent-evaluation", "reproducibility"],
   },
+  {
+    id: "canim-2026-embedding-linucb-evaluation",
+    title: "Do Retrieval-Trained Embeddings Help Linear Contextual Bandits?",
+    authors: ["Mustafa Canim"],
+    year: 2026,
+    kind: "Paper",
+    evidenceRole: "Replication / evaluation",
+    venue: "Mathematics 14(16), 2874",
+    url: "https://doi.org/10.3390/math14162874",
+    doi: "10.3390/math14162874",
+    algorithmIds: ["linucb", "embedding-models"],
+    combinationIds: [],
+    chapterSlugs: [
+      "08-bandits-contextual-bandits-linucb",
+      "06-representation-similarity-compression-parsing",
+    ],
+    citations: [
+      {
+        targetId: "li-2010-contextual-bandit-news",
+        note: "Canim uses LinUCB as a linear contextual-bandit policy and explicitly cites the original personalized-news LinUCB work while testing modern text-embedding choices as frozen context features.",
+        verificationUrl: "https://www.mdpi.com/2227-7390/14/16/2874",
+        verifiedAt: "2026-10-07",
+      },
+    ],
+    notices: [],
+    summary: "Evaluates vanilla versus retrieval-fine-tuned BERT-base embeddings as frozen context for LinUCB and linear Thompson sampling across MIND, MovieLens-1M, and Amazon CDs and Vinyl under PCA and random-projection reductions.",
+    significance: "Independent evidence that embedding geometry can materially affect linear contextual-bandit behavior while providing no universal advantage for retrieval-tuned embeddings: encoder ranking and regret effects vary by dataset and dimensionality-reduction choice.",
+    tags: ["linucb", "contextual-bandit", "embeddings", "dense-retrieval", "independent-evaluation", "regret", "representation"],
+  },
 ];

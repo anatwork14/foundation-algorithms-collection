@@ -33,12 +33,12 @@ Combination Lab
         ↓
 Evidence
   ├── 54 curated passage-backed Claims
-  ├── 59 curated References + citation graph
+  ├── 60 curated References + citation graph
   ├── 39 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
-  ├── 4 independent Replication/Evaluation records
-  ├── 55 source-backed Atlas relations
+  ├── 5 independent Replication/Evaluation records
+  ├── 56 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,8 +180,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **55 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), both LinUCB↔Coverage-Guided-Fuzzing contextual-mutation directions, ANN/embedding links, both Transformer↔HNSW dense-retrieval directions, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Conformal-Prediction→Bayesian-Inference ridge-interval comparison, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both SSM↔Surface-Code-Decoding sequence-decoder directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
+- [x] **56 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), both LinUCB↔Coverage-Guided-Fuzzing contextual-mutation directions, ANN/embedding links, Embedding-Models→LinUCB representation/context linkage, both Transformer↔HNSW dense-retrieval directions, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Conformal-Prediction→Bayesian-Inference ridge-interval comparison, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both SSM↔Surface-Code-Decoding sequence-decoder directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -223,7 +223,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
 - [x] **54 curated passage-backed Claims**.
-- [x] **59 curated References**.
+- [x] **60 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -254,6 +254,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] New 2026-10-07 adaptive-fuzzing evidence adds Wang et al.'s CMFuzz journal paper, adds a passage-backed contextual LinUCB mutation-selection Claim, and source-backs both existing LinUCB↔Coverage-Guided-Fuzzing directions while keeping transfer, reward design, overhead, and bug/coverage gains target-dependent.
 - [x] New 2026-10-07 uncertainty-comparison evidence adds Burnaev–Vovk's conformalized-ridge efficiency analysis, promotes a scoped conformal-vs-Bayesian ridge statement into canonical prose, adds a passage-backed Guarantee Claim, and source-backs the existing Conformal-Prediction→Bayesian-Inference alternative edge without generalizing the ridge-regression asymptotics to arbitrary models.
 - [x] New 2026-10-07 dense-retrieval evidence adds Ma–Teofili–Lin's CIKM Anserini HNSW study and source-backs both existing Transformer↔HNSW combination directions: pretrained Transformer encoders produce dense representations and HNSW supplies approximate-nearest-neighbor indexing/search, without treating either stage as mandatory for every system.
+- [x] New 2026-10-07 independent bandit/representation evidence adds Canim's evaluation of retrieval-trained versus vanilla text embeddings as frozen LinUCB context across three datasets and two reduction methods. The result is curated as Inconclusive: embedding/reduction effects are dataset-dependent, no universal retrieval-tuned advantage appears, and the study does not reproduce the original Yahoo! click-lift setting; it also source-backs the existing Embedding-Models→LinUCB edge.
 - [x] New 2026-10-07 executable coverage adds commit-pinned Gensim Word2Vec and PyMC posterior-sampling records with matching revision-1 verification histories. Gensim is scoped to Word2Vec skip-gram/CBOW training plus its optimized Cython kernels and tests; PyMC is scoped to posterior MCMC/NUTS computation and sampling tests. Neither record generalizes implementation evidence into universal representation quality, model correctness, or convergence guarantees.
 - [x] New 2026-10-07 executable coverage adds fplll LLL/BKZ lattice reduction and galois BCH/Reed–Solomon coding as commit-pinned records with revision-1 verification. fplll is scoped to lattice-reduction/attack-cost mechanics rather than cryptosystem break claims; galois is scoped to classical algebraic codes rather than quantum surface-code decoding or every coding family.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
@@ -281,7 +282,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] PyMatching provides a commit-pinned MWPM surface-code decoder record with repeated-measurement/timelike-edge and Stim detector-error-model support, plus an append-only verification snapshot.
 - [x] Experiment protocol/result/limitations/artifacts model + append-only history.
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
-- [x] **4 independent Replication/Evaluation records**.
+- [x] **5 independent Replication/Evaluation records**.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
 ## Implementation freshness policy

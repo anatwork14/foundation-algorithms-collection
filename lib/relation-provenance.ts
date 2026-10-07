@@ -450,6 +450,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The Anserini HNSW study explicitly frames modern dense retrieval as pretrained Transformer encoders producing dense query/document vectors followed by efficient top-k vector search, and evaluates HNSW as that retrieval index. This grounds the reciprocal Transformer-to-HNSW combination edge without implying that every Transformer system requires approximate-nearest-neighbor indexing.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "embedding-models",
+    targetId: "linucb",
+    relationType: "combines-with",
+    referenceIds: ["canim-2026-embedding-linucb-evaluation"],
+    evidenceNote: "Canim directly evaluates LinUCB with frozen text embeddings from vanilla and retrieval-fine-tuned BERT-base encoders as contextual features across multiple recommendation datasets. The mixed results source-back the Embedding-Models-to-LinUCB combination edge while showing that encoder objective, dimensionality reduction, and dataset interact strongly rather than guaranteeing that retrieval-trained embeddings improve bandit regret.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
