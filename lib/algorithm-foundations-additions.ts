@@ -1,4 +1,4 @@
-import type { AlgorithmEntity } from "@/lib/algorithms";
+import type { AlgorithmEntity } from "./algorithms.ts";
 
 /**
  * Additional classical foundation entities promoted from long-form chapters into

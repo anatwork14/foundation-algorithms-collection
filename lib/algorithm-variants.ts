@@ -1,4 +1,4 @@
-import type { MaturityLevel } from "@/lib/algorithms";
+import type { MaturityLevel } from "./algorithms.ts";
 
 export type AlgorithmVariantSource = {
   chapterSlug: string;

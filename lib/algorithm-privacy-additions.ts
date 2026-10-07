@@ -1,4 +1,4 @@
-import type { AlgorithmEntity } from "@/lib/algorithms";
+import type { AlgorithmEntity } from "./algorithms.ts";
 
 /**
  * Privacy-preserving algorithm entities that are substantial enough to deserve

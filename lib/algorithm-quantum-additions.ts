@@ -1,4 +1,4 @@
-import type { AlgorithmEntity } from "@/lib/algorithms";
+import type { AlgorithmEntity } from "./algorithms.ts";
 
 /** Quantum-algorithm entities that extend the historical core catalog. */
 export const quantumAlgorithmAdditions: AlgorithmEntity[] = [

@@ -1,4 +1,4 @@
-import type { AlgorithmEntity } from "@/lib/algorithms";
+import type { AlgorithmEntity } from "./algorithms.ts";
 
 export const algorithmAdditions: AlgorithmEntity[] = [
   {

@@ -1,13 +1,13 @@
-import { algorithmAdditions } from "@/lib/algorithm-additions";
-import { foundationAlgorithmAdditions } from "@/lib/algorithm-foundations-additions";
-import { privacyAlgorithmAdditions } from "@/lib/algorithm-privacy-additions";
-import { quantumAlgorithmAdditions } from "@/lib/algorithm-quantum-additions";
-import { variantsForAlgorithm } from "@/lib/algorithm-variants";
+import { algorithmAdditions } from "./algorithm-additions.ts";
+import { foundationAlgorithmAdditions } from "./algorithm-foundations-additions.ts";
+import { privacyAlgorithmAdditions } from "./algorithm-privacy-additions.ts";
+import { quantumAlgorithmAdditions } from "./algorithm-quantum-additions.ts";
+import { variantsForAlgorithm } from "./algorithm-variants.ts";
 import {
   algorithms as coreAlgorithms,
   type AlgorithmEntity,
   type AlgorithmRelation,
-} from "@/lib/algorithms";
+} from "./algorithms.ts";
 
 export const algorithms: AlgorithmEntity[] = [
   ...coreAlgorithms,

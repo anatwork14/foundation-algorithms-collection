@@ -1,12 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { algorithms as coreAlgorithms } from "../lib/algorithms.ts";
-import { algorithmAdditions } from "../lib/algorithm-additions.ts";
+import { algorithms } from "../lib/algorithm-catalog.ts";
 import { references } from "../lib/references.ts";
 import { relationProvenance } from "../lib/relation-provenance.ts";
 import { validateRelationProvenance } from "../lib/relation-provenance-validation.ts";
 
-const algorithms = [...coreAlgorithms, ...algorithmAdditions];
 
 test("every curated relation-provenance record resolves against the live Atlas graph", () => {
   assert.deepEqual(validateRelationProvenance(relationProvenance, algorithms, references), []);
