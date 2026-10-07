@@ -19,8 +19,8 @@ test("Atlas avoids direct edges when algorithms only share a foundation or are d
   assert.ok(!fhe.relations.some((relation) => relation.target === "ml-kem"));
   assert.ok(!grover.relations.some((relation) => relation.target === "quantum-phase-estimation"));
 
-  assert.ok(getRelationProvenance("lattice-problems", "depends-on", "ml-kem"));
-  assert.ok(getRelationProvenance("lattice-problems", "depends-on", "fhe"));
+  assert.ok(getRelationProvenance("lattice-problems", "used-by", "ml-kem"));
+  assert.ok(getRelationProvenance("lattice-problems", "used-by", "fhe"));
   assert.ok(getRelationProvenance("amplitude-estimation", "depends-on", "grover-search"));
   assert.ok(getRelationProvenance("amplitude-estimation", "depends-on", "quantum-phase-estimation"));
 });
