@@ -22,4 +22,14 @@ export const quantumClaimAdditions: ClaimRecord[] = [
     referenceIds: ["lange-2025-gnn-qec-decoder"],
     note: "This claim is scoped to detector-graph GNN decoding. Logical-error rates, training cost, inference latency, code generalization, and robustness to real hardware drift remain code-, noise-, dataset-, and implementation-dependent.",
   },
+  {
+    id: "amplitude-estimation-amplification-phase-composition",
+    kind: "Mechanism",
+    statement: "Canonical quantum amplitude estimation estimates a success probability by applying phase estimation to an amplitude-amplification operator whose eigenphase encodes the target amplitude.",
+    algorithmIds: ["amplitude-estimation"],
+    chapterSlug: "21-quantum-search-fourier-phase-estimation",
+    passageContains: "Canonical amplitude estimation combines amplitude amplification operators with phase estimation.",
+    referenceIds: ["brassard-2002-amplitude-amplification-estimation"],
+    note: "This Claim is scoped to canonical phase-estimation-based QAE. Iterative, maximum-likelihood, and other modern amplitude-estimation variants can avoid the same full QPE/inverse-QFT circuit and have different depth, shot, and noise tradeoffs.",
+  },
 ];

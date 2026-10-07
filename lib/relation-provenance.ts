@@ -338,6 +338,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The same primary study applies a graph-neural-network decoder to surface-code syndrome data by constructing detector graphs from stabilizer measurements and predicting logical-error classes. This grounds the reciprocal surface-decoding-to-GNN combination edge while keeping performance claims specific to the studied codes, noise models, and datasets.",
     verifiedAt: "2026-10-06",
   },
+  {
+    sourceId: "amplitude-estimation",
+    targetId: "grover-search",
+    relationType: "depends-on",
+    referenceIds: ["brassard-2002-amplitude-amplification-estimation"],
+    evidenceNote: "Brassard et al. define amplitude estimation around the amplitude-amplification/Grover operator built from state preparation and the good-state reflection. This directly grounds the canonical Amplitude-Estimation-to-Grover dependency while preserving that modern amplitude-estimation variants may realize the amplification/query structure differently.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "amplitude-estimation",
+    targetId: "quantum-phase-estimation",
+    relationType: "depends-on",
+    referenceIds: ["brassard-2002-amplitude-amplification-estimation"],
+    evidenceNote: "Canonical amplitude estimation applies phase estimation to the amplitude-amplification operator and converts the recovered phase into an amplitude estimate. This grounds the QAE-to-QPE dependency specifically for the canonical construction, not for iterative or likelihood-based variants that avoid the same full phase-estimation circuit.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

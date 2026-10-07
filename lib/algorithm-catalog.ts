@@ -1,6 +1,7 @@
 import { algorithmAdditions } from "@/lib/algorithm-additions";
 import { foundationAlgorithmAdditions } from "@/lib/algorithm-foundations-additions";
 import { privacyAlgorithmAdditions } from "@/lib/algorithm-privacy-additions";
+import { quantumAlgorithmAdditions } from "@/lib/algorithm-quantum-additions";
 import { variantsForAlgorithm } from "@/lib/algorithm-variants";
 import {
   algorithms as coreAlgorithms,
@@ -13,6 +14,7 @@ export const algorithms: AlgorithmEntity[] = [
   ...algorithmAdditions,
   ...foundationAlgorithmAdditions,
   ...privacyAlgorithmAdditions,
+  ...quantumAlgorithmAdditions,
 ];
 
 const byId = new Map(algorithms.map((algorithm) => [algorithm.id, algorithm]));
