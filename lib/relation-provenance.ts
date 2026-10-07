@@ -458,6 +458,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Canim directly evaluates LinUCB with frozen text embeddings from vanilla and retrieval-fine-tuned BERT-base encoders as contextual features across multiple recommendation datasets. The mixed results source-back the Embedding-Models-to-LinUCB combination edge while showing that encoder objective, dimensionality reduction, and dataset interact strongly rather than guaranteeing that retrieval-trained embeddings improve bandit regret.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "a-star",
+    targetId: "transformer-attention",
+    relationType: "combines-with",
+    referenceIds: ["kirilenko-2023-transpath"],
+    evidenceNote: "Kirilenko et al. train a neural predictor containing Transformer attention blocks to estimate instance-dependent heuristic proxies and then use those predictions to guide A* or Focal Search. This directly grounds the A*-to-Transformer combination edge while preserving that search remains explicit and that admissibility/bounded-suboptimality properties depend on the chosen search mode and heuristic use.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "learned-heuristics",
+    targetId: "transformer-attention",
+    relationType: "combines-with",
+    referenceIds: ["kirilenko-2023-transpath"],
+    evidenceNote: "TransPath is a direct example of learned heuristics implemented with Transformer attention: attention-based spatial features predict correction-factor or path-probability proxies that are consumed by heuristic search. This grounds the Learned-Heuristics-to-Transformer edge without implying that learned heuristics require Transformers or inherit classical admissibility guarantees.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

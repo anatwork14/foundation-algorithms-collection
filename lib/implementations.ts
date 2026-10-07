@@ -7,6 +7,7 @@ import { foundationalGapImplementationAdditions } from "./implementation-foundat
 import { generativeImplementationAdditions } from "./implementation-generative-additions.ts";
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
 import { quantumImplementationAdditions } from "./implementation-quantum-additions.ts";
+import { searchImplementationAdditions } from "./implementation-search-additions.ts";
 
 export type ImplementationMaturity =
   | "Established open-source"
@@ -249,6 +250,7 @@ export const implementations: ImplementationRecord[] = [
   ...conformalImplementationAdditions,
   ...qsvtImplementationAdditions,
   ...quantumImplementationAdditions,
+  ...searchImplementationAdditions,
   ...banditImplementationAdditions,
 ];
 

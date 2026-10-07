@@ -8,6 +8,7 @@ import { foundationalGapImplementationVerificationAdditions } from "./implementa
 import { generativeImplementationVerificationAdditions } from "./implementation-verification-generative-additions.ts";
 import { qsvtImplementationVerificationAdditions } from "./implementation-verification-qsvt-additions.ts";
 import { quantumImplementationVerificationAdditions } from "./implementation-verification-quantum-additions.ts";
+import { searchImplementationVerificationAdditions } from "./implementation-verification-search-additions.ts";
 import {
   implementationVerificationHistory as coreImplementationVerificationHistory,
   type ImplementationVerificationEntry,
@@ -24,6 +25,7 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
   ...conformalImplementationVerificationAdditions,
   ...qsvtImplementationVerificationAdditions,
   ...quantumImplementationVerificationAdditions,
+  ...searchImplementationVerificationAdditions,
   ...banditImplementationVerificationAdditions,
   ...aiImplementationVerificationAdditions,
   ...implementationVerificationFreshnessAdditions,

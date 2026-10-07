@@ -7,6 +7,7 @@ import { foundationalClaimReferenceAdditions } from "./reference-foundational-cl
 import { generativeReferenceAdditions } from "./reference-generative-additions.ts";
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
 import { retrievalReferenceAdditions } from "./reference-retrieval-additions.ts";
+import { searchReferenceAdditions } from "./reference-search-additions.ts";
 import { quantumReferenceAdditions } from "./reference-quantum-additions.ts";
 import { replicationReferenceAdditions } from "./reference-replication-additions.ts";
 import { securityReferenceAdditions } from "./reference-security-additions.ts";
@@ -34,6 +35,7 @@ export const references: ReferenceEntity[] = [
   ...generativeReferenceAdditions,
   ...privacyReferenceAdditions,
   ...retrievalReferenceAdditions,
+  ...searchReferenceAdditions,
   ...quantumReferenceAdditions,
   ...replicationReferenceAdditions,
   ...securityReferenceAdditions,
