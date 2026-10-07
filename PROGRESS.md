@@ -1,7 +1,7 @@
 # Foundation Algorithms Research Hub — Progress Tracker
 
 **Status:** Active  
-**Last updated:** 2026-10-06  
+**Last updated:** 2026-10-08  
 **Specification:** [`DEVELOPMENT_SPEC.md`](./DEVELOPMENT_SPEC.md)  
 **Design rationale:** [`DESIGN.md`](./DESIGN.md)  
 **UI audit:** [`UI_AUDIT.md`](./UI_AUDIT.md)  
@@ -32,13 +32,13 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 54 curated passage-backed Claims
-  ├── 62 curated References + citation graph
-  ├── 40 commit-pinned Implementation records + append-only verification history
+  ├── 55 curated passage-backed Claims
+  ├── 63 curated References + citation graph
+  ├── 41 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 5 independent Replication/Evaluation records
-  ├── 59 source-backed Atlas relations
+  ├── 60 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,7 +180,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **59 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] **60 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
 - [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), both LinUCB↔Coverage-Guided-Fuzzing contextual-mutation directions, ANN/embedding links, Embedding-Models→LinUCB representation/context linkage, both Transformer↔HNSW dense-retrieval directions, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, both A*→Transformer and Learned-Heuristics→Transformer learned-search links, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Conformal-Prediction→Bayesian-Inference ridge-interval comparison, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both SSM↔Surface-Code-Decoding sequence-decoder directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
@@ -222,8 +222,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **54 curated passage-backed Claims**.
-- [x] **62 curated References**.
+- [x] **55 curated passage-backed Claims**.
+- [x] **63 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -260,7 +260,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] New 2026-10-07 executable coverage adds fplll LLL/BKZ lattice reduction and galois BCH/Reed–Solomon coding as commit-pinned records with revision-1 verification. fplll is scoped to lattice-reduction/attack-cost mechanics rather than cryptosystem break claims; galois is scoped to classical algebraic codes rather than quantum surface-code decoding or every coding family.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
-- [x] **40 implementation records** currently registered.
+- [x] **41 implementation records** currently registered.
 - [x] PyTorch Geometric now provides separate commit-pinned GCN, GraphSAGE, and GAT implementation records at the same immutable upstream revision. `GCNConv` exposes Kipf–Welling symmetric degree normalization, self-loop/weighted-edge handling, sparse adjacency, and transductive caching; `SAGEConv` exposes learned sampled-neighborhood aggregation with optional projection/root features and alternative aggregators; and `GATConv` exposes learned multi-head neighborhood attention, returned attention weights, bipartite inputs, residuals, and edge-feature-aware attention. Their pinned tests exercise dense/sparse paths and the relevant API behavior, while the GAT snapshot explicitly preserves the unsupported SparseTensor edge-attribute plus automatic-self-loop combination. Kipf–Welling, Hamilton–Ying–Leskovec, and Veličković et al. remain the primary method sources and independent evaluation remains a separate evidence layer.
 - [x] The authors' MIT-licensed GNN surface-code decoder now has a commit-pinned Research/prototyping implementation record at `15d8443bedf7862ef72ec1b5239ecd01163eb8d6`. The inspected code generates rotated surface-code detector samples with Stim, converts syndrome events into k-nearest-neighbor PyTorch Geometric graphs, trains/tests a GraphConv logical-class classifier, and ships circuit-level checkpoints. The repository has no standalone automated test suite at the pin, so the archive preserves that verification limitation instead of treating the paper's reported decoder performance as independently reproduced.
 - [x] Qiskit Algorithms now provides a commit-pinned canonical Amplitude Estimation record at `bcb7ded3594dac02e14acce7f59f05976916d39d`. The inspected implementation constructs QPE from the problem's Grover operator, composes state preparation, and the canonical tests manually reconstruct controlled Grover powers plus inverse QFT before comparing unitaries. The record is scoped to phase-estimation-based QAE and does not generalize iterative/likelihood-variant tradeoffs or practical hardware advantage.
@@ -285,6 +285,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] CI regenerates and compares committed deterministic experiment artifacts.
 - [x] **5 independent Replication/Evaluation records**.
 - [x] Swin Transformer now source-backs the existing AdamW→Transformer Atlas edge: Liu et al. explicitly train the shifted-window Transformer architecture with AdamW across primary ImageNet and downstream vision protocols, while the record remains scoped so AdamW is not treated as a mandatory optimizer for every Transformer family.
+- [x] CirC now closes the SAT/SMT→Zero-Knowledge-Proofs evidence gap with a peer-reviewed shared-constraint-compiler reference, a passage-backed SMT/R1CS compilation Claim, and a commit-pinned dual-backend implementation/verification snapshot at `271f911bab2c8ab15f12f599fd7abf89c4561093`. Solver/proof-system correctness and cryptographic security remain separate from compiler test evidence.
 - [x] Evidence stage remains descriptive coverage, never a truth score.
 
 ## Implementation freshness policy

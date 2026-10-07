@@ -8,6 +8,7 @@ import { generativeImplementationAdditions } from "./implementation-generative-a
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
 import { quantumImplementationAdditions } from "./implementation-quantum-additions.ts";
 import { searchImplementationAdditions } from "./implementation-search-additions.ts";
+import { securityImplementationAdditions } from "./implementation-security-additions.ts";
 
 export type ImplementationMaturity =
   | "Established open-source"
@@ -251,6 +252,7 @@ export const implementations: ImplementationRecord[] = [
   ...qsvtImplementationAdditions,
   ...quantumImplementationAdditions,
   ...searchImplementationAdditions,
+  ...securityImplementationAdditions,
   ...banditImplementationAdditions,
 ];
 

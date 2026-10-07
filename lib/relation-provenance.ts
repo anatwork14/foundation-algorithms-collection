@@ -482,6 +482,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Liu et al. train the Swin Transformer architecture with AdamW across ImageNet training and fine-tuning protocols, directly grounding the archive's AdamW-to-Transformer used-by edge. The evidence is scoped to a concrete Transformer family and does not imply that AdamW is required by every Transformer architecture or training regime.",
     verifiedAt: "2026-10-08",
   },
+  {
+    sourceId: "sat-smt-solving",
+    targetId: "zero-knowledge-proofs",
+    relationType: "combines-with",
+    referenceIds: ["ozdemir-2022-circ"],
+    evidenceNote: "Ozdemir, Brown, and Wahby build CirC around a common existentially quantified circuit IR with both SMT and R1CS backends, explicitly reusing verification-style constraint compilation for proof-system compilation. This directly grounds the SAT/SMT-to-ZKP combination edge while keeping solver satisfiability, circuit correctness, and cryptographic proof security as separate concerns.",
+    verifiedAt: "2026-10-08",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

@@ -100,6 +100,8 @@ The vector \(z\) includes public inputs, private witness values, and intermediat
 
 R1CS is a common intermediate representation for SNARK systems.
 
+Shared compiler infrastructure can lower a common constraint-oriented intermediate representation to SMT for software verification or to R1CS for proof systems, reusing program-to-constraint transformations across both domains.
+
 ## 9. Polynomialization
 
 Many proof systems convert circuit satisfaction into polynomial identities.
