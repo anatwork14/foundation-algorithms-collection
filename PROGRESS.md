@@ -32,8 +32,8 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 47 curated passage-backed Claims
-  ├── 51 curated References + citation graph
+  ├── 50 curated passage-backed Claims
+  ├── 54 curated References + citation graph
   ├── 35 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
@@ -222,8 +222,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **47 curated passage-backed Claims**.
-- [x] **51 curated References**.
+- [x] **50 curated passage-backed Claims**.
+- [x] **54 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -248,6 +248,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
+- [x] New 2026-10-07 foundational Claim coverage closes the last zero-Claim first-class algorithms: Bellman's dynamic-programming decomposition, Bayes's prior/evidence/posterior update, and Mikolov et al.'s learned continuous word representations now each have a primary source and unique live-passage Claim. A regression now requires every first-class Algorithm to retain at least one curated Claim.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
 - [x] **35 implementation records** currently registered.
