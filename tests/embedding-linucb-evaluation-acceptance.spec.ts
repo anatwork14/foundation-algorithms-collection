@@ -14,7 +14,7 @@ test("LinUCB exposes the independent embedding evaluation and replication record
   );
 
   await page.goto("/algorithms/linucb");
-  await expect(page.locator('a[href="/replications/canim-2026-embedding-linucb-evaluation"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/replications#canim-2026-embedding-linucb-evaluation"]').first()).toBeVisible();
   await expect(page.locator('a[href="/references/canim-2026-embedding-linucb-evaluation"]').first()).toBeVisible();
 
   await page.goto("/algorithms/embedding-models");
