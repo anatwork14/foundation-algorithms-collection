@@ -58,5 +58,20 @@ export const aiImplementationVerificationAdditions: ImplementationVerificationEn
     ],
     note: "Initial Microsoft Graphormer evidence snapshot. Direct inspection confirms degree-augmented node features, a learned graph token, spatial-position attention bias, graph-token virtual distance, edge encodings including multi-hop distance conditioning, and propagation of those biases through stacked Transformer encoder layers before graph-token readout. The repository's pinned test file validates pretrained/local checkpoint loading rather than the full graph encoder numerically, so this snapshot records source-level executable mechanism evidence without claiming broad model-behavior test coverage. The same immutable revision documents a reproducibility-oriented legacy Python 3.9/PyTorch 1.9.1/Fairseq environment and preserves the MIT license.",
   },
+  {
+    implementationId: "deepcubea-learned-astar",
+    revision: 1,
+    verifiedAt: "2026-10-07",
+    verifiedRef: "master",
+    verifiedCommit: "919489f14ecbbc80dc1bf1539ac0a462ffaca7c5",
+    sourcePaths: [
+      { label: "Weighted A* search", url: "https://github.com/forestagostinelli/DeepCubeA/blob/919489f14ecbbc80dc1bf1539ac0a462ffaca7c5/search_methods/astar.py" },
+      { label: "Cost-to-go training", url: "https://github.com/forestagostinelli/DeepCubeA/blob/919489f14ecbbc80dc1bf1539ac0a462ffaca7c5/ctg_approx/avi.py" },
+      { label: "Repository README", url: "https://github.com/forestagostinelli/DeepCubeA/blob/919489f14ecbbc80dc1bf1539ac0a462ffaca7c5/README.md" },
+      { label: "Timing/basic-path test", url: "https://github.com/forestagostinelli/DeepCubeA/blob/919489f14ecbbc80dc1bf1539ac0a462ffaca7c5/tests/timing_test.py" },
+      { label: "Repository license", url: "https://github.com/forestagostinelli/DeepCubeA/blob/919489f14ecbbc80dc1bf1539ac0a462ffaca7c5/LICENSE" },
+    ],
+    note: "Initial DeepCubeA executable-evidence snapshot. The pinned author code keeps path cost and learned neural heuristic separate, scores the A* open set with a weighted path-cost plus heuristic expression, explicitly expands successor states, and trains the cost-to-go network through approximate value iteration with optional search-generated update states. The README supplies training/search commands and notes that some maintained hyperparameters differ slightly from the paper. The available timing test checks basic environment, heuristic-inference, and multiprocessing paths rather than search optimality or published benchmark reproduction, so the snapshot remains Research/prototyping evidence and does not inherit the paper's empirical solve-rate or path-quality claims.",
+  },
   ...attentionImplementationVerificationAdditions,
 ];

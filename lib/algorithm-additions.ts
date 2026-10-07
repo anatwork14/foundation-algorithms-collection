@@ -19,7 +19,7 @@ export const algorithmAdditions: AlgorithmEntity[] = [
     relations: [
       { target: "a-star", type: "combines-with", note: "Learned cost-to-go estimates can provide A* heuristics, optionally constrained to retain admissibility or bounded suboptimality." },
       { target: "branch-and-bound", type: "combines-with", note: "Learned branching, bounding, or node-selection policies can reduce combinatorial search effort." },
-      { target: "transformer-attention", type: "depends-on", note: "Transformers are one possible learned model family for heuristic prediction; they are not required by the concept." },
+      { target: "transformer-attention", type: "combines-with", note: "Transformers are one possible learned model family for heuristic prediction; they are not required by the concept." },
     ],
     tags: ["search", "heuristic", "learning-to-search"],
     openQuestions: ["How can learned heuristics expose uncertainty so the solver knows when to distrust them?", "Which guarantee-preserving wrappers give the best speed/optimality tradeoff?"],

@@ -354,6 +354,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Canonical amplitude estimation applies phase estimation to the amplitude-amplification operator and converts the recovered phase into an amplitude estimate. This grounds the QAE-to-QPE dependency specifically for the canonical construction, not for iterative or likelihood-based variants that avoid the same full phase-estimation circuit.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "learned-heuristics",
+    targetId: "a-star",
+    relationType: "combines-with",
+    referenceIds: ["agostinelli-2019-deepcubea"],
+    evidenceNote: "Agostinelli et al. learn a neural cost-to-go function and use it to guide a weighted A* search over puzzle states. This directly grounds the Learned-Heuristics-to-A* combination edge while preserving that learned estimates can violate admissibility or consistency and therefore do not inherit classical A* optimality guarantees automatically.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
