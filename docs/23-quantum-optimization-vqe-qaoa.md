@@ -248,6 +248,8 @@ Common choices:
 - natural gradient;
 - Bayesian optimization.
 
+For expensive noisy variational objectives, Bayesian optimization can serve as the classical outer-loop optimizer for VQE or QAOA.
+
 The best choice depends on shot noise, dimensionality, landscape smoothness, and circuit execution latency.
 
 ## 17. Shot allocation

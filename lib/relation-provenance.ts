@@ -362,6 +362,30 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Agostinelli et al. learn a neural cost-to-go function and use it to guide a weighted A* search over puzzle states. This directly grounds the Learned-Heuristics-to-A* combination edge while preserving that learned estimates can violate admissibility or consistency and therefore do not inherit classical A* optimality guarantees automatically.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "bayesian-optimization",
+    targetId: "qaoa",
+    relationType: "combines-with",
+    referenceIds: ["tibaldi-2023-bo-qaoa"],
+    evidenceNote: "Tibaldi et al. use Bayesian optimization as the classical parameter-search routine for QAOA and evaluate it under finite circuit-evaluation budgets and noise. This directly grounds the BO-to-QAOA combination edge without asserting that BO is the best optimizer for every QAOA instance, depth, or hardware regime.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "qaoa",
+    targetId: "bayesian-optimization",
+    relationType: "combines-with",
+    referenceIds: ["tibaldi-2023-bo-qaoa"],
+    evidenceNote: "The same study treats QAOA as a hybrid variational loop whose circuit parameters are selected by Bayesian optimization. This grounds the reciprocal QAOA-to-BO combination edge while preserving the availability of many other classical optimizers.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "vqe",
+    targetId: "bayesian-optimization",
+    relationType: "combines-with",
+    referenceIds: ["iannelli-2022-noisy-bo-vqe"],
+    evidenceNote: "Iannelli and Jansen tailor Gaussian-process Bayesian optimization to minimize noisy VQE energy objectives. This directly grounds the VQE-to-BO combination edge while keeping optimizer performance specific to the studied ansatz, objective, noise, and evaluation-budget conditions.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

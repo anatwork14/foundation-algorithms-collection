@@ -32,13 +32,13 @@ Typed Atlas relationship graph
 Combination Lab
         ↓
 Evidence
-  ├── 46 curated passage-backed Claims
-  ├── 49 curated References + citation graph
+  ├── 47 curated passage-backed Claims
+  ├── 51 curated References + citation graph
   ├── 35 commit-pinned Implementation records + append-only verification history
   ├── Append-only upstream Implementation review ledger
   ├── Experiments + append-only history
   ├── 4 independent Replication/Evaluation records
-  ├── 44 source-backed Atlas relations
+  ├── 47 source-backed Atlas relations
   ├── Evidence Gaps
   └── Passages
         ↓
@@ -180,8 +180,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] URL-restorable Atlas state.
 - [x] Reference and commit-pinned Implementation neighbors.
 - [x] First-class relation-provenance records.
-- [x] **44 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
-- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), ANN/embedding links, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
+- [x] **47 source-backed relation records** currently curated; remaining edges stay explicitly conceptual-only.
+- [x] Source-backed coverage now includes bandit lineages and alternatives (including both LinUCB↔Thompson Sampling and UCB1↔Thompson Sampling directions), ANN/embedding links, both Transformer↔SSM alternative directions, both GNN↔Transformer graph-Transformer combination directions, both MoE↔Transformer conditional-capacity directions, both Diffusion↔Flow-Matching alternative directions, lattice/ML-KEM, lattice/FHE, both QFT↔QPE canonical-readout directions, both QSVT↔QPE alternative directions, canonical Amplitude-Estimation→Grover/QPE dependencies, Learned-Heuristics→A*, A*/Dijkstra, Q-learning/Dynamic Programming, Bayesian-Inference/Bayesian-Optimization, BO↔QAOA plus VQE→BO variational-optimizer links, Learned-Heuristics/Branch-and-Bound, SAT/SMT→Symbolic-Execution, Error-Correcting-Codes→Surface-Code-Decoding, both GNN↔Surface-Code-Decoding detector-graph directions, both Symbolic-Execution/Coverage-Guided-Fuzzing directions, Secure-MPC/FHE alternatives, and Secure-MPC/Zero-Knowledge combinations.
 - [x] Accessible table/regions/selection + keyboard picker.
 
 ## Open
@@ -222,8 +222,8 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] References, Implementations, Implementation Reviews, Experiments, Passages, Claims, Replications as separate record surfaces.
 - [x] Controlled Reference evidence roles, citation edges, and lifecycle notices.
 - [x] Claim → exactly one passage → explicit Reference provenance contract.
-- [x] **46 curated passage-backed Claims**.
-- [x] **49 curated References**.
+- [x] **47 curated passage-backed Claims**.
+- [x] **51 curated References**.
 - [x] New 2026-10-05 AI/ML evidence adds Shazeer et al.'s sparsely gated Mixture-of-Experts paper plus passage-backed sparse expert routing; Kipf–Welling GCN plus normalized-neighbor aggregation; Hamilton–Ying–Leskovec GraphSAGE plus sampled inductive neighborhood aggregation; Veličković et al. Graph Attention Networks plus learned neighbor-attention weighting; and Ying et al. Graphormer as a primary graph-Transformer source with explicit Transformer lineage, all tied to the live neural-architectures chapter.
 - [x] New 2026-10-05 attention-systems evidence adds Dao et al.'s NeurIPS 2022 FlashAttention paper as the primary IO-aware exact-attention method and Dao's ICLR 2024 FlashAttention-2 paper as the work-partitioning extension, preserving the lineage from standard Transformer attention through exact GPU-memory-aware execution.
 - [x] New 2026-10-06 MoE/Transformer evidence adds Fedus–Zoph–Shazeer's Switch Transformer as a primary sparse-expert extension, adds a passage-backed conditional-capacity Claim, and source-backs both existing MoE↔Transformer combination directions without treating all MoE systems as Transformers.
@@ -243,6 +243,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] FHE has an explicit passage-backed arbitrary-circuit/bootstrapping Claim tied to Gentry 2009, while noting that later leveled and optimized schemes can manage evaluable depth and noise differently.
 - [x] Learned Heuristics now have an explicit passage-backed learned-branching Claim tied to Khalil et al. 2016, while preserving exact branch-and-bound bounding and pruning as the correctness boundary rather than the learned branch-ranking policy.
 - [x] New 2026-10-07 learned-search evidence adds Agostinelli et al.'s DeepCubeA primary method, a live passage-backed learned-cost-to-go/A* Claim, and source-backs the existing Learned-Heuristics→A* edge. The archive explicitly preserves weighted-search and inadmissibility caveats instead of inheriting classical A* optimality guarantees from a neural heuristic.
+- [x] New 2026-10-07 variational-quantum optimization evidence adds Tibaldi et al.'s BO-for-QAOA study and Iannelli–Jansen's noisy-BO-for-VQE study, promotes the outer-loop optimizer pattern into canonical prose, adds one passage-backed Claim, and source-backs the existing BO↔QAOA plus VQE→BO edges without asserting a universal optimizer winner.
 - [x] Hybrid fuzzing now has an explicit passage-backed selective symbolic-solving Claim tied to Driller, preserving the division between high-throughput coverage exploration and solver-backed hard-branch reasoning without claiming universal performance gains.
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.

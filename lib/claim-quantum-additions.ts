@@ -32,4 +32,14 @@ export const quantumClaimAdditions: ClaimRecord[] = [
     referenceIds: ["brassard-2002-amplitude-amplification-estimation"],
     note: "This Claim is scoped to canonical phase-estimation-based QAE. Iterative, maximum-likelihood, and other modern amplitude-estimation variants can avoid the same full QPE/inverse-QFT circuit and have different depth, shot, and noise tradeoffs.",
   },
+  {
+    id: "bayesian-optimization-variational-quantum-outer-loop",
+    kind: "Mechanism",
+    statement: "Bayesian optimization can act as the classical outer-loop optimizer for variational quantum algorithms such as VQE and QAOA, using a surrogate and acquisition rule to choose expensive noisy circuit evaluations.",
+    algorithmIds: ["bayesian-optimization", "vqe", "qaoa"],
+    chapterSlug: "23-quantum-optimization-vqe-qaoa",
+    passageContains: "For expensive noisy variational objectives, Bayesian optimization can serve as the classical outer-loop optimizer for VQE or QAOA.",
+    referenceIds: ["tibaldi-2023-bo-qaoa", "iannelli-2022-noisy-bo-vqe"],
+    note: "This Claim records a valid optimizer architecture, not a universal performance ranking. BO effectiveness depends on parameter dimension, shot/device noise, surrogate assumptions, acquisition optimization, evaluation budget, and the specific variational landscape.",
+  },
 ];
