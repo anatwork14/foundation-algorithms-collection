@@ -93,6 +93,8 @@ The central caution is calibration: a richer output parameterization does not au
 
 Conformal methods create prediction sets with finite-sample marginal coverage under exchangeability.
 
+In Bayesian ridge-regression settings, conformalized prediction sets can provide a calibration-based alternative whose asymptotic efficiency approaches standard Bayesian prediction intervals when the Bayesian assumptions hold.
+
 For calibration scores \(s_i\), choose a quantile \(q\) and return a set:
 
 \[

@@ -426,6 +426,14 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "CMFuzz embeds LinUCB inside mutation-based greybox fuzzing to adapt mutation-operator choice from seed context and online fuzzing feedback, including deployment on AFL-family fuzzers. This grounds the reciprocal fuzzing-to-LinUCB edge while preserving that coverage-guided fuzzers can use many non-bandit scheduling policies.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "conformal-prediction",
+    targetId: "bayesian-inference",
+    relationType: "alternative-to",
+    referenceIds: ["burnaev-2014-conformalized-ridge-efficiency"],
+    evidenceNote: "Burnaev and Vovk directly compare conformalized ridge-regression prediction sets with standard Bayesian ridge prediction intervals and show that, when the Bayesian model assumptions hold, their asymptotic efficiencies can be close. This grounds the Conformal-Prediction-to-Bayesian-Inference alternative edge in a specific regression setting without presenting the paradigms as universally opposed or interchangeable.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {
