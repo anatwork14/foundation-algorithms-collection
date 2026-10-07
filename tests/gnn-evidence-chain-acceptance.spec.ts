@@ -4,8 +4,8 @@ test("GNN detail exposes local GNNs, Graphormer, executable implementations, and
   await page.goto("/algorithms/graph-neural-networks");
 
   await expect(page.getByRole("heading", { name: "Graph Neural Networks" })).toBeVisible();
-  await expect(page.getByText("Curated claims").locator("..").getByText("4", { exact: true })).toBeVisible();
-  await expect(page.getByText("References").locator("..").getByText("5", { exact: true })).toBeVisible();
+  await expect(page.getByText("Curated claims").locator("..").getByText("5", { exact: true })).toBeVisible();
+  await expect(page.getByText("References").locator("..").getByText("6", { exact: true })).toBeVisible();
   await expect(page.getByText("Implementations").locator("..").getByText("4", { exact: true })).toBeVisible();
   await expect(page.getByText("Independent replications").locator("..").getByText("1", { exact: true })).toBeVisible();
 
