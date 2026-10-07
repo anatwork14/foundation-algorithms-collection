@@ -410,6 +410,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "The Sparse Mamba Decoder applies selective state-space sequence modeling to sparse surface-code defect events and predicts logical error classes from the resulting sequence representation. This grounds the reciprocal Surface-Code-Decoding-to-State-Space-Models edge without implying that SSMs replace matching, graph, tensor-network, or other decoder families universally.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "linucb",
+    targetId: "coverage-guided-fuzzing",
+    relationType: "combines-with",
+    referenceIds: ["wang-2021-cmfuzz"],
+    evidenceNote: "Wang et al. use LinUCB as a contextual-bandit controller for fuzz mutation: seed/file characteristics form the context, mutation operators are the selectable actions, and observed fuzzing outcomes update the online policy. This directly grounds the LinUCB-to-Coverage-Guided-Fuzzing combination edge without asserting that contextual bandits dominate every scheduler, target, or reward design.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "coverage-guided-fuzzing",
+    targetId: "linucb",
+    relationType: "combines-with",
+    referenceIds: ["wang-2021-cmfuzz"],
+    evidenceNote: "CMFuzz embeds LinUCB inside mutation-based greybox fuzzing to adapt mutation-operator choice from seed context and online fuzzing feedback, including deployment on AFL-family fuzzers. This grounds the reciprocal fuzzing-to-LinUCB edge while preserving that coverage-guided fuzzers can use many non-bandit scheduling policies.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

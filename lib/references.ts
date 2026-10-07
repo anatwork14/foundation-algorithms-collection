@@ -8,6 +8,7 @@ import { generativeReferenceAdditions } from "./reference-generative-additions.t
 import { privacyReferenceAdditions } from "./reference-privacy-additions.ts";
 import { quantumReferenceAdditions } from "./reference-quantum-additions.ts";
 import { replicationReferenceAdditions } from "./reference-replication-additions.ts";
+import { securityReferenceAdditions } from "./reference-security-additions.ts";
 import { zeroKnowledgeReferenceAdditions } from "./reference-zero-knowledge-additions.ts";
 import { references as coreReferences, type ReferenceEntity } from "./references-core.ts";
 
@@ -32,6 +33,7 @@ export const references: ReferenceEntity[] = [
   ...privacyReferenceAdditions,
   ...quantumReferenceAdditions,
   ...replicationReferenceAdditions,
+  ...securityReferenceAdditions,
   ...zeroKnowledgeReferenceAdditions,
 ];
 
