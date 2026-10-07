@@ -5,6 +5,7 @@ import { implementationVerificationFreshnessAdditions } from "./implementation-v
 import { foundationsImplementationVerificationAdditions } from "./implementation-verification-foundations-additions.ts";
 import { generativeImplementationVerificationAdditions } from "./implementation-verification-generative-additions.ts";
 import { qsvtImplementationVerificationAdditions } from "./implementation-verification-qsvt-additions.ts";
+import { quantumImplementationVerificationAdditions } from "./implementation-verification-quantum-additions.ts";
 import {
   implementationVerificationHistory as coreImplementationVerificationHistory,
   type ImplementationVerificationEntry,
@@ -18,6 +19,7 @@ export const implementationVerificationHistory: ImplementationVerificationEntry[
   ...generativeImplementationVerificationAdditions,
   ...conformalImplementationVerificationAdditions,
   ...qsvtImplementationVerificationAdditions,
+  ...quantumImplementationVerificationAdditions,
   ...banditImplementationVerificationAdditions,
   ...aiImplementationVerificationAdditions,
   ...implementationVerificationFreshnessAdditions,

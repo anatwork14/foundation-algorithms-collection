@@ -6,7 +6,7 @@ test("GNN detail exposes local GNNs, Graphormer, executable implementations, and
   await expect(page.getByRole("heading", { name: "Graph Neural Networks" })).toBeVisible();
   await expect(page.getByText("Curated claims").locator("..").getByText("5", { exact: true })).toBeVisible();
   await expect(page.getByText("References").locator("..").getByText("6", { exact: true })).toBeVisible();
-  await expect(page.getByText("Implementations").locator("..").getByText("4", { exact: true })).toBeVisible();
+  await expect(page.getByText("Implementations").locator("..").getByText("5", { exact: true })).toBeVisible();
   await expect(page.getByText("Independent replications").locator("..").getByText("1", { exact: true })).toBeVisible();
 
   await expect(page.getByRole("link", { name: /Graph convolutional networks update node representations/i })).toBeVisible();
@@ -24,5 +24,6 @@ test("GNN detail exposes local GNNs, Graphormer, executable implementations, and
   await expect(page.getByRole("link", { name: /PyTorch Geometric GraphSAGE/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /PyTorch Geometric GAT/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Microsoft Graphormer/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Lange GNN Surface-Code Decoder/i })).toBeVisible();
   await expect(page.getByRole("link", { name: /Independent benchmark evaluation of GCN and GraphSAGE/i })).toBeVisible();
 });

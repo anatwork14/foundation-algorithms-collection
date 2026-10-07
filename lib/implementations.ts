@@ -4,6 +4,7 @@ import { conformalImplementationAdditions } from "./implementation-conformal-add
 import { foundationImplementationAdditions } from "./implementation-foundations-additions.ts";
 import { generativeImplementationAdditions } from "./implementation-generative-additions.ts";
 import { qsvtImplementationAdditions } from "./implementation-qsvt-additions.ts";
+import { quantumImplementationAdditions } from "./implementation-quantum-additions.ts";
 
 export type ImplementationMaturity =
   | "Established open-source"
@@ -243,6 +244,7 @@ export const implementations: ImplementationRecord[] = [
   ...aiImplementationAdditions,
   ...conformalImplementationAdditions,
   ...qsvtImplementationAdditions,
+  ...quantumImplementationAdditions,
   ...banditImplementationAdditions,
 ];
 
