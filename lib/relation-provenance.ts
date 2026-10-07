@@ -394,6 +394,22 @@ export const relationProvenance: RelationProvenanceRecord[] = [
     evidenceNote: "Olding, Olivier, and Salmon explicitly formulate error-correction decoding with Bayesian networks and belief propagation, treating hidden transmitted/error variables probabilistically given observed channel evidence. This directly grounds the Error-Correcting-Codes-to-Bayesian-Inference combination edge without implying that every decoder is Bayesian or that posterior inference is the preferred implementation for every code family.",
     verifiedAt: "2026-10-07",
   },
+  {
+    sourceId: "state-space-models",
+    targetId: "surface-code-decoding",
+    relationType: "combines-with",
+    referenceIds: ["sayedsalehi-2026-sparse-mamba-qec"],
+    evidenceNote: "Sayedsalehi et al. construct a defect-centric surface-code decoder whose active detection-event sequence is processed by a Mamba selective state-space backbone. This directly grounds the State-Space-Models-to-Surface-Code-Decoding combination edge while keeping the reported performance specific to the preprint's code distances, noise models, feature representation, and GPU implementation.",
+    verifiedAt: "2026-10-07",
+  },
+  {
+    sourceId: "surface-code-decoding",
+    targetId: "state-space-models",
+    relationType: "combines-with",
+    referenceIds: ["sayedsalehi-2026-sparse-mamba-qec"],
+    evidenceNote: "The Sparse Mamba Decoder applies selective state-space sequence modeling to sparse surface-code defect events and predicts logical error classes from the resulting sequence representation. This grounds the reciprocal Surface-Code-Decoding-to-State-Space-Models edge without implying that SSMs replace matching, graph, tensor-network, or other decoder families universally.",
+    verifiedAt: "2026-10-07",
+  },
 ];
 
 export function relationProvenanceKey(sourceId: string, relationType: RelationType, targetId: string) {

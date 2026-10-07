@@ -247,6 +247,8 @@ Train a model to map syndrome history to correction/logical-error predictions.
 
 Graph neural network decoders can encode stabilizer measurements as detector graphs and predict logical-error classes from the resulting structured syndrome data.
 
+Selective state-space decoders can encode active surface-code detection events as a variable-length sequence and process that sequence with a Mamba-style backbone.
+
 Architectures:
 
 - MLP/CNN;

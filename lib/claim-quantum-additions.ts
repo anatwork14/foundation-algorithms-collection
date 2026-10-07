@@ -42,4 +42,14 @@ export const quantumClaimAdditions: ClaimRecord[] = [
     referenceIds: ["tibaldi-2023-bo-qaoa", "iannelli-2022-noisy-bo-vqe"],
     note: "This Claim records a valid optimizer architecture, not a universal performance ranking. BO effectiveness depends on parameter dimension, shot/device noise, surrogate assumptions, acquisition optimization, evaluation budget, and the specific variational landscape.",
   },
+  {
+    id: "mamba-surface-code-defect-sequence-decoding",
+    kind: "Mechanism",
+    statement: "A surface-code decoder can represent active detection events as a sparse variable-length sequence and process that sequence with a selective state-space/Mamba backbone rather than a dense recurrent or attention grid.",
+    algorithmIds: ["state-space-models", "surface-code-decoding"],
+    chapterSlug: "24-quantum-error-correction-decoding",
+    passageContains: "Selective state-space decoders can encode active surface-code detection events as a variable-length sequence and process that sequence with a Mamba-style backbone.",
+    referenceIds: ["sayedsalehi-2026-sparse-mamba-qec"],
+    note: "This claim is scoped to the Sparse Mamba Decoder preprint. Reported accuracy, latency, sparsity advantages, and scaling depend on the studied code distances, noise models, feature engineering, training data, hardware, and implementation; they are not generalized to all SSM decoders or QEC workloads.",
+  },
 ];

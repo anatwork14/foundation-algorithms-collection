@@ -132,4 +132,43 @@ export const quantumReferenceAdditions: ReferenceEntity[] = [
     significance: "Direct source for the archive's VQE-to-BO combination edge; the result is an optimizer application study, not a claim that BO is uniformly best across VQE ansätze, dimensions, devices, or noise regimes.",
     tags: ["bayesian-optimization", "vqe", "variational-quantum", "gaussian-process", "noisy-optimization"],
   },
+  {
+    id: "sayedsalehi-2026-sparse-mamba-qec",
+    title: "Sparse Mamba Decoder for Quantum Error Correction: Efficient Defect-Centric Processing of Surface Code Syndromes",
+    authors: ["Samira Sayedsalehi", "Nader Bagherzadeh", "Maxim Shcherbakov", "Jean-Luc Gaudiot"],
+    year: 2026,
+    kind: "Paper",
+    evidenceRole: "Primary method",
+    venue: "arXiv:2605.17156 (preprint)",
+    url: "https://arxiv.org/abs/2605.17156",
+    doi: "10.48550/arXiv.2605.17156",
+    algorithmIds: ["state-space-models", "surface-code-decoding"],
+    combinationIds: [],
+    chapterSlugs: ["24-quantum-error-correction-decoding"],
+    citations: [
+      {
+        targetId: "gu-2023-mamba",
+        note: "Sparse Mamba Decoder uses Mamba selective state-space blocks as the sequence-model backbone for its defect-centric surface-code decoder.",
+        verificationUrl: "https://arxiv.org/pdf/2605.17156",
+        verifiedAt: "2026-10-07",
+      },
+      {
+        targetId: "dennis-2002-topological-quantum-memory",
+        note: "The paper evaluates its decoder on surface-code syndrome data and situates the task in the standard surface-code decoding lineage.",
+        verificationUrl: "https://arxiv.org/pdf/2605.17156",
+        verifiedAt: "2026-10-07",
+      },
+    ],
+    notices: [
+      {
+        kind: "Version",
+        note: "Curated from arXiv v2. This is a preprint and was not treated as peer-reviewed evidence as of 2026-10-07.",
+        url: "https://arxiv.org/abs/2605.17156",
+        verifiedAt: "2026-10-07",
+      },
+    ],
+    summary: "Introduces a defect-centric surface-code decoder that converts active detection events into a variable-length feature sequence and processes that sequence with a Mamba selective-state-space backbone.",
+    significance: "Direct evidence for the archive's state-space-model/surface-code-decoding combination: a selective SSM is used as the decoder backbone for sparse syndrome events, with reported performance remaining specific to the paper's code distances, noise models, datasets, GPU hardware, and preprint evaluation.",
+    tags: ["mamba", "state-space-model", "surface-code", "quantum-error-correction", "decoder", "syndrome", "preprint"],
+  },
 ];
