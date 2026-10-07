@@ -11,7 +11,7 @@ const cases = [
     path: "/algorithms/bayesian-inference",
     heading: "Bayesian Inference",
     claimHref: "/claims#bayesian-inference-prior-evidence-posterior",
-    referenceHref: "/references/bayes-1763-doctrine-chances",
+    referenceHref: "/references/gelman-2013-bayesian-data-analysis",
   },
   {
     path: "/algorithms/embedding-models",
