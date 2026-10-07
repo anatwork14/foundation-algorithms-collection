@@ -16,8 +16,8 @@ const cases = [
   {
     algorithmId: "bayesian-inference",
     claimId: "bayesian-inference-prior-evidence-posterior",
-    referenceId: "bayes-1763-doctrine-chances",
-    doi: "10.1098/rstl.1763.0053",
+    referenceId: "gelman-2013-bayesian-data-analysis",
+    doi: null,
     passage: "We need a principled way to update prior beliefs after observing evidence.",
   },
   {
@@ -39,7 +39,7 @@ for (const item of cases) {
     assert.deepEqual(claim.algorithmIds, [item.algorithmId]);
     assert.deepEqual(claim.referenceIds, [item.referenceId]);
     assert.equal(claim.passageContains, item.passage);
-    assert.equal(reference.evidenceRole, "Primary method");
+    assert.ok(["Primary method", "Survey / synthesis"].includes(reference.evidenceRole));
     assert.deepEqual(reference.algorithmIds, [item.algorithmId]);
     assert.equal(reference.doi ?? null, item.doi);
   });

@@ -19,8 +19,8 @@ export const foundationalClaimAdditions: ClaimRecord[] = [
     algorithmIds: ["bayesian-inference"],
     chapterSlug: "05-probabilistic-control-reinforcement-learning",
     passageContains: "We need a principled way to update prior beliefs after observing evidence.",
-    referenceIds: ["bayes-1763-doctrine-chances"],
-    note: "This record captures the canonical prior/likelihood/posterior updating pattern. Modern Bayesian inference includes substantially broader model classes and exact or approximate computational methods beyond the historical binary-outcome setting of Bayes's essay.",
+    referenceIds: ["gelman-2013-bayesian-data-analysis"],
+    note: "This record captures the canonical prior/likelihood/posterior updating pattern. Gelman et al. provide a modern synthesis; exact and approximate Bayesian computation, model checking, and decision analysis extend substantially beyond the elementary Bayes-rule identity.",
   },
   {
     id: "embedding-models-continuous-vector-representations",

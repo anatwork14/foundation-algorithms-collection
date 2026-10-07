@@ -248,7 +248,7 @@ Production alias: `https://foundation-algorithms-collection.vercel.app`
 - [x] Surface-code decoding has an explicit repeated-syndrome/spacetime Claim tied to Dennis et al. and the live chapter passage.
 - [x] Symbolic Execution has an explicit passage-backed Claim tied to KLEE and source-backed SAT/SMT + hybrid-fuzzing Atlas links.
 - [x] Branch-and-Bound and Bayesian Optimization have primary-source-backed curated Claims.
-- [x] New 2026-10-07 foundational Claim coverage closes the last zero-Claim first-class algorithms: Bellman's dynamic-programming decomposition, Bayes's prior/evidence/posterior update, and Mikolov et al.'s learned continuous word representations now each have a primary source and unique live-passage Claim. A regression now requires every first-class Algorithm to retain at least one curated Claim.
+- [x] New 2026-10-07 foundational Claim coverage closes the last zero-Claim first-class algorithms: Bellman's dynamic-programming decomposition and Mikolov et al.'s learned continuous word representations now have primary-method sources, while Gelman et al. provide a modern synthesis for the prior/evidence/posterior Bayesian update; all three now have unique live-passage Claims. A regression now requires every first-class Algorithm to retain at least one curated Claim.
 - [x] Commit-pinned Implementation registry with immutable source URLs and append-only verification history.
 - [x] Append-only upstream Implementation review ledger with explicit Retain pin / Advance pin / Needs follow-up decisions, inspected-path blob identities, dedicated registry/search, detail history, stable review permalinks, and global command-palette discovery.
 - [x] **35 implementation records** currently registered.
