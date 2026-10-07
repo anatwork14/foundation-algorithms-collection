@@ -143,6 +143,8 @@ Neural policy/value models + MCTS is a general architecture for strategic reason
 
 A learned model estimates distance-to-go, value, likelihood of success, or branch quality.
 
+A learned cost-to-go estimate can be inserted into A* as the heuristic term while the search procedure continues to perform explicit state-space exploration.
+
 Combine with A*:
 
 \[

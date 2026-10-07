@@ -24,7 +24,7 @@ test("DeepCubeA source-backs learned cost-to-go guidance for A* with executable 
   assert.deepEqual(claim.referenceIds, [reference.id]);
   assert.equal(
     claim.passageContains,
-    "Use machine learning to estimate distance/value and A* or beam search to enforce structured exploration.",
+    "A learned cost-to-go estimate can be inserted into A* as the heuristic term while the search procedure continues to perform explicit state-space exploration.",
   );
 
   assert.ok(relation);
